@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -44,4 +43,8 @@ return [
         ],
     ],
 
+    'airtable' => [
+        'key' => env('AIRTABLE_KEY'),
+        'base' => env('AIRTABLE_BASE'),
+    ],
 ];
