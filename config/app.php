@@ -164,16 +164,16 @@ return [
          * Package Service Providers...
          */
 
-         App\Providers\AirtableServiceProvider::class,
+         KSUGMap\Providers\AirtableServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        KSUGMap\Providers\AppServiceProvider::class,
+        KSUGMap\Providers\AuthServiceProvider::class,
+        // KSUGMap\Providers\BroadcastServiceProvider::class,
+        KSUGMap\Providers\EventServiceProvider::class,
+        KSUGMap\Providers\RouteServiceProvider::class,
     ],
 
     /*
