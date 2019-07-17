@@ -1,5 +1,7 @@
 <?php
 
+use KSUGMap\Repositories\Stories;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,5 +14,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('master');
+});
+
+Route::get('/stories', function (Stories $stories) {
+    return $stories->all();
 });

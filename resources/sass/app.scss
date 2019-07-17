@@ -1,8 +1,27 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import "tailwind.css";
 
-// Variables
-@import 'variables';
+body {
+    background: #000;
+    color: #fff;
+}
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+.transition {
+    transition: 0.5s all ease;
+}
+
+.shrink-when-active {
+    transition: 150ms all ease;
+    -webkit-backface-visibility: hidden;
+    &:active {
+        transform: scale(0.96) translateZ(0.0001rem);
+    }
+}
+
+.text-shadow {
+    text-shadow: 0px 0px 1rem #000;
+
+    &-darker {
+        text-shadow: 0px 0px 0.5rem #000;
+    }
+}
