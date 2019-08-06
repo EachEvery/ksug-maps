@@ -8,21 +8,9 @@ require("./bootstrap");
 
 import Vue from "vue";
 import KSUGMap from "./KSUGMap.vue";
-import VueRouter from "vue-router";
-import Location from "./components/Location.vue";
 
-Vue.use(VueRouter);
-
-let router = new VueRouter({
-    routes: [
-        { path: "/places/:location", component: Location, name: "location" },
-        {
-            path: "/places/:location/preview",
-            component: Location,
-            name: "preview"
-        }
-    ]
-});
+import router from "./router";
+import store from "./store";
 
 /**
  * Next, we will create a fresh Vue application instance and attach it top
@@ -31,6 +19,7 @@ let router = new VueRouter({
  */
 
 const app = new Vue({
+    store,
     router,
     el: "#app",
     render: h => h(KSUGMap)

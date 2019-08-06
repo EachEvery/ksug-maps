@@ -17,6 +17,7 @@
 import globalHeader from "./components/GlobalHeader";
 import getSlug from "slugify";
 import Axios from "axios";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
@@ -24,26 +25,20 @@ export default {
   },
   data() {
     return {
-      state: "default",
-      stories: []
+      state: "default"
     };
   },
   mounted() {
     this.ensureStories();
   },
   methods: {
+    ...mapActions(["ensureStories"]),
     handleImageLoad() {
       this.state = "imageLoaded";
-    },
-    async ensureStories() {
-      let { data } = await Axios.get("/stories");
-
-      this.stories = data;
-
-      console.log(this.locations, "locations");
     }
   },
   computed: {
+    ...mapState(["stories"]),
     locations({ stories }) {
       return [...new Set(stories.map(story => story.location))].map(
         location => {

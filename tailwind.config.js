@@ -2,7 +2,8 @@ module.exports = {
     theme: {
         fontFamily: {
             display: ["bureau-grot-compressed", "arial black", "serif"],
-            sans: ["signo", "sans-serif"]
+            sans: ["signo", "sans-serif"],
+            mono: ["letter-gothic-std", "monospace"]
         },
         fontSize: {
             xs: ".875rem",
@@ -18,11 +19,13 @@ module.exports = {
         },
         extend: {
             colors: {
-                orange: "#EDC19E",
-                green: "#D2EDCC",
+                orange: "#F0A38C",
+                green: "#C6D6BD",
+                blue: "#C9D9E0",
+                purple: "#C6C1CE",
                 tan: {
-                    100: "#F4EAE2",
-                    200: "E0D2CC"
+                    100: "#F0EBE6",
+                    200: "#D8C6BF"
                 }
             }
         }

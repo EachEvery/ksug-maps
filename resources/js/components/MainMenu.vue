@@ -7,7 +7,7 @@
       <a href="#">ABOUT THE PROJECT</a>
     </li>
     <li class="mb-10 shrink-when-active">
-      <a href="#">MAILING LIST</a>
+      <a href="#">SIGN UP FOR UPDATES</a>
     </li>
   </ul>
 </template>
