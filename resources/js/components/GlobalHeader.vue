@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed pin-t w-full transition" :style="containerStyle" :class="containerClass">
+  <div class="fixed top-0 w-full transition" :style="containerStyle" :class="containerClass">
     <div
       class="h-screen w-full absolute transition pt-24 bg-white flex flex-col justify-between pb-10"
       :class="innerClass"
@@ -10,8 +10,8 @@
         enter-active-class="transition"
         leave-active-class="opacity-0 transition"
       >
-        <main-menu v-if="menuOpen" />
-        <search v-if="searchOpen" />
+        <main-menu v-if="menuOpen" class="flex-grow overflow-hidden" />
+        <search v-if="searchOpen" class="flex-grow overflow-hidden" />
       </transition>
 
       <p
@@ -96,10 +96,11 @@ export default {
     isClosed({ isOpen }) {
       return !isOpen;
     },
-    containerClass({ isOpen }) {
+    containerClass({ isOpen, isLocation }) {
       return {
         "md:max-w-xs": !isOpen,
-        "md:max-w-lg": isOpen
+        "md:max-w-lg": isOpen,
+        "md:-translate-y-5": isLocation
       };
     },
     innerClass({ isOpen }) {
@@ -111,8 +112,7 @@ export default {
     },
     containerStyle({ isOpen, isLocation }) {
       return {
-        transform: isOpen ? "" : "scale(.94) translateY(.6rem)",
-        ...(isLocation ? { transform: "translateY(-5rem)" } : {})
+        transform: isOpen ? "" : "scale(.94) translateY(.6rem)"
       };
     }
   }

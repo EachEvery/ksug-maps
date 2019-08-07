@@ -1,11 +1,15 @@
 <template>
-  <div v-if="ready">
-    <img
-      src="https://nhmisc.s3.us-east-1.amazonaws.com/ksug/map-small.png"
-      :class="mapImageClass"
-      @load="handleImageLoad"
-      class="transition fixed inset-0 h-screen object-cover select-none"
-    />
+  <div v-if="ready" class="relative">
+    <div class="w-full h-full relative overflow-hidden">
+      <img
+        src="https://nhmisc.s3.us-east-1.amazonaws.com/ksug/map-small.png"
+        :class="mapClass"
+        @load="handleImageLoad"
+        class="transition fixed inset-0 h-screen object-cover select-none"
+      />
+
+      <div class="absolute inset-0 bg-black opacity-50 transition" :class="overlayClass"></div>
+    </div>
 
     <global-header />
 
@@ -15,9 +19,7 @@
 
 <script>
 import globalHeader from "./components/GlobalHeader";
-import getSlug from "slugify";
-import Axios from "axios";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -39,21 +41,15 @@ export default {
   },
   computed: {
     ...mapState(["stories"]),
-    locations({ stories }) {
-      return [...new Set(stories.map(story => story.location))].map(
-        location => {
-          let locationStories = stories.filter(
-            item => item.location === location
-          );
-          return {
-            name: location,
-            stories: locationStories,
-            lat: stories[0].lat,
-            long: stories[0].long,
-            slug: getSlug(location, { remove: /['()]/g }).toLowerCase()
-          };
-        }
-      );
+    ...mapGetters(["locations"]),
+    shouldFadeMap({ $route }) {
+      return $route.name === "location" || $route.name === "preview";
+    },
+    overlayClass({ shouldFadeMap }) {
+      return {
+        "opacity-50": shouldFadeMap,
+        invisible: !shouldFadeMap
+      };
     },
     ready({ stories }) {
       return stories.length > 0;
@@ -61,10 +57,14 @@ export default {
     imageLoaded({ state }) {
       return state === "imageLoaded";
     },
-    mapImageClass({ imageLoaded }) {
+    isLocation({ $route }) {
+      return $route.name === "location";
+    },
+    mapClass({ imageLoaded, isLocation }) {
       return {
         invisible: !imageLoaded,
-        "opacity-0": !imageLoaded
+        "opacity-0": !imageLoaded,
+        "zoom-map": isLocation
       };
     }
   }

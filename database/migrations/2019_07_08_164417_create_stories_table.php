@@ -13,8 +13,8 @@ class CreateStoriesTable extends Migration
     {
         Schema::create('stories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('subject_name')->nullable();
-            $table->string('subject_title')->nullable();
+            $table->string('subject')->nullable();
+            $table->string('role')->nullable();
             $table->string('day')->nullable();
             $table->string('location')->nullable();
             $table->longText('content')->nullable();

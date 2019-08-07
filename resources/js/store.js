@@ -4,6 +4,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import { unique, filled } from "./functions/helpers";
+import { mapStoriesToLocations, mapStories } from "./functions/ksug";
 
 export default new Vuex.Store({
     state: {
@@ -20,7 +21,7 @@ export default new Vuex.Store({
     },
     mutations: {
         setStories(state, stories) {
-            state.stories = stories;
+            state.stories = mapStories(stories);
         },
         clearFilters({ filters }) {
             filters.splice(0, filters.length);
@@ -30,40 +31,21 @@ export default new Vuex.Store({
                 item => item.key === filter.key && item.value === filter.value
             );
 
-            if (index === -1) {
-                filters.push(filter);
-            } else {
-                filters.splice(index, 1);
-            }
+            index === -1 ? filters.push(filter) : filters.splice(index, 1);
         }
     },
     getters: {
         roles({ stories }) {
-            return filled(unique(stories.map(s => s.subject_title)));
+            return filled(unique(stories.map(s => s.role)));
         },
         names({ stories }) {
-            return filled(unique(stories.map(s => s.subject_name)));
+            return filled(unique(stories.map(s => s.subject)));
         },
         days({ stories }) {
             return filled(unique(stories.map(s => s.day)));
         },
         locations({ stories }) {
-            return [...new Set(stories.map(story => story.location))].map(
-                location => {
-                    let locationStories = stories.filter(
-                        item => item.location === location
-                    );
-                    return {
-                        name: location,
-                        stories: locationStories,
-                        lat: stories[0].lat,
-                        long: stories[0].long,
-                        slug: getSlug(location, {
-                            remove: /['()]/g
-                        }).toLowerCase()
-                    };
-                }
-            );
+            return mapStoriesToLocations(stories);
         }
     }
 });

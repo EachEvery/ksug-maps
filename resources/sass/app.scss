@@ -31,3 +31,12 @@ body {
         text-shadow: 0px 0px 0.5rem #000;
     }
 }
+
+.hide-scrollbars {
+    &::-webkit-scrollbar {
+        width: 0 !important;
+    }
+
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}

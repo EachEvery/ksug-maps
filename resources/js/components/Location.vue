@@ -1,40 +1,94 @@
 <template>
-  <div :class="containerClass" :style="containerStyle" class="fixed inset-0 p-5">
-    <h4
-      class="text-shadow-darker font-display font-black text-lg uppercase tracking-wide"
-    >{{storyCount}}</h4>
-    <h1
-      class="text-shadow font-display font-black text-5xl uppercase tracking-loose leading-none"
-      v-html="locationHtml"
-    >{{location.name}}</h1>
+  <div
+    :class="containerClass"
+    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto"
+    style="max-width: 45rem"
+  >
+    <div
+      class="h-64 overflow-hidden absolute md:static inset-x-0 w-full bottom-full md:bottom-auto"
+    >
+      <img
+        src="/img/bcb0ab7a-0f17-46d1-bb32-4339ec33adc9.jpg"
+        class="h-full object-cover w-full transition"
+        :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
+      />
+    </div>
+
+    <div class="px-5 xl:px-8 md:mt-5">
+      <h4 class="font-mono text-md font-bold uppercase mb-3">{{storyCount}}</h4>
+
+      <div class="flex mb-12">
+        <h1
+          class="font-display font-black text-4xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10"
+          v-html="locationHtml"
+        >{{location.name}}</h1>
+
+        <router-link :to="chevronLink" class="md:hidden">
+          <chevron-up-icon class="w-8 h-8 mt-1 text-black transition" :style="chevronStyle" />
+        </router-link>
+      </div>
+    </div>
+
+    <div
+      class="flex overflow-auto flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4"
+    >
+      <div class="w-5 md:hidden" style="flex: 0 0 auto;"></div>
+      <story-card
+        :story="story"
+        v-for="(story, i) in locationStories"
+        :key="story.id"
+        class="mr-4 md:mr-0 w-72 md:w-full h-48vh md:mb-5 flex-retain"
+        :style="{color: story.color}"
+        :class="{'xl:mt-24': i % 2 > 0}"
+        style="max-height: 25rem"
+      />
+      <div class="w-1 md:hidden" style="flex: 0 0 auto;"></div>
+    </div>
   </div>
 </template>
+
 <script>
+import chevronUpIcon from "./ChevronUpIcon";
+import storyCard from "./StoryCard";
+import { mapState, mapGetters } from "vuex";
+
 export default {
-  props: {
-    locations: Array
+  components: {
+    chevronUpIcon,
+    storyCard
   },
+
   data() {
     return {
       state: "default"
     };
   },
-  methods: {
-    open() {
-      this.state = "open";
-    }
-  },
   computed: {
+    ...mapGetters(["locations"]),
+    ...mapState(["stories"]),
+    chevronLink({ isPreview }) {
+      return isPreview
+        ? `/places/${this.location.slug}`
+        : `/places/${this.location.slug}/preview`;
+    },
+    chevronStyle({ isPreview }) {
+      return {
+        transform: isPreview ? "none" : "rotate(-180deg)"
+      };
+    },
     location({ locations }) {
       return locations.find(item => item.slug === this.$route.params.location);
+    },
+    locationStories({ stories }) {
+      return stories.filter(s => s.location === this.location.name);
     },
     isPreview() {
       return this.$route.name === "preview";
     },
-    containerClass({ isOpen }) {},
-    containerStyle({ isPreview }) {
+    containerClass({ isPreview }) {
       return {
-        transform: "translateY(75%)"
+        "md:translate-y-0": isPreview,
+        "translate-location-preview": isPreview
       };
     },
     storyCount({ location }) {

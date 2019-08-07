@@ -3,3 +3,33 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@responsive {
+    .bottom-full {
+        bottom: 100%;
+    }
+
+    .translate-y-0 {
+        transform: translateY(0);
+    }
+
+    .translate-y-full {
+        transform: translateY(100%);
+    }
+
+    .-translate-y-5 {
+        transform: translateY(-5rem);
+    }
+
+    .translate-location-preview {
+        transform: translateY(calc(100% - 13rem));
+    }
+
+    .zoom-map {
+        transform: scale(1.5) translateX(-2rem);
+    }
+
+    .flex-retain {
+        flex: 0 0 auto;
+    }
+}

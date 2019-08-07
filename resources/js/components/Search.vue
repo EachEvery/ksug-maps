@@ -1,8 +1,8 @@
 <template>
-  <div class="leading-tight text-left px-5">
+  <div class="leading-tight text-left px-5 h-full flex flex-col">
     <h1 class="font-display text-lg font-black mb-5">BROWSE BY</h1>
 
-    <div class="flex border-b-2 border-black pb-2 mb-5 justify-between">
+    <div class="flex border-b-2 border-black pb-2 justify-between flex-shrink-0">
       <div class="flex">
         <filter-button
           collection-name="days"
@@ -14,7 +14,7 @@
 
         <filter-button
           collection-name="names"
-          filter="subject_name"
+          filter="subject"
           :filters="filters"
           :active-filter="activeFilter"
           @click="setActiveFilter"
@@ -22,7 +22,7 @@
 
         <filter-button
           collection-name="roles"
-          filter="subject_title"
+          filter="role"
           :filters="filters"
           :active-filter="activeFilter"
           @click="setActiveFilter"
@@ -36,7 +36,7 @@
       >&times; Clear All Filters</clickable>
     </div>
 
-    <ul>
+    <ul class="flex-grow overflow-auto mb-5 pt-5">
       <li v-for="(item, i) in filterItems" :key="i" class="flex mb-4">
         <div
           class="w-5 h-5 rounded border transition mr-2 flex-shrink-0"
