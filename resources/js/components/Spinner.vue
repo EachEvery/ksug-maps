@@ -15,8 +15,6 @@
   }
 }
 </style>
-
-</style>
 <script>
 import loadingIcon from "./LoadingIcon";
 

@@ -3,7 +3,7 @@
     <div id="map" ref="mapElement" class="w-full h-screen relative transition bg-gray-darkest hide"></div>
 
     <clickable
-      class="absolute bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition"
+      class="absolute bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition mb-32 md:mb-5"
       :class="{'bg-black': overlayShowing, 'bg-white': !overlayShowing, 'opacity-0': !showOverlayButton}"
       @click="handleClick"
     >
@@ -28,6 +28,7 @@ import clickable from "./Clickable";
 import mapIcon from "./MapIcon";
 
 import spinner from "./Spinner";
+import MarkerCluster from "@google/markerclusterer";
 
 export default {
   components: {
@@ -80,7 +81,7 @@ export default {
         disablePanMomentum: true,
         zoom: 16,
         minZoom: 16,
-        maxZoom: 16.5,
+        maxZoom: 18,
         styles: mapTheme,
         disableDefaultUI: true,
         bounds: this.bounds,
@@ -106,8 +107,6 @@ export default {
         process.env.MIX_OVERLAY_PHOTO,
         this.map
       );
-
-      // this.map.getCenter();
 
       this.markers = this.locations.map(loc => {
         let marker = new this.googleMaps.Marker({
@@ -158,6 +157,11 @@ export default {
 
         return marker;
       });
+
+      // this.cluster = new MarkerCluster(this.map, this.markers, {
+      //   imagePath:
+      //     "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+      // });
 
       /**
        * I'm sorry mom 😭
