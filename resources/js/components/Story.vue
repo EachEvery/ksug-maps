@@ -1,5 +1,6 @@
 <template>
   <div
+    v-click-outside="closeStory"
     :style="{'background-color': story.color}"
     class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto px-8 shadow-lg flex-grow-0"
     style="max-width: 45rem"
@@ -35,9 +36,16 @@ import closeIcon from "./CloseIcon";
 import clickable from "./Clickable";
 import quoteIcon from "./QuoteIcon";
 
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.story.subject,
+      titleTemplate: "%s | Mapping May 4"
+    };
+  },
+
   components: {
     audioPlayer,
     closeIcon,
@@ -46,11 +54,15 @@ export default {
   },
   methods: {
     closeStory() {
-      this.$router.go(-1);
+      this.$router.push(`/places/${this.location.slug}`);
     }
   },
   computed: {
     ...mapState(["stories"]),
+    ...mapGetters(["locations"]),
+    location({ locations, story }) {
+      return locations.find(loc => loc.name === story.location);
+    },
     story({ stories }) {
       return stories.find(s => +s.id === +this.$route.params.story);
     },

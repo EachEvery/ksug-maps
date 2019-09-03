@@ -1,5 +1,6 @@
 <template>
   <div
+    v-click-outside="goBack"
     :class="containerClass"
     class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto"
     style="max-width: 45rem"
@@ -53,6 +54,13 @@ import storyCard from "./StoryCard";
 import { mapState, mapGetters } from "vuex";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.location.name,
+      titleTemplate: "%s | Mapping May 4"
+    };
+  },
+
   components: {
     chevronUpIcon,
     storyCard
@@ -66,6 +74,9 @@ export default {
   methods: {
     isEven(index) {
       return index % 2 > 0;
+    },
+    goBack() {
+      this.$router.push("/");
     }
   },
   computed: {

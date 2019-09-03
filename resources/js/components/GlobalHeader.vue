@@ -58,12 +58,8 @@ import searchIcon from "./SearchIcon";
 import menuIcon from "./MenuIcon";
 import mainMenu from "./MainMenu";
 import search from "./Search";
-import clickOutside from "vue-click-outside";
 
 export default {
-  directives: {
-    clickOutside
-  },
   props: {
     isLocation: Boolean
   },

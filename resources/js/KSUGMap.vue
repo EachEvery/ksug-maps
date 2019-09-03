@@ -10,11 +10,7 @@
         class="transition"
       />
 
-      <div
-        class="absolute inset-0 bg-black transition"
-        :class="overlayClass"
-        @click="handleOverlayClick"
-      ></div>
+      <div class="absolute inset-0 bg-black transition" :class="overlayClass"></div>
     </div>
 
     <global-header :is-location="isLocation" />
@@ -37,6 +33,12 @@ import mapComponent from "./components/Map";
 import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
+  metaInfo() {
+    return {
+      title: "Home",
+      titleTemplate: "%s | Mapping May 4"
+    };
+  },
   components: {
     globalHeader,
     mapComponent
@@ -54,9 +56,6 @@ export default {
     ...mapActions(["ensureStories"]),
     handleImageLoad() {
       this.state = "imageLoaded";
-    },
-    handleOverlayClick() {
-      this.$router.push("/");
     },
     handleLocationClicked(location) {
       this.$router.push(`/places/${location.slug}/preview`);

@@ -8,6 +8,8 @@ require("./bootstrap");
 
 import Vue from "vue";
 import KSUGMap from "./KSUGMap.vue";
+import VueMeta from "vue-meta";
+import ClickOutside from "v-click-outside";
 
 import router from "./router";
 import store from "./store";
@@ -18,7 +20,13 @@ import store from "./store";
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+Vue.use(VueMeta, {
+    refreshOnceOnNavigation: true
+});
+
+Vue.use(ClickOutside);
+
+new Vue({
     store,
     router,
     el: "#app",
