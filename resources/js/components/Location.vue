@@ -5,11 +5,12 @@
     style="max-width: 45rem"
   >
     <div
-      class="h-64 overflow-hidden absolute md:static inset-x-0 w-full bottom-full md:bottom-auto"
+      class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0"
     >
       <img
         src="/img/bcb0ab7a-0f17-46d1-bb32-4339ec33adc9.jpg"
         class="h-full object-cover w-full transition"
+        style="box-shadow: 0 -10px 20px rgba(0,0,0, .5)"
         :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
       />
     </div>
@@ -19,8 +20,7 @@
 
       <div class="flex mb-12">
         <h1
-          class="font-display font-black text-4xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10"
-          v-html="locationHtml"
+          class="font-display font-black text-4xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
         >{{location.name}}</h1>
 
         <router-link :to="chevronLink" class="md:hidden">
@@ -65,13 +65,6 @@ export default {
   },
   methods: {
     isEven(index) {
-      console.log(
-        index,
-        "index",
-        index % 2 > 0,
-        this.locationStories[index].role
-      );
-
       return index % 2 > 0;
     }
   },
@@ -113,8 +106,8 @@ export default {
     locationHtml({ location }) {
       let words = location.name.split(" ");
 
-      if (words.length === 2) {
-        return `${words[0]}<br />${words[1]}`;
+      if (words.length > 1) {
+        return `${words.shift()}<br />${words.join(" ")}`;
       }
 
       return location.name;

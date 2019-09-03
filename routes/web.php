@@ -19,4 +19,4 @@ Route::get('/stories', function (Stories $stories) {
 
 Route::get('/{vue?}', function () {
     return view('master');
-})->where('vue', '[\/\w\.-]*');
+})->where('vue', '[\/\w\.-]*')->where('vue', '^((?!admin).)*$');

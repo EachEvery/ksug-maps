@@ -8,8 +8,8 @@ export const mapStoriesToLocations = stories => {
         return {
             name: location,
             stories: locationStories,
-            lat: stories[0].lat,
-            long: stories[0].long,
+            lat: locationStories[0].lat,
+            long: locationStories[0].long,
             slug: getSlug(location, {
                 remove: /['()]/g
             }).toLowerCase()

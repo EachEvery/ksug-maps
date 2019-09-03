@@ -54,6 +54,9 @@ import mainMenu from "./MainMenu";
 import search from "./Search";
 
 export default {
+  props: {
+    isLocation: Boolean
+  },
   components: {
     clickable,
     searchIcon,
@@ -78,9 +81,6 @@ export default {
   },
 
   computed: {
-    isLocation() {
-      return this.$route.name === "location";
-    },
     isMap() {
       return true;
     },
@@ -100,7 +100,7 @@ export default {
       return {
         "md:max-w-xs": !isOpen,
         "md:max-w-lg": isOpen,
-        "md:-translate-y-5": isLocation
+        "-translate-y-5": isLocation
       };
     },
     innerClass({ isOpen }) {
@@ -111,6 +111,10 @@ export default {
       };
     },
     containerStyle({ isOpen, isLocation }) {
+      if (isLocation) {
+        return {};
+      }
+
       return {
         transform: isOpen ? "" : "scale(.94) translateY(.6rem)"
       };

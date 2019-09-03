@@ -1903,6 +1903,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1913,7 +1921,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      state: "default"
+      state: "default",
+      pullMapLeft: false
     };
   },
   mounted: function mounted() {
@@ -1924,7 +1933,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.state = "imageLoaded";
     },
     handleOverlayClick: function handleOverlayClick() {
-      this.$router.go(-1);
+      this.$router.push("/");
+    },
+    handleLocationClicked: function handleLocationClicked(location) {
+      this.$router.push("/places/".concat(location.slug, "/preview"));
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["locations"]), {
@@ -1950,7 +1962,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     isLocation: function isLocation(_ref5) {
       var $route = _ref5.$route;
-      return $route.name === "location";
+      return $route.name === "location" || $route.name === "preview" || $route.name === "story";
     },
     mapClass: function mapClass(_ref6) {
       var imageLoaded = _ref6.imageLoaded,
@@ -2154,6 +2166,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    isLocation: Boolean
+  },
   components: {
     clickable: _Clickable__WEBPACK_IMPORTED_MODULE_0__["default"],
     searchIcon: _SearchIcon__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2177,9 +2192,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    isLocation: function isLocation() {
-      return this.$route.name === "location";
-    },
     isMap: function isMap() {
       return true;
     },
@@ -2207,7 +2219,7 @@ __webpack_require__.r(__webpack_exports__);
       return {
         "md:max-w-xs": !isOpen,
         "md:max-w-lg": isOpen,
-        "md:-translate-y-5": isLocation
+        "-translate-y-5": isLocation
       };
     },
     innerClass: function innerClass(_ref6) {
@@ -2221,6 +2233,11 @@ __webpack_require__.r(__webpack_exports__);
     containerStyle: function containerStyle(_ref7) {
       var isOpen = _ref7.isOpen,
           isLocation = _ref7.isLocation;
+
+      if (isLocation) {
+        return {};
+      }
+
       return {
         transform: isOpen ? "" : "scale(.94) translateY(.6rem)"
       };
@@ -2310,7 +2327,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     isEven: function isEven(index) {
-      console.log(index, "index", index % 2 > 0, this.locationStories[index].role);
       return index % 2 > 0;
     }
   },
@@ -2364,8 +2380,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var location = _ref7.location;
       var words = location.name.split(" ");
 
-      if (words.length === 2) {
-        return "".concat(words[0], "<br />").concat(words[1]);
+      if (words.length > 1) {
+        return "".concat(words.shift(), "<br />").concat(words.join(" "));
       }
 
       return location.name;
@@ -2421,8 +2437,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var load_google_maps_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! load-google-maps-api */ "./node_modules/load-google-maps-api/index.js");
 /* harmony import */ var load_google_maps_api__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(load_google_maps_api__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
-/* harmony import */ var _functions_overlayFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/overlayFactory */ "./resources/js/functions/overlayFactory.js");
+/* harmony import */ var _functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/overlayFactory */ "./resources/js/functions/overlayFactory.js");
+/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
 /* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
 /* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(timers__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
@@ -2466,6 +2482,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     mapIcon: _MapIcon__WEBPACK_IMPORTED_MODULE_6__["default"],
     clickable: _Clickable__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  props: {
+    locations: Array,
+    showOverlayButton: Boolean
   },
   data: function data() {
     return {
@@ -2523,8 +2543,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   disablePanMomentum: true,
                   zoom: 16,
                   minZoom: 16,
-                  maxZoom: 18,
-                  styles: _functions_ksug__WEBPACK_IMPORTED_MODULE_2__["mapTheme"],
+                  maxZoom: 16.5,
+                  styles: _functions_ksug__WEBPACK_IMPORTED_MODULE_3__["mapTheme"],
                   disableDefaultUI: true,
                   bounds: this.bounds,
                   restriction: {
@@ -2540,7 +2560,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.bounds = new this.googleMaps.LatLngBounds(new this.googleMaps.LatLng(41.1119, -81.404828), // SW CORNER 🧭
                 new this.googleMaps.LatLng(41.186267, -81.309106) // NE CORNER 🧭
                 );
-                this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_3__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2.jpg", this.map); // this.map.getCenter();
+                this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2.jpg", this.map); // this.map.getCenter();
+
+                this.markers = this.locations.map(function (loc) {
+                  var marker = new _this.googleMaps.Marker({
+                    position: new _this.googleMaps.LatLng(+loc.lat, +loc["long"]),
+                    map: _this.map,
+                    icon: {
+                      url: "/img/marker.png",
+                      scaledSize: new _this.googleMaps.Size(41.25, 55)
+                    }
+                  });
+                  marker.addListener("click", function () {
+                    _this.map.setZoom(17);
+
+                    var mapCenter = {
+                      lat: _this.map.getCenter().lat(),
+                      lng: _this.map.getCenter().lng()
+                    };
+                    var markerCenter = {
+                      lat: marker.getPosition().lat(),
+                      lng: marker.getPosition().lng()
+                    };
+                    var diffThreshold = 0.0005;
+                    var latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
+                    var lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
+                    /**
+                     * only pan the map if the marker that was clicked
+                     * is not centered enough, otherwise, just emit the
+                     * event right away so there's no click delay
+                     */
+
+                    if (latDiff > diffThreshold || lngDiff > diffThreshold) {
+                      _this.map.panTo(marker.getPosition());
+                      /**
+                       * Since we can't control the duration of the google maps
+                       * panning and there is no callback / promise mechanism,
+                       * we just have to hack it with a good ol fashioned timeout 😔
+                       */
+
+
+                      setTimeout(function () {
+                        _this.$emit("location-clicked", loc);
+                      }, 600);
+                    } else {
+                      _this.$emit("location-clicked", loc);
+                    }
+                  });
+                  return marker;
+                }); // new MarkerClusterer(this.map, this.markers, {
+                //   imagePath:
+                //     "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+                // });
 
                 this.checkImageLoadedInterval = setInterval(function () {
                   if (_this.overlay.imageLoaded) {
@@ -2550,7 +2621,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 }, 800);
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -39609,9 +39680,21 @@ var render = function() {
         [
           _c(
             "div",
-            { staticClass: "w-full h-full relative overflow-hidden" },
+            { staticClass: "w-full h-full relative overflow-hidden bg-black" },
             [
-              _c("map-component"),
+              _c("map-component", {
+                staticClass: "transition",
+                class: {
+                  "-translate-y-5": _vm.isLocation,
+                  "md:-translate-x-10": _vm.isLocation
+                },
+                attrs: {
+                  locations: _vm.locations,
+                  "show-overlay-button": !_vm.isLocation,
+                  "is-location": _vm.isLocation
+                },
+                on: { "location-clicked": _vm.handleLocationClicked }
+              }),
               _vm._v(" "),
               _c("div", {
                 staticClass: "absolute inset-0 bg-black transition",
@@ -39622,7 +39705,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("global-header"),
+          _c("global-header", { attrs: { "is-location": _vm.isLocation } }),
           _vm._v(" "),
           _c(
             "transition",
@@ -40007,7 +40090,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "h-64 overflow-hidden absolute md:static inset-x-0 w-full bottom-full md:bottom-auto"
+            "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0"
         },
         [
           _c("img", {
@@ -40016,6 +40099,7 @@ var render = function() {
               "translate-y-full": !_vm.isPreview,
               "md:translate-y-0": !_vm.isPreview
             },
+            staticStyle: { "box-shadow": "0 -10px 20px rgba(0,0,0, .5)" },
             attrs: { src: "/img/bcb0ab7a-0f17-46d1-bb32-4339ec33adc9.jpg" }
           })
         ]
@@ -40036,8 +40120,7 @@ var render = function() {
               "h1",
               {
                 staticClass:
-                  "font-display font-black text-4xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10",
-                domProps: { innerHTML: _vm._s(_vm.locationHtml) }
+                  "font-display font-black text-4xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
               },
               [_vm._v(_vm._s(_vm.location.name))]
             ),
@@ -40184,7 +40267,7 @@ var render = function() {
     [
       _c("div", {
         ref: "mapElement",
-        staticClass: "w-full h-screen relative transition bg-gray-darkest",
+        staticClass: "w-full h-screen relative transition bg-gray-darkest hide",
         class: { "opacity-0": _vm.state === "loading" },
         attrs: { id: "map" }
       }),
@@ -40196,7 +40279,8 @@ var render = function() {
             "absolute bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition",
           class: {
             "bg-black": _vm.overlayShowing,
-            "bg-white": !_vm.overlayShowing
+            "bg-white": !_vm.overlayShowing,
+            "opacity-0": !_vm.showOverlayButton
           },
           on: { click: _vm.handleClick }
         },
@@ -57827,8 +57911,8 @@ var mapStoriesToLocations = function mapStoriesToLocations(stories) {
     return {
       name: location,
       stories: locationStories,
-      lat: stories[0].lat,
-      "long": stories[0]["long"],
+      lat: locationStories[0].lat,
+      "long": locationStories[0]["long"],
       slug: slugify__WEBPACK_IMPORTED_MODULE_0___default()(location, {
         remove: /['()]/g
       }).toLowerCase()

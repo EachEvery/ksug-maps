@@ -1,7 +1,15 @@
 <template>
   <div v-if="ready" class="relative">
-    <div class="w-full h-full relative overflow-hidden">
-      <map-component />
+    <div class="w-full h-full relative overflow-hidden bg-black">
+      <map-component
+        :locations="locations"
+        :show-overlay-button="!isLocation"
+        :is-location="isLocation"
+        @location-clicked="handleLocationClicked"
+        :class="{'-translate-y-5': isLocation, 'md:-translate-x-10': isLocation}"
+        class="transition"
+      />
+
       <div
         class="absolute inset-0 bg-black transition"
         :class="overlayClass"
@@ -9,7 +17,7 @@
       ></div>
     </div>
 
-    <global-header />
+    <global-header :is-location="isLocation" />
 
     <transition
       enter-class="opacity-0 translate-y-1 md:translate-x-2"
@@ -35,7 +43,8 @@ export default {
   },
   data() {
     return {
-      state: "default"
+      state: "default",
+      pullMapLeft: false
     };
   },
   mounted() {
@@ -47,7 +56,10 @@ export default {
       this.state = "imageLoaded";
     },
     handleOverlayClick() {
-      this.$router.go(-1);
+      this.$router.push("/");
+    },
+    handleLocationClicked(location) {
+      this.$router.push(`/places/${location.slug}/preview`);
     }
   },
   computed: {
@@ -70,7 +82,11 @@ export default {
       return state === "imageLoaded";
     },
     isLocation({ $route }) {
-      return $route.name === "location";
+      return (
+        $route.name === "location" ||
+        $route.name === "preview" ||
+        $route.name === "story"
+      );
     },
     mapClass({ imageLoaded, isLocation }) {
       return {

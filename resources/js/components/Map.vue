@@ -1,15 +1,15 @@
-<template>
+  <template>
   <div class="relative w-full h-screen bg-gray-dark">
     <div
       id="map"
       ref="mapElement"
-      class="w-full h-screen relative transition bg-gray-darkest"
+      class="w-full h-screen relative transition bg-gray-darkest hide"
       :class="{'opacity-0': state === 'loading'}"
     ></div>
 
     <clickable
       class="absolute bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition"
-      :class="{'bg-black': overlayShowing, 'bg-white': !overlayShowing}"
+      :class="{'bg-black': overlayShowing, 'bg-white': !overlayShowing, 'opacity-0': !showOverlayButton}"
       @click="handleClick"
     >
       <map-icon
@@ -23,9 +23,12 @@
 </template>
 <script>
 import loadGoogleMapsApi from "load-google-maps-api";
-import { mapTheme } from "../functions/ksug";
+
 import overlayFactory from "../functions/overlayFactory";
+
+import { mapTheme } from "../functions/ksug";
 import { clearInterval } from "timers";
+
 import clickable from "./Clickable";
 import mapIcon from "./MapIcon";
 
@@ -33,6 +36,10 @@ export default {
   components: {
     mapIcon,
     clickable
+  },
+  props: {
+    locations: Array,
+    showOverlayButton: Boolean
   },
   data() {
     return {
@@ -63,6 +70,7 @@ export default {
         this.overlayShowing = true;
       }
     },
+
     async initMap() {
       this.googleMaps = await loadGoogleMapsApi({
         key: process.env.MIX_GOOGLE_MAPS_JS_API_KEY
@@ -74,7 +82,7 @@ export default {
         disablePanMomentum: true,
         zoom: 16,
         minZoom: 16,
-        maxZoom: 18,
+        maxZoom: 16.5,
         styles: mapTheme,
         disableDefaultUI: true,
         bounds: this.bounds,
@@ -102,6 +110,61 @@ export default {
       );
 
       // this.map.getCenter();
+
+      this.markers = this.locations.map(loc => {
+        let marker = new this.googleMaps.Marker({
+          position: new this.googleMaps.LatLng(+loc.lat, +loc.long),
+          map: this.map,
+          icon: {
+            url: "/img/marker.png",
+            scaledSize: new this.googleMaps.Size(41.25, 55)
+          }
+        });
+
+        marker.addListener("click", () => {
+          this.map.setZoom(17);
+
+          let mapCenter = {
+            lat: this.map.getCenter().lat(),
+            lng: this.map.getCenter().lng()
+          };
+
+          let markerCenter = {
+            lat: marker.getPosition().lat(),
+            lng: marker.getPosition().lng()
+          };
+          let diffThreshold = 0.0005;
+          let latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
+          let lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
+
+          /**
+           * only pan the map if the marker that was clicked
+           * is not centered enough, otherwise, just emit the
+           * event right away so there's no click delay
+           */
+          if (latDiff > diffThreshold || lngDiff > diffThreshold) {
+            this.map.panTo(marker.getPosition());
+
+            /**
+             * Since we can't control the duration of the google maps
+             * panning and there is no callback / promise mechanism,
+             * we just have to hack it with a good ol fashioned timeout 😔
+             */
+            setTimeout(() => {
+              this.$emit(`location-clicked`, loc);
+            }, 600);
+          } else {
+            this.$emit("location-clicked", loc);
+          }
+        });
+
+        return marker;
+      });
+
+      // new MarkerClusterer(this.map, this.markers, {
+      //   imagePath:
+      //     "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+      // });
 
       this.checkImageLoadedInterval = setInterval(() => {
         if (this.overlay.imageLoaded) {
