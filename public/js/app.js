@@ -40080,7 +40080,7 @@ var render = function() {
     "button",
     {
       staticClass:
-        "outline-none focus:shadow-outline shrink-when-active select-none",
+        "focus:outline-none focus:shadow-outline shrink-when-active select-none",
       on: { click: _vm.emitClickEvent }
     },
     [_vm._t("default")],
@@ -58895,9 +58895,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_meta__WEBPACK_IMPORTED_MODULE_2__["default"], {
-  refreshOnceOnNavigation: true
-});
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_meta__WEBPACK_IMPORTED_MODULE_2__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(v_click_outside__WEBPACK_IMPORTED_MODULE_3___default.a);
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   store: _store__WEBPACK_IMPORTED_MODULE_5__["default"],

@@ -20,9 +20,7 @@ import store from "./store";
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.use(VueMeta, {
-    refreshOnceOnNavigation: true
-});
+Vue.use(VueMeta);
 
 Vue.use(ClickOutside);
 

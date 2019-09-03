@@ -23,6 +23,7 @@ body {
 .shrink-when-active {
     transition: 150ms all ease;
     -webkit-backface-visibility: hidden;
+
     &:active {
         transform: scale(0.96) translateZ(0.0001rem);
     }
