@@ -7381,12 +7381,28 @@ video {
   transform: translateY(0);
 }
 
+.translate-y-1 {
+  transform: translateY(0.25rem);
+}
+
 .translate-y-full {
   transform: translateY(100%);
 }
 
 .-translate-y-5 {
   transform: translateY(-5rem);
+}
+
+.translate-x-full {
+  transform: translateX(100%);
+}
+
+.translate-x-2 {
+  transform: translateX(0.75rem);
+}
+
+.translate-x-0 {
+  transform: translateX(0);
 }
 
 .translate-location-preview {
@@ -14156,12 +14172,28 @@ video {
     transform: translateY(0);
   }
 
+  .sm\:translate-y-1 {
+    transform: translateY(0.25rem);
+  }
+
   .sm\:translate-y-full {
     transform: translateY(100%);
   }
 
   .sm\:-translate-y-5 {
     transform: translateY(-5rem);
+  }
+
+  .sm\:translate-x-full {
+    transform: translateX(100%);
+  }
+
+  .sm\:translate-x-2 {
+    transform: translateX(0.75rem);
+  }
+
+  .sm\:translate-x-0 {
+    transform: translateX(0);
   }
 
   .sm\:translate-location-preview {
@@ -20932,12 +20964,28 @@ video {
     transform: translateY(0);
   }
 
+  .md\:translate-y-1 {
+    transform: translateY(0.25rem);
+  }
+
   .md\:translate-y-full {
     transform: translateY(100%);
   }
 
   .md\:-translate-y-5 {
     transform: translateY(-5rem);
+  }
+
+  .md\:translate-x-full {
+    transform: translateX(100%);
+  }
+
+  .md\:translate-x-2 {
+    transform: translateX(0.75rem);
+  }
+
+  .md\:translate-x-0 {
+    transform: translateX(0);
   }
 
   .md\:translate-location-preview {
@@ -27708,12 +27756,28 @@ video {
     transform: translateY(0);
   }
 
+  .lg\:translate-y-1 {
+    transform: translateY(0.25rem);
+  }
+
   .lg\:translate-y-full {
     transform: translateY(100%);
   }
 
   .lg\:-translate-y-5 {
     transform: translateY(-5rem);
+  }
+
+  .lg\:translate-x-full {
+    transform: translateX(100%);
+  }
+
+  .lg\:translate-x-2 {
+    transform: translateX(0.75rem);
+  }
+
+  .lg\:translate-x-0 {
+    transform: translateX(0);
   }
 
   .lg\:translate-location-preview {
@@ -34484,12 +34548,28 @@ video {
     transform: translateY(0);
   }
 
+  .xl\:translate-y-1 {
+    transform: translateY(0.25rem);
+  }
+
   .xl\:translate-y-full {
     transform: translateY(100%);
   }
 
   .xl\:-translate-y-5 {
     transform: translateY(-5rem);
+  }
+
+  .xl\:translate-x-full {
+    transform: translateX(100%);
+  }
+
+  .xl\:translate-x-2 {
+    transform: translateX(0.75rem);
+  }
+
+  .xl\:translate-x-0 {
+    transform: translateX(0);
   }
 
   .xl\:translate-location-preview {
@@ -34519,6 +34599,10 @@ body {
   transition: 0.5s all ease;
 }
 
+.transition-faster {
+  transition: 300ms all ease;
+}
+
 .shrink-when-active {
   transition: 150ms all ease;
   -webkit-backface-visibility: hidden;
@@ -34543,4 +34627,22 @@ body {
 
 .hide-scrollbars::-webkit-scrollbar {
   width: 0 !important;
+}
+
+a[href^="http://maps.google.com/maps"] {
+  display: none !important;
+}
+
+a[href^="https://maps.google.com/maps"] {
+  display: none !important;
+}
+
+.gmnoprint a,
+.gmnoprint span,
+.gm-style-cc {
+  display: none;
+}
+
+.gmnoprint div {
+  background: none !important;
 }

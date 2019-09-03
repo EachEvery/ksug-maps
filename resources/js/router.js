@@ -7,6 +7,7 @@ import Story from "./components/Story.vue";
 Vue.use(VueRouter);
 
 export default new VueRouter({
+    mode: "history",
     routes: [
         { path: "/places/:location", component: Location, name: "location" },
         {

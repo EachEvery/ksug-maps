@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      state: "search",
+      state: "default",
       lastState: ""
     };
   },

@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" href="{{mix('css/app.css')}}" />
 
-<body class="overflow-hidden">
+<body class="overflow-hidden bg-gray-darker">
 
     <!-- resources/js/KSUGMap.vue gets mounted here, then it's Vue on out 💪 -->
     <div id="app"></div>

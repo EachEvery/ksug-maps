@@ -13,12 +13,28 @@
         transform: translateY(0);
     }
 
+    .translate-y-1 {
+        transform: translateY(0.25rem);
+    }
+
     .translate-y-full {
         transform: translateY(100%);
     }
 
     .-translate-y-5 {
         transform: translateY(-5rem);
+    }
+
+    .translate-x-full {
+        transform: translateX(100%);
+    }
+
+    .translate-x-2 {
+        transform: translateX(0.75rem);
+    }
+
+    .translate-x-0 {
+        transform: translateX(0);
     }
 
     .translate-location-preview {

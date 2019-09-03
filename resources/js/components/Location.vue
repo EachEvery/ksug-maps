@@ -37,9 +37,9 @@
         :story="story"
         v-for="(story, i) in locationStories"
         :key="story.id"
-        class="mr-4 md:mr-0 w-72 md:w-full h-48vh md:mb-5 flex-retain"
+        class="mr-4 md:mr-0 w-72 md:w-full h-48vh md:mb-5 xl:mb-10 flex-retain"
         :style="{color: story.color}"
-        :class="{'xl:mt-24': i % 2 > 0}"
+        :class="{'xl:mt-24': isEven(i), 'xl:-mt-32': !isEven(i) && i > 0}"
         style="max-height: 25rem"
       />
       <div class="w-1 md:hidden" style="flex: 0 0 auto;"></div>
@@ -62,6 +62,18 @@ export default {
     return {
       state: "default"
     };
+  },
+  methods: {
+    isEven(index) {
+      console.log(
+        index,
+        "index",
+        index % 2 > 0,
+        this.locationStories[index].role
+      );
+
+      return index % 2 > 0;
+    }
   },
   computed: {
     ...mapGetters(["locations"]),

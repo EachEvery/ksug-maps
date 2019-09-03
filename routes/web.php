@@ -13,10 +13,10 @@ use KSUGMap\Repositories\Stories;
 |
 */
 
-Route::get('/', function () {
-    return view('master');
-});
-
 Route::get('/stories', function (Stories $stories) {
     return $stories->all();
 });
+
+Route::get('/{vue?}', function () {
+    return view('master');
+})->where('vue', '[\/\w\.-]*');

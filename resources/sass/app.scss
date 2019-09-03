@@ -14,6 +14,10 @@ body {
 
 .transition {
     transition: 0.5s all ease;
+
+    &-faster {
+        transition: 300ms all ease;
+    }
 }
 
 .shrink-when-active {
@@ -39,4 +43,20 @@ body {
 
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
+}
+
+a[href^="http://maps.google.com/maps"] {
+    display: none !important;
+}
+a[href^="https://maps.google.com/maps"] {
+    display: none !important;
+}
+
+.gmnoprint a,
+.gmnoprint span,
+.gm-style-cc {
+    display: none;
+}
+.gmnoprint div {
+    background: none !important;
 }
