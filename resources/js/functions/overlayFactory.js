@@ -43,16 +43,16 @@ export default (googleMaps, bounds, image, map) => {
             var panes = this.getPanes();
 
             panes.overlayLayer.appendChild(div);
+
+            this.hide();
         }
 
         hide() {
             this.div_.style.opacity = 0;
-            // this.div_.style.visibility = "hidden";
         }
 
         show() {
             this.div_.style.opacity = 1;
-            // this.div_.style.visibility = "visible";
         }
 
         draw() {

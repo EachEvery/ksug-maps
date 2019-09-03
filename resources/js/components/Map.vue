@@ -1,11 +1,6 @@
   <template>
   <div class="relative w-full h-screen bg-gray-dark">
-    <div
-      id="map"
-      ref="mapElement"
-      class="w-full h-screen relative transition bg-gray-darkest hide"
-      :class="{'opacity-0': state === 'loading'}"
-    ></div>
+    <div id="map" ref="mapElement" class="w-full h-screen relative transition bg-gray-darkest hide"></div>
 
     <clickable
       class="absolute bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition"
@@ -13,12 +8,13 @@
       @click="handleClick"
     >
       <map-icon
+        v-if="!isLoading"
         class="w-8 h-8 self-center transition"
         :class="{'text-white': overlayShowing, 'text-black': !overlayShowing}"
       />
-    </clickable>
 
-    <div class="inset-0 bg-black absolute transition" :class="mapTransparentOverlayClass"></div>
+      <spinner class="w-16 h-16" v-if="isLoading" />
+    </clickable>
   </div>
 </template>
 <script>
@@ -27,15 +23,17 @@ import loadGoogleMapsApi from "load-google-maps-api";
 import overlayFactory from "../functions/overlayFactory";
 
 import { mapTheme } from "../functions/ksug";
-import { clearInterval } from "timers";
 
 import clickable from "./Clickable";
 import mapIcon from "./MapIcon";
 
+import spinner from "./Spinner";
+
 export default {
   components: {
     mapIcon,
-    clickable
+    clickable,
+    spinner
   },
   props: {
     locations: Array,
@@ -48,20 +46,20 @@ export default {
       map: undefined,
       overlay: undefined,
       bounds: undefined,
-      overlayShowing: true
+      overlayShowing: false
     };
   },
   computed: {
-    mapTransparentOverlayClass({ state }) {
-      return {
-        "opacity-0": state === "default",
-        "opacity-75": state === "loading",
-        invisible: state === "default"
-      };
+    isLoading({ state }) {
+      return state === "loading";
     }
   },
   methods: {
     handleClick() {
+      if (this.isLoading) {
+        return;
+      }
+
       if (this.overlayShowing) {
         this.overlay.hide();
         this.overlayShowing = false;
@@ -161,15 +159,19 @@ export default {
         return marker;
       });
 
-      // new MarkerClusterer(this.map, this.markers, {
-      //   imagePath:
-      //     "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
-      // });
-
+      /**
+       * I'm sorry mom 😭
+       */
       this.checkImageLoadedInterval = setInterval(() => {
+        clearInterval(this.checkImageLoadedInterval);
         if (this.overlay.imageLoaded) {
           setTimeout(() => {
-            this.state = "default";
+            this.overlay.show();
+
+            setTimeout(() => {
+              this.overlayShowing = true;
+              this.state = "default";
+            }, 800);
           }, 800);
         }
       }, 800);
