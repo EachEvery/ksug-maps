@@ -1,5 +1,10 @@
 <template>
-  <div class="fixed top-0 w-full transition" :style="containerStyle" :class="containerClass">
+  <div
+    class="fixed top-0 w-full transition"
+    :style="containerStyle"
+    :class="containerClass"
+    v-click-outside="() => setState('default')"
+  >
     <div
       class="h-screen w-full absolute transition pt-24 bg-white flex flex-col justify-between pb-10"
       :class="innerClass"
@@ -21,7 +26,8 @@
     </div>
     <div
       class="bg-white text-black px-5 z-50 top-0 justify-between flex w-full h-16 relative transition"
-      :class="{'shadow-lg': isClosed}"
+      style="box-shadow: 10px -5px 8px rgba(0,0,0,.3)"
+      :style="{'box-shadow': !isOpen ? 'rgba(0, 0, 0, 0.3) 10px 4px 8px' : 'none'}"
     >
       <h1 class="uppercase font-display text-2xl leading-none self-center select-none">Mapping May 4</h1>
 
@@ -52,8 +58,12 @@ import searchIcon from "./SearchIcon";
 import menuIcon from "./MenuIcon";
 import mainMenu from "./MainMenu";
 import search from "./Search";
+import clickOutside from "vue-click-outside";
 
 export default {
+  directives: {
+    clickOutside
+  },
   props: {
     isLocation: Boolean
   },
