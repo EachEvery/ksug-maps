@@ -3649,6 +3649,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3733,7 +3736,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return location.name;
     }
   }),
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    console.log(this.location, "location");
+  }
 });
 
 /***/ }),
@@ -3784,12 +3789,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var load_google_maps_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! load-google-maps-api */ "./node_modules/load-google-maps-api/index.js");
 /* harmony import */ var load_google_maps_api__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(load_google_maps_api__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/overlayFactory */ "./resources/js/functions/overlayFactory.js");
-/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
-/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
-/* harmony import */ var _MapIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MapIcon */ "./resources/js/components/MapIcon.vue");
-/* harmony import */ var _Spinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Spinner */ "./resources/js/components/Spinner.vue");
-/* harmony import */ var _google_markerclusterer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @google/markerclusterer */ "./node_modules/@google/markerclusterer/src/markerclusterer.js");
-/* harmony import */ var _google_markerclusterer__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_google_markerclusterer__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _PlusIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PlusIcon */ "./resources/js/components/PlusIcon.vue");
+/* harmony import */ var _MinusIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MinusIcon */ "./resources/js/components/MinusIcon.vue");
+/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var _MapIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./MapIcon */ "./resources/js/components/MapIcon.vue");
+/* harmony import */ var _Spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Spinner */ "./resources/js/components/Spinner.vue");
+/* harmony import */ var _google_markerclusterer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @google/markerclusterer */ "./node_modules/@google/markerclusterer/src/markerclusterer.js");
+/* harmony import */ var _google_markerclusterer__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_google_markerclusterer__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
+/* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(timers__WEBPACK_IMPORTED_MODULE_10__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3815,6 +3824,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
@@ -3824,9 +3852,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    mapIcon: _MapIcon__WEBPACK_IMPORTED_MODULE_5__["default"],
-    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_4__["default"],
-    spinner: _Spinner__WEBPACK_IMPORTED_MODULE_6__["default"]
+    mapIcon: _MapIcon__WEBPACK_IMPORTED_MODULE_7__["default"],
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_6__["default"],
+    spinner: _Spinner__WEBPACK_IMPORTED_MODULE_8__["default"],
+    plusIcon: _PlusIcon__WEBPACK_IMPORTED_MODULE_3__["default"],
+    minusIcon: _MinusIcon__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
     locations: Array,
@@ -3839,13 +3869,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       map: undefined,
       overlay: undefined,
       bounds: undefined,
-      overlayShowing: false
+      overlayShowing: false,
+      currentZoom: 15,
+      zoomSteps: [15, 16, 17, 18],
+      zooming: false
     };
   },
   computed: {
     isLoading: function isLoading(_ref) {
       var state = _ref.state;
       return state === "loading";
+    },
+    prevZoom: function prevZoom(_ref2) {
+      var currentZoom = _ref2.currentZoom,
+          zoomSteps = _ref2.zoomSteps;
+      var index = zoomSteps.findIndex(function (s) {
+        return currentZoom;
+      });
+      console.log(index, "index");
+      var prev = zoomSteps[index - 1];
+      return prev === undefined ? zoomSteps[zoomSteps.length - 1] : prev;
+    },
+    nextZoom: function nextZoom(_ref3) {
+      var currentZoom = _ref3.currentZoom,
+          zoomSteps = _ref3.zoomSteps;
+      var index = zoomSteps.findIndex(function (s) {
+        return currentZoom;
+      });
+      console.log(index, "index");
+      var next = zoomSteps[index + 1];
+      return next === undefined ? zoomSteps[0] : next;
+    }
+  },
+  watch: {
+    currentZoom: function currentZoom() {
+      console.log(this.currentZoom, "zoom", this.nextZoom, "next zoom");
     }
   },
   methods: {
@@ -3862,34 +3920,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.overlayShowing = true;
       }
     },
+    zoom: function zoom(_zoom) {
+      var _this = this;
+
+      return new Promise(function (resolve) {
+        if (_this.map.getZoom() === _zoom || _this.zooming) {
+          resolve();
+        } else {
+          _this.zooming = true;
+
+          _this.map.setZoom(_zoom);
+
+          Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
+            _this.zooming = false;
+            resolve();
+          }, 450);
+        }
+      });
+    },
+    pan: function pan(loc) {
+      var _this2 = this;
+
+      return new Promise(function (resolve, reject) {
+        _this2.map.panTo(loc);
+
+        Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(resolve, 600);
+      });
+    },
     initMap: function () {
       var _initMap = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _this = this;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this3 = this;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.next = 2;
+                _context2.next = 2;
                 return load_google_maps_api__WEBPACK_IMPORTED_MODULE_1___default()({
                   key: "AIzaSyCyDWfVxFK11TOiLxL7geA_XaFhk6PJa8s"
                 });
 
               case 2:
-                this.googleMaps = _context.sent;
+                this.googleMaps = _context2.sent;
                 this.map = new this.googleMaps.Map(this.$refs.mapElement, {
                   center: {
                     lat: 41.15002,
                     lng: -81.348852
                   },
                   backgroundColor: "#000000",
+                  disableDoubleClickZoom: true,
                   disablePanMomentum: true,
-                  zoom: 16,
-                  minZoom: 16,
-                  maxZoom: 18,
-                  styles: _functions_ksug__WEBPACK_IMPORTED_MODULE_3__["mapTheme"],
+                  zoom: this.currentZoom,
+                  minZoom: this.zoomSteps[0],
+                  maxZoom: this.zoomSteps[this.zoomSteps - 1],
+                  styles: _functions_ksug__WEBPACK_IMPORTED_MODULE_5__["mapTheme"],
                   disableDefaultUI: true,
                   bounds: this.bounds,
                   restriction: {
@@ -3902,86 +3988,101 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     strictBounds: false
                   }
                 });
+                this.map.addListener("zoom_changed", function () {
+                  _this3.currentZoom = _this3.map.getZoom();
+                });
                 this.bounds = new this.googleMaps.LatLngBounds(new this.googleMaps.LatLng(41.1119, -81.404828), // SW CORNER 🧭
                 new this.googleMaps.LatLng(41.186267, -81.309106) // NE CORNER 🧭
                 );
-                this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2-sharp.jpg", this.map);
+                this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2-sharp-with-noise.jpg", this.map);
                 this.markers = this.locations.map(function (loc) {
-                  var marker = new _this.googleMaps.Marker({
-                    position: new _this.googleMaps.LatLng(+loc.lat, +loc["long"]),
-                    map: _this.map,
+                  var marker = new _this3.googleMaps.Marker({
+                    position: new _this3.googleMaps.LatLng(+loc.lat, +loc["long"]),
+                    map: _this3.map,
                     icon: {
                       url: "/img/marker.png",
-                      scaledSize: new _this.googleMaps.Size(41.25, 55)
+                      scaledSize: new _this3.googleMaps.Size(41.25, 55)
                     }
                   });
-                  marker.addListener("click", function () {
-                    _this.map.setZoom(17);
+                  marker.addListener("click",
+                  /*#__PURE__*/
+                  _asyncToGenerator(
+                  /*#__PURE__*/
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+                    var mapCenter, markerCenter, diffThreshold, latDiff, lngDiff;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            mapCenter = {
+                              lat: _this3.map.getCenter().lat(),
+                              lng: _this3.map.getCenter().lng()
+                            };
+                            markerCenter = {
+                              lat: marker.getPosition().lat(),
+                              lng: marker.getPosition().lng()
+                            };
+                            diffThreshold = 0.0005;
+                            latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
+                            lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
+                            /**
+                             * only pan the map if the marker that was clicked
+                             * is not centered enough, otherwise, just emit the
+                             * event right away so there's no click delay
+                             */
+                            // await this.zoom(17);
 
-                    var mapCenter = {
-                      lat: _this.map.getCenter().lat(),
-                      lng: _this.map.getCenter().lng()
-                    };
-                    var markerCenter = {
-                      lat: marker.getPosition().lat(),
-                      lng: marker.getPosition().lng()
-                    };
-                    var diffThreshold = 0.0005;
-                    var latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
-                    var lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
-                    /**
-                     * only pan the map if the marker that was clicked
-                     * is not centered enough, otherwise, just emit the
-                     * event right away so there's no click delay
-                     */
+                            if (!(latDiff > diffThreshold || lngDiff > diffThreshold)) {
+                              _context.next = 11;
+                              break;
+                            }
 
-                    if (latDiff > diffThreshold || lngDiff > diffThreshold) {
-                      _this.map.panTo(marker.getPosition());
-                      /**
-                       * Since we can't control the duration of the google maps
-                       * panning and there is no callback / promise mechanism,
-                       * we just have to hack it with a good ol fashioned timeout 😔
-                       */
+                            _context.next = 8;
+                            return _this3.pan(marker.getPosition());
 
+                          case 8:
+                            _this3.$emit("location-clicked", loc);
 
-                      setTimeout(function () {
-                        _this.$emit("location-clicked", loc);
-                      }, 600);
-                    } else {
-                      _this.$emit("location-clicked", loc);
-                    }
-                  });
+                            _context.next = 12;
+                            break;
+
+                          case 11:
+                            _this3.$emit("location-clicked", loc);
+
+                          case 12:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  })));
                   return marker;
-                }); // this.cluster = new MarkerCluster(this.map, this.markers, {
-                //   imagePath:
-                //     "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
-                // });
-
+                });
                 /**
                  * I'm sorry mom 😭
                  */
 
                 this.checkImageLoadedInterval = setInterval(function () {
-                  clearInterval(_this.checkImageLoadedInterval);
+                  clearInterval(_this3.checkImageLoadedInterval);
 
-                  if (_this.overlay.imageLoaded) {
-                    setTimeout(function () {
-                      _this.overlay.show();
+                  if (_this3.overlay.imageLoaded) {
+                    Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
+                      _this3.overlay.show();
 
-                      setTimeout(function () {
-                        _this.overlayShowing = true;
-                        _this.state = "default";
+                      Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
+                        _this3.overlayShowing = true;
+                        _this3.state = "default";
                       }, 800);
                     }, 800);
                   }
                 }, 800);
 
-              case 8:
+              case 9:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
       function initMap() {
@@ -3992,10 +4093,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }()
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this4 = this;
 
     this.$nextTick(function () {
-      _this2.initMap();
+      _this4.initMap();
     });
   }
 });
@@ -41902,24 +42003,26 @@ var render = function() {
       staticStyle: { "max-width": "45rem" }
     },
     [
-      _c(
-        "div",
-        {
-          staticClass:
-            "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0"
-        },
-        [
-          _c("img", {
-            staticClass: "h-full object-cover w-full transition",
-            class: {
-              "translate-y-full": !_vm.isPreview,
-              "md:translate-y-0": !_vm.isPreview
+      _vm.location.photo !== null
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0"
             },
-            staticStyle: { "box-shadow": "0 -10px 20px rgba(0,0,0, .5)" },
-            attrs: { src: "/img/bcb0ab7a-0f17-46d1-bb32-4339ec33adc9.jpg" }
-          })
-        ]
-      ),
+            [
+              _c("img", {
+                staticClass: "h-full object-cover w-full transition",
+                class: {
+                  "translate-y-full": !_vm.isPreview,
+                  "md:translate-y-0": !_vm.isPreview
+                },
+                staticStyle: { "box-shadow": "0 -10px 20px rgba(0,0,0, .5)" },
+                attrs: { src: _vm.location.photo }
+              })
+            ]
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "px-5 xl:px-8 md:mt-5" }, [
         _c(
@@ -42091,7 +42194,7 @@ var render = function() {
         "clickable",
         {
           staticClass:
-            "absolute bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition mb-32 md:mb-5",
+            "fixed bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition mb-5",
           class: {
             "bg-black": _vm.overlayShowing,
             "bg-white": !_vm.overlayShowing,
@@ -42111,6 +42214,43 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.isLoading ? _c("spinner", { staticClass: "w-16 h-16" }) : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "flex fixed bottom-0 right-0 mb-5 mr-5" },
+        [
+          _c(
+            "clickable",
+            {
+              staticClass:
+                "w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3",
+              on: {
+                click: function() {
+                  return _vm.zoom(_vm.prevZoom)
+                }
+              }
+            },
+            [_c("minus-icon", { staticClass: "w-5 h-5 self-center" })],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "clickable",
+            {
+              staticClass:
+                "w-12 h-12 bg-white flex justify-center text-black rounded-full shadow",
+              on: {
+                click: function() {
+                  return _vm.zoom(_vm.nextZoom)
+                }
+              }
+            },
+            [_c("plus-icon", { staticClass: "w-5 h-5 self-center" })],
+            1
+          )
         ],
         1
       )
@@ -42196,6 +42336,102 @@ var render = function() {
           fill: "currentColor"
         }
       })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MinusIcon.vue?vue&type=template&id=145942a4&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MinusIcon.vue?vue&type=template&id=145942a4& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "svg",
+    { attrs: { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 10.565 2" } },
+    [
+      _c("line", {
+        attrs: {
+          x1: "8.565",
+          transform: "translate(1 1)",
+          fill: "none",
+          stroke: "currentColor",
+          "stroke-linecap": "round",
+          "stroke-width": "2"
+        }
+      })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlusIcon.vue?vue&type=template&id=6090251e&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PlusIcon.vue?vue&type=template&id=6090251e& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "svg",
+    {
+      attrs: {
+        xmlns: "http://www.w3.org/2000/svg",
+        viewBox: "0 0 10.565 10.565"
+      }
+    },
+    [
+      _c("g", { attrs: { transform: "translate(-278.842 -521.217)" } }, [
+        _c("line", {
+          attrs: {
+            y2: "8.565",
+            transform: "translate(284.125 522.217)",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-linecap": "round",
+            "stroke-width": "2"
+          }
+        }),
+        _vm._v(" "),
+        _c("line", {
+          attrs: {
+            x1: "8.565",
+            transform: "translate(279.842 526.5)",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-linecap": "round",
+            "stroke-width": "2"
+          }
+        })
+      ])
     ]
   )
 }
@@ -42550,7 +42786,7 @@ var staticRenderFns = [
         attrs: { href: "#", target: "_blank" }
       },
       [
-        _c("span", { staticClass: "self-center text-base" }, [
+        _c("span", { staticClass: "self-center text-sm lg:text-base" }, [
           _vm._v("VISIT FULL ORAL HISTORY →")
         ])
       ]
@@ -61049,6 +61285,112 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/MinusIcon.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/MinusIcon.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MinusIcon_vue_vue_type_template_id_145942a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MinusIcon.vue?vue&type=template&id=145942a4& */ "./resources/js/components/MinusIcon.vue?vue&type=template&id=145942a4&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _MinusIcon_vue_vue_type_template_id_145942a4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MinusIcon_vue_vue_type_template_id_145942a4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/MinusIcon.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/MinusIcon.vue?vue&type=template&id=145942a4&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/MinusIcon.vue?vue&type=template&id=145942a4& ***!
+  \******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MinusIcon_vue_vue_type_template_id_145942a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./MinusIcon.vue?vue&type=template&id=145942a4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MinusIcon.vue?vue&type=template&id=145942a4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MinusIcon_vue_vue_type_template_id_145942a4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MinusIcon_vue_vue_type_template_id_145942a4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PlusIcon.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/PlusIcon.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PlusIcon_vue_vue_type_template_id_6090251e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PlusIcon.vue?vue&type=template&id=6090251e& */ "./resources/js/components/PlusIcon.vue?vue&type=template&id=6090251e&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _PlusIcon_vue_vue_type_template_id_6090251e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PlusIcon_vue_vue_type_template_id_6090251e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PlusIcon.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PlusIcon.vue?vue&type=template&id=6090251e&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/PlusIcon.vue?vue&type=template&id=6090251e& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlusIcon_vue_vue_type_template_id_6090251e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PlusIcon.vue?vue&type=template&id=6090251e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlusIcon.vue?vue&type=template&id=6090251e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlusIcon_vue_vue_type_template_id_6090251e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlusIcon_vue_vue_type_template_id_6090251e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/QuoteIcon.vue":
 /*!***********************************************!*\
   !*** ./resources/js/components/QuoteIcon.vue ***!
@@ -61540,6 +61882,8 @@ var mapStoriesToLocations = function mapStoriesToLocations(stories) {
       stories: locationStories,
       lat: locationStories[0].lat,
       "long": locationStories[0]["long"],
+      photo: locationStories[0].photo,
+      caption: locationStories[0].photo_caption,
       slug: slugify__WEBPACK_IMPORTED_MODULE_0___default()(location, {
         remove: /['()]/g
       }).toLowerCase()
@@ -61757,6 +62101,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
         img.style.width = "100%";
         img.style.height = "100%";
         img.style.position = "absolute";
+        img.style.filter = "brightness(80%)";
         div.appendChild(img);
         this.div_ = div;
         var panes = this.getPanes();

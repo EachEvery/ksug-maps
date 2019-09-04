@@ -36,7 +36,7 @@ export default (googleMaps, bounds, image, map) => {
             img.style.width = "100%";
             img.style.height = "100%";
             img.style.position = "absolute";
-
+            img.style.filter = "brightness(80%)";
             div.appendChild(img);
             this.div_ = div;
 

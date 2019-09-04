@@ -3,7 +3,7 @@
     <div id="map" ref="mapElement" class="w-full h-screen relative transition bg-gray-darkest hide"></div>
 
     <clickable
-      class="absolute bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition mb-32 md:mb-5"
+      class="fixed bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition mb-5"
       :class="{'bg-black': overlayShowing, 'bg-white': !overlayShowing, 'opacity-0': !showOverlayButton}"
       @click="handleClick"
     >
@@ -15,12 +15,29 @@
 
       <spinner class="w-16 h-16" v-if="isLoading" />
     </clickable>
+
+    <div class="flex fixed bottom-0 right-0 mb-5 mr-5">
+      <clickable
+        class="w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3"
+        @click="() => zoom(prevZoom)"
+      >
+        <minus-icon class="w-5 h-5 self-center" />
+      </clickable>
+
+      <clickable
+        class="w-12 h-12 bg-white flex justify-center text-black rounded-full shadow"
+        @click="() => zoom(nextZoom)"
+      >
+        <plus-icon class="w-5 h-5 self-center" />
+      </clickable>
+    </div>
   </div>
 </template>
 <script>
 import loadGoogleMapsApi from "load-google-maps-api";
-
 import overlayFactory from "../functions/overlayFactory";
+import plusIcon from "./PlusIcon";
+import minusIcon from "./MinusIcon";
 
 import { mapTheme } from "../functions/ksug";
 
@@ -29,12 +46,15 @@ import mapIcon from "./MapIcon";
 
 import spinner from "./Spinner";
 import MarkerCluster from "@google/markerclusterer";
+import { setTimeout } from "timers";
 
 export default {
   components: {
     mapIcon,
     clickable,
-    spinner
+    spinner,
+    plusIcon,
+    minusIcon
   },
   props: {
     locations: Array,
@@ -47,12 +67,36 @@ export default {
       map: undefined,
       overlay: undefined,
       bounds: undefined,
-      overlayShowing: false
+      overlayShowing: false,
+      currentZoom: 15,
+      zoomSteps: [15, 16, 17, 18],
+      zooming: false
     };
   },
   computed: {
     isLoading({ state }) {
       return state === "loading";
+    },
+
+    prevZoom({ currentZoom, zoomSteps }) {
+      let index = zoomSteps.findIndex(s => currentZoom);
+      console.log(index, "index");
+      let prev = zoomSteps[index - 1];
+
+      return prev === undefined ? zoomSteps[zoomSteps.length - 1] : prev;
+    },
+
+    nextZoom({ currentZoom, zoomSteps }) {
+      let index = zoomSteps.findIndex(s => currentZoom);
+      console.log(index, "index");
+      let next = zoomSteps[index + 1];
+
+      return next === undefined ? zoomSteps[0] : next;
+    }
+  },
+  watch: {
+    currentZoom: function() {
+      console.log(this.currentZoom, "zoom", this.nextZoom, "next zoom");
     }
   },
   methods: {
@@ -69,7 +113,28 @@ export default {
         this.overlayShowing = true;
       }
     },
+    zoom(zoom) {
+      return new Promise(resolve => {
+        if (this.map.getZoom() === zoom || this.zooming) {
+          resolve();
+        } else {
+          this.zooming = true;
+          this.map.setZoom(zoom);
 
+          setTimeout(() => {
+            this.zooming = false;
+            resolve();
+          }, 450);
+        }
+      });
+    },
+    pan(loc) {
+      return new Promise((resolve, reject) => {
+        this.map.panTo(loc);
+
+        setTimeout(resolve, 600);
+      });
+    },
     async initMap() {
       this.googleMaps = await loadGoogleMapsApi({
         key: process.env.MIX_GOOGLE_MAPS_JS_API_KEY
@@ -78,10 +143,11 @@ export default {
       this.map = new this.googleMaps.Map(this.$refs.mapElement, {
         center: { lat: 41.15002, lng: -81.348852 },
         backgroundColor: "#000000",
+        disableDoubleClickZoom: true,
         disablePanMomentum: true,
-        zoom: 16,
-        minZoom: 16,
-        maxZoom: 18,
+        zoom: this.currentZoom,
+        minZoom: this.zoomSteps[0],
+        maxZoom: this.zoomSteps[this.zoomSteps - 1],
         styles: mapTheme,
         disableDefaultUI: true,
         bounds: this.bounds,
@@ -94,6 +160,10 @@ export default {
           },
           strictBounds: false
         }
+      });
+
+      this.map.addListener("zoom_changed", () => {
+        this.currentZoom = this.map.getZoom();
       });
 
       this.bounds = new this.googleMaps.LatLngBounds(
@@ -118,9 +188,7 @@ export default {
           }
         });
 
-        marker.addListener("click", () => {
-          this.map.setZoom(17);
-
+        marker.addListener("click", async () => {
           let mapCenter = {
             lat: this.map.getCenter().lat(),
             lng: this.map.getCenter().lng()
@@ -130,6 +198,7 @@ export default {
             lat: marker.getPosition().lat(),
             lng: marker.getPosition().lng()
           };
+
           let diffThreshold = 0.0005;
           let latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
           let lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
@@ -139,17 +208,13 @@ export default {
            * is not centered enough, otherwise, just emit the
            * event right away so there's no click delay
            */
-          if (latDiff > diffThreshold || lngDiff > diffThreshold) {
-            this.map.panTo(marker.getPosition());
 
-            /**
-             * Since we can't control the duration of the google maps
-             * panning and there is no callback / promise mechanism,
-             * we just have to hack it with a good ol fashioned timeout 😔
-             */
-            setTimeout(() => {
-              this.$emit(`location-clicked`, loc);
-            }, 600);
+          // await this.zoom(17);
+
+          if (latDiff > diffThreshold || lngDiff > diffThreshold) {
+            await this.pan(marker.getPosition());
+
+            this.$emit(`location-clicked`, loc);
           } else {
             this.$emit("location-clicked", loc);
           }
@@ -157,11 +222,6 @@ export default {
 
         return marker;
       });
-
-      // this.cluster = new MarkerCluster(this.map, this.markers, {
-      //   imagePath:
-      //     "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
-      // });
 
       /**
        * I'm sorry mom 😭

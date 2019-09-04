@@ -6,10 +6,11 @@
     style="max-width: 45rem"
   >
     <div
+      v-if="location.photo !== null"
       class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0"
     >
       <img
-        src="/img/bcb0ab7a-0f17-46d1-bb32-4339ec33adc9.jpg"
+        :src="location.photo"
         class="h-full object-cover w-full transition"
         style="box-shadow: 0 -10px 20px rgba(0,0,0, .5)"
         :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
@@ -34,6 +35,7 @@
       class="flex overflow-auto flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4"
     >
       <div class="w-5 md:hidden" style="flex: 0 0 auto;"></div>
+
       <story-card
         :story="story"
         v-for="(story, i) in locationStories"
@@ -43,6 +45,7 @@
         :class="{'xl:mt-24': isEven(i), 'xl:-mt-32': !isEven(i) && i > 0}"
         style="max-height: 25rem"
       />
+
       <div class="w-1 md:hidden" style="flex: 0 0 auto;"></div>
     </div>
   </div>
@@ -124,7 +127,9 @@ export default {
       return location.name;
     }
   },
-  mounted() {}
+  mounted() {
+    console.log(this.location, "location");
+  }
 };
 </script>
 

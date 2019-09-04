@@ -19,6 +19,7 @@ class CreateStoriesTable extends Migration
             $table->string('location')->nullable();
             $table->longText('content')->nullable();
             $table->string('photo')->nullable();
+            $table->string('photo_caption')->nullable();
             $table->string('audio_file')->nullable();
             $table->string('lat')->nullable();
             $table->string('long')->nullable();

@@ -20,7 +20,7 @@
     <p v-html="story.content" class="leading-loose"></p>
 
     <a href="#" class="font-bold w-full h-16 flex justify-center bg-white mt-16" target="_blank">
-      <span class="self-center text-base">VISIT FULL ORAL HISTORY →</span>
+      <span class="self-center text-sm lg:text-base">VISIT FULL ORAL HISTORY →</span>
     </a>
 
     <clickable @click="closeStory" class="fixed top-0 right-0 shadow-lg rounded-full mr-5 mt-5">

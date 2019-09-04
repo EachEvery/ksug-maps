@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Axios from "axios";
 import Vuex from "vuex";
+
 Vue.use(Vuex);
 
 import { unique, filled } from "./functions/helpers";
