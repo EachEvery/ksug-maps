@@ -3905,7 +3905,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.bounds = new this.googleMaps.LatLngBounds(new this.googleMaps.LatLng(41.1119, -81.404828), // SW CORNER 🧭
                 new this.googleMaps.LatLng(41.186267, -81.309106) // NE CORNER 🧭
                 );
-                this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2.jpg", this.map);
+                this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2-sharp.jpg", this.map);
                 this.markers = this.locations.map(function (loc) {
                   var marker = new _this.googleMaps.Marker({
                     position: new _this.googleMaps.LatLng(+loc.lat, +loc["long"]),
