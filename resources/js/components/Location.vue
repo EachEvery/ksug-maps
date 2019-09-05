@@ -7,13 +7,15 @@
   >
     <div
       v-if="location.photo !== null"
-      class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0"
+      class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0 bg-gray-300"
     >
       <img
         :src="location.photo"
         class="h-full object-cover w-full transition"
-        style="box-shadow: 0 -10px 20px rgba(0,0,0, .5)"
-        :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
+        style="box-shadow: 0 -10px 20px rgba(0,0,0, .5);"
+        @load="handleImageLoad"
+        :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview, 'opacity-0': state === 'default'}"
+        :style="{transform: state === 'loaded' ? 'scale(1.05)' : 'none'}"
       />
     </div>
 
@@ -38,7 +40,7 @@
 
       <story-card
         :story="story"
-        v-for="(story, i) in locationStories"
+        v-for="(story, i) in location.stories"
         :key="story.id"
         class="mr-4 md:mr-0 w-72 md:w-full h-48vh md:mb-5 xl:mb-10 flex-retain"
         :style="{color: story.color}"
@@ -80,6 +82,9 @@ export default {
     },
     goBack() {
       this.$router.push("/");
+    },
+    handleImageLoad() {
+      this.state = "loaded";
     }
   },
   computed: {
@@ -98,9 +103,7 @@ export default {
     location({ locations }) {
       return locations.find(item => item.slug === this.$route.params.location);
     },
-    locationStories({ stories }) {
-      return stories.filter(s => s.location === this.location.name);
-    },
+
     isPreview() {
       return this.$route.name === "preview";
     },
@@ -126,9 +129,6 @@ export default {
 
       return location.name;
     }
-  },
-  mounted() {
-    console.log(this.location, "location");
   }
 };
 </script>

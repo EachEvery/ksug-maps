@@ -3638,6 +3638,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -3663,6 +3665,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     goBack: function goBack() {
       this.$router.push("/");
+    },
+    handleImageLoad: function handleImageLoad() {
+      this.state = "loaded";
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["locations"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["stories"]), {
@@ -3684,26 +3689,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return item.slug === _this.$route.params.location;
       });
     },
-    locationStories: function locationStories(_ref4) {
-      var _this2 = this;
-
-      var stories = _ref4.stories;
-      return stories.filter(function (s) {
-        return s.location === _this2.location.name;
-      });
-    },
     isPreview: function isPreview() {
       return this.$route.name === "preview";
     },
-    containerClass: function containerClass(_ref5) {
-      var isPreview = _ref5.isPreview;
+    containerClass: function containerClass(_ref4) {
+      var isPreview = _ref4.isPreview;
       return {
         "md:translate-y-0": isPreview,
         "translate-location-preview": isPreview
       };
     },
-    storyCount: function storyCount(_ref6) {
-      var location = _ref6.location;
+    storyCount: function storyCount(_ref5) {
+      var location = _ref5.location;
 
       if (location.stories.length > 1) {
         return "".concat(location.stories.length, " stories");
@@ -3711,8 +3708,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return "1 story";
     },
-    locationHtml: function locationHtml(_ref7) {
-      var location = _ref7.location;
+    locationHtml: function locationHtml(_ref6) {
+      var location = _ref6.location;
       var words = location.name.split(" ");
 
       if (words.length > 1) {
@@ -3721,10 +3718,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return location.name;
     }
-  }),
-  mounted: function mounted() {
-    console.log(this.location, "location");
-  }
+  })
 });
 
 /***/ }),
@@ -42028,17 +42022,22 @@ var render = function() {
             "div",
             {
               staticClass:
-                "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0"
+                "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0 bg-gray-300"
             },
             [
               _c("img", {
                 staticClass: "h-full object-cover w-full transition",
                 class: {
                   "translate-y-full": !_vm.isPreview,
-                  "md:translate-y-0": !_vm.isPreview
+                  "md:translate-y-0": !_vm.isPreview,
+                  "opacity-0": _vm.state === "default"
                 },
                 staticStyle: { "box-shadow": "0 -10px 20px rgba(0,0,0, .5)" },
-                attrs: { src: _vm.location.photo }
+                style: {
+                  transform: _vm.state === "loaded" ? "scale(1.05)" : "none"
+                },
+                attrs: { src: _vm.location.photo },
+                on: { load: _vm.handleImageLoad }
               })
             ]
           )
@@ -42092,7 +42091,7 @@ var render = function() {
             staticStyle: { flex: "0 0 auto" }
           }),
           _vm._v(" "),
-          _vm._l(_vm.locationStories, function(story, i) {
+          _vm._l(_vm.location.stories, function(story, i) {
             return _c("story-card", {
               key: story.id,
               staticClass:
@@ -61950,18 +61949,15 @@ var mapStories = function mapStories(stories) {
   });
 };
 var getStoryColor = function getStoryColor(story) {
-  try {
-    return {
-      "KSU Student": "#C6D6BD",
-      Resident: "#F0A38C",
-      "National Guard": "#C6C1CE",
-      "High School Student": "#C9D9E0",
-      "KSU Staff": "#F4EAE2",
-      "KSU Faculty": "#D8C6BF"
-    }[story.role];
-  } catch (e) {
-    return "#C6D6BD";
-  }
+  var color = {
+    Student: "#C6D6BD",
+    Resident: "#F0A38C",
+    "National Guardsman": "#C6C1CE",
+    "University School Student": "#C9D9E0",
+    Professor: "#F4EAE2",
+    Faculty: "#D8C6BF"
+  }[story.role];
+  return color === undefined ? "#C6D6BD" : color;
 };
 var mapTheme = [{
   featureType: "all",

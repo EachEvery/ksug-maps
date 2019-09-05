@@ -26,18 +26,16 @@ export const mapStories = stories => {
 };
 
 export const getStoryColor = story => {
-    try {
-        return {
-            "KSU Student": "#C6D6BD",
-            Resident: "#F0A38C",
-            "National Guard": "#C6C1CE",
-            "High School Student": "#C9D9E0",
-            "KSU Staff": "#F4EAE2",
-            "KSU Faculty": "#D8C6BF"
-        }[story.role];
-    } catch (e) {
-        return "#C6D6BD";
-    }
+    let color = {
+        Student: "#C6D6BD",
+        Resident: "#F0A38C",
+        "National Guardsman": "#C6C1CE",
+        "University School Student": "#C9D9E0",
+        Professor: "#F4EAE2",
+        Faculty: "#D8C6BF"
+    }[story.role];
+
+    return color === undefined ? "#C6D6BD" : color;
 };
 
 export const mapTheme = [
