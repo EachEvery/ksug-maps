@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use TANIOS\Airtable\Airtable;
 use GuzzleHttp\Client as Guzzle;
 use KSUGMap\Story;
+use KSUGMap\Place;
 
 class ImportStories extends Seeder
 {
@@ -23,16 +24,20 @@ class ImportStories extends Seeder
         $data = collect($response['records'])->pluck('fields');
 
         $data->map(function ($item) {
-            return Story::create([
-                'day' => @$item->{'Date of Story'},
-                'content' => @$item->{'Story'},
-                'location' => @$item->{'Place '},
-                'subject' => @$item->{'Name'},
-                'role' => collect(['KSU Student', 'Resident', 'National Guard', 'High School Student', 'KSU Staff', 'KSU Faculty'])->random(),
+            $place = Place::firstOrCreate([
+                'name' => @$item->{'Place '},
                 'lat' => @$item->{'Latitude'},
                 'long' => @$item->{'Longitude'},
                 'photo' => @$item->{'photo'},
                 'photo_caption' => @$item->{'photo caption '},
+            ]);
+
+            return Story::create([
+                'day' => @$item->{'Date of Story'},
+                'content' => @$item->{'Story'},
+                'place_id' => $place->id,
+                'subject' => @$item->{'Name'},
+                'role' => @$item->{'Role'},
             ]);
         });
     }

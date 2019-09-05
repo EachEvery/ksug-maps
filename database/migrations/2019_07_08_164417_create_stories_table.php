@@ -16,13 +16,8 @@ class CreateStoriesTable extends Migration
             $table->string('subject')->nullable();
             $table->string('role')->nullable();
             $table->string('day')->nullable();
-            $table->string('location')->nullable();
+            $table->unsignedInteger('place_id')->nullable();
             $table->longText('content')->nullable();
-            $table->string('photo')->nullable();
-            $table->string('photo_caption')->nullable();
-            $table->string('audio_file')->nullable();
-            $table->string('lat')->nullable();
-            $table->string('long')->nullable();
             $table->timestamps();
         });
     }

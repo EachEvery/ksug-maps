@@ -1,18 +1,15 @@
 import getSlug from "slugify";
 
 export const mapStoriesToLocations = stories => {
-    return [...new Set(stories.map(story => story.location))].map(location => {
+    return [...new Set(stories.map(story => story.place))].map(location => {
         let locationStories = stories.filter(
-            item => item.location === location
+            item => +item.place_id === +location.id
         );
+
         return {
-            name: location,
+            ...location,
             stories: locationStories,
-            lat: locationStories[0].lat,
-            long: locationStories[0].long,
-            photo: locationStories[0].photo,
-            caption: locationStories[0].photo_caption,
-            slug: getSlug(location, {
+            slug: getSlug(location.name, {
                 remove: /['()]/g
             }).toLowerCase()
         };

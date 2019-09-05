@@ -61929,22 +61929,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var mapStoriesToLocations = function mapStoriesToLocations(stories) {
   return _toConsumableArray(new Set(stories.map(function (story) {
-    return story.location;
+    return story.place;
   }))).map(function (location) {
     var locationStories = stories.filter(function (item) {
-      return item.location === location;
+      return +item.place_id === +location.id;
     });
-    return {
-      name: location,
+    return _objectSpread({}, location, {
       stories: locationStories,
-      lat: locationStories[0].lat,
-      "long": locationStories[0]["long"],
-      photo: locationStories[0].photo,
-      caption: locationStories[0].photo_caption,
-      slug: slugify__WEBPACK_IMPORTED_MODULE_0___default()(location, {
+      slug: slugify__WEBPACK_IMPORTED_MODULE_0___default()(location.name, {
         remove: /['()]/g
       }).toLowerCase()
-    };
+    });
   });
 };
 var mapStories = function mapStories(stories) {
