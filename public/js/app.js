@@ -3236,8 +3236,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 
@@ -3270,33 +3268,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["locations"]), {
-    shouldFadeMap: function shouldFadeMap(_ref) {
+    isLocation: function isLocation(_ref) {
       var $route = _ref.$route;
       return ["location", "preview", "story"].includes($route.name);
     },
-    overlayClass: function overlayClass(_ref2) {
-      var shouldFadeMap = _ref2.shouldFadeMap;
-      return {
-        "opacity-50": shouldFadeMap,
-        "opacity-0": !shouldFadeMap,
-        invisible: !shouldFadeMap
-      };
-    },
-    ready: function ready(_ref3) {
-      var stories = _ref3.stories;
+    ready: function ready(_ref2) {
+      var stories = _ref2.stories;
       return stories.length > 0;
     },
-    imageLoaded: function imageLoaded(_ref4) {
-      var state = _ref4.state;
+    imageLoaded: function imageLoaded(_ref3) {
+      var state = _ref3.state;
       return state === "imageLoaded";
     },
-    isLocation: function isLocation(_ref5) {
-      var $route = _ref5.$route;
-      return $route.name === "location" || $route.name === "preview" || $route.name === "story";
-    },
-    mapClass: function mapClass(_ref6) {
-      var imageLoaded = _ref6.imageLoaded,
-          isLocation = _ref6.isLocation;
+    mapClass: function mapClass(_ref4) {
+      var imageLoaded = _ref4.imageLoaded,
+          isLocation = _ref4.isLocation;
       return {
         invisible: !imageLoaded,
         "opacity-0": !imageLoaded,
@@ -3840,6 +3826,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3860,7 +3862,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   props: {
     locations: Array,
-    showOverlayButton: Boolean
+    showOverlayButton: Boolean,
+    isLocation: Boolean
   },
   data: function data() {
     return {
@@ -3872,38 +3875,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       overlayShowing: false,
       currentZoom: 15,
       zoomSteps: [15, 16, 17, 18],
-      zooming: false
+      zooming: false,
+      maxZoom: 18,
+      minZoom: 15
     };
   },
   computed: {
-    isLoading: function isLoading(_ref) {
-      var state = _ref.state;
+    activeMarkerIndicatorClass: function activeMarkerIndicatorClass(_ref) {
+      var isLocation = _ref.isLocation;
+      return {
+        "opacity-0": !isLocation,
+        invisible: !isLocation
+      };
+    },
+    overlayClass: function overlayClass(_ref2) {
+      var isLocation = _ref2.isLocation;
+      return {
+        "opacity-50": isLocation,
+        "opacity-0": !isLocation,
+        invisible: !isLocation
+      };
+    },
+    isLoading: function isLoading(_ref3) {
+      var state = _ref3.state;
       return state === "loading";
     },
-    prevZoom: function prevZoom(_ref2) {
-      var currentZoom = _ref2.currentZoom,
-          zoomSteps = _ref2.zoomSteps;
+    prevZoom: function prevZoom(_ref4) {
+      var currentZoom = _ref4.currentZoom,
+          zoomSteps = _ref4.zoomSteps;
       var index = zoomSteps.findIndex(function (s) {
-        return currentZoom;
+        return currentZoom === s;
       });
-      console.log(index, "index");
       var prev = zoomSteps[index - 1];
-      return prev === undefined ? zoomSteps[zoomSteps.length - 1] : prev;
+      return prev === undefined ? zoomSteps[0] : prev;
     },
-    nextZoom: function nextZoom(_ref3) {
-      var currentZoom = _ref3.currentZoom,
-          zoomSteps = _ref3.zoomSteps;
+    nextZoom: function nextZoom(_ref5) {
+      var currentZoom = _ref5.currentZoom,
+          zoomSteps = _ref5.zoomSteps;
       var index = zoomSteps.findIndex(function (s) {
-        return currentZoom;
+        return currentZoom === s;
       });
-      console.log(index, "index");
       var next = zoomSteps[index + 1];
-      return next === undefined ? zoomSteps[0] : next;
+      return next === undefined ? zoomSteps[zoomSteps.length - 1] : next;
     }
   },
   watch: {
     currentZoom: function currentZoom() {
-      console.log(this.currentZoom, "zoom", this.nextZoom, "next zoom");
+      var _this = this;
+
+      this.$nextTick(function () {
+        console.log(_this.currentZoom, "current zoom", _this.nextZoom, "next zoom");
+      });
     }
   },
   methods: {
@@ -3921,37 +3943,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     zoom: function zoom(_zoom) {
-      var _this = this;
+      var _this2 = this;
 
       return new Promise(function (resolve) {
-        if (_this.map.getZoom() === _zoom || _this.zooming) {
+        if (_this2.map.getZoom() === _zoom || _this2.zooming) {
           resolve();
         } else {
-          _this.zooming = true;
+          _this2.zooming = true;
 
-          _this.map.setZoom(_zoom);
+          _this2.map.setZoom(_zoom);
 
           Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-            _this.zooming = false;
+            _this2.zooming = false;
             resolve();
           }, 450);
         }
       });
     },
     pan: function pan(loc) {
-      var _this2 = this;
+      var _this3 = this;
 
       return new Promise(function (resolve, reject) {
-        _this2.map.panTo(loc);
+        _this3.map.panTo(loc);
 
-        Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(resolve, 600);
+        Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(resolve, 500);
       });
     },
     initMap: function () {
       var _initMap = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _this3 = this;
+        var _this4 = this;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
@@ -3989,19 +4011,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
                 this.map.addListener("zoom_changed", function () {
-                  _this3.currentZoom = _this3.map.getZoom();
+                  _this4.currentZoom = _this4.map.getZoom();
                 });
                 this.bounds = new this.googleMaps.LatLngBounds(new this.googleMaps.LatLng(41.1119, -81.404828), // SW CORNER 🧭
                 new this.googleMaps.LatLng(41.186267, -81.309106) // NE CORNER 🧭
                 );
                 this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2-sharp-with-noise.jpg", this.map);
                 this.markers = this.locations.map(function (loc) {
-                  var marker = new _this3.googleMaps.Marker({
-                    position: new _this3.googleMaps.LatLng(+loc.lat, +loc["long"]),
-                    map: _this3.map,
+                  var marker = new _this4.googleMaps.Marker({
+                    position: new _this4.googleMaps.LatLng(+loc.lat, +loc["long"]),
+                    map: _this4.map,
                     icon: {
                       url: "/img/marker.png",
-                      scaledSize: new _this3.googleMaps.Size(41.25, 55)
+                      scaledSize: new _this4.googleMaps.Size(41.25, 55)
                     }
                   });
                   marker.addListener("click",
@@ -4015,14 +4037,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         switch (_context.prev = _context.next) {
                           case 0:
                             mapCenter = {
-                              lat: _this3.map.getCenter().lat(),
-                              lng: _this3.map.getCenter().lng()
+                              lat: _this4.map.getCenter().lat(),
+                              lng: _this4.map.getCenter().lng()
                             };
                             markerCenter = {
                               lat: marker.getPosition().lat(),
                               lng: marker.getPosition().lng()
                             };
-                            diffThreshold = 0.0005;
+                            diffThreshold = 0.0;
                             latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
                             lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
                             /**
@@ -4030,26 +4052,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                              * is not centered enough, otherwise, just emit the
                              * event right away so there's no click delay
                              */
-                            // await this.zoom(17);
 
+                            _context.next = 7;
+                            return _this4.zoom(17);
+
+                          case 7:
                             if (!(latDiff > diffThreshold || lngDiff > diffThreshold)) {
-                              _context.next = 11;
+                              _context.next = 13;
                               break;
                             }
 
-                            _context.next = 8;
-                            return _this3.pan(marker.getPosition());
+                            _context.next = 10;
+                            return _this4.pan(marker.getPosition());
 
-                          case 8:
-                            _this3.$emit("location-clicked", loc);
+                          case 10:
+                            _this4.$emit("location-clicked", loc);
 
-                            _context.next = 12;
+                            _context.next = 14;
                             break;
 
-                          case 11:
-                            _this3.$emit("location-clicked", loc);
+                          case 13:
+                            _this4.$emit("location-clicked", loc);
 
-                          case 12:
+                          case 14:
                           case "end":
                             return _context.stop();
                         }
@@ -4063,15 +4088,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                  */
 
                 this.checkImageLoadedInterval = setInterval(function () {
-                  clearInterval(_this3.checkImageLoadedInterval);
+                  clearInterval(_this4.checkImageLoadedInterval);
 
-                  if (_this3.overlay.imageLoaded) {
+                  if (_this4.overlay.imageLoaded) {
                     Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                      _this3.overlay.show();
+                      _this4.overlay.show();
 
                       Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                        _this3.overlayShowing = true;
-                        _this3.state = "default";
+                        _this4.overlayShowing = true;
+                        _this4.state = "default";
                       }, 800);
                     }, 800);
                   }
@@ -4093,10 +4118,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }()
   },
   mounted: function mounted() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.$nextTick(function () {
-      _this4.initMap();
+      _this5.initMap();
     });
   }
 });
@@ -41385,11 +41410,6 @@ var render = function() {
                   "is-location": _vm.isLocation
                 },
                 on: { "location-clicked": _vm.handleLocationClicked }
-              }),
-              _vm._v(" "),
-              _c("div", {
-                staticClass: "absolute inset-0 bg-black transition",
-                class: _vm.overlayClass
               })
             ],
             1
@@ -42190,6 +42210,21 @@ var render = function() {
         attrs: { id: "map" }
       }),
       _vm._v(" "),
+      _c("div", {
+        staticClass: "absolute inset-0 bg-black transition",
+        class: _vm.overlayClass
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "absolute inset-0 flex justify-center transition",
+          class: _vm.activeMarkerIndicatorClass,
+          staticStyle: { "margin-top": "-3.5rem" }
+        },
+        [_vm._m(0)]
+      ),
+      _vm._v(" "),
       _c(
         "clickable",
         {
@@ -42226,7 +42261,8 @@ var render = function() {
             "clickable",
             {
               staticClass:
-                "w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3",
+                "transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3",
+              class: { "opacity-25": _vm.prevZoom === _vm.currentZoom },
               on: {
                 click: function() {
                   return _vm.zoom(_vm.prevZoom)
@@ -42241,7 +42277,8 @@ var render = function() {
             "clickable",
             {
               staticClass:
-                "w-12 h-12 bg-white flex justify-center text-black rounded-full shadow",
+                "transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow",
+              class: { "opacity-25": _vm.nextZoom === _vm.currentZoom },
               on: {
                 click: function() {
                   return _vm.zoom(_vm.nextZoom)
@@ -42258,7 +42295,27 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "w-24 h-24 rounded-full border-2 border-dashed border-white self-center flex justify-center"
+      },
+      [
+        _c("img", {
+          staticClass: "self-center",
+          staticStyle: { width: "41.25px", height: "55px" },
+          attrs: { src: "/img/marker.png" }
+        })
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -62326,8 +62383,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/vulcan/Source 🔋/maps/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/vulcan/Source 🔋/maps/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/nate/projects/valet/maps/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/nate/projects/valet/maps/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

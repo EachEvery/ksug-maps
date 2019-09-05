@@ -2,6 +2,20 @@
   <div class="relative w-full h-screen bg-gray-dark">
     <div id="map" ref="mapElement" class="w-full h-screen relative transition bg-gray-darkest hide"></div>
 
+    <div class="absolute inset-0 bg-black transition" :class="overlayClass"></div>
+
+    <div
+      class="absolute inset-0 flex justify-center transition"
+      style="margin-top: -3.5rem"
+      :class="activeMarkerIndicatorClass"
+    >
+      <div
+        class="w-24 h-24 rounded-full border-2 border-dashed border-white self-center flex justify-center"
+      >
+        <img src="/img/marker.png" style="width: 41.25px; height: 55px;" class="self-center" />
+      </div>
+    </div>
+
     <clickable
       class="fixed bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition mb-5"
       :class="{'bg-black': overlayShowing, 'bg-white': !overlayShowing, 'opacity-0': !showOverlayButton}"
@@ -18,14 +32,16 @@
 
     <div class="flex fixed bottom-0 right-0 mb-5 mr-5">
       <clickable
-        class="w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3"
+        class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3"
+        :class="{'opacity-25':prevZoom === currentZoom}"
         @click="() => zoom(prevZoom)"
       >
         <minus-icon class="w-5 h-5 self-center" />
       </clickable>
 
       <clickable
-        class="w-12 h-12 bg-white flex justify-center text-black rounded-full shadow"
+        class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow"
+        :class="{'opacity-25':nextZoom === currentZoom}"
         @click="() => zoom(nextZoom)"
       >
         <plus-icon class="w-5 h-5 self-center" />
@@ -58,7 +74,8 @@ export default {
   },
   props: {
     locations: Array,
-    showOverlayButton: Boolean
+    showOverlayButton: Boolean,
+    isLocation: Boolean
   },
   data() {
     return {
@@ -70,33 +87,54 @@ export default {
       overlayShowing: false,
       currentZoom: 15,
       zoomSteps: [15, 16, 17, 18],
-      zooming: false
+      zooming: false,
+      maxZoom: 18,
+      minZoom: 15
     };
   },
   computed: {
+    activeMarkerIndicatorClass({ isLocation }) {
+      return {
+        "opacity-0": !isLocation,
+        invisible: !isLocation
+      };
+    },
+    overlayClass({ isLocation }) {
+      return {
+        "opacity-50": isLocation,
+        "opacity-0": !isLocation,
+        invisible: !isLocation
+      };
+    },
+
     isLoading({ state }) {
       return state === "loading";
     },
 
     prevZoom({ currentZoom, zoomSteps }) {
-      let index = zoomSteps.findIndex(s => currentZoom);
-      console.log(index, "index");
+      let index = zoomSteps.findIndex(s => currentZoom === s);
       let prev = zoomSteps[index - 1];
 
-      return prev === undefined ? zoomSteps[zoomSteps.length - 1] : prev;
+      return prev === undefined ? zoomSteps[0] : prev;
     },
 
     nextZoom({ currentZoom, zoomSteps }) {
-      let index = zoomSteps.findIndex(s => currentZoom);
-      console.log(index, "index");
+      let index = zoomSteps.findIndex(s => currentZoom === s);
       let next = zoomSteps[index + 1];
 
-      return next === undefined ? zoomSteps[0] : next;
+      return next === undefined ? zoomSteps[zoomSteps.length - 1] : next;
     }
   },
   watch: {
     currentZoom: function() {
-      console.log(this.currentZoom, "zoom", this.nextZoom, "next zoom");
+      this.$nextTick(() => {
+        console.log(
+          this.currentZoom,
+          "current zoom",
+          this.nextZoom,
+          "next zoom"
+        );
+      });
     }
   },
   methods: {
@@ -132,7 +170,7 @@ export default {
       return new Promise((resolve, reject) => {
         this.map.panTo(loc);
 
-        setTimeout(resolve, 600);
+        setTimeout(resolve, 500);
       });
     },
     async initMap() {
@@ -199,7 +237,7 @@ export default {
             lng: marker.getPosition().lng()
           };
 
-          let diffThreshold = 0.0005;
+          let diffThreshold = 0.0;
           let latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
           let lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
 
@@ -209,7 +247,7 @@ export default {
            * event right away so there's no click delay
            */
 
-          // await this.zoom(17);
+          await this.zoom(17);
 
           if (latDiff > diffThreshold || lngDiff > diffThreshold) {
             await this.pan(marker.getPosition());

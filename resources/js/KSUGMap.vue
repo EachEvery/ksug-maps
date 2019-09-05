@@ -9,8 +9,6 @@
         :class="{'-translate-y-5': isLocation, 'md:-translate-x-10': isLocation}"
         class="transition"
       />
-
-      <div class="absolute inset-0 bg-black transition" :class="overlayClass"></div>
     </div>
 
     <global-header :is-location="isLocation" />
@@ -64,29 +62,17 @@ export default {
   computed: {
     ...mapState(["stories"]),
     ...mapGetters(["locations"]),
-    shouldFadeMap({ $route }) {
+    isLocation({ $route }) {
       return ["location", "preview", "story"].includes($route.name);
     },
-    overlayClass({ shouldFadeMap }) {
-      return {
-        "opacity-50": shouldFadeMap,
-        "opacity-0": !shouldFadeMap,
-        invisible: !shouldFadeMap
-      };
-    },
+
     ready({ stories }) {
       return stories.length > 0;
     },
     imageLoaded({ state }) {
       return state === "imageLoaded";
     },
-    isLocation({ $route }) {
-      return (
-        $route.name === "location" ||
-        $route.name === "preview" ||
-        $route.name === "story"
-      );
-    },
+
     mapClass({ imageLoaded, isLocation }) {
       return {
         invisible: !imageLoaded,
