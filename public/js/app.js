@@ -41623,132 +41623,125 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "w-full overflow-hidden pt-24",
-      attrs: { "data-audio": "" }
-    },
-    [
-      _c(
-        "div",
-        {
-          staticClass: "bg-white px-8 lg:px-24 py-4",
-          staticStyle: {
-            "box-shadow":
-              "0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
-          }
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass:
-                "text-center uppercase font-mono font-bold lg:-ml-6 mb-3 text-2xs lg:text-base"
-            },
-            [_vm._v(_vm._s(_vm.label))]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "flex" },
-            [
-              _vm.state !== "play"
-                ? _c(
-                    "clickable",
-                    {
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return (function() {
-                            return _vm.controlAudio("play")
-                          })($event)
-                        }
-                      }
-                    },
-                    [
-                      _c("play-icon", {
-                        staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
-                      })
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.state !== "pause"
-                ? _c(
-                    "clickable",
-                    {
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return (function() {
-                            return _vm.controlAudio("pause")
-                          })($event)
-                        }
-                      }
-                    },
-                    [
-                      _c("pause-icon", {
-                        staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
-                      })
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "flex relative flex-grow mx-5 self-center" },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.sliderVal,
-                        expression: "sliderVal"
-                      }
-                    ],
-                    staticClass: "w-full py-2",
-                    attrs: { type: "range" },
-                    domProps: { value: _vm.sliderVal },
+  return _c("div", { staticClass: "w-full overflow-hidden pt-24" }, [
+    _c(
+      "div",
+      {
+        staticClass: "bg-white px-8 lg:px-24 py-4",
+        staticStyle: {
+          "box-shadow":
+            "0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "text-center uppercase font-mono font-bold lg:-ml-6 mb-3 text-2xs lg:text-base"
+          },
+          [_vm._v(_vm._s(_vm.label))]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex" },
+          [
+            _vm.state !== "play"
+              ? _c(
+                  "clickable",
+                  {
                     on: {
-                      mousedown: _vm.handleRangeMouseDown,
-                      mouseup: _vm.handleRangeMouseUp,
-                      __r: function($event) {
-                        _vm.sliderVal = $event.target.value
+                      click: function($event) {
+                        $event.preventDefault()
+                        return (function() {
+                          return _vm.controlAudio("play")
+                        })($event)
                       }
                     }
-                  })
-                ]
-              ),
-              _vm._v(" "),
-              _c("audio", {
-                ref: "audio",
-                staticClass: "hidden",
-                attrs: { src: _vm.src },
-                on: {
-                  timeupdate: _vm.handleTimeUpdated,
-                  canplay: _vm.setDuration
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass:
-                    "self-center text-black font-display font-semibold w-16 -mt-1 text-center"
-                },
-                [_vm._v(_vm._s(_vm.timestamp))]
-              )
-            ],
-            1
-          )
-        ]
-      )
-    ]
-  )
+                  },
+                  [
+                    _c("play-icon", {
+                      staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
+                    })
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.state !== "pause"
+              ? _c(
+                  "clickable",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return (function() {
+                          return _vm.controlAudio("pause")
+                        })($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("pause-icon", {
+                      staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
+                    })
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "flex relative flex-grow mx-5 self-center" },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.sliderVal,
+                      expression: "sliderVal"
+                    }
+                  ],
+                  staticClass: "w-full py-2",
+                  attrs: { type: "range" },
+                  domProps: { value: _vm.sliderVal },
+                  on: {
+                    mousedown: _vm.handleRangeMouseDown,
+                    mouseup: _vm.handleRangeMouseUp,
+                    __r: function($event) {
+                      _vm.sliderVal = $event.target.value
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c("audio", {
+              ref: "audio",
+              staticClass: "hidden",
+              attrs: { src: _vm.src },
+              on: {
+                timeupdate: _vm.handleTimeUpdated,
+                canplay: _vm.setDuration
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass:
+                  "self-center text-black font-display font-semibold w-16 -mt-1 text-center"
+              },
+              [_vm._v(_vm._s(_vm.timestamp))]
+            )
+          ],
+          1
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

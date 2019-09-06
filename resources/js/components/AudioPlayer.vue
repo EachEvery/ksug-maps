@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full overflow-hidden pt-24" data-audio>
+  <div class="w-full overflow-hidden pt-24">
     <div
       class="bg-white px-8 lg:px-24 py-4"
       style="box-shadow: 0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"

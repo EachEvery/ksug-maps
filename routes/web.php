@@ -17,6 +17,9 @@ Route::get('/stories', function (Stories $stories) {
     return $stories->all();
 });
 
+Route::get('/stories/{story_id}/comments', 'StroyCommentController@index');
+Route::post('/stories/{story_id}/comments', 'StroyCommentController@store');
+
 Route::get('/{vue?}', function () {
     return view('master');
 })->where('vue', '[\/\w\.-]*')->where('vue', '^((?!admin).)*$');

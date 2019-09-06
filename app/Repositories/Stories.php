@@ -10,4 +10,9 @@ class Stories
     {
         return Story::all();
     }
+
+    public function findOrFail($id)
+    {
+        return Story::findOrFail($id);
+    }
 }
