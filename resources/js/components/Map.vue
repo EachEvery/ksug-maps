@@ -80,6 +80,7 @@ export default {
   data() {
     return {
       state: "loading",
+      animatePan: true,
       googleMaps: undefined,
       map: undefined,
       overlay: undefined,
@@ -94,11 +95,19 @@ export default {
   },
   computed: {
     currentLocation() {
-      return this.isLocation
-        ? this.$store.getters.locations.find(
-            loc => loc.slug === this.$route.params.location
-          )
-        : undefined;
+      if (!this.isLocation) {
+        return undefined;
+      }
+
+      if (this.$route.name === "story") {
+        return this.$store.state.stories.find(
+          item => item.id === +this.$route.params.story
+        ).place;
+      }
+
+      return this.$store.getters.locations.find(
+        loc => loc.slug === this.$route.params.location
+      );
     },
     activeMarkerIndicatorClass({ isLocation }) {
       return {
@@ -175,9 +184,14 @@ export default {
     },
     pan(loc) {
       return new Promise((resolve, reject) => {
-        this.map.panTo(loc);
+        if (this.animatePan) {
+          this.map.panTo(loc);
 
-        setTimeout(resolve, 500);
+          setTimeout(resolve, 500);
+        } else {
+          this.map.setCenter(loc);
+          setTimeout(resolve, 150);
+        }
       });
     },
     async initMap() {

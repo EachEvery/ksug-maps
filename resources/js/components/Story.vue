@@ -1,8 +1,7 @@
 <template>
   <div
-    v-click-outside="closeStory"
     :style="{'background-color': story.color}"
-    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto px-8 shadow-lg flex-grow-0"
+    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 lg:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48"
     style="max-width: 45rem"
   >
     <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
@@ -11,7 +10,7 @@
       >{{story.role}} &middot; {{story.day}}</h3>
       <h1
         class="font-display font-black text-5xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
-      >{{story.location}}</h1>
+      >{{story.place.name}}</h1>
       <h2 class="font-sans text-black text-lg md:text-md">{{story.subject}}</h2>
     </div>
 
@@ -27,7 +26,14 @@
       <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-white" />
     </clickable>
 
-    <audio-player />
+    <audio-player
+      ref="audioPlayer"
+      class="fixed bottom-0 right-0 md:w-84 xl:w-5/12 transition"
+      style="max-width: 45rem"
+      :style="audioPlayerStyle"
+      :src="story.audio"
+      :label="story.subject"
+    />
   </div>
 </template>
 <script>
@@ -46,20 +52,36 @@ export default {
     };
   },
 
+  data() {
+    return {
+      state: "default"
+    };
+  },
+
   components: {
     audioPlayer,
     closeIcon,
     clickable,
     quoteIcon
   },
+
   methods: {
     closeStory() {
+      this.$refs.audioPlayer.controlAudio("pause");
       this.$router.push(`/places/${this.location.slug}`);
     }
   },
+
   computed: {
     ...mapState(["stories"]),
     ...mapGetters(["locations"]),
+    audioPlayerStyle({ story, state }) {
+      let showingStory = state === "showPlayer";
+
+      return {
+        transform: `translateY(${showingStory ? "0" : "100%"})`
+      };
+    },
     location({ story }) {
       return story.place;
     },
@@ -67,14 +89,19 @@ export default {
       return stories.find(s => +s.id === +this.$route.params.story);
     },
     locationHtml({ story }) {
-      let words = story.location.split(" ");
+      let words = story.place.name.split(" ");
 
       if (words.length === 2) {
         return `${words[0]}<br />${words[1]}`;
       }
 
-      return location.name;
+      return story.place.name;
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.state = "showPlayer";
+    }, 500);
   }
 };
 </script>

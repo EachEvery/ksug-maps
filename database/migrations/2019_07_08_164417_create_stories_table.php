@@ -16,6 +16,7 @@ class CreateStoriesTable extends Migration
             $table->string('subject')->nullable();
             $table->string('role')->nullable();
             $table->string('day')->nullable();
+            $table->string('audio')->nullable();
             $table->unsignedInteger('place_id')->nullable();
             $table->longText('content')->nullable();
             $table->timestamps();
