@@ -3344,6 +3344,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3391,11 +3397,10 @@ __webpack_require__.r(__webpack_exports__);
       return "".concat(this.pad(currentMinutes), ":").concat(this.pad(currentSeconds));
     }
   },
-  mounted: function mounted() {// this.$nextTick(() => {
-    //   this.totalTime = this.$refs.audio.duration;
-    // });
-  },
   methods: {
+    setDuration: function setDuration(e) {
+      this.totalTime = e.target.duration;
+    },
     pad: function pad(n) {
       return ("0000" + n).slice(-2);
     },
@@ -4411,7 +4416,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var _QuoteIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuoteIcon */ "./resources/js/components/QuoteIcon.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4454,6 +4461,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+
 
 
 
@@ -4478,12 +4487,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     quoteIcon: _QuoteIcon__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: {
+    handleClickOutside: function handleClickOutside(e) {
+      if (e.target.tagName !== "svg") {
+        this.closeStory();
+      }
+    },
     closeStory: function closeStory() {
       this.$refs.audioPlayer.controlAudio("pause");
       this.$router.push("/places/".concat(this.location.slug));
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(["locations"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])(["locations"]), {
     audioPlayerStyle: function audioPlayerStyle(_ref) {
       var story = _ref.story,
           state = _ref.state;
@@ -41609,122 +41623,132 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "w-full overflow-hidden pt-24" }, [
-    _c(
-      "div",
-      {
-        staticClass: "bg-white px-8 lg:px-24 py-4",
-        staticStyle: {
-          "box-shadow":
-            "0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
-        }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass:
-              "text-center uppercase font-mono font-bold lg:-ml-6 mb-3 text-2xs lg:text-base"
-          },
-          [_vm._v(_vm._s(_vm.label))]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex" },
-          [
-            _vm.state !== "play"
-              ? _c(
-                  "clickable",
-                  {
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return (function() {
-                          return _vm.controlAudio("play")
-                        })($event)
-                      }
-                    }
-                  },
-                  [
-                    _c("play-icon", {
-                      staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
-                    })
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.state !== "pause"
-              ? _c(
-                  "clickable",
-                  {
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return (function() {
-                          return _vm.controlAudio("pause")
-                        })($event)
-                      }
-                    }
-                  },
-                  [
-                    _c("pause-icon", {
-                      staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
-                    })
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "flex relative flex-grow mx-5 self-center" },
-              [
-                _c("input", {
-                  directives: [
+  return _c(
+    "div",
+    {
+      staticClass: "w-full overflow-hidden pt-24",
+      attrs: { "data-audio": "" }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "bg-white px-8 lg:px-24 py-4",
+          staticStyle: {
+            "box-shadow":
+              "0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "text-center uppercase font-mono font-bold lg:-ml-6 mb-3 text-2xs lg:text-base"
+            },
+            [_vm._v(_vm._s(_vm.label))]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flex" },
+            [
+              _vm.state !== "play"
+                ? _c(
+                    "clickable",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.sliderVal,
-                      expression: "sliderVal"
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return (function() {
+                            return _vm.controlAudio("play")
+                          })($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("play-icon", {
+                        staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.state !== "pause"
+                ? _c(
+                    "clickable",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return (function() {
+                            return _vm.controlAudio("pause")
+                          })($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("pause-icon", {
+                        staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex relative flex-grow mx-5 self-center" },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.sliderVal,
+                        expression: "sliderVal"
+                      }
+                    ],
+                    staticClass: "w-full py-2",
+                    attrs: { type: "range" },
+                    domProps: { value: _vm.sliderVal },
+                    on: {
+                      mousedown: _vm.handleRangeMouseDown,
+                      mouseup: _vm.handleRangeMouseUp,
+                      __r: function($event) {
+                        _vm.sliderVal = $event.target.value
+                      }
                     }
-                  ],
-                  staticClass: "w-full py-2",
-                  attrs: { type: "range" },
-                  domProps: { value: _vm.sliderVal },
-                  on: {
-                    mousedown: _vm.handleRangeMouseDown,
-                    mouseup: _vm.handleRangeMouseUp,
-                    __r: function($event) {
-                      _vm.sliderVal = $event.target.value
-                    }
-                  }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c("audio", {
-              ref: "audio",
-              staticClass: "hidden",
-              attrs: { src: _vm.src },
-              on: { timeupdate: _vm.handleTimeUpdated }
-            }),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass:
-                  "self-center text-black font-display font-semibold w-16 -mt-1 text-center"
-              },
-              [_vm._v(_vm._s(_vm.timestamp))]
-            )
-          ],
-          1
-        )
-      ]
-    )
-  ])
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("audio", {
+                ref: "audio",
+                staticClass: "hidden",
+                attrs: { src: _vm.src },
+                on: {
+                  timeupdate: _vm.handleTimeUpdated,
+                  canplay: _vm.setDuration
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  staticClass:
+                    "self-center text-black font-display font-semibold w-16 -mt-1 text-center"
+                },
+                [_vm._v(_vm._s(_vm.timestamp))]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -43150,8 +43174,16 @@ var render = function() {
   return _c(
     "div",
     {
+      directives: [
+        {
+          name: "click-outside",
+          rawName: "v-click-outside",
+          value: _vm.handleClickOutside,
+          expression: "handleClickOutside"
+        }
+      ],
       staticClass:
-        "fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 lg:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48",
+        "fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 lg:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48 story",
       staticStyle: { "max-width": "45rem" },
       style: { "background-color": _vm.story.color }
     },

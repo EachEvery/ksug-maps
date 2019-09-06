@@ -34679,7 +34679,7 @@ input[type=range]:focus {
 
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
-  height: 1px;
+  height: 2px;
   cursor: pointer;
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
   background: #000000;
@@ -34705,7 +34705,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 input[type=range]::-moz-range-track {
   width: 100%;
-  height: 1px;
+  height: 2px;
   cursor: pointer;
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
   background: #000000;
@@ -34725,7 +34725,7 @@ input[type=range]::-moz-range-thumb {
 
 input[type=range]::-ms-track {
   width: 100%;
-  height: 1px;
+  height: 2px;
   cursor: pointer;
   background: transparent;
   border-color: transparent;
@@ -34754,7 +34754,7 @@ input[type=range]::-ms-thumb {
   border-radius: 50px;
   background: #000000;
   cursor: pointer;
-  height: 1px;
+  height: 2px;
 }
 
 input[type=range]:focus::-ms-fill-lower {

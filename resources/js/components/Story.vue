@@ -1,7 +1,8 @@
 <template>
   <div
+    v-click-outside="handleClickOutside"
     :style="{'background-color': story.color}"
-    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 lg:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48"
+    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 lg:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48 story"
     style="max-width: 45rem"
   >
     <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
@@ -41,7 +42,7 @@ import audioPlayer from "./AudioPlayer";
 import closeIcon from "./CloseIcon";
 import clickable from "./Clickable";
 import quoteIcon from "./QuoteIcon";
-
+import $ from "jquery";
 import { mapState, mapGetters } from "vuex";
 
 export default {
@@ -66,6 +67,11 @@ export default {
   },
 
   methods: {
+    handleClickOutside(e) {
+      if (e.target.tagName !== "svg") {
+        this.closeStory();
+      }
+    },
     closeStory() {
       this.$refs.audioPlayer.controlAudio("pause");
       this.$router.push(`/places/${this.location.slug}`);

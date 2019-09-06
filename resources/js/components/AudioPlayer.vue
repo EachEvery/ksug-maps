@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full overflow-hidden pt-24">
+  <div class="w-full overflow-hidden pt-24" data-audio>
     <div
       class="bg-white px-8 lg:px-24 py-4"
       style="box-shadow: 0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
@@ -27,7 +27,13 @@
           />
         </div>
 
-        <audio class="hidden" :src="src" ref="audio" @timeupdate="handleTimeUpdated" />
+        <audio
+          class="hidden"
+          :src="src"
+          ref="audio"
+          @timeupdate="handleTimeUpdated"
+          @canplay="setDuration"
+        />
 
         <span
           class="self-center text-black font-display font-semibold w-16 -mt-1 text-center"
@@ -78,12 +84,10 @@ export default {
       return `${this.pad(currentMinutes)}:${this.pad(currentSeconds)}`;
     }
   },
-  mounted() {
-    // this.$nextTick(() => {
-    //   this.totalTime = this.$refs.audio.duration;
-    // });
-  },
   methods: {
+    setDuration(e) {
+      this.totalTime = e.target.duration;
+    },
     pad(n) {
       return ("0000" + n).slice(-2);
     },
@@ -109,6 +113,7 @@ export default {
     },
     updateTime(time) {
       this.currentTime = Math.round(time);
+
       this.totalTime = this.$refs.audio.duration;
 
       this.sliderVal = (this.currentTime / this.totalTime) * 100;
