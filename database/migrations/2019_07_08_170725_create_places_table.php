@@ -8,8 +8,6 @@ class CreatePlacesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -17,6 +15,7 @@ class CreatePlacesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('photo')->nullable();
+            $table->string('slug')->nullable();
             $table->string('photo_caption')->nullable();
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
@@ -26,8 +25,6 @@ class CreatePlacesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

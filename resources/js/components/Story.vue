@@ -60,8 +60,8 @@ export default {
   computed: {
     ...mapState(["stories"]),
     ...mapGetters(["locations"]),
-    location({ locations, story }) {
-      return locations.find(loc => loc.name === story.location);
+    location({ story }) {
+      return story.place;
     },
     story({ stories }) {
       return stories.find(s => +s.id === +this.$route.params.story);

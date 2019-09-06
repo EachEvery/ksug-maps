@@ -12,4 +12,13 @@ class Place extends Model
     {
         return $this->hasMany(Story::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($place) {
+            $place->slug = str_slug($place->name);
+        });
+    }
 }

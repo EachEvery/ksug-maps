@@ -9,6 +9,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([ImportStories::class]);
+        $this->call([ImportStories::class, ConvertTiffsToJpegs::class]);
     }
 }

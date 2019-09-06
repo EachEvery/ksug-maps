@@ -3781,6 +3781,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(timers__WEBPACK_IMPORTED_MODULE_10__);
 
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -3867,7 +3871,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       overlay: undefined,
       bounds: undefined,
       overlayShowing: false,
-      currentZoom: 15,
+      currentZoom: this.isLocation ? 17 : 15,
       zoomSteps: [15, 16, 17, 18],
       zooming: false,
       maxZoom: 18,
@@ -3875,6 +3879,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   computed: {
+    currentLocation: function currentLocation() {
+      var _this = this;
+
+      return this.isLocation ? this.$store.getters.locations.find(function (loc) {
+        return loc.slug === _this.$route.params.location;
+      }) : undefined;
+    },
     activeMarkerIndicatorClass: function activeMarkerIndicatorClass(_ref) {
       var isLocation = _ref.isLocation;
       return {
@@ -3915,10 +3926,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   watch: {
     currentZoom: function currentZoom() {
-      var _this = this;
+      var _this2 = this;
 
       this.$nextTick(function () {
-        console.log(_this.currentZoom, "current zoom", _this.nextZoom, "next zoom");
+        console.log(_this2.currentZoom, "current zoom", _this2.nextZoom, "next zoom");
       });
     }
   },
@@ -3937,28 +3948,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     zoom: function zoom(_zoom) {
-      var _this2 = this;
+      var _this3 = this;
 
       return new Promise(function (resolve) {
-        if (_this2.map.getZoom() === _zoom || _this2.zooming) {
+        if (_this3.map.getZoom() === _zoom || _this3.zooming) {
           resolve();
         } else {
-          _this2.zooming = true;
+          _this3.zooming = true;
 
-          _this2.map.setZoom(_zoom);
+          _this3.map.setZoom(_zoom);
 
           Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-            _this2.zooming = false;
+            _this3.zooming = false;
             resolve();
           }, 450);
         }
       });
     },
     pan: function pan(loc) {
-      var _this3 = this;
+      var _this4 = this;
 
       return new Promise(function (resolve, reject) {
-        _this3.map.panTo(loc);
+        _this4.map.panTo(loc);
 
         Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(resolve, 500);
       });
@@ -3967,8 +3978,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _initMap = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _this4 = this;
+        var _this5 = this;
 
+        var overrideOptionsForLocation;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -3980,7 +3992,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 this.googleMaps = _context2.sent;
-                this.map = new this.googleMaps.Map(this.$refs.mapElement, {
+                overrideOptionsForLocation = !this.isLocation ? {} : {
+                  center: {
+                    lat: +this.currentLocation.lat,
+                    lng: +this.currentLocation["long"]
+                  }
+                };
+                this.map = new this.googleMaps.Map(this.$refs.mapElement, _objectSpread({
                   center: {
                     lat: 41.15002,
                     lng: -81.348852
@@ -4003,21 +4021,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     },
                     strictBounds: false
                   }
-                });
+                }, overrideOptionsForLocation));
                 this.map.addListener("zoom_changed", function () {
-                  _this4.currentZoom = _this4.map.getZoom();
+                  _this5.currentZoom = _this5.map.getZoom();
                 });
                 this.bounds = new this.googleMaps.LatLngBounds(new this.googleMaps.LatLng(41.1119, -81.404828), // SW CORNER 🧭
                 new this.googleMaps.LatLng(41.186267, -81.309106) // NE CORNER 🧭
                 );
                 this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2-sharp-with-noise.jpg", this.map);
                 this.markers = this.locations.map(function (loc) {
-                  var marker = new _this4.googleMaps.Marker({
-                    position: new _this4.googleMaps.LatLng(+loc.lat, +loc["long"]),
-                    map: _this4.map,
+                  var marker = new _this5.googleMaps.Marker({
+                    position: new _this5.googleMaps.LatLng(+loc.lat, +loc["long"]),
+                    map: _this5.map,
                     icon: {
                       url: "/img/marker.png",
-                      scaledSize: new _this4.googleMaps.Size(41.25, 55)
+                      scaledSize: new _this5.googleMaps.Size(41.25, 55)
                     }
                   });
                   marker.addListener("click",
@@ -4031,8 +4049,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         switch (_context.prev = _context.next) {
                           case 0:
                             mapCenter = {
-                              lat: _this4.map.getCenter().lat(),
-                              lng: _this4.map.getCenter().lng()
+                              lat: _this5.map.getCenter().lat(),
+                              lng: _this5.map.getCenter().lng()
                             };
                             markerCenter = {
                               lat: marker.getPosition().lat(),
@@ -4048,7 +4066,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                              */
 
                             _context.next = 7;
-                            return _this4.zoom(17);
+                            return _this5.zoom(17);
 
                           case 7:
                             if (!(latDiff > diffThreshold || lngDiff > diffThreshold)) {
@@ -4057,16 +4075,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                             }
 
                             _context.next = 10;
-                            return _this4.pan(marker.getPosition());
+                            return _this5.pan(marker.getPosition());
 
                           case 10:
-                            _this4.$emit("location-clicked", loc);
+                            _this5.$emit("location-clicked", loc);
 
                             _context.next = 14;
                             break;
 
                           case 13:
-                            _this4.$emit("location-clicked", loc);
+                            _this5.$emit("location-clicked", loc);
 
                           case 14:
                           case "end":
@@ -4082,21 +4100,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                  */
 
                 this.checkImageLoadedInterval = setInterval(function () {
-                  clearInterval(_this4.checkImageLoadedInterval);
+                  clearInterval(_this5.checkImageLoadedInterval);
 
-                  if (_this4.overlay.imageLoaded) {
+                  if (_this5.overlay.imageLoaded) {
                     Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                      _this4.overlay.show();
+                      _this5.overlay.show();
 
                       Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                        _this4.overlayShowing = true;
-                        _this4.state = "default";
+                        _this5.overlayShowing = true;
+                        _this5.state = "default";
                       }, 800);
                     }, 800);
                   }
                 }, 800);
 
-              case 9:
+              case 10:
               case "end":
                 return _context2.stop();
             }
@@ -4112,10 +4130,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }()
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this6 = this;
 
     this.$nextTick(function () {
-      _this5.initMap();
+      _this6.initMap();
     });
   }
 });
@@ -4339,11 +4357,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(["locations"]), {
     location: function location(_ref) {
-      var locations = _ref.locations,
-          story = _ref.story;
-      return locations.find(function (loc) {
-        return loc.name === story.location;
-      });
+      var story = _ref.story;
+      return story.place;
     },
     story: function story(_ref2) {
       var _this = this;
@@ -42217,7 +42232,8 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "absolute inset-0 flex justify-center transition",
+          staticClass:
+            "absolute inset-0 flex justify-center transition select-none",
           class: _vm.activeMarkerIndicatorClass,
           staticStyle: { "margin-top": "-3.5rem" }
         },
@@ -62374,8 +62390,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/nate/projects/valet/maps/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/nate/projects/valet/maps/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/vulcan/Source 🔋/maps/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/vulcan/Source 🔋/maps/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

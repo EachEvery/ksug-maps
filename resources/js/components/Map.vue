@@ -5,7 +5,7 @@
     <div class="absolute inset-0 bg-black transition" :class="overlayClass"></div>
 
     <div
-      class="absolute inset-0 flex justify-center transition"
+      class="absolute inset-0 flex justify-center transition select-none"
       style="margin-top: -3.5rem"
       :class="activeMarkerIndicatorClass"
     >
@@ -85,7 +85,7 @@ export default {
       overlay: undefined,
       bounds: undefined,
       overlayShowing: false,
-      currentZoom: 15,
+      currentZoom: this.isLocation ? 17 : 15,
       zoomSteps: [15, 16, 17, 18],
       zooming: false,
       maxZoom: 18,
@@ -93,6 +93,13 @@ export default {
     };
   },
   computed: {
+    currentLocation() {
+      return this.isLocation
+        ? this.$store.getters.locations.find(
+            loc => loc.slug === this.$route.params.location
+          )
+        : undefined;
+    },
     activeMarkerIndicatorClass({ isLocation }) {
       return {
         "opacity-0": !isLocation,
@@ -178,6 +185,15 @@ export default {
         key: process.env.MIX_GOOGLE_MAPS_JS_API_KEY
       });
 
+      let overrideOptionsForLocation = !this.isLocation
+        ? {}
+        : {
+            center: {
+              lat: +this.currentLocation.lat,
+              lng: +this.currentLocation.long
+            }
+          };
+
       this.map = new this.googleMaps.Map(this.$refs.mapElement, {
         center: { lat: 41.15002, lng: -81.348852 },
         backgroundColor: "#000000",
@@ -197,7 +213,8 @@ export default {
             west: -81.404828
           },
           strictBounds: false
-        }
+        },
+        ...overrideOptionsForLocation
       });
 
       this.map.addListener("zoom_changed", () => {
