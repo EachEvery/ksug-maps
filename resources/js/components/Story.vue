@@ -1,32 +1,64 @@
 <template>
   <div
     v-click-outside="handleClickOutside"
-    :style="{'background-color': story.color}"
-    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 xl:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48 story"
+    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story"
     style="max-width: 45rem"
+    :style="{'background-color': story.color}"
   >
-    <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
-      <h3
-        class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs"
-      >{{story.role}} &middot; {{story.day}}</h3>
-      <h1
-        class="font-display font-black text-5xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
-      >{{story.place.name}}</h1>
-      <h2 class="font-sans text-black text-lg md:text-md">{{story.subject}}</h2>
+    <div class="xl:px-24 px-8 pb-24">
+      <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
+        <h3
+          class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs"
+        >{{story.role}} &middot; {{story.day}}</h3>
+        <h1
+          class="font-display font-black text-5xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
+        >{{story.place.name}}</h1>
+        <h2 class="font-sans text-black text-lg md:text-md">{{story.subject}}</h2>
+      </div>
+
+      <quote-icon class="h-6 w-6 mb-6 text-black" />
+
+      <p v-html="story.content" class="leading-loose"></p>
+
+      <a href="#" class="font-bold w-full h-16 flex justify-center bg-white mt-16" target="_blank">
+        <span class="self-center text-sm xl:text-base">VISIT FULL ORAL HISTORY →</span>
+      </a>
+
+      <clickable @click="closeStory" class="fixed top-0 right-0 shadow-lg rounded-full mr-5 mt-5">
+        <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-white" />
+      </clickable>
     </div>
 
-    <quote-icon class="h-6 w-6 mb-6 text-black" />
+    <div class="xl:px-24 px-8 py-24 relative bg-tan-100" v-if="story.approved_comments.length > 0">
+      <h3 class="font-display uppercase text-2xl mb-12">Stories &amp; Comments</h3>
 
-    <p v-html="story.content" class="leading-loose"></p>
+      <div v-for="comment in story.approved_comments" :key="comment.id" class="my-10">
+        <h4 class="text-base font-medium mb-3">{{comment.author}}</h4>
+        <span class="whitespace-pre-line leading-normal" v-html="comment.text"></span>
+        <span class="block mt-4 opacity-75 font-mono text-xs">{{comment.frontend_date}}</span>
+      </div>
+    </div>
+    <div class="xl:px-24 px-8 pt-24 pb-48 relative bg-white">
+      <h3 class="font-display uppercase text-2xl mb-8" style="font-weight: 500;">Share Your Story</h3>
 
-    <a href="#" class="font-bold w-full h-16 flex justify-center bg-white mt-16" target="_blank">
-      <span class="self-center text-sm xl:text-base">VISIT FULL ORAL HISTORY →</span>
-    </a>
+      <comment-form @comment-created="handleCommentCreated" />
 
-    <clickable @click="closeStory" class="fixed top-0 right-0 shadow-lg rounded-full mr-5 mt-5">
-      <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-white" />
-    </clickable>
+      <div
+        class="absolute inset-0 bg-white transition xl:px-24 pt-24 px-8 flex flex-col"
+        :style="confirmationStyle"
+      >
+        <h3 class="font-display uppercase text-2xl mb-8">Thanks for Your Story</h3>
 
+        <p
+          class="leading-normal"
+        >Your submission is under review and will show up under the comments for this story once it is approved.</p>
+
+        <clickable
+          class="w-full mt-10 text-center py-3 px-2 border border-black uppercase"
+          @click="addAnotherComment"
+        >Add Another Comment</clickable>
+      </div>
+    </div>
     <audio-player
       ref="audioPlayer"
       class="fixed bottom-0 right-0 md:w-84 xl:w-5/12 transition"
@@ -42,6 +74,7 @@ import audioPlayer from "./AudioPlayer";
 import closeIcon from "./CloseIcon";
 import clickable from "./Clickable";
 import quoteIcon from "./QuoteIcon";
+import commentForm from "./CommentForm";
 
 import { mapState, mapGetters } from "vuex";
 
@@ -65,10 +98,14 @@ export default {
     audioPlayer,
     closeIcon,
     clickable,
-    quoteIcon
+    quoteIcon,
+    commentForm
   },
 
   methods: {
+    addAnotherComment() {
+      this.state = "default";
+    },
     handleClickOutside(e) {
       if (e.target.tagName !== "svg") {
         this.closeStory();
@@ -77,12 +114,23 @@ export default {
     closeStory() {
       this.$refs.audioPlayer.controlAudio("pause");
       this.$router.push(`/places/${this.location.slug}`);
+    },
+    handleCommentCreated(comment) {
+      this.state = "showCommentConfirmation";
     }
   },
 
   computed: {
     ...mapState(["stories"]),
     ...mapGetters(["locations"]),
+    confirmationStyle({ state, story }) {
+      let showIt = state === "showCommentConfirmation";
+
+      return {
+        visibility: showIt ? "visible" : "hidden",
+        opacity: showIt ? 1 : 0
+      };
+    },
     audioPlayerStyle({ story, state }) {
       let showingStory = state === "showPlayer";
 

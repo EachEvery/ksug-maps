@@ -21,6 +21,10 @@
         transform: translateY(100%);
     }
 
+    .translate-y-5 {
+        transform: translateY(5rem);
+    }
+
     .-translate-y-5 {
         transform: translateY(-5rem);
     }

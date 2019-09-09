@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full overflow-hidden pt-24">
+  <div class="w-full overflow-hidden pt-8">
     <div
-      class="bg-white px-8 xl:px-24 py-4"
-      style="box-shadow: 0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+      class="px-8 xl:px-24 py-4"
+      style="background: rgba(255, 255, 255, .98); box-shadow: 0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
     >
       <div
         class="text-center uppercase font-mono font-bold text-xs lg:-ml-6 xl:mb-3 xl:text-base"

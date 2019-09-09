@@ -47,11 +47,21 @@ export default {
       pullMapLeft: false
     };
   },
-  mounted() {
-    this.ensureStories();
+  async mounted() {
+    await this.ensureStories();
+    this.preloadImages();
   },
   methods: {
     ...mapActions(["ensureStories"]),
+    preloadImages() {
+      [...this.locations].forEach(item => {
+        if (item.photo !== null) {
+          let image = new Image();
+
+          image.src = item.photo;
+        }
+      });
+    },
     handleImageLoad() {
       this.state = "imageLoaded";
     },

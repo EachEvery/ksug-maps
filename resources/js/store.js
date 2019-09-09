@@ -14,10 +14,14 @@ export default new Vuex.Store({
         comments: []
     },
     actions: {
-        async ensureStories(context) {
-            let { data } = await Axios.get("/stories");
+        ensureStories(context) {
+            return new Promise(async resolve => {
+                let { data } = await Axios.get("/stories");
 
-            context.commit("setStories", data);
+                context.commit("setStories", data);
+
+                resolve();
+            });
         }
     },
     mutations: {

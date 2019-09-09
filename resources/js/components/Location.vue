@@ -34,7 +34,7 @@
     </div>
 
     <div
-      class="flex overflow-auto flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4"
+      class="flex overflow-auto md:overflow-hidden md:pb-48 flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4"
     >
       <div class="w-5 md:hidden" style="flex: 0 0 auto;"></div>
 
@@ -42,9 +42,9 @@
         :story="story"
         v-for="(story, i) in location.stories"
         :key="story.id"
-        class="mr-4 md:mr-0 w-72 md:w-full h-48vh md:mb-5 xl:mb-10 flex-retain"
+        class="mr-4 md:mr-0 w-72 md:w-full h-48vh md:mb-5 xl:mb-2 flex-retain"
+        :class="{'xl:translate-y-5': isEven(i)}"
         :style="{color: story.color}"
-        :class="{'xl:mt-24': isEven(i), 'xl:-mt-32': !isEven(i) && i > 0}"
         style="max-height: 25rem"
       />
 
