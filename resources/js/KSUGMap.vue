@@ -6,7 +6,7 @@
         :show-overlay-button="!isLocation"
         :is-location="isLocation"
         @location-clicked="handleLocationClicked"
-        :class="{'-translate-y-5': isLocation, 'md:-translate-x-10': isLocation}"
+        :class="{'-translate-y-35vh': isLocation, 'md:-translate-x-10': isLocation}"
         class="transition"
       />
     </div>

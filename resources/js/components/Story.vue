@@ -2,7 +2,7 @@
   <div
     v-click-outside="handleClickOutside"
     :style="{'background-color': story.color}"
-    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 lg:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48 story"
+    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 xl:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48 story"
     style="max-width: 45rem"
   >
     <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
@@ -20,7 +20,7 @@
     <p v-html="story.content" class="leading-loose"></p>
 
     <a href="#" class="font-bold w-full h-16 flex justify-center bg-white mt-16" target="_blank">
-      <span class="self-center text-sm lg:text-base">VISIT FULL ORAL HISTORY →</span>
+      <span class="self-center text-sm xl:text-base">VISIT FULL ORAL HISTORY →</span>
     </a>
 
     <clickable @click="closeStory" class="fixed top-0 right-0 shadow-lg rounded-full mr-5 mt-5">
@@ -42,8 +42,10 @@ import audioPlayer from "./AudioPlayer";
 import closeIcon from "./CloseIcon";
 import clickable from "./Clickable";
 import quoteIcon from "./QuoteIcon";
-import $ from "jquery";
+
 import { mapState, mapGetters } from "vuex";
+
+import $ from "jquery";
 
 export default {
   metaInfo() {

@@ -3,7 +3,6 @@
 namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
-use KSUGMap\Comment\Comment;
 
 class Story extends Model
 {

@@ -4416,9 +4416,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var _QuoteIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuoteIcon */ "./resources/js/components/QuoteIcon.vue");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_5__);
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4497,7 +4497,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$router.push("/places/".concat(this.location.slug));
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])(["locations"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(["locations"]), {
     audioPlayerStyle: function audioPlayerStyle(_ref) {
       var story = _ref.story,
           state = _ref.state;
@@ -41567,7 +41567,7 @@ var render = function() {
               _c("map-component", {
                 staticClass: "transition",
                 class: {
-                  "-translate-y-5": _vm.isLocation,
+                  "-translate-y-35vh": _vm.isLocation,
                   "md:-translate-x-10": _vm.isLocation
                 },
                 attrs: {
@@ -41627,7 +41627,7 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "bg-white px-8 lg:px-24 py-4",
+        staticClass: "bg-white px-8 xl:px-24 py-4",
         staticStyle: {
           "box-shadow":
             "0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
@@ -41638,7 +41638,7 @@ var render = function() {
           "div",
           {
             staticClass:
-              "text-center uppercase font-mono font-bold lg:-ml-6 mb-3 text-2xs lg:text-base"
+              "text-center uppercase font-mono font-bold text-xs lg:-ml-6 xl:mb-3 xl:text-base"
           },
           [_vm._v(_vm._s(_vm.label))]
         ),
@@ -41662,7 +41662,7 @@ var render = function() {
                   },
                   [
                     _c("play-icon", {
-                      staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
+                      staticClass: "w-8 h-8 xl:w-12 xl:h-12 text-black"
                     })
                   ],
                   1
@@ -41684,7 +41684,7 @@ var render = function() {
                   },
                   [
                     _c("pause-icon", {
-                      staticClass: "w-8 h-8 lg:w-12 lg:h-12 text-black"
+                      staticClass: "w-8 h-8 xl:w-12 xl:h-12 text-black"
                     })
                   ],
                   1
@@ -42302,7 +42302,7 @@ var render = function() {
             "div",
             {
               staticClass:
-                "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0 bg-gray-300"
+                "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 bg-gray-300"
             },
             [
               _c("img", {
@@ -43176,7 +43176,7 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 lg:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48 story",
+        "fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 xl:px-24 overflow-auto px-8 shadow-lg flex-grow-0 pb-48 story",
       staticStyle: { "max-width": "45rem" },
       style: { "background-color": _vm.story.color }
     },
@@ -43247,7 +43247,7 @@ var staticRenderFns = [
         attrs: { href: "#", target: "_blank" }
       },
       [
-        _c("span", { staticClass: "self-center text-sm lg:text-base" }, [
+        _c("span", { staticClass: "self-center text-sm xl:text-base" }, [
           _vm._v("VISIT FULL ORAL HISTORY →")
         ])
       ]

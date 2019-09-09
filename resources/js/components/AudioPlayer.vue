@@ -1,20 +1,20 @@
 <template>
   <div class="w-full overflow-hidden pt-24">
     <div
-      class="bg-white px-8 lg:px-24 py-4"
+      class="bg-white px-8 xl:px-24 py-4"
       style="box-shadow: 0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
     >
       <div
-        class="text-center uppercase font-mono font-bold lg:-ml-6 mb-3 text-2xs lg:text-base"
+        class="text-center uppercase font-mono font-bold text-xs lg:-ml-6 xl:mb-3 xl:text-base"
       >{{label}}</div>
 
       <div class="flex">
         <clickable @click.prevent="() =>controlAudio('play')" v-if="state !== 'play'">
-          <play-icon class="w-8 h-8 lg:w-12 lg:h-12 text-black" />
+          <play-icon class="w-8 h-8 xl:w-12 xl:h-12 text-black" />
         </clickable>
 
         <clickable @click.prevent="() =>controlAudio('pause')" v-if="state !== 'pause'">
-          <pause-icon class="w-8 h-8 lg:w-12 lg:h-12 text-black" />
+          <pause-icon class="w-8 h-8 xl:w-12 xl:h-12 text-black" />
         </clickable>
 
         <div class="flex relative flex-grow mx-5 self-center">

@@ -1,12 +1,12 @@
 <?php
 
-namespace KSUGMap\Comment;
+namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    protected $guarded = ['id'];
+    protected $guarded = [];
     protected $dates = ['approved_at'];
 
     public function story()
@@ -17,5 +17,12 @@ class Comment extends Model
     public function scopeWhereApproved($q)
     {
         return $q->whereNotNull('approved_at');
+    }
+
+    public function approve()
+    {
+        return tap($this)->update([
+            'approved_at' => now(),
+        ]);
     }
 }

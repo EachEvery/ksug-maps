@@ -25,6 +25,10 @@
         transform: translateY(-5rem);
     }
 
+    .-translate-y-35vh {
+        transform: translateY(-35vh);
+    }
+
     .translate-x-full {
         transform: translateX(100%);
     }

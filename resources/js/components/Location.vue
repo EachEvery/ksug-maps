@@ -7,7 +7,7 @@
   >
     <div
       v-if="location.photo !== null"
-      class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden pt-10 md:pt-0 bg-gray-300"
+      class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 bg-gray-300"
     >
       <img
         :src="location.photo"
