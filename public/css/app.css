@@ -34664,7 +34664,7 @@ body {
 }
 
 .shrink-when-active {
-  transition: 150ms all ease;
+  transition: 0.5s all ease;
   -webkit-backface-visibility: hidden;
 }
 

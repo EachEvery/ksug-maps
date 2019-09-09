@@ -7,14 +7,17 @@
   >
     <div
       v-if="location.photo !== null"
-      class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 bg-gray-300"
+      class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 pt-10"
     >
+      <span
+        class="absolute font-mono text-2xs right-0 left-0 top-0 text-center text-white font-light px-4"
+      >{{location.photo_caption}}</span>
       <img
         :src="location.photo"
-        class="h-full object-cover w-full transition"
+        class="h-full object-cover w-full transition bg-black"
         style="box-shadow: 0 -10px 20px rgba(0,0,0, .5);"
         @load="handleImageLoad"
-        :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview, 'opacity-0': state === 'default'}"
+        :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
         :style="{transform: state === 'loaded' ? 'scale(1.05)' : 'none'}"
       />
     </div>
@@ -24,7 +27,8 @@
 
       <div class="flex mb-12">
         <h1
-          class="font-display font-black text-4xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
+          class="font-display font-black lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
+          :class="{'text-2xl': location.name.length > 21, 'text-4xl': location.name.length < 21}"
         >{{location.name}}</h1>
 
         <router-link :to="chevronLink" class="md:hidden">

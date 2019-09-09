@@ -10,7 +10,7 @@
       :class="activeMarkerIndicatorClass"
     >
       <div
-        class="w-24 h-24 rounded-full border-2 border-dashed border-white self-center flex justify-center"
+        class="w-24 h-24 rounded-full border-2 border-dotted border-white self-center flex justify-center"
       >
         <img src="/img/marker.png" style="width: 41.25px; height: 55px;" class="self-center" />
       </div>
@@ -24,13 +24,13 @@
       <map-icon
         v-if="!isLoading"
         class="w-8 h-8 self-center transition"
-        :class="{'text-white': overlayShowing, 'text-black': !overlayShowing}"
+        :class="{'text-white': overlayShowing, 'text-black': !overlayShowing, }"
       />
 
       <spinner class="w-16 h-16" v-if="isLoading" />
     </clickable>
 
-    <div class="flex fixed bottom-0 right-0 mb-5 mr-5">
+    <div class="flex fixed bottom-0 right-0 mb-5 mr-5" :class="{'opacity-0': !showOverlayButton}">
       <clickable
         class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3"
         :class="{'opacity-25':prevZoom === currentZoom}"
@@ -248,7 +248,6 @@ export default {
         });
 
         marker.addListener("click", async () => {
-          console.log(this.map.getZoom());
           if (this.map.getZoom() === 15) {
             this.zoom(this.nextZoom);
             return;

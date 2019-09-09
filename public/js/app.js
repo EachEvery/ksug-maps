@@ -3904,6 +3904,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -4321,10 +4325,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       while (1) {
                         switch (_context.prev = _context.next) {
                           case 0:
-                            console.log(_this4.map.getZoom());
-
                             if (!(_this4.map.getZoom() === 15)) {
-                              _context.next = 4;
+                              _context.next = 3;
                               break;
                             }
 
@@ -4332,7 +4334,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                             return _context.abrupt("return");
 
-                          case 4:
+                          case 3:
                             mapCenter = {
                               lat: _this4.map.getCenter().lat(),
                               lng: _this4.map.getCenter().lng()
@@ -4352,23 +4354,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                             // await this.zoom(17);
 
                             if (!(latDiff > diffThreshold || lngDiff > diffThreshold)) {
-                              _context.next = 15;
+                              _context.next = 14;
                               break;
                             }
 
-                            _context.next = 12;
+                            _context.next = 11;
                             return _this4.pan(marker.getPosition());
 
-                          case 12:
+                          case 11:
                             _this4.$emit("location-clicked", loc);
 
-                            _context.next = 16;
+                            _context.next = 15;
                             break;
 
-                          case 15:
+                          case 14:
                             _this4.$emit("location-clicked", loc);
 
-                          case 16:
+                          case 15:
                           case "end":
                             return _context.stop();
                         }
@@ -42603,15 +42605,23 @@ var render = function() {
             "div",
             {
               staticClass:
-                "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 bg-gray-300"
+                "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 pt-10"
             },
             [
+              _c(
+                "span",
+                {
+                  staticClass:
+                    "absolute font-mono text-2xs right-0 left-0 top-0 text-center text-white font-light px-4"
+                },
+                [_vm._v(_vm._s(_vm.location.photo_caption))]
+              ),
+              _vm._v(" "),
               _c("img", {
-                staticClass: "h-full object-cover w-full transition",
+                staticClass: "h-full object-cover w-full transition bg-black",
                 class: {
                   "translate-y-full": !_vm.isPreview,
-                  "md:translate-y-0": !_vm.isPreview,
-                  "opacity-0": _vm.state === "default"
+                  "md:translate-y-0": !_vm.isPreview
                 },
                 staticStyle: { "box-shadow": "0 -10px 20px rgba(0,0,0, .5)" },
                 style: {
@@ -42639,7 +42649,11 @@ var render = function() {
               "h1",
               {
                 staticClass:
-                  "font-display font-black text-4xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
+                  "font-display font-black lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto",
+                class: {
+                  "text-2xl": _vm.location.name.length > 21,
+                  "text-4xl": _vm.location.name.length < 21
+                }
               },
               [_vm._v(_vm._s(_vm.location.name))]
             ),
@@ -42833,7 +42847,10 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "flex fixed bottom-0 right-0 mb-5 mr-5" },
+        {
+          staticClass: "flex fixed bottom-0 right-0 mb-5 mr-5",
+          class: { "opacity-0": !_vm.showOverlayButton }
+        },
         [
           _c(
             "clickable",
@@ -42882,7 +42899,7 @@ var staticRenderFns = [
       "div",
       {
         staticClass:
-          "w-24 h-24 rounded-full border-2 border-dashed border-white self-center flex justify-center"
+          "w-24 h-24 rounded-full border-2 border-dotted border-white self-center flex justify-center"
       },
       [
         _c("img", {
