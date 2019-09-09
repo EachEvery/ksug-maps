@@ -29,6 +29,7 @@ export default (googleMaps, bounds, image, map) => {
             div.style.borderWidth = "0px";
             div.style.position = "absolute";
             div.style.transition = "500ms opacity ease";
+            div.style.transform = "translateZ(0)";
 
             // Create the img element and attach it to the div.
             var img = document.createElement("img");

@@ -85,6 +85,7 @@ export default {
       map: undefined,
       overlay: undefined,
       bounds: undefined,
+      strictBounds: false,
       overlayShowing: false,
       currentZoom: this.isLocation ? 17 : 15,
       zoomSteps: [15, 16, 17, 18],
@@ -141,18 +142,7 @@ export default {
       return next === undefined ? zoomSteps[zoomSteps.length - 1] : next;
     }
   },
-  watch: {
-    currentZoom: function() {
-      this.$nextTick(() => {
-        console.log(
-          this.currentZoom,
-          "current zoom",
-          this.nextZoom,
-          "next zoom"
-        );
-      });
-    }
-  },
+
   methods: {
     handleClick() {
       if (this.isLoading) {
@@ -258,6 +248,12 @@ export default {
         });
 
         marker.addListener("click", async () => {
+          console.log(this.map.getZoom());
+          if (this.map.getZoom() === 15) {
+            this.zoom(this.nextZoom);
+            return;
+          }
+
           let mapCenter = {
             lat: this.map.getCenter().lat(),
             lng: this.map.getCenter().lng()
@@ -278,7 +274,7 @@ export default {
            * event right away so there's no click delay
            */
 
-          await this.zoom(17);
+          // await this.zoom(17);
 
           if (latDiff > diffThreshold || lngDiff > diffThreshold) {
             await this.pan(marker.getPosition());

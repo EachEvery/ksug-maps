@@ -4135,6 +4135,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       map: undefined,
       overlay: undefined,
       bounds: undefined,
+      strictBounds: false,
       overlayShowing: false,
       currentZoom: this.isLocation ? 17 : 15,
       zoomSteps: [15, 16, 17, 18],
@@ -4199,15 +4200,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return next === undefined ? zoomSteps[zoomSteps.length - 1] : next;
     }
   },
-  watch: {
-    currentZoom: function currentZoom() {
-      var _this2 = this;
-
-      this.$nextTick(function () {
-        console.log(_this2.currentZoom, "current zoom", _this2.nextZoom, "next zoom");
-      });
-    }
-  },
   methods: {
     handleClick: function handleClick() {
       if (this.isLoading) {
@@ -4223,33 +4215,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     zoom: function zoom(_zoom) {
-      var _this3 = this;
+      var _this2 = this;
 
       return new Promise(function (resolve) {
-        if (_this3.map.getZoom() === _zoom || _this3.zooming) {
+        if (_this2.map.getZoom() === _zoom || _this2.zooming) {
           resolve();
         } else {
-          _this3.zooming = true;
+          _this2.zooming = true;
 
-          _this3.map.setZoom(_zoom);
+          _this2.map.setZoom(_zoom);
 
           Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-            _this3.zooming = false;
+            _this2.zooming = false;
             resolve();
           }, 450);
         }
       });
     },
     pan: function pan(loc) {
-      var _this4 = this;
+      var _this3 = this;
 
       return new Promise(function (resolve, reject) {
-        if (_this4.animatePan) {
-          _this4.map.panTo(loc);
+        if (_this3.animatePan) {
+          _this3.map.panTo(loc);
 
           Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(resolve, 500);
         } else {
-          _this4.map.setCenter(loc);
+          _this3.map.setCenter(loc);
 
           Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(resolve, 150);
         }
@@ -4259,7 +4251,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _initMap = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _this5 = this;
+        var _this4 = this;
 
         var overrideOptionsForLocation;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -4304,19 +4296,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 }, overrideOptionsForLocation));
                 this.map.addListener("zoom_changed", function () {
-                  _this5.currentZoom = _this5.map.getZoom();
+                  _this4.currentZoom = _this4.map.getZoom();
                 });
                 this.bounds = new this.googleMaps.LatLngBounds(new this.googleMaps.LatLng(41.1119, -81.404828), // SW CORNER 🧭
                 new this.googleMaps.LatLng(41.186267, -81.309106) // NE CORNER 🧭
                 );
                 this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2-sharp-with-noise.jpg", this.map);
                 this.markers = this.locations.map(function (loc) {
-                  var marker = new _this5.googleMaps.Marker({
-                    position: new _this5.googleMaps.LatLng(+loc.lat, +loc["long"]),
-                    map: _this5.map,
+                  var marker = new _this4.googleMaps.Marker({
+                    position: new _this4.googleMaps.LatLng(+loc.lat, +loc["long"]),
+                    map: _this4.map,
                     icon: {
                       url: "/img/marker.png",
-                      scaledSize: new _this5.googleMaps.Size(41.25, 55)
+                      scaledSize: new _this4.googleMaps.Size(41.25, 55)
                     }
                   });
                   marker.addListener("click",
@@ -4329,9 +4321,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       while (1) {
                         switch (_context.prev = _context.next) {
                           case 0:
+                            console.log(_this4.map.getZoom());
+
+                            if (!(_this4.map.getZoom() === 15)) {
+                              _context.next = 4;
+                              break;
+                            }
+
+                            _this4.zoom(_this4.nextZoom);
+
+                            return _context.abrupt("return");
+
+                          case 4:
                             mapCenter = {
-                              lat: _this5.map.getCenter().lat(),
-                              lng: _this5.map.getCenter().lng()
+                              lat: _this4.map.getCenter().lat(),
+                              lng: _this4.map.getCenter().lng()
                             };
                             markerCenter = {
                               lat: marker.getPosition().lat(),
@@ -4345,29 +4349,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                              * is not centered enough, otherwise, just emit the
                              * event right away so there's no click delay
                              */
+                            // await this.zoom(17);
 
-                            _context.next = 7;
-                            return _this5.zoom(17);
-
-                          case 7:
                             if (!(latDiff > diffThreshold || lngDiff > diffThreshold)) {
-                              _context.next = 13;
+                              _context.next = 15;
                               break;
                             }
 
-                            _context.next = 10;
-                            return _this5.pan(marker.getPosition());
+                            _context.next = 12;
+                            return _this4.pan(marker.getPosition());
 
-                          case 10:
-                            _this5.$emit("location-clicked", loc);
+                          case 12:
+                            _this4.$emit("location-clicked", loc);
 
-                            _context.next = 14;
+                            _context.next = 16;
                             break;
 
-                          case 13:
-                            _this5.$emit("location-clicked", loc);
+                          case 15:
+                            _this4.$emit("location-clicked", loc);
 
-                          case 14:
+                          case 16:
                           case "end":
                             return _context.stop();
                         }
@@ -4381,15 +4382,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                  */
 
                 this.checkImageLoadedInterval = setInterval(function () {
-                  clearInterval(_this5.checkImageLoadedInterval);
+                  clearInterval(_this4.checkImageLoadedInterval);
 
-                  if (_this5.overlay.imageLoaded) {
+                  if (_this4.overlay.imageLoaded) {
                     Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                      _this5.overlay.show();
+                      _this4.overlay.show();
 
                       Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                        _this5.overlayShowing = true;
-                        _this5.state = "default";
+                        _this4.overlayShowing = true;
+                        _this4.state = "default";
                       }, 800);
                     }, 800);
                   }
@@ -4411,10 +4412,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }()
   },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this5 = this;
 
     this.$nextTick(function () {
-      _this6.initMap();
+      _this5.initMap();
     });
   }
 });
@@ -63131,7 +63132,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
         div.style.borderStyle = "none";
         div.style.borderWidth = "0px";
         div.style.position = "absolute";
-        div.style.transition = "500ms opacity ease"; // Create the img element and attach it to the div.
+        div.style.transition = "500ms opacity ease";
+        div.style.transform = "translateZ(0)"; // Create the img element and attach it to the div.
 
         var img = document.createElement("img");
         img.src = this.image_;
