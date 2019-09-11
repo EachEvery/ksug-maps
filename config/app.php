@@ -173,6 +173,7 @@ return [
         KSUGMap\Providers\AuthServiceProvider::class,
         // KSUGMap\Providers\BroadcastServiceProvider::class,
         KSUGMap\Providers\EventServiceProvider::class,
+        KSUGMap\Providers\NovaServiceProvider::class,
         KSUGMap\Providers\RouteServiceProvider::class,
     ],
 

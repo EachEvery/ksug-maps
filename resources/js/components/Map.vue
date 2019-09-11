@@ -87,7 +87,7 @@ export default {
       bounds: undefined,
       strictBounds: false,
       overlayShowing: false,
-      currentZoom: this.isLocation ? 17 : 15,
+      currentZoom: this.isLocation ? 17 : 16,
       zoomSteps: [15, 16, 17, 18],
       zooming: false,
       maxZoom: 18,
