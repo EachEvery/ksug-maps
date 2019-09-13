@@ -4,16 +4,22 @@
       class="px-8 xl:px-24 py-4"
       style="background: rgba(255, 255, 255, .98); box-shadow: 0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
     >
-      <div
-        class="text-center uppercase font-mono font-bold text-xs lg:-ml-6 xl:mb-3 xl:text-base"
-      >{{label}}</div>
+      <div class="text-center font-sans text-xs lg:-ml-6 xl:mb-3 xl:text-base">{{label}}</div>
 
       <div class="flex">
-        <clickable @click.prevent="() =>controlAudio('play')" v-if="state !== 'play'">
+        <clickable
+          @click.prevent="() =>controlAudio('play')"
+          v-if="state !== 'play'"
+          class="rounded-full"
+        >
           <play-icon class="w-8 h-8 xl:w-12 xl:h-12 text-black" />
         </clickable>
 
-        <clickable @click.prevent="() =>controlAudio('pause')" v-if="state !== 'pause'">
+        <clickable
+          @click.prevent="() =>controlAudio('pause')"
+          v-if="state !== 'pause'"
+          class="rounded-full"
+        >
           <pause-icon class="w-8 h-8 xl:w-12 xl:h-12 text-black" />
         </clickable>
 
@@ -36,7 +42,7 @@
         />
 
         <span
-          class="self-center text-black font-display font-semibold w-16 -mt-1 text-center"
+          class="self-center text-black font-mono font-semibold w-16 -mt-1 text-center"
         >{{timestamp}}</span>
       </div>
     </div>
@@ -70,18 +76,23 @@ export default {
       return { left: `${sliderVal}%` };
     },
     sliderTime({ sliderVal, totalTime }) {
-      return totalTime * (sliderVal / 100);
+      return Math.round(totalTime * (sliderVal / 100));
     },
     currentMinutes({ sliderTime }) {
       return Math.floor(sliderTime / 60);
     },
 
-    currentSeconds({ sliderTime }) {
-      return sliderTime % 60;
+    currentSeconds({ sliderTime, currentMinutes }) {
+      return sliderTime - currentMinutes * 60;
     },
 
     timestamp({ currentMinutes, currentSeconds }) {
       return `${this.pad(currentMinutes)}:${this.pad(currentSeconds)}`;
+    }
+  },
+  watch: {
+    currentTime: function() {
+      this.sliderVal = (this.currentTime / this.totalTime) * 100;
     }
   },
   methods: {
@@ -113,10 +124,7 @@ export default {
     },
     updateTime(time) {
       this.currentTime = Math.round(time);
-
       this.totalTime = this.$refs.audio.duration;
-
-      this.sliderVal = (this.currentTime / this.totalTime) * 100;
     }
   }
 };

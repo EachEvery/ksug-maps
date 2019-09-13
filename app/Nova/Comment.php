@@ -4,27 +4,29 @@ namespace KSUGMap\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasMany;
+use KSUGMap\Nova\Actions\ApproveComments;
+use KSUGMap\Nova\Actions\UnapproveComments;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Story extends Resource
+class Comment extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'KSUGMap\Story';
+    public static $model = 'KSUGMap\Comment';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'subject';
+    public static $title = 'author';
 
     /**
      * The columns that should be searched.
@@ -32,7 +34,7 @@ class Story extends Resource
      * @var array
      */
     public static $search = [
-        'subject', 'role', 'day'
+        'author', 'email', 'text'
     ];
 
     /**
@@ -44,14 +46,11 @@ class Story extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Subject'),
-            Text::make('Role'),
-            Text::make('Day'),
-            Text::make('Audio'),
-            Textarea::make('Content'),
-            BelongsTo::make('Place'),
-            HasMany::make('Comments')
-
+            Text::make('Author')->readonly(),
+            Text::make('Email')->readonly(),
+            Textarea::make('Text')->readonly(),
+            Boolean::make('Is Approved')->hideWhenCreating()->hideWhenUpdating(),
+            Date::make('Created At')->readonly()
         ];
     }
 
@@ -96,6 +95,6 @@ class Story extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [new ApproveComments, new UnapproveComments];
     }
 }

@@ -24,8 +24,8 @@
         <span class="self-center text-sm xl:text-base">VISIT FULL ORAL HISTORY →</span>
       </a>
 
-      <clickable @click="closeStory" class="fixed top-0 right-0 shadow-lg rounded-full mr-5 mt-5">
-        <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-white" />
+      <clickable @click="closeStory" class="fixed top-0 right-0 rounded-full mr-5 mt-5 z-10">
+        <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-black" />
       </clickable>
     </div>
 
@@ -107,13 +107,18 @@ export default {
       this.state = "default";
     },
     handleClickOutside(e) {
-      if (e.target.tagName !== "svg") {
+      console.log(e.target.tagName);
+      if (e.target.tagName !== "svg" && e.target.tagName !== "path") {
         this.closeStory();
       }
     },
     closeStory() {
-      this.$refs.audioPlayer.controlAudio("pause");
-      this.$router.push(`/places/${this.location.slug}`);
+      this.state = "default";
+
+      setTimeout(() => {
+        this.$refs.audioPlayer.controlAudio("pause");
+        this.$router.push(`/places/${this.location.slug}`);
+      }, 310);
     },
     handleCommentCreated(comment) {
       this.state = "showCommentConfirmation";
@@ -132,10 +137,11 @@ export default {
       };
     },
     audioPlayerStyle({ story, state }) {
-      let showingStory = state === "showPlayer";
+      let showPlayer = state === "showPlayer";
 
       return {
-        transform: `translateY(${showingStory ? "0" : "100%"})`
+        transform: `translateY(${showPlayer ? "0" : "100%"})`,
+        opacity: showPlayer ? "1" : "0"
       };
     },
     location({ story }) {

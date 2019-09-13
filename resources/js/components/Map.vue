@@ -248,7 +248,7 @@ export default {
         });
 
         marker.addListener("click", async () => {
-          if (this.map.getZoom() === 15) {
+          if (this.map.getZoom() === 18) {
             this.zoom(this.nextZoom);
             return;
           }

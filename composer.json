@@ -18,7 +18,8 @@
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "sleiman/airtable-php": "^2.2",
-        "laravel/nova": "*"
+        "laravel/nova": "*",
+        "eachevery/welcome": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -70,6 +71,10 @@
         {
             "type": "path",
             "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Welcome"
         }
     ]
 }

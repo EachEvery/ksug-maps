@@ -7,11 +7,8 @@
   >
     <div
       v-if="location.photo !== null"
-      class="h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 pt-10"
+      class="h-64 absolute md:relative inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 pt-10"
     >
-      <span
-        class="absolute font-mono text-2xs right-0 left-0 top-0 text-center text-white font-light px-4"
-      >{{location.photo_caption}}</span>
       <img
         :src="location.photo"
         class="h-full object-cover w-full transition bg-black"
@@ -20,6 +17,11 @@
         :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
         :style="{transform: state === 'loaded' ? 'scale(1.05)' : 'none'}"
       />
+
+      <span
+        class="absolute font-mono text-2xs font-bold right-0 left-0 bottom-0 text-center text-white font-light px-4 pb-2 pt-5 px-5 md:px-24"
+        style="background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0);"
+      >{{location.photo_caption}}</span>
     </div>
 
     <div class="px-5 xl:px-8 md:mt-5">

@@ -4,27 +4,28 @@ namespace KSUGMap\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 
-class Story extends Resource
+class Place extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'KSUGMap\Story';
+    public static $model = 'KSUGMap\Place';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'subject';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -32,7 +33,7 @@ class Story extends Resource
      * @var array
      */
     public static $search = [
-        'subject', 'role', 'day'
+        'name'
     ];
 
     /**
@@ -44,13 +45,11 @@ class Story extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Subject'),
-            Text::make('Role'),
-            Text::make('Day'),
-            Text::make('Audio'),
-            Textarea::make('Content'),
-            BelongsTo::make('Place'),
-            HasMany::make('Comments')
+            Text::make('Name'),
+            Text::make('Photo'),
+            Number::make('Lat'),
+            Number::make('Long'),
+            HasMany::make('Stories')
 
         ];
     }

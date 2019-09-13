@@ -22,4 +22,6 @@ Route::post('/stories/{story_id}/comments', 'StoryCommentsController@store');
 
 Route::get('/{vue?}', function () {
     return view('master');
-})->where('vue', '[\/\w\.-]*')->where('vue', '^((?!admin).)*$');
+})->where([
+    'vue' => '^((?!admin|nova-api).)*$',
+]);

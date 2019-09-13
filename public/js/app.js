@@ -3399,6 +3399,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3430,20 +3436,26 @@ __webpack_require__.r(__webpack_exports__);
     sliderTime: function sliderTime(_ref2) {
       var sliderVal = _ref2.sliderVal,
           totalTime = _ref2.totalTime;
-      return totalTime * (sliderVal / 100);
+      return Math.round(totalTime * (sliderVal / 100));
     },
     currentMinutes: function currentMinutes(_ref3) {
       var sliderTime = _ref3.sliderTime;
       return Math.floor(sliderTime / 60);
     },
     currentSeconds: function currentSeconds(_ref4) {
-      var sliderTime = _ref4.sliderTime;
-      return sliderTime % 60;
+      var sliderTime = _ref4.sliderTime,
+          currentMinutes = _ref4.currentMinutes;
+      return sliderTime - currentMinutes * 60;
     },
     timestamp: function timestamp(_ref5) {
       var currentMinutes = _ref5.currentMinutes,
           currentSeconds = _ref5.currentSeconds;
       return "".concat(this.pad(currentMinutes), ":").concat(this.pad(currentSeconds));
+    }
+  },
+  watch: {
+    currentTime: function currentTime() {
+      this.sliderVal = this.currentTime / this.totalTime * 100;
     }
   },
   methods: {
@@ -3473,7 +3485,6 @@ __webpack_require__.r(__webpack_exports__);
     updateTime: function updateTime(time) {
       this.currentTime = Math.round(time);
       this.totalTime = this.$refs.audio.duration;
-      this.sliderVal = this.currentTime / this.totalTime * 100;
     }
   }
 });
@@ -3849,6 +3860,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -4325,7 +4338,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       while (1) {
                         switch (_context.prev = _context.next) {
                           case 0:
-                            if (!(_this4.map.getZoom() === 15)) {
+                            if (!(_this4.map.getZoom() === 18)) {
                               _context.next = 3;
                               break;
                             }
@@ -4689,13 +4702,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.state = "default";
     },
     handleClickOutside: function handleClickOutside(e) {
-      if (e.target.tagName !== "svg") {
+      console.log(e.target.tagName);
+
+      if (e.target.tagName !== "svg" && e.target.tagName !== "path") {
         this.closeStory();
       }
     },
     closeStory: function closeStory() {
-      this.$refs.audioPlayer.controlAudio("pause");
-      this.$router.push("/places/".concat(this.location.slug));
+      var _this = this;
+
+      this.state = "default";
+      setTimeout(function () {
+        _this.$refs.audioPlayer.controlAudio("pause");
+
+        _this.$router.push("/places/".concat(_this.location.slug));
+      }, 310);
     },
     handleCommentCreated: function handleCommentCreated(comment) {
       this.state = "showCommentConfirmation";
@@ -4714,9 +4735,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     audioPlayerStyle: function audioPlayerStyle(_ref2) {
       var story = _ref2.story,
           state = _ref2.state;
-      var showingStory = state === "showPlayer";
+      var showPlayer = state === "showPlayer";
       return {
-        transform: "translateY(".concat(showingStory ? "0" : "100%", ")")
+        transform: "translateY(".concat(showPlayer ? "0" : "100%", ")"),
+        opacity: showPlayer ? "1" : "0"
       };
     },
     location: function location(_ref3) {
@@ -4724,11 +4746,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return story.place;
     },
     story: function story(_ref4) {
-      var _this = this;
+      var _this2 = this;
 
       var stories = _ref4.stories;
       return stories.find(function (s) {
-        return +s.id === +_this.$route.params.story;
+        return +s.id === +_this2.$route.params.story;
       });
     },
     locationHtml: function locationHtml(_ref5) {
@@ -4743,10 +4765,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     setTimeout(function () {
-      _this2.state = "showPlayer";
+      _this3.state = "showPlayer";
     }, 500);
   }
 });
@@ -41852,7 +41874,7 @@ var render = function() {
           "div",
           {
             staticClass:
-              "text-center uppercase font-mono font-bold text-xs lg:-ml-6 xl:mb-3 xl:text-base"
+              "text-center font-sans text-xs lg:-ml-6 xl:mb-3 xl:text-base"
           },
           [_vm._v(_vm._s(_vm.label))]
         ),
@@ -41865,6 +41887,7 @@ var render = function() {
               ? _c(
                   "clickable",
                   {
+                    staticClass: "rounded-full",
                     on: {
                       click: function($event) {
                         $event.preventDefault()
@@ -41887,6 +41910,7 @@ var render = function() {
               ? _c(
                   "clickable",
                   {
+                    staticClass: "rounded-full",
                     on: {
                       click: function($event) {
                         $event.preventDefault()
@@ -41946,7 +41970,7 @@ var render = function() {
               "span",
               {
                 staticClass:
-                  "self-center text-black font-display font-semibold w-16 -mt-1 text-center"
+                  "self-center text-black font-mono font-semibold w-16 -mt-1 text-center"
               },
               [_vm._v(_vm._s(_vm.timestamp))]
             )
@@ -42117,7 +42141,7 @@ var render = function() {
         [
           _c("input", {
             staticClass:
-              "border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition",
+              "border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full",
             attrs: {
               type: "text",
               name: "comment[author]",
@@ -42128,7 +42152,7 @@ var render = function() {
           _vm._v(" "),
           _c("input", {
             staticClass:
-              "border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition",
+              "border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full",
             attrs: {
               type: "email",
               name: "comment[email]",
@@ -42139,7 +42163,7 @@ var render = function() {
           _vm._v(" "),
           _c("textarea", {
             staticClass:
-              "border border-black p-2 font-mono text-black mb-10 focus:outline-none transition",
+              "border border-black p-2 font-mono text-black mb-10 focus:outline-none transition w-full",
             staticStyle: { "min-height": "15.625rem" },
             attrs: {
               name: "comment[text]",
@@ -42605,18 +42629,9 @@ var render = function() {
             "div",
             {
               staticClass:
-                "h-64 absolute md:static inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 pt-10"
+                "h-64 absolute md:relative inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 pt-10"
             },
             [
-              _c(
-                "span",
-                {
-                  staticClass:
-                    "absolute font-mono text-2xs right-0 left-0 top-0 text-center text-white font-light px-4"
-                },
-                [_vm._v(_vm._s(_vm.location.photo_caption))]
-              ),
-              _vm._v(" "),
               _c("img", {
                 staticClass: "h-full object-cover w-full transition bg-black",
                 class: {
@@ -42629,7 +42644,20 @@ var render = function() {
                 },
                 attrs: { src: _vm.location.photo },
                 on: { load: _vm.handleImageLoad }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  staticClass:
+                    "absolute font-mono text-2xs font-bold right-0 left-0 bottom-0 text-center text-white font-light px-4 pb-2 pt-5 px-5 md:px-24",
+                  staticStyle: {
+                    background:
+                      "linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)"
+                  }
+                },
+                [_vm._v(_vm._s(_vm.location.photo_caption))]
+              )
             ]
           )
         : _vm._e(),
@@ -43538,13 +43566,12 @@ var render = function() {
           _c(
             "clickable",
             {
-              staticClass:
-                "fixed top-0 right-0 shadow-lg rounded-full mr-5 mt-5",
+              staticClass: "fixed top-0 right-0 rounded-full mr-5 mt-5 z-10",
               on: { click: _vm.closeStory }
             },
             [
               _c("close-icon", {
-                staticClass: "w-8 h-8 lg:w-5 lg:h-5 text-white"
+                staticClass: "w-8 h-8 lg:w-5 lg:h-5 text-black"
               })
             ],
             1
@@ -63385,8 +63412,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/vulcan/Source 🔋/maps/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/vulcan/Source 🔋/maps/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/nate/projects/valet/maps/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/nate/projects/valet/maps/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

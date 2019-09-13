@@ -8,6 +8,7 @@ class Place extends Model
 {
     protected $guarded = [];
 
+
     public function stories()
     {
         return $this->hasMany(Story::class);

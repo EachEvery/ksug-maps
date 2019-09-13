@@ -10,6 +10,11 @@ class Comment extends Model
     public $appends = ['frontend_date'];
     protected $dates = ['approved_at'];
 
+    public function getIsApprovedAttribute()
+    {
+        return filled($this->approved_at);
+    }
+
     public function story()
     {
         return $this->belongsTo(Story::class);
