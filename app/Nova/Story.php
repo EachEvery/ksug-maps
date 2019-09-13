@@ -47,7 +47,7 @@ class Story extends Resource
             Text::make('Subject'),
             Text::make('Role'),
             Text::make('Day'),
-            Text::make('Audio'),
+            Text::make('Audio')->hideFromIndex(),
             Textarea::make('Content'),
             BelongsTo::make('Place'),
             HasMany::make('Comments')

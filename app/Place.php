@@ -14,6 +14,11 @@ class Place extends Model
         return $this->hasMany(Story::class);
     }
 
+    public function getHasPhotoAttribute()
+    {
+        return filled($this->photo);
+    }
+
     protected static function boot()
     {
         parent::boot();

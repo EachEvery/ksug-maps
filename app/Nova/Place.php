@@ -5,6 +5,7 @@ namespace KSUGMap\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -46,7 +47,8 @@ class Place extends Resource
     {
         return [
             Text::make('Name'),
-            Text::make('Photo'),
+            Text::make('Photo')->hideFromIndex(),
+            Boolean::make('Has Photo'),
             Number::make('Lat'),
             Number::make('Long'),
             HasMany::make('Stories')
