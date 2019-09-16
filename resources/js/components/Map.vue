@@ -91,7 +91,8 @@ export default {
       zoomSteps: [15, 16, 17, 18],
       zooming: false,
       maxZoom: 18,
-      minZoom: 15
+      minZoom: 15,
+      markerRecentlyClicked: false
     };
   },
   computed: {
@@ -142,7 +143,13 @@ export default {
       return next === undefined ? zoomSteps[zoomSteps.length - 1] : next;
     }
   },
-
+  watch: {
+    $route() {
+      if (!this.markerRecentlyClicked && this.isLocation) {
+        this.panToLocation(this.currentLocation);
+      }
+    }
+  },
   methods: {
     handleClick() {
       if (this.isLoading) {
@@ -156,6 +163,40 @@ export default {
         this.overlay.show();
         this.overlayShowing = true;
       }
+    },
+
+    panToLocation(loc) {
+      return new Promise(async resolve => {
+        let location = new this.googleMaps.LatLng(+loc.lat, +loc.long);
+
+        if (this.map.getZoom() === 15) {
+          await this.zoom(this.nextZoom);
+        }
+
+        let mapCenter = {
+          lat: this.map.getCenter().lat(),
+          lng: this.map.getCenter().lng()
+        };
+
+        let markerCenter = {
+          lat: location.lat(),
+          lng: location.lng()
+        };
+
+        let diffThreshold = 0.0;
+        let latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
+        let lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
+
+        if (latDiff > diffThreshold || lngDiff > diffThreshold) {
+          this.pan(location);
+
+          setTimeout(() => {
+            resolve();
+          }, 450);
+        } else {
+          resolve();
+        }
+      });
     },
     zoom(zoom) {
       return new Promise(resolve => {
@@ -248,40 +289,15 @@ export default {
         });
 
         marker.addListener("click", async () => {
-          if (this.map.getZoom() === 18) {
-            this.zoom(this.nextZoom);
-            return;
-          }
+          this.markerRecentlyClicked = true;
 
-          let mapCenter = {
-            lat: this.map.getCenter().lat(),
-            lng: this.map.getCenter().lng()
-          };
+          clearTimeout(this.markerTimeout);
+          this.markerTimeout = setTimeout(() => {
+            this.markerRecentlyClicked = false;
+          }, 300);
 
-          let markerCenter = {
-            lat: marker.getPosition().lat(),
-            lng: marker.getPosition().lng()
-          };
-
-          let diffThreshold = 0.0;
-          let latDiff = Math.abs(mapCenter.lat - markerCenter.lat);
-          let lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
-
-          /**
-           * only pan the map if the marker that was clicked
-           * is not centered enough, otherwise, just emit the
-           * event right away so there's no click delay
-           */
-
-          // await this.zoom(17);
-
-          if (latDiff > diffThreshold || lngDiff > diffThreshold) {
-            await this.pan(marker.getPosition());
-
-            this.$emit(`location-clicked`, loc);
-          } else {
-            this.$emit("location-clicked", loc);
-          }
+          await this.panToLocation(loc);
+          this.$emit("location-clicked", loc);
         });
 
         return marker;

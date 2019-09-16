@@ -3,11 +3,25 @@
 namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
+use KSUGMap\Contracts\MapsToSearchResult;
+use Laravel\Scout\Searchable;
 
-class Place extends Model
+class Place extends Model implements MapsToSearchResult
 {
-    protected $guarded = [];
+    use Searchable;
 
+    public function toSearchResult(): object
+    {
+        $storyCount = $this->stories()->count();
+
+        return (object) [
+            'title' => $this->name,
+            'subtitle' => sprintf('%s %s', $storyCount, $storyCount > 1 ? 'Stories' : 'Story'),
+            'path' => sprintf('/places/%s/preview', $this->slug),
+        ];
+    }
+
+    protected $guarded = [];
 
     public function stories()
     {

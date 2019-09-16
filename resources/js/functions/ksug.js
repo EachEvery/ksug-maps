@@ -8,10 +8,7 @@ export const mapStoriesToLocations = stories => {
 
         return {
             ...location,
-            stories: locationStories,
-            slug: getSlug(location.name, {
-                remove: /['()]/g
-            }).toLowerCase()
+            stories: locationStories
         };
     });
 };

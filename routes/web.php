@@ -13,6 +13,8 @@ use KSUGMap\Repositories\Stories;
 |
 */
 
+Route::get('/search', 'SearchController');
+
 Route::get('/stories', function (Stories $stories) {
     return $stories->all();
 });

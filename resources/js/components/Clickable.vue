@@ -1,7 +1,7 @@
 <template>
   <button
     @click="emitClickEvent"
-    class="focus:outline-none focus:shadow-outline shrink-when-active select-none"
+    class="focus:outline-none focus:shadow-outline shrink-when-active select-none rounded"
   >
     <slot />
   </button>

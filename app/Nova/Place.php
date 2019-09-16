@@ -2,15 +2,12 @@
 
 namespace KSUGMap\Nova;
 
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 
 class Place extends Resource
 {
@@ -34,13 +31,14 @@ class Place extends Resource
      * @var array
      */
     public static $search = [
-        'name'
+        'name',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function fields(Request $request)
@@ -48,18 +46,23 @@ class Place extends Resource
         return [
             Text::make('Name'),
             Text::make('Photo')->hideFromIndex(),
+            Select::make('Photo Position')->options([
+                'top' => 'Top',
+                'center' => 'Center',
+                'bottom' => 'Bottom',
+            ]),
             Boolean::make('Has Photo'),
             Number::make('Lat'),
             Number::make('Long'),
-            HasMany::make('Stories')
-
+            HasMany::make('Stories'),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function cards(Request $request)
@@ -70,7 +73,8 @@ class Place extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function filters(Request $request)
@@ -81,7 +85,8 @@ class Place extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function lenses(Request $request)
@@ -92,7 +97,8 @@ class Place extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function actions(Request $request)
