@@ -2,6 +2,7 @@
   <div v-if="ready" class="relative">
     <div class="w-full h-full relative overflow-hidden bg-black">
       <map-component
+        :filters="filters"
         :locations="locations"
         :show-overlay-button="!isLocation"
         :is-location="isLocation"
@@ -70,7 +71,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["stories"]),
+    ...mapState(["stories", "filters"]),
     ...mapGetters(["locations"]),
     isLocation({ $route }) {
       return ["location", "preview", "story"].includes($route.name);

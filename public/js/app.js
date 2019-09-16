@@ -3252,6 +3252,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -3316,7 +3317,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$router.push("/places/".concat(location.slug, "/preview"));
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(["locations"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(["stories", "filters"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(["locations"]), {
     isLocation: function isLocation(_ref) {
       var $route = _ref.$route;
       return ["location", "preview", "story"].includes($route.name);
@@ -4299,7 +4300,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     locations: Array,
     showOverlayButton: Boolean,
-    isLocation: Boolean
+    isLocation: Boolean,
+    filters: Array
   },
   data: function data() {
     return {
@@ -4380,6 +4382,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (!this.markerRecentlyClicked && this.isLocation) {
         this.panToLocation(this.currentLocation);
       }
+    },
+    filters: function filters(_filters) {
+      var _this2 = this;
+
+      this.markers.forEach(function (marker) {
+        var filteredStories = marker.loc.stories.filter(function (item) {
+          for (var i = 0; i < _filters.length; i++) {
+            var filter = _filters[i];
+
+            if (item[filter.key.trim()] === filter.value.trim()) {
+              return true;
+            }
+          }
+
+          return false;
+        });
+        marker.setIcon({
+          url: filteredStories.length === 0 && _filters.length > 0 ? "/img/marker-transparent.png" : "/img/marker.png",
+          scaledSize: new _this2.googleMaps.Size(41.25, 55)
+        });
+      });
     }
   },
   methods: {
@@ -4397,7 +4420,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     panToLocation: function panToLocation(loc) {
-      var _this2 = this;
+      var _this3 = this;
 
       return new Promise(
       /*#__PURE__*/
@@ -4410,20 +4433,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  location = new _this2.googleMaps.LatLng(+loc.lat, +loc["long"]);
+                  location = new _this3.googleMaps.LatLng(+loc.lat, +loc["long"]);
 
-                  if (!(_this2.map.getZoom() === 15)) {
+                  if (!(_this3.map.getZoom() === 15)) {
                     _context.next = 4;
                     break;
                   }
 
                   _context.next = 4;
-                  return _this2.zoom(_this2.nextZoom);
+                  return _this3.zoom(_this3.nextZoom);
 
                 case 4:
                   mapCenter = {
-                    lat: _this2.map.getCenter().lat(),
-                    lng: _this2.map.getCenter().lng()
+                    lat: _this3.map.getCenter().lat(),
+                    lng: _this3.map.getCenter().lng()
                   };
                   markerCenter = {
                     lat: location.lat(),
@@ -4434,7 +4457,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   lngDiff = Math.abs(mapCenter.lng - markerCenter.lng);
 
                   if (latDiff > diffThreshold || lngDiff > diffThreshold) {
-                    _this2.pan(location);
+                    _this3.pan(location);
 
                     Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
                       resolve();
@@ -4457,33 +4480,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }());
     },
     zoom: function zoom(_zoom) {
-      var _this3 = this;
+      var _this4 = this;
 
       return new Promise(function (resolve) {
-        if (_this3.map.getZoom() === _zoom || _this3.zooming) {
+        if (_this4.map.getZoom() === _zoom || _this4.zooming) {
           resolve();
         } else {
-          _this3.zooming = true;
+          _this4.zooming = true;
 
-          _this3.map.setZoom(_zoom);
+          _this4.map.setZoom(_zoom);
 
           Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-            _this3.zooming = false;
+            _this4.zooming = false;
             resolve();
           }, 450);
         }
       });
     },
     pan: function pan(loc) {
-      var _this4 = this;
+      var _this5 = this;
 
       return new Promise(function (resolve, reject) {
-        if (_this4.animatePan) {
-          _this4.map.panTo(loc);
+        if (_this5.animatePan) {
+          _this5.map.panTo(loc);
 
           Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(resolve, 500);
         } else {
-          _this4.map.setCenter(loc);
+          _this5.map.setCenter(loc);
 
           Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(resolve, 150);
         }
@@ -4493,7 +4516,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _initMap = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _this5 = this;
+        var _this6 = this;
 
         var overrideOptionsForLocation;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
@@ -4538,19 +4561,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 }, overrideOptionsForLocation));
                 this.map.addListener("zoom_changed", function () {
-                  _this5.currentZoom = _this5.map.getZoom();
+                  _this6.currentZoom = _this6.map.getZoom();
                 });
                 this.bounds = new this.googleMaps.LatLngBounds(new this.googleMaps.LatLng(41.1119, -81.404828), // SW CORNER 🧭
                 new this.googleMaps.LatLng(41.186267, -81.309106) // NE CORNER 🧭
                 );
                 this.overlay = Object(_functions_overlayFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(this.googleMaps, this.bounds, "https://nhmisc.s3.amazonaws.com/ksug/overlay-v2-sharp-with-noise.jpg", this.map);
                 this.markers = this.locations.map(function (loc) {
-                  var marker = new _this5.googleMaps.Marker({
-                    position: new _this5.googleMaps.LatLng(+loc.lat, +loc["long"]),
-                    map: _this5.map,
+                  var marker = new _this6.googleMaps.Marker({
+                    loc: loc,
+                    position: new _this6.googleMaps.LatLng(+loc.lat, +loc["long"]),
+                    map: _this6.map,
                     icon: {
                       url: "/img/marker.png",
-                      scaledSize: new _this5.googleMaps.Size(41.25, 55)
+                      scaledSize: new _this6.googleMaps.Size(41.25, 55)
                     }
                   });
                   marker.addListener("click",
@@ -4562,16 +4586,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       while (1) {
                         switch (_context2.prev = _context2.next) {
                           case 0:
-                            _this5.markerRecentlyClicked = true;
-                            clearTimeout(_this5.markerTimeout);
-                            _this5.markerTimeout = Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                              _this5.markerRecentlyClicked = false;
+                            _this6.markerRecentlyClicked = true;
+                            clearTimeout(_this6.markerTimeout);
+                            _this6.markerTimeout = Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
+                              _this6.markerRecentlyClicked = false;
                             }, 300);
                             _context2.next = 5;
-                            return _this5.panToLocation(loc);
+                            return _this6.panToLocation(loc);
 
                           case 5:
-                            _this5.$emit("location-clicked", loc);
+                            _this6.$emit("location-clicked", loc);
 
                           case 6:
                           case "end":
@@ -4587,15 +4611,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                  */
 
                 this.checkImageLoadedInterval = setInterval(function () {
-                  clearInterval(_this5.checkImageLoadedInterval);
+                  clearInterval(_this6.checkImageLoadedInterval);
 
-                  if (_this5.overlay.imageLoaded) {
+                  if (_this6.overlay.imageLoaded) {
                     Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                      _this5.overlay.show();
+                      _this6.overlay.show();
 
                       Object(timers__WEBPACK_IMPORTED_MODULE_10__["setTimeout"])(function () {
-                        _this5.overlayShowing = true;
-                        _this5.state = "default";
+                        _this6.overlayShowing = true;
+                        _this6.state = "default";
                       }, 800);
                     }, 800);
                   }
@@ -4617,10 +4641,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }()
   },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this7 = this;
 
     this.$nextTick(function () {
-      _this6.initMap();
+      _this7.initMap();
     });
   }
 });
@@ -4651,6 +4675,14 @@ __webpack_require__.r(__webpack_exports__);
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
@@ -4763,7 +4795,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["filters"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])(["roles", "names", "days"]), {
     filterItems: function filterItems(_ref) {
       var activeCollection = _ref.activeCollection;
-      return this[activeCollection];
+      var items = this[activeCollection].map(function (item) {
+        return item.trim();
+      });
+      return _toConsumableArray(new Set(items)).sort();
     }
   }),
   watch: {
@@ -4790,10 +4825,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 2:
                 _ref2 = _context.sent;
                 data = _ref2.data;
-                console.log(data);
                 this.results = data;
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -42135,6 +42169,7 @@ var render = function() {
                   "md:-translate-x-10": _vm.isLocation
                 },
                 attrs: {
+                  filters: _vm.filters,
                   locations: _vm.locations,
                   "show-overlay-button": !_vm.isLocation,
                   "is-location": _vm.isLocation
@@ -43974,7 +44009,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("h1", { staticClass: "font-display text-lg font-black mb-5 mt-16" }, [
-        _vm._v("BROWSE BY")
+        _vm._v("FILTER STORIES BY")
       ]),
       _vm._v(" "),
       _c(

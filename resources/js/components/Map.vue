@@ -75,7 +75,8 @@ export default {
   props: {
     locations: Array,
     showOverlayButton: Boolean,
-    isLocation: Boolean
+    isLocation: Boolean,
+    filters: Array
   },
   data() {
     return {
@@ -148,6 +149,29 @@ export default {
       if (!this.markerRecentlyClicked && this.isLocation) {
         this.panToLocation(this.currentLocation);
       }
+    },
+    filters(filters) {
+      this.markers.forEach(marker => {
+        let filteredStories = marker.loc.stories.filter(item => {
+          for (let i = 0; i < filters.length; i++) {
+            let filter = filters[i];
+
+            if (item[filter.key.trim()] === filter.value.trim()) {
+              return true;
+            }
+          }
+
+          return false;
+        });
+
+        marker.setIcon({
+          url:
+            filteredStories.length === 0 && filters.length > 0
+              ? "/img/marker-transparent.png"
+              : "/img/marker.png",
+          scaledSize: new this.googleMaps.Size(41.25, 55)
+        });
+      });
     }
   },
   methods: {
@@ -280,6 +304,7 @@ export default {
 
       this.markers = this.locations.map(loc => {
         let marker = new this.googleMaps.Marker({
+          loc,
           position: new this.googleMaps.LatLng(+loc.lat, +loc.long),
           map: this.map,
           icon: {

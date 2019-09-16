@@ -29,7 +29,7 @@
       </router-link>
     </div>
 
-    <h1 class="font-display text-lg font-black mb-5 mt-16">BROWSE BY</h1>
+    <h1 class="font-display text-lg font-black mb-5 mt-16">FILTER STORIES BY</h1>
 
     <div class="flex border-b-2 border-black pb-2 justify-between flex-shrink-0">
       <div class="flex">
@@ -110,7 +110,11 @@ export default {
     ...mapState(["filters"]),
     ...mapGetters(["roles", "names", "days"]),
     filterItems({ activeCollection }) {
-      return this[activeCollection];
+      let items = this[activeCollection].map(item => {
+        return item.trim();
+      });
+
+      return [...new Set(items)].sort();
     }
   },
   watch: {
@@ -125,8 +129,6 @@ export default {
     getStoryColor,
     async updateResults() {
       let { data } = await axios.get("/search?q=" + this.q);
-
-      console.log(data);
 
       this.results = data;
     },
