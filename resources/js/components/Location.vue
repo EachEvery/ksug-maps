@@ -12,7 +12,7 @@
       <img
         :src="location.photo"
         class="h-full object-cover w-full transition bg-black"
-        style="box-shadow: 0 -10px 20px rgba(0,0,0, .5);"
+        style="box-shadow: 0 -10px 20px rgba(0,0,0, .5); object-position: bottom center;"
         @load="handleImageLoad"
         :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
         :style="{transform: state === 'loaded' ? 'scale(1.05)' : 'none'}"

@@ -3343,6 +3343,149 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/About.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/About.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    goBack: function goBack() {
+      this.$router.push("/");
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AudioPlayer.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AudioPlayer.vue?vue&type=script&lang=js& ***!
@@ -3788,6 +3931,11 @@ __webpack_require__.r(__webpack_exports__);
       this.setState(this.state !== state ? state : "default");
     }
   },
+  watch: {
+    $route: function $route() {
+      this.state = "default";
+    }
+  },
   computed: {
     isMap: function isMap() {
       return true;
@@ -4027,9 +4175,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    isLocation: Boolean
+  },
   computed: {
-    isMap: function isMap() {
-      return true;
+    isMap: function isMap(_ref) {
+      var isLocation = _ref.isLocation,
+          $route = _ref.$route;
+      return isLocation || $route.path === "/";
     }
   }
 });
@@ -41816,8 +41969,6 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("global-header", { attrs: { "is-location": _vm.isLocation } }),
-          _vm._v(" "),
           _c(
             "transition",
             {
@@ -41830,13 +41981,269 @@ var render = function() {
             },
             [_c("router-view")],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("global-header", { attrs: { "is-location": _vm.isLocation } })
         ],
         1
       )
     : _vm._e()
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/About.vue?vue&type=template&id=fb05e49c&":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/About.vue?vue&type=template&id=fb05e49c& ***!
+  \********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "click-outside",
+          rawName: "v-click-outside",
+          value: _vm.goBack,
+          expression: "goBack"
+        }
+      ],
+      staticClass:
+        "fixed inset-0 md:right-0 md:left-auto transition md:w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0",
+      staticStyle: { "max-width": "40rem" }
+    },
+    [_vm._m(0), _vm._v(" "), _vm._m(1)]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "px-12 md:px-24 pt-16 pb-24 flex-col bg-tan-100 flex" },
+      [
+        _c(
+          "span",
+          {
+            staticClass:
+              "text-xs text-center mb-3 font-mono uppercase font-bold"
+          },
+          [_vm._v("Mapping May 4")]
+        ),
+        _vm._v(" "),
+        _c(
+          "h1",
+          {
+            staticClass:
+              "uppercase font-display text-3xl leading-none self-center text-center leading-tight select-none font-black self-center"
+          },
+          [
+            _vm._v("\n      About\n      the\n      "),
+            _c("br"),
+            _vm._v("Project\n    ")
+          ]
+        ),
+        _vm._v(" "),
+        _c("p", { staticClass: "text-sm leading-normal mt-10" }, [
+          _vm._v(
+            "\n      This website draws from the 110 oral histories in the Kent State University\n      "
+          ),
+          _c("a", { staticClass: "underline", attrs: { href: "#" } }, [
+            _vm._v("May 4th collection")
+          ]),
+          _vm._v(
+            ". It maps stories from those histories that describe memories of events at a particular place in Kent between May 1st and May 5th, 1970. This initial version does not include stories about sites within the National Historic Landmark (the spaces near the shooting). We hope to extend this project to include those stories as well as add oral histories collected by the\n      "
+          ),
+          _c("a", { staticClass: "underline", attrs: { href: "#" } }, [
+            _vm._v("Kent Historical Society")
+          ]),
+          _vm._v(".\n    ")
+        ]),
+        _vm._v(" "),
+        _c(
+          "h1",
+          {
+            staticClass:
+              "uppercase font-display text-lg mt-10 leading-none font-black border-t border-black pt-3"
+          },
+          [_vm._v("PEOPLE")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex mt-8" }, [
+          _c("p", { staticClass: "flex-grow pr-5" }, [
+            _c(
+              "a",
+              {
+                staticClass: "underline",
+                attrs: {
+                  href: "https://www.kent.edu/geography/profile/jennifer-mapes",
+                  target: "_blank"
+                }
+              },
+              [_vm._v("Jen Mapes")]
+            ),
+            _vm._v(
+              " is an Associate Professor in the Department of Geography at Kent State University.\n      "
+            )
+          ]),
+          _vm._v(" "),
+          _c("img", {
+            staticClass:
+              "self-start rounded-full w-16 h-16 object-cover md:w-24 md:h-24",
+            attrs: {
+              src: "http://nhmisc.s3.amazonaws.com/ksug/assets/jen.jpg",
+              alt: "Jennifer Mapes"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex mt-8" }, [
+          _c("p", { staticClass: "flex-grow pr-5" }, [
+            _c(
+              "a",
+              {
+                staticClass: "underline",
+                attrs: {
+                  href: "https://www.kent.edu/spcs/sara-koopman-0",
+                  target: "_blank"
+                }
+              },
+              [_vm._v("Sara Koopman")]
+            ),
+            _vm._v(
+              " is an Assistant Professor in the School of Peace and Conflict Studies at Kent State University.\n      "
+            )
+          ]),
+          _vm._v(" "),
+          _c("img", {
+            staticClass:
+              "self-start rounded-full w-16 h-16 object-cover md:w-24 md:h-24",
+            attrs: {
+              src: "http://nhmisc.s3.amazonaws.com/ksug/assets/sara.jpg",
+              alt: "Jennifer Mapes"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex mt-8" }, [
+          _c("p", { staticClass: "flex-grow pr-5 mr-16" }, [
+            _c("i", [
+              _vm._v(
+                "Special thanks to the students who worked on this project: Chris Willer, Robin Burkhardt, and Evelyn Wogoman."
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "px-12 md:px-24 py-16 bg-white" }, [
+      _c(
+        "h1",
+        {
+          staticClass:
+            "uppercase font-display text-lg mt-10 leading-none font-black border-t border-black pt-3"
+        },
+        [_vm._v("Collaborating organizations")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-col mt-10" }, [
+        _c(
+          "a",
+          {
+            staticClass: "underline",
+            attrs: {
+              href: "https://www.kent.edu/may4visitorscenter",
+              target: "_blank"
+            }
+          },
+          [_vm._v("May 4th Visitor Center")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "underline mt-3",
+            attrs: { href: "https://www.kentohiohistory.org", target: "_blank" }
+          },
+          [_vm._v("Kent State Historical Society")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "underline mt-3",
+            attrs: {
+              href:
+                "https://www.library.kent.edu/special-collections-and-archives/kent-state-shootings-may-4-collection",
+              target: "_blank"
+            }
+          },
+          [_vm._v("Kent State May 4 Collection")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex justify-center mt-24" }, [
+        _c("img", {
+          staticClass: "w-24 object-contain self-center mx-5",
+          attrs: {
+            alt: "Be the Change - May 4 Visitors Center",
+            src: "http://nhmisc.s3.amazonaws.com/ksug/assets/be-the-change.png"
+          }
+        }),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "w-32 object-contain self-center mx-5",
+          attrs: {
+            alt: "Kent Historical Society Museum",
+            src:
+              "http://nhmisc.s3.amazonaws.com/ksug/assets/kent-historical-society.png"
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex justify-center mt-5" }, [
+        _c("img", {
+          staticClass: "w-24 object-contain self-center mx-5",
+          attrs: {
+            alt:
+              "Embrace Kent State University Libraries - Digital Collections",
+            src: "http://nhmisc.s3.amazonaws.com/ksug/assets/ksu-libraries.png"
+          }
+        }),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "w-32 object-contain self-center mx-5",
+          attrs: {
+            alt: "Kent State University",
+            src:
+              "http://nhmisc.s3.amazonaws.com/ksug/assets/kent-state-university.png"
+          }
+        })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -42291,7 +42698,10 @@ var render = function() {
             },
             [
               _vm.menuOpen
-                ? _c("main-menu", { staticClass: "flex-grow overflow-hidden" })
+                ? _c("main-menu", {
+                    staticClass: "flex-grow overflow-hidden",
+                    attrs: { "is-location": _vm.isLocation }
+                  })
                 : _vm._e(),
               _vm._v(" "),
               _vm.searchOpen
@@ -42638,7 +43048,10 @@ var render = function() {
                   "translate-y-full": !_vm.isPreview,
                   "md:translate-y-0": !_vm.isPreview
                 },
-                staticStyle: { "box-shadow": "0 -10px 20px rgba(0,0,0, .5)" },
+                staticStyle: {
+                  "box-shadow": "0 -10px 20px rgba(0,0,0, .5)",
+                  "object-position": "bottom center"
+                },
                 style: {
                   transform: _vm.state === "loaded" ? "scale(1.05)" : "none"
                 },
@@ -42771,24 +43184,26 @@ var render = function() {
           staticClass: "mb-10 shrink-when-active",
           class: { "opacity-25": _vm.isMap }
         },
-        [_c("a", { attrs: { href: "#" } }, [_vm._v("MAP")])]
+        [_c("router-link", { attrs: { to: "/" } }, [_vm._v("MAP")])],
+        1
       ),
       _vm._v(" "),
-      _vm._m(0),
+      _c(
+        "li",
+        { staticClass: "mb-10 shrink-when-active" },
+        [
+          _c("router-link", { attrs: { to: "/about" } }, [
+            _vm._v("ABOUT THE PROJECT")
+          ])
+        ],
+        1
+      ),
       _vm._v(" "),
-      _vm._m(1)
+      _vm._m(0)
     ]
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "mb-10 shrink-when-active" }, [
-      _c("a", { attrs: { href: "#" } }, [_vm._v("ABOUT THE PROJECT")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -61441,6 +61856,75 @@ if (token) {
 
 /***/ }),
 
+/***/ "./resources/js/components/About.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/components/About.vue ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _About_vue_vue_type_template_id_fb05e49c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./About.vue?vue&type=template&id=fb05e49c& */ "./resources/js/components/About.vue?vue&type=template&id=fb05e49c&");
+/* harmony import */ var _About_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./About.vue?vue&type=script&lang=js& */ "./resources/js/components/About.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _About_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _About_vue_vue_type_template_id_fb05e49c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _About_vue_vue_type_template_id_fb05e49c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/About.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/About.vue?vue&type=script&lang=js&":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/About.vue?vue&type=script&lang=js& ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./About.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/About.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/About.vue?vue&type=template&id=fb05e49c&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/About.vue?vue&type=template&id=fb05e49c& ***!
+  \**************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_template_id_fb05e49c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./About.vue?vue&type=template&id=fb05e49c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/About.vue?vue&type=template&id=fb05e49c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_template_id_fb05e49c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_template_id_fb05e49c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/AudioPlayer.vue":
 /*!*************************************************!*\
   !*** ./resources/js/components/AudioPlayer.vue ***!
@@ -63253,6 +63737,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_Location_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Location.vue */ "./resources/js/components/Location.vue");
 /* harmony import */ var _components_Story_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Story.vue */ "./resources/js/components/Story.vue");
+/* harmony import */ var _components_About_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/About.vue */ "./resources/js/components/About.vue");
+
 
 
 
@@ -63261,6 +63747,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: "history",
   routes: [{
+    path: "/about",
+    component: _components_About_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    name: "about"
+  }, {
     path: "/places/:location",
     component: _components_Location_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     name: "location"
@@ -63412,8 +63902,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/nate/projects/valet/maps/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/nate/projects/valet/maps/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/vulcan/Source 🔋/maps/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/vulcan/Source 🔋/maps/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

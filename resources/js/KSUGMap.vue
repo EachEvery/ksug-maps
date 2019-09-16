@@ -11,8 +11,6 @@
       />
     </div>
 
-    <global-header :is-location="isLocation" />
-
     <transition
       enter-class="opacity-0 translate-y-1 md:translate-x-2"
       leave-to-class="opacity-0 translate-y-1 md:translate-x-2"
@@ -21,6 +19,8 @@
     >
       <router-view />
     </transition>
+
+    <global-header :is-location="isLocation" />
   </div>
 </template>
 

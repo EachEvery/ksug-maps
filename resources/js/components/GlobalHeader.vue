@@ -15,7 +15,7 @@
         enter-active-class="transition"
         leave-active-class="opacity-0 transition"
       >
-        <main-menu v-if="menuOpen" class="flex-grow overflow-hidden" />
+        <main-menu v-if="menuOpen" class="flex-grow overflow-hidden" :is-location="isLocation" />
         <search v-if="searchOpen" class="flex-grow overflow-hidden" />
       </transition>
 
@@ -83,6 +83,12 @@ export default {
     },
     toggleState(state) {
       this.setState(this.state !== state ? state : "default");
+    }
+  },
+
+  watch: {
+    $route: function() {
+      this.state = "default";
     }
   },
 
