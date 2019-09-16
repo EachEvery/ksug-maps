@@ -8,7 +8,8 @@
         v-model="q"
         class="flex-grow py-2 focus:outline-none"
       />
-      <search-icon class="w-5 h-5 self-end mb-2" />
+      <spinner class="w-5 h-5 self-end mb-2" v-if="state === 'loading'" />
+      <search-icon class="w-5 h-5 self-end mb-2" v-else />
     </div>
 
     <div
@@ -103,6 +104,7 @@ export default {
       activeFilter: "day",
       activeCollection: "days",
       results: [],
+      state: "default",
       q: ""
     };
   },
@@ -119,6 +121,8 @@ export default {
   },
   watch: {
     q: function() {
+      this.state = "loading";
+
       clearTimeout(this.searchTimeout);
 
       this.searchTimeout = setTimeout(this.updateResults, 300);
@@ -131,6 +135,7 @@ export default {
       let { data } = await axios.get("/search?q=" + this.q);
 
       this.results = data;
+      this.state = "default";
     },
     itemSelected(item) {
       return (

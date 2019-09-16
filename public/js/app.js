@@ -4770,6 +4770,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -4789,6 +4790,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       activeFilter: "day",
       activeCollection: "days",
       results: [],
+      state: "default",
       q: ""
     };
   },
@@ -4803,6 +4805,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   watch: {
     q: function q() {
+      this.state = "loading";
       clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(this.updateResults, 300);
     }
@@ -4826,8 +4829,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _ref2 = _context.sent;
                 data = _ref2.data;
                 this.results = data;
+                this.state = "default";
 
-              case 5:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -43968,7 +43972,9 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("search-icon", { staticClass: "w-5 h-5 self-end mb-2" })
+          _vm.state === "loading"
+            ? _c("spinner", { staticClass: "w-5 h-5 self-end mb-2" })
+            : _c("search-icon", { staticClass: "w-5 h-5 self-end mb-2" })
         ],
         1
       ),
