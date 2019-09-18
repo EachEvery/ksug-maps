@@ -14,13 +14,25 @@
           class="font-display font-black text-5xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
         >{{story.place.name}}</h1>
         <h2 class="font-sans text-black text-lg md:text-md">{{story.subject}}</h2>
+
+        <a
+          v-if="isAdmin"
+          :href="story.admin_url"
+          target="_blank"
+          class="underline inline-block mt-3"
+        >Edit Story</a>
       </div>
 
       <quote-icon class="h-6 w-6 mb-6 text-black" />
 
       <p v-html="story.content" class="leading-loose"></p>
 
-      <a href="#" class="font-bold w-full h-16 flex justify-center bg-white mt-16" target="_blank">
+      <a
+        v-if="story.full_story_link"
+        :href="story.full_story_link"
+        class="font-bold w-full h-16 flex justify-center bg-white mt-16"
+        target="_blank"
+      >
         <span class="self-center text-sm xl:text-base">VISIT FULL ORAL HISTORY →</span>
       </a>
 
@@ -127,7 +139,8 @@ export default {
 
   computed: {
     ...mapState(["stories"]),
-    ...mapGetters(["locations"]),
+    ...mapGetters(["locations", "isAdmin"]),
+
     confirmationStyle({ state, story }) {
       let showIt = state === "showCommentConfirmation";
 

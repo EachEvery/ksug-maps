@@ -2,13 +2,11 @@
 
 namespace KSUGMap\Nova;
 
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Story extends Resource
 {
@@ -32,13 +30,14 @@ class Story extends Resource
      * @var array
      */
     public static $search = [
-        'subject', 'role', 'day'
+        'subject', 'role', 'day',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function fields(Request $request)
@@ -47,18 +46,32 @@ class Story extends Resource
             Text::make('Subject'),
             Text::make('Role'),
             Text::make('Day'),
-            Text::make('Audio')->hideFromIndex(),
-            Textarea::make('Content'),
-            BelongsTo::make('Place'),
-            HasMany::make('Comments')
+            Text::make('Public Url', function () {
+                $url = $this->resource->public_url;
 
+                return sprintf('<a href="%s" target="_blank" class="no-underline dim text-primary font-bold">View on Website</a>', $url);
+            })->asHtml(),
+
+            Text::make('Full Story Link')->hideFromIndex(),
+            Text::make('Audio')->hideFromIndex(),
+            Text::make('Audio Preview', function () {
+                if (empty($this->resource->audio)) {
+                    return 'N/A';
+                }
+
+                return sprintf('<audio src="%s" controls />', $this->resource->audio);
+            })->asHtml()->hideFromIndex(),
+            Textarea::make('Content'),
+            BelongsTo::make('Place')->hideFromIndex(),
+            HasMany::make('Comments'),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function cards(Request $request)
@@ -69,7 +82,8 @@ class Story extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function filters(Request $request)
@@ -80,7 +94,8 @@ class Story extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function lenses(Request $request)
@@ -91,7 +106,8 @@ class Story extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function actions(Request $request)

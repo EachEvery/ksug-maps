@@ -13,6 +13,17 @@ class Story extends Model implements MapsToSearchResult
     protected $guraded = ['id'];
     protected $table = 'stories';
     protected $with = ['place', 'approved_comments'];
+    protected $appends = ['admin_url', 'public_url'];
+
+    public function getAdminUrlAttribute()
+    {
+        return url(sprintf('/admin/resources/stories/%s/edit', $this->id));
+    }
+
+    public function getPublicUrlAttribute()
+    {
+        return url(sprintf('/stories/%s', $this->id));
+    }
 
     public function toSearchResult(): object
     {

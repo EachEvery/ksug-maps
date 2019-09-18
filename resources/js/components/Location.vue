@@ -11,10 +11,10 @@
     >
       <img
         :src="location.photo"
-        class="h-full object-cover w-full transition bg-black"
         style="box-shadow: 0 -10px 20px rgba(0,0,0, .5); "
         @load="handleImageLoad"
         :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
+        class="h-full object-cover w-full transition bg-black"
         :style="{transform: state === 'loaded' ? 'scale(1.05)' : 'none', 'object-position': location.photo_position}"
       />
 
@@ -27,15 +27,23 @@
     <div class="px-5 xl:px-8 md:mt-5">
       <h4 class="font-mono text-md font-bold uppercase mb-3">{{storyCount}}</h4>
 
-      <div class="flex mb-12">
-        <h1
-          class="font-display font-black lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
-          :class="{'text-2xl': location.name.length > 21, 'text-4xl': location.name.length < 21}"
-        >{{location.name}}</h1>
+      <div class="mb-12">
+        <div class="flex">
+          <h1
+            class="font-display font-black lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
+            :class="{'text-2xl': location.name.length > 21, 'text-4xl': location.name.length < 21}"
+          >{{location.name}}</h1>
 
-        <router-link :to="chevronLink" class="md:hidden">
-          <chevron-up-icon class="w-8 h-8 mt-1 text-black transition" :style="chevronStyle" />
-        </router-link>
+          <router-link :to="chevronLink" class="md:hidden">
+            <chevron-up-icon class="w-8 h-8 mt-1 text-black transition" :style="chevronStyle" />
+          </router-link>
+        </div>
+        <a
+          v-if="isAdmin"
+          :href="location.admin_url"
+          target="_blank"
+          class="underline inline-block mt-3"
+        >Edit Place</a>
       </div>
     </div>
 
@@ -94,7 +102,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["locations"]),
+    ...mapGetters(["locations", "isAdmin"]),
     ...mapState(["stories"]),
     chevronLink({ isPreview }) {
       return isPreview

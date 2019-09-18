@@ -40,6 +40,9 @@ export default new Vuex.Store({
         }
     },
     getters: {
+        isAdmin() {
+            return window.isAdmin;
+        },
         roles({ stories }) {
             return filled(unique(stories.map(s => s.role)));
         },

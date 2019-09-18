@@ -22,13 +22,19 @@
     </transition>
 
     <global-header :is-location="isLocation" />
+
+    <a
+      href="/admin"
+      v-if="isAdmin"
+      style="color: rgba(255,255,255,.8);"
+      class="fixed top-0 right-0 bg-black text-sm py-2 px-4 rounded-full m-2 shadow-lg"
+    >Admin Mode</a>
   </div>
 </template>
 
 <script>
 import globalHeader from "./components/GlobalHeader";
 import mapComponent from "./components/Map";
-
 import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
@@ -76,7 +82,9 @@ export default {
     isLocation({ $route }) {
       return ["location", "preview", "story"].includes($route.name);
     },
-
+    isAdmin() {
+      return window.isAdmin;
+    },
     ready({ stories }) {
       return stories.length > 0;
     },

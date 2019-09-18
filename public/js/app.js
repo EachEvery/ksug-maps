@@ -3253,6 +3253,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3321,6 +3328,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     isLocation: function isLocation(_ref) {
       var $route = _ref.$route;
       return ["location", "preview", "story"].includes($route.name);
+    },
+    isAdmin: function isAdmin() {
+      return window.isAdmin;
     },
     ready: function ready(_ref2) {
       var stories = _ref2.stories;
@@ -3945,6 +3955,9 @@ __webpack_require__.r(__webpack_exports__);
     isMap: function isMap() {
       return true;
     },
+    isAdmin: function isAdmin() {
+      return window.isAdmin;
+    },
     menuOpen: function menuOpen(_ref) {
       var state = _ref.state;
       return state === "menu";
@@ -4074,6 +4087,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4104,7 +4125,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.state = "loaded";
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["locations"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["stories"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["locations", "isAdmin"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["stories"]), {
     chevronLink: function chevronLink(_ref) {
       var isPreview = _ref.isPreview;
       return isPreview ? "/places/".concat(this.location.slug) : "/places/".concat(this.location.slug, "/preview");
@@ -4989,6 +5010,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5040,7 +5073,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.state = "showCommentConfirmation";
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])(["locations"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])(["locations", "isAdmin"]), {
     confirmationStyle: function confirmationStyle(_ref) {
       var state = _ref.state,
           story = _ref.story;
@@ -42198,7 +42231,20 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("global-header", { attrs: { "is-location": _vm.isLocation } })
+          _c("global-header", { attrs: { "is-location": _vm.isLocation } }),
+          _vm._v(" "),
+          _vm.isAdmin
+            ? _c(
+                "a",
+                {
+                  staticClass:
+                    "fixed top-0 right-0 bg-black text-sm py-2 px-4 rounded-full m-2 shadow-lg",
+                  staticStyle: { color: "rgba(255,255,255,.8)" },
+                  attrs: { href: "/admin" }
+                },
+                [_vm._v("Admin Mode")]
+              )
+            : _vm._e()
         ],
         1
       )
@@ -43299,37 +43345,50 @@ var render = function() {
           [_vm._v(_vm._s(_vm.storyCount))]
         ),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex mb-12" },
-          [
-            _c(
-              "h1",
-              {
-                staticClass:
-                  "font-display font-black lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto",
-                class: {
-                  "text-2xl": _vm.location.name.length > 21,
-                  "text-4xl": _vm.location.name.length < 21
-                }
-              },
-              [_vm._v(_vm._s(_vm.location.name))]
-            ),
-            _vm._v(" "),
-            _c(
-              "router-link",
-              { staticClass: "md:hidden", attrs: { to: _vm.chevronLink } },
-              [
-                _c("chevron-up-icon", {
-                  staticClass: "w-8 h-8 mt-1 text-black transition",
-                  style: _vm.chevronStyle
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
+        _c("div", { staticClass: "mb-12" }, [
+          _c(
+            "div",
+            { staticClass: "flex" },
+            [
+              _c(
+                "h1",
+                {
+                  staticClass:
+                    "font-display font-black lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto",
+                  class: {
+                    "text-2xl": _vm.location.name.length > 21,
+                    "text-4xl": _vm.location.name.length < 21
+                  }
+                },
+                [_vm._v(_vm._s(_vm.location.name))]
+              ),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                { staticClass: "md:hidden", attrs: { to: _vm.chevronLink } },
+                [
+                  _c("chevron-up-icon", {
+                    staticClass: "w-8 h-8 mt-1 text-black transition",
+                    style: _vm.chevronStyle
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm.isAdmin
+            ? _c(
+                "a",
+                {
+                  staticClass: "underline inline-block mt-3",
+                  attrs: { href: _vm.location.admin_url, target: "_blank" }
+                },
+                [_vm._v("Edit Place")]
+              )
+            : _vm._e()
+        ])
       ]),
       _vm._v(" "),
       _c(
@@ -44260,7 +44319,18 @@ var render = function() {
               "h2",
               { staticClass: "font-sans text-black text-lg md:text-md" },
               [_vm._v(_vm._s(_vm.story.subject))]
-            )
+            ),
+            _vm._v(" "),
+            _vm.isAdmin
+              ? _c(
+                  "a",
+                  {
+                    staticClass: "underline inline-block mt-3",
+                    attrs: { href: _vm.story.admin_url, target: "_blank" }
+                  },
+                  [_vm._v("Edit Story")]
+                )
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("quote-icon", { staticClass: "h-6 w-6 mb-6 text-black" }),
@@ -44270,7 +44340,23 @@ var render = function() {
             domProps: { innerHTML: _vm._s(_vm.story.content) }
           }),
           _vm._v(" "),
-          _vm._m(0),
+          _vm.story.full_story_link
+            ? _c(
+                "a",
+                {
+                  staticClass:
+                    "font-bold w-full h-16 flex justify-center bg-white mt-16",
+                  attrs: { href: _vm.story.full_story_link, target: "_blank" }
+                },
+                [
+                  _c(
+                    "span",
+                    { staticClass: "self-center text-sm xl:text-base" },
+                    [_vm._v("VISIT FULL ORAL HISTORY →")]
+                  )
+                ]
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "clickable",
@@ -44387,25 +44473,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "font-bold w-full h-16 flex justify-center bg-white mt-16",
-        attrs: { href: "#", target: "_blank" }
-      },
-      [
-        _c("span", { staticClass: "self-center text-sm xl:text-base" }, [
-          _vm._v("VISIT FULL ORAL HISTORY →")
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -64166,6 +64234,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     }
   },
   getters: {
+    isAdmin: function isAdmin() {
+      return window.isAdmin;
+    },
     roles: function roles(_ref5) {
       var stories = _ref5.stories;
       return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["filled"])(Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["unique"])(stories.map(function (s) {

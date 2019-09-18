@@ -96,6 +96,9 @@ export default {
     isMap() {
       return true;
     },
+    isAdmin() {
+      return window.isAdmin;
+    },
     menuOpen({ state }) {
       return state === "menu";
     },

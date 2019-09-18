@@ -13,5 +13,8 @@
     <!-- resources/js/KSUGMap.vue gets mounted here, then it's Vue on out 💪 -->
     <div id="app"></div>
 
+    <script>
+        window.isAdmin = {{Auth::check() ? 'true' : 'false'}}
+    </script>
     <script type="text/javascript" src="{{mix('js/app.js')}}"></script>
 </body>

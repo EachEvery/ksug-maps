@@ -10,6 +10,20 @@ class Place extends Model implements MapsToSearchResult
 {
     use Searchable;
 
+    protected $appends = ['admin_url', 'public_url'];
+
+    protected $guarded = [];
+
+    public function getAdminUrlAttribute()
+    {
+        return url(sprintf('/admin/resources/places/%s/edit', $this->id));
+    }
+
+    public function getPublicUrlAttribute()
+    {
+        return url(sprintf('/places/%s/preview', $this->slug));
+    }
+
     public function toSearchResult(): object
     {
         $storyCount = $this->stories()->count();
@@ -20,8 +34,6 @@ class Place extends Model implements MapsToSearchResult
             'path' => sprintf('/places/%s/preview', $this->slug),
         ];
     }
-
-    protected $guarded = [];
 
     public function stories()
     {
