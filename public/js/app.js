@@ -4386,7 +4386,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return currentZoom === s;
       });
       var prev = zoomSteps[index - 1];
-      return prev === undefined ? zoomSteps[0] : prev;
+      return prev === undefined ? zoomSteps[zoomSteps.length - 1] : prev;
     },
     nextZoom: function nextZoom(_ref5) {
       var currentZoom = _ref5.currentZoom,
@@ -4395,7 +4395,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return currentZoom === s;
       });
       var next = zoomSteps[index + 1];
-      return next === undefined ? zoomSteps[zoomSteps.length - 1] : next;
+      return next === undefined ? zoomSteps[0] : next;
     }
   },
   watch: {
@@ -4666,6 +4666,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     this.$nextTick(function () {
       _this7.initMap();
+
+      document.getElementById("map").addEventListener("dblclick", function () {
+        _this7.zoom(_this7.nextZoom);
+      });
     });
   }
 });
@@ -43354,7 +43358,7 @@ var render = function() {
                 "h1",
                 {
                   staticClass:
-                    "font-display font-black lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto",
+                    "font-display font-black lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto",
                   class: {
                     "text-2xl": _vm.location.name.length > 21,
                     "text-4xl": _vm.location.name.length < 21
@@ -44310,7 +44314,7 @@ var render = function() {
               "h1",
               {
                 staticClass:
-                  "font-display font-black text-5xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
+                  "font-display font-black text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
               },
               [_vm._v(_vm._s(_vm.story.place.name))]
             ),

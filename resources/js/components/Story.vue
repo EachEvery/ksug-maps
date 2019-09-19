@@ -11,7 +11,7 @@
           class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs"
         >{{story.role}} &middot; {{story.day}}</h3>
         <h1
-          class="font-display font-black text-5xl lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
+          class="font-display font-black text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
         >{{story.place.name}}</h1>
         <h2 class="font-sans text-black text-lg md:text-md">{{story.subject}}</h2>
 

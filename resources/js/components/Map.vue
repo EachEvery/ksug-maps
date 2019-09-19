@@ -134,14 +134,14 @@ export default {
       let index = zoomSteps.findIndex(s => currentZoom === s);
       let prev = zoomSteps[index - 1];
 
-      return prev === undefined ? zoomSteps[0] : prev;
+      return prev === undefined ? zoomSteps[zoomSteps.length - 1] : prev;
     },
 
     nextZoom({ currentZoom, zoomSteps }) {
       let index = zoomSteps.findIndex(s => currentZoom === s);
       let next = zoomSteps[index + 1];
 
-      return next === undefined ? zoomSteps[zoomSteps.length - 1] : next;
+      return next === undefined ? zoomSteps[0] : next;
     }
   },
   watch: {
@@ -349,6 +349,10 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.initMap();
+
+      document.getElementById("map").addEventListener("dblclick", () => {
+        this.zoom(this.nextZoom);
+      });
     });
   }
 };

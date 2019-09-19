@@ -30,7 +30,7 @@
       <div class="mb-12">
         <div class="flex">
           <h1
-            class="font-display font-black lg:text-5xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
+            class="font-display font-black lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
             :class="{'text-2xl': location.name.length > 21, 'text-4xl': location.name.length < 21}"
           >{{location.name}}</h1>
 

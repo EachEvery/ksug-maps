@@ -14,22 +14,18 @@ class ImportStories extends Seeder
         $this->guzzle = $guzzle;
     }
 
-    /**
-     * Run the database seeds.
-     */
-    public function run()
+    public function process($data)
     {
-        $response = $this->airtable->getContent('Stories')->getResponse();
-
-        $data = collect($response['records'])->pluck('fields');
-
         $data->map(function ($item) {
-            $place = Place::firstOrCreate([
-                'name' => @$item->{'Place '},
+            $hasPhoto = str_contains(@$item->{'photo'}, 'http');
+
+            $place = Place::firstOrCreate(['name' => trim(title_case(@$item->{'Place '}))], [
+                'name' => trim(title_case(@$item->{'Place '})),
                 'lat' => @$item->{'Latitude'},
                 'long' => @$item->{'Longitude'},
-                'photo' => @$item->{'photo'},
-                'photo_caption' => @$item->{'photo caption '},
+                'photo' => $hasPhoto ? @$item->{'photo'} : null,
+                'photo_caption' => $hasPhoto ? @$item->{'photo source'} : null,
+                'alt_text' => $hasPhoto ? @$item->{'photo caption '} : null,
             ]);
 
             return Story::create([
@@ -37,8 +33,23 @@ class ImportStories extends Seeder
                 'content' => @$item->{'Story'},
                 'place_id' => $place->id,
                 'subject' => @$item->{'Name'},
+                'full_story_link' => @$item->{'Link to audio'},
                 'role' => @$item->{'Role'},
             ]);
         });
+    }
+
+    /**
+     * Run the database seeds.
+     */
+    public function run()
+    {
+        $request = $this->airtable->getContent('Stories');
+
+        do {
+            $response = $request->getResponse();
+            $data = collect($response['records'])->pluck('fields');
+            $this->process($data);
+        } while ($request = $response->next());
     }
 }
