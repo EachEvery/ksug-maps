@@ -8,7 +8,7 @@
       <input
         type="text"
         name="comment[author]"
-        class="border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full"
+        class="border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full rounded-none"
         :required="true"
         placeholder="Your Name"
       />
@@ -17,12 +17,12 @@
         type="email"
         name="comment[email]"
         :required="true"
-        class="border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full"
+        class="border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full rounded-none"
         placeholder="Your Email Address"
       />
 
       <textarea
-        class="border border-black p-2 font-mono text-black mb-10 focus:outline-none transition w-full"
+        class="border border-black p-2 font-mono text-black mb-10 focus:outline-none transition w-full rounded-none shadow-none"
         name="comment[text]"
         placeholder="Message Text"
         :required="true"

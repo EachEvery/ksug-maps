@@ -11,7 +11,8 @@
     >
       <img
         :src="location.photo"
-        style="box-shadow: 0 -10px 20px rgba(0,0,0, .5); "
+        @click="handleImageClick"
+        style="cursor: zoom-in"
         @load="handleImageLoad"
         :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
         class="h-full object-cover w-full transition bg-black"
@@ -19,7 +20,7 @@
       />
 
       <span
-        class="absolute font-mono text-2xs font-bold right-0 left-0 bottom-0 text-center text-white font-light px-4 pb-2 pt-5 px-5 md:px-24"
+        class="absolute font-mono text-2xs font-bold right-0 left-0 bottom-0 text-center text-white font-light px-4 pb-2 pt-5 px-5 xl:px-24"
         style="background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0);"
       >{{location.photo_caption}}</span>
     </div>
@@ -64,12 +65,19 @@
 
       <div class="w-1 md:hidden" style="flex: 0 0 auto;"></div>
     </div>
+
+    <portal to="end-of-document">
+      <a :href="location.photo" title ref="lightbox">
+        <img :src="location.photo" alt title />
+      </a>
+    </portal>
   </div>
 </template>
 
 <script>
 import chevronUpIcon from "./ChevronUpIcon";
 import storyCard from "./StoryCard";
+
 import { mapState, mapGetters } from "vuex";
 
 export default {
@@ -91,15 +99,33 @@ export default {
     };
   },
   methods: {
+    handleImageClick() {
+      this.$refs.lightbox.click();
+    },
     isEven(index) {
       return index % 2 > 0;
     },
-    goBack() {
+    goBack(e) {
+      if (
+        $(e.target).hasClass("fluidbox--initialized") ||
+        $(e.target).hasClass("fluidbox__overlay")
+      ) {
+        return;
+      }
+
       this.$router.push("/");
     },
     handleImageLoad() {
       this.state = "loaded";
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      $(this.$refs.lightbox).fluidbox();
+    });
+  },
+  beforeDestroy() {
+    $(this.$refs.lightbox).off();
   },
   computed: {
     ...mapGetters(["locations", "isAdmin"]),

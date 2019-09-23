@@ -69,9 +69,15 @@
     <ul class="flex-grow overflow-auto mb-5 pt-5">
       <li v-for="(item, i) in filterItems" :key="i" class="flex mb-4">
         <div
-          class="w-5 h-5 rounded border transition mr-2 flex-shrink-0"
-          :class="{'bg-orange': itemSelected(item), 'border-orange border-b-black ': itemSelected(item), 'border-black': !itemSelected(item)}"
-        ></div>
+          class="w-5 h-5 rounded border transition mr-2 flex-shrink-0 flex justify-center"
+          :class="{'bg-blue': itemSelected(item), 'border-blue border-b-black ': itemSelected(item), 'border-black': !itemSelected(item)}"
+        >
+          <span
+            class="transition"
+            :class="{'opacity-0': !itemSelected(item)}"
+            :style="{'transform': `translateY(${!itemSelected(item) ? '.05rem' : 0})`}"
+          >&check;</span>
+        </div>
         <clickable
           @click="() => toggleFilter({key: activeFilter, value: item})"
           class="text-left"

@@ -29,6 +29,8 @@
       style="color: rgba(255,255,255,.8);"
       class="fixed top-0 right-0 bg-black text-sm py-2 px-4 rounded-full m-2 shadow-lg"
     >Admin Mode</a>
+
+    <portal-target name="end-of-document" class="fixed"></portal-target>
   </div>
 </template>
 

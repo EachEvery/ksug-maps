@@ -3,7 +3,7 @@
     v-click-outside="handleClickOutside"
     class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story"
     style="max-width: 45rem"
-    :style="{'background-color': story.color}"
+    :style="{'background-color': story.color, '--currentColor': story.color, '--transparentColor': transparentColor}"
   >
     <div class="xl:px-24 px-8 pb-24">
       <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
@@ -13,7 +13,7 @@
         <h1
           class="font-display font-black text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
         >{{story.place.name}}</h1>
-        <h2 class="font-sans text-black text-lg md:text-md">{{story.subject}}</h2>
+        <h2 class="font-sans text-black text-lg md:text-md">{{firstLast}}</h2>
 
         <a
           v-if="isAdmin"
@@ -25,7 +25,28 @@
 
       <quote-icon class="h-6 w-6 mb-6 text-black" />
 
-      <p v-html="story.content" class="leading-loose"></p>
+      <p
+        v-html="story.content"
+        class="leading-loose relative overflow-hidden transition"
+        :style="contentStyle"
+        :class="contentClass"
+      ></p>
+
+      <clickable
+        class="pb-4 border-b border-dotted border-black flex w-full"
+        :class="{'mt-12': showingFull}"
+        style="border-radius: 0"
+        @click="handleReadFullButtonClick"
+      >
+        <span
+          class="uppercase text-left font-black flex-grow"
+        >{{showingFull ? 'Show Less' : 'Read Full Transcript'}}</span>
+
+        <chevron-up-icon
+          class="w-5 h-5 transition"
+          :style="`transform: rotate(${showingFull ? '0' : '180'}deg)`"
+        ></chevron-up-icon>
+      </clickable>
 
       <a
         v-if="story.full_story_link"
@@ -62,7 +83,7 @@
         <h3 class="font-display uppercase text-2xl mb-8">Thanks for Your Story</h3>
 
         <p
-          class="leading-normal"
+          class="leading-normal gradient"
         >Your submission is under review and will show up under the comments for this story once it is approved.</p>
 
         <clickable
@@ -81,12 +102,30 @@
     />
   </div>
 </template>
+<style lang="scss" scoped>
+.gradient {
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10rem;
+    background: linear-gradient(
+      to bottom,
+      var(--transparentColor),
+      var(--currentColor) 75%
+    );
+  }
+}
+</style>
 <script>
 import audioPlayer from "./AudioPlayer";
 import closeIcon from "./CloseIcon";
 import clickable from "./Clickable";
 import quoteIcon from "./QuoteIcon";
 import commentForm from "./CommentForm";
+import chevronUpIcon from "./ChevronUpIcon";
 
 import { mapState, mapGetters } from "vuex";
 
@@ -102,7 +141,8 @@ export default {
 
   data() {
     return {
-      state: "default"
+      state: "default",
+      lastState: "default"
     };
   },
 
@@ -111,15 +151,18 @@ export default {
     closeIcon,
     clickable,
     quoteIcon,
-    commentForm
+    commentForm,
+    chevronUpIcon
   },
 
   methods: {
+    handleReadFullButtonClick() {
+      this.state = this.state === "showAll" ? this.lastState : "showAll";
+    },
     addAnotherComment() {
-      this.state = "default";
+      this.state = this.lastState;
     },
     handleClickOutside(e) {
-      console.log(e.target.tagName);
       if (e.target.tagName !== "svg" && e.target.tagName !== "path") {
         this.closeStory();
       }
@@ -141,6 +184,46 @@ export default {
     ...mapState(["stories"]),
     ...mapGetters(["locations", "isAdmin"]),
 
+    firstLast({ story }) {
+      let parts = story.subject.split(",");
+
+      if (parts.length < 2) {
+        return story.subject;
+      } else {
+        return `${parts[1].trim()} ${parts[0].trim()}`;
+      }
+    },
+
+    transparentColor({ story }) {
+      let hex = story.color;
+      let c = hex.substring(1).split("");
+
+      if (c.length == 3) {
+        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+
+      c = "0x" + c.join("");
+
+      return (
+        "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + ",0)"
+      );
+    },
+    showingFull({ state }) {
+      return state === "showAll";
+    },
+
+    contentStyle({ showingFull }) {
+      return {
+        "max-height": showingFull ? "none" : "30rem"
+      };
+    },
+
+    contentClass({ showingFull }) {
+      return {
+        gradient: !showingFull
+      };
+    },
+
     confirmationStyle({ state, story }) {
       let showIt = state === "showCommentConfirmation";
 
@@ -150,7 +233,7 @@ export default {
       };
     },
     audioPlayerStyle({ story, state }) {
-      let showPlayer = state === "showPlayer";
+      let showPlayer = ["showAll", "showPlayer"].includes(state);
 
       return {
         transform: `translateY(${showPlayer ? "0" : "100%"})`,
@@ -171,6 +254,11 @@ export default {
       }
 
       return story.place.name;
+    }
+  },
+  watch: {
+    state(val, old) {
+      this.lastState = old;
     }
   },
   mounted() {

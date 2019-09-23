@@ -91,6 +91,8 @@
           class="underline mt-3"
           target="_blank"
         >Kent State May 4 Collection</a>
+
+        <a href="https://eachevery.com" class="underline mt-3" target="_blank">Each + Every</a>
       </div>
 
       <div class="flex justify-center mt-24">
@@ -118,6 +120,15 @@
           alt="Kent State University"
           src="http://nhmisc.s3.amazonaws.com/ksug/assets/kent-state-university.png"
         />
+      </div>
+
+      <div class="flex mt-8 justify-center">
+        <img
+          class="w-24 object-contain self-center mx-5"
+          alt="Each + Every"
+          src="http://nhmisc.s3.amazonaws.com/ksug/EELogo-Black-Full.png"
+        />
+        <div class="w-32 mx-5"></div>
       </div>
     </div>
   </div>
