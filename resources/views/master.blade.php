@@ -15,7 +15,7 @@
 
 <body class="overflow-hidden bg-gray-darker">
 
-    <!-- resources/js/KSUGMap.vue gets mounted here, then it's Vue on out 💪 -->
+    <!-- resources/js/KSUGMap.vue gets mounted here -->
     <div id="app"></div>
 
     <script>

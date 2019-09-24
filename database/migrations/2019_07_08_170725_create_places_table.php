@@ -17,7 +17,6 @@ class CreatePlacesTable extends Migration
             $table->string('photo')->nullable();
             $table->string('slug')->nullable();
             $table->string('photo_caption')->nullable();
-
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
             $table->timestamps();

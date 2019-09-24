@@ -5,7 +5,7 @@
     style="max-width: 45rem"
     :style="{'background-color': story.color, '--currentColor': story.color, '--transparentColor': transparentColor}"
   >
-    <div class="xl:px-24 px-8 pb-24">
+    <div class="xl:px-24 px-8 pb-48">
       <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
         <h3
           class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs"
@@ -62,36 +62,6 @@
       </clickable>
     </div>
 
-    <div class="xl:px-24 px-8 py-24 relative bg-tan-100" v-if="story.approved_comments.length > 0">
-      <h3 class="font-display uppercase text-2xl mb-12">Stories &amp; Comments</h3>
-
-      <div v-for="comment in story.approved_comments" :key="comment.id" class="my-10">
-        <h4 class="text-base font-medium mb-3">{{comment.author}}</h4>
-        <span class="whitespace-pre-line leading-normal" v-html="comment.text"></span>
-        <span class="block mt-4 opacity-75 font-mono text-xs">{{comment.frontend_date}}</span>
-      </div>
-    </div>
-    <div class="xl:px-24 px-8 pt-24 pb-48 relative bg-white">
-      <h3 class="font-display uppercase text-2xl mb-8" style="font-weight: 500;">Share Your Story</h3>
-
-      <comment-form @comment-created="handleCommentCreated" />
-
-      <div
-        class="absolute inset-0 bg-white transition xl:px-24 pt-24 px-8 flex flex-col"
-        :style="confirmationStyle"
-      >
-        <h3 class="font-display uppercase text-2xl mb-8">Thanks for Your Story</h3>
-
-        <p
-          class="leading-normal gradient"
-        >Your submission is under review and will show up under the comments for this story once it is approved.</p>
-
-        <clickable
-          class="w-full mt-10 text-center py-3 px-2 border border-black uppercase"
-          @click="addAnotherComment"
-        >Add Another Comment</clickable>
-      </div>
-    </div>
     <audio-player
       ref="audioPlayer"
       class="fixed bottom-0 right-0 md:w-84 xl:w-5/12 transition"
@@ -124,7 +94,6 @@ import audioPlayer from "./AudioPlayer";
 import closeIcon from "./CloseIcon";
 import clickable from "./Clickable";
 import quoteIcon from "./QuoteIcon";
-import commentForm from "./CommentForm";
 import chevronUpIcon from "./ChevronUpIcon";
 
 import { mapState, mapGetters } from "vuex";
@@ -151,7 +120,6 @@ export default {
     closeIcon,
     clickable,
     quoteIcon,
-    commentForm,
     chevronUpIcon
   },
 
@@ -159,9 +127,7 @@ export default {
     handleReadFullButtonClick() {
       this.state = this.state === "showAll" ? this.lastState : "showAll";
     },
-    addAnotherComment() {
-      this.state = this.lastState;
-    },
+
     handleClickOutside(e) {
       if (e.target.tagName !== "svg" && e.target.tagName !== "path") {
         this.closeStory();
@@ -174,9 +140,6 @@ export default {
         this.$refs.audioPlayer.controlAudio("pause");
         this.$router.push(`/places/${this.location.slug}`);
       }, 310);
-    },
-    handleCommentCreated(comment) {
-      this.state = "showCommentConfirmation";
     }
   },
 
@@ -224,14 +187,6 @@ export default {
       };
     },
 
-    confirmationStyle({ state, story }) {
-      let showIt = state === "showCommentConfirmation";
-
-      return {
-        visibility: showIt ? "visible" : "hidden",
-        opacity: showIt ? 1 : 0
-      };
-    },
     audioPlayerStyle({ story, state }) {
       let showPlayer = ["showAll", "showPlayer"].includes(state);
 

@@ -49,7 +49,7 @@
     </div>
 
     <div
-      class="flex overflow-auto md:overflow-hidden md:pb-48 flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4"
+      class="flex overflow-auto md:overflow-hidden flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4 md:pb-16"
     >
       <div class="w-5 md:hidden" style="flex: 0 0 auto;"></div>
 
@@ -66,8 +66,42 @@
       <div class="w-1 md:hidden" style="flex: 0 0 auto;"></div>
     </div>
 
+    <div
+      class="xl:px-24 px-8 py-24 relative bg-tan-100"
+      v-if="location.approved_comments.length > 0"
+    >
+      <h3 class="font-display uppercase text-2xl mb-12">Stories &amp; Comments</h3>
+
+      <div v-for="comment in location.approved_comments" :key="comment.id" class="my-10">
+        <h4 class="text-base font-medium mb-3">{{comment.author}}</h4>
+        <span class="whitespace-pre-line leading-normal" v-html="comment.text"></span>
+        <span class="block mt-4 opacity-75 font-mono text-xs">{{comment.frontend_date}}</span>
+      </div>
+    </div>
+    <div class="xl:px-24 px-8 pt-12 border-t border-dotted mt-12 pb-48 relative bg-gray-100">
+      <h3 class="font-display uppercase text-2xl mb-8" style="font-weight: 500;">Share Your Story</h3>
+
+      <comment-form @comment-created="handleCommentCreated" />
+
+      <div
+        class="absolute inset-0 bg-gray-100 transition xl:px-24 pt-24 px-8 flex flex-col"
+        :style="confirmationStyle"
+      >
+        <h3 class="font-display uppercase text-2xl mb-8">Thanks for Your Story</h3>
+
+        <p
+          class="leading-normal gradient"
+        >Your submission is under review and will show up under the comments for this story once it is approved.</p>
+
+        <clickable
+          class="w-full mt-10 text-center py-3 px-2 border border-black uppercase"
+          @click="addAnotherComment"
+        >Add Another Comment</clickable>
+      </div>
+    </div>
+
     <portal to="end-of-document">
-      <a :href="location.photo" title ref="lightbox">
+      <a :href="location.photo" title ref="lightbox" v-if="location.photo !== null">
         <img :src="location.photo" alt title />
       </a>
     </portal>
@@ -77,6 +111,8 @@
 <script>
 import chevronUpIcon from "./ChevronUpIcon";
 import storyCard from "./StoryCard";
+import commentForm from "./CommentForm";
+import clickable from "./Clickable";
 
 import { mapState, mapGetters } from "vuex";
 
@@ -90,15 +126,25 @@ export default {
 
   components: {
     chevronUpIcon,
-    storyCard
+    storyCard,
+    commentForm,
+    clickable
   },
 
   data() {
     return {
-      state: "default"
+      state: "default",
+      scrollOverflow: !this.isPreview
     };
   },
+
   methods: {
+    handleCommentCreated(comment) {
+      this.state = "showCommentConfirmation";
+    },
+    addAnotherComment() {
+      this.state = this.lastState;
+    },
     handleImageClick() {
       this.$refs.lightbox.click();
     },
@@ -124,12 +170,27 @@ export default {
       $(this.$refs.lightbox).fluidbox();
     });
   },
+  watch: {
+    $route() {
+      setTimeout(() => {
+        this.scrollOverflow = !this.isPreview;
+      }, 400);
+    }
+  },
   beforeDestroy() {
     $(this.$refs.lightbox).off();
   },
   computed: {
     ...mapGetters(["locations", "isAdmin"]),
     ...mapState(["stories"]),
+    confirmationStyle({ state }) {
+      let showIt = state === "showCommentConfirmation";
+
+      return {
+        visibility: showIt ? "visible" : "hidden",
+        opacity: showIt ? 1 : 0
+      };
+    },
     chevronLink({ isPreview }) {
       return isPreview
         ? `/places/${this.location.slug}`
@@ -147,10 +208,12 @@ export default {
     isPreview() {
       return this.$route.name === "preview";
     },
-    containerClass({ isPreview }) {
+    containerClass({ isPreview, scrollOverflow }) {
       return {
         "md:translate-y-0": isPreview,
-        "translate-location-preview": isPreview
+        "translate-location-preview": isPreview,
+        "overflow-auto": scrollOverflow,
+        "overflow-visible": isPreview
       };
     },
     storyCount({ location }) {

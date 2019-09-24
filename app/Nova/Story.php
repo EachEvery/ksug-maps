@@ -4,7 +4,6 @@ namespace KSUGMap\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 
@@ -63,7 +62,6 @@ class Story extends Resource
             })->asHtml()->hideFromIndex(),
             Textarea::make('Content'),
             BelongsTo::make('Place')->hideFromIndex(),
-            HasMany::make('Comments'),
         ];
     }
 

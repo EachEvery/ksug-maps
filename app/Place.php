@@ -11,7 +11,7 @@ class Place extends Model implements MapsToSearchResult
     use Searchable;
 
     protected $appends = ['admin_url', 'public_url'];
-
+    public $with = ['approved_comments'];
     protected $guarded = [];
 
     public function getAdminUrlAttribute()
@@ -33,6 +33,16 @@ class Place extends Model implements MapsToSearchResult
             'subtitle' => sprintf('%s %s', $storyCount, $storyCount > 1 ? 'Stories' : 'Story'),
             'path' => sprintf('/places/%s/preview', $this->slug),
         ];
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function approved_comments()
+    {
+        return $this->comments()->whereNotNull('approved_at');
     }
 
     public function stories()

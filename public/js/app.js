@@ -4034,7 +4034,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ChevronUpIcon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChevronUpIcon */ "./resources/js/components/ChevronUpIcon.vue");
 /* harmony import */ var _StoryCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StoryCard */ "./resources/js/components/StoryCard.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _CommentForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CommentForm */ "./resources/js/components/CommentForm.vue");
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4115,6 +4117,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -4127,14 +4165,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   components: {
     chevronUpIcon: _ChevronUpIcon__WEBPACK_IMPORTED_MODULE_0__["default"],
-    storyCard: _StoryCard__WEBPACK_IMPORTED_MODULE_1__["default"]
+    storyCard: _StoryCard__WEBPACK_IMPORTED_MODULE_1__["default"],
+    commentForm: _CommentForm__WEBPACK_IMPORTED_MODULE_2__["default"],
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
-      state: "default"
+      state: "default",
+      scrollOverflow: !this.isPreview
     };
   },
   methods: {
+    handleCommentCreated: function handleCommentCreated(comment) {
+      this.state = "showCommentConfirmation";
+    },
+    addAnotherComment: function addAnotherComment() {
+      this.state = this.lastState;
+    },
     handleImageClick: function handleImageClick() {
       this.$refs.lightbox.click();
     },
@@ -4159,40 +4206,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       $(_this.$refs.lightbox).fluidbox();
     });
   },
+  watch: {
+    $route: function $route() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.scrollOverflow = !_this2.isPreview;
+      }, 400);
+    }
+  },
   beforeDestroy: function beforeDestroy() {
     $(this.$refs.lightbox).off();
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["locations", "isAdmin"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["stories"]), {
-    chevronLink: function chevronLink(_ref) {
-      var isPreview = _ref.isPreview;
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(["locations", "isAdmin"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])(["stories"]), {
+    confirmationStyle: function confirmationStyle(_ref) {
+      var state = _ref.state;
+      var showIt = state === "showCommentConfirmation";
+      return {
+        visibility: showIt ? "visible" : "hidden",
+        opacity: showIt ? 1 : 0
+      };
+    },
+    chevronLink: function chevronLink(_ref2) {
+      var isPreview = _ref2.isPreview;
       return isPreview ? "/places/".concat(this.location.slug) : "/places/".concat(this.location.slug, "/preview");
     },
-    chevronStyle: function chevronStyle(_ref2) {
-      var isPreview = _ref2.isPreview;
+    chevronStyle: function chevronStyle(_ref3) {
+      var isPreview = _ref3.isPreview;
       return {
         transform: isPreview ? "none" : "rotate(-180deg)"
       };
     },
-    location: function location(_ref3) {
-      var _this2 = this;
+    location: function location(_ref4) {
+      var _this3 = this;
 
-      var locations = _ref3.locations;
+      var locations = _ref4.locations;
       return locations.find(function (item) {
-        return item.slug === _this2.$route.params.location;
+        return item.slug === _this3.$route.params.location;
       });
     },
     isPreview: function isPreview() {
       return this.$route.name === "preview";
     },
-    containerClass: function containerClass(_ref4) {
-      var isPreview = _ref4.isPreview;
+    containerClass: function containerClass(_ref5) {
+      var isPreview = _ref5.isPreview,
+          scrollOverflow = _ref5.scrollOverflow;
       return {
         "md:translate-y-0": isPreview,
-        "translate-location-preview": isPreview
+        "translate-location-preview": isPreview,
+        "overflow-auto": scrollOverflow,
+        "overflow-visible": isPreview
       };
     },
-    storyCount: function storyCount(_ref5) {
-      var location = _ref5.location;
+    storyCount: function storyCount(_ref6) {
+      var location = _ref6.location;
 
       if (location.stories.length > 1) {
         return "".concat(location.stories.length, " stories");
@@ -4200,8 +4267,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return "1 story";
     },
-    locationHtml: function locationHtml(_ref6) {
-      var location = _ref6.location;
+    locationHtml: function locationHtml(_ref7) {
+      var location = _ref7.location;
       var words = location.name.split(" ");
 
       if (words.length > 1) {
@@ -4978,11 +5045,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var _QuoteIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuoteIcon */ "./resources/js/components/QuoteIcon.vue");
-/* harmony import */ var _CommentForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CommentForm */ "./resources/js/components/CommentForm.vue");
-/* harmony import */ var _ChevronUpIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ChevronUpIcon */ "./resources/js/components/ChevronUpIcon.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _ChevronUpIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ChevronUpIcon */ "./resources/js/components/ChevronUpIcon.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_6__);
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -5078,37 +5144,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 
@@ -5134,15 +5169,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_1__["default"],
     clickable: _Clickable__WEBPACK_IMPORTED_MODULE_2__["default"],
     quoteIcon: _QuoteIcon__WEBPACK_IMPORTED_MODULE_3__["default"],
-    commentForm: _CommentForm__WEBPACK_IMPORTED_MODULE_4__["default"],
-    chevronUpIcon: _ChevronUpIcon__WEBPACK_IMPORTED_MODULE_5__["default"]
+    chevronUpIcon: _ChevronUpIcon__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   methods: {
     handleReadFullButtonClick: function handleReadFullButtonClick() {
       this.state = this.state === "showAll" ? this.lastState : "showAll";
-    },
-    addAnotherComment: function addAnotherComment() {
-      this.state = this.lastState;
     },
     handleClickOutside: function handleClickOutside(e) {
       if (e.target.tagName !== "svg" && e.target.tagName !== "path") {
@@ -5158,12 +5189,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this.$router.push("/places/".concat(_this.location.slug));
       }, 310);
-    },
-    handleCommentCreated: function handleCommentCreated(comment) {
-      this.state = "showCommentConfirmation";
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(["locations", "isAdmin"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])(["locations", "isAdmin"]), {
     firstLast: function firstLast(_ref) {
       var story = _ref.story;
       var parts = story.subject.split(",");
@@ -5202,38 +5230,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         gradient: !showingFull
       };
     },
-    confirmationStyle: function confirmationStyle(_ref6) {
-      var state = _ref6.state,
-          story = _ref6.story;
-      var showIt = state === "showCommentConfirmation";
-      return {
-        visibility: showIt ? "visible" : "hidden",
-        opacity: showIt ? 1 : 0
-      };
-    },
-    audioPlayerStyle: function audioPlayerStyle(_ref7) {
-      var story = _ref7.story,
-          state = _ref7.state;
+    audioPlayerStyle: function audioPlayerStyle(_ref6) {
+      var story = _ref6.story,
+          state = _ref6.state;
       var showPlayer = ["showAll", "showPlayer"].includes(state);
       return {
         transform: "translateY(".concat(showPlayer ? "0" : "100%", ")"),
         opacity: showPlayer ? "1" : "0"
       };
     },
-    location: function location(_ref8) {
-      var story = _ref8.story;
+    location: function location(_ref7) {
+      var story = _ref7.story;
       return story.place;
     },
-    story: function story(_ref9) {
+    story: function story(_ref8) {
       var _this2 = this;
 
-      var stories = _ref9.stories;
+      var stories = _ref8.stories;
       return stories.find(function (s) {
         return +s.id === +_this2.$route.params.story;
       });
     },
-    locationHtml: function locationHtml(_ref10) {
-      var story = _ref10.story;
+    locationHtml: function locationHtml(_ref9) {
+      var story = _ref9.story;
       var words = story.place.name.split(" ");
 
       if (words.length === 2) {
@@ -43645,7 +43664,7 @@ var render = function() {
         [
           _c("input", {
             staticClass:
-              "border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full rounded-none",
+              "border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full bg-gray-100 rounded-none",
             attrs: {
               type: "text",
               name: "comment[author]",
@@ -43656,7 +43675,7 @@ var render = function() {
           _vm._v(" "),
           _c("input", {
             staticClass:
-              "border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full rounded-none",
+              "border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full bg-gray-100 rounded-none",
             attrs: {
               type: "email",
               name: "comment[email]",
@@ -43667,7 +43686,7 @@ var render = function() {
           _vm._v(" "),
           _c("textarea", {
             staticClass:
-              "border border-black p-2 font-mono text-black mb-10 focus:outline-none transition w-full rounded-none shadow-none",
+              "border border-black p-2 font-mono text-black mb-10 focus:outline-none transition w-full bg-gray-100 rounded-none shadow-none",
             staticStyle: { "min-height": "15.625rem" },
             attrs: {
               name: "comment[text]",
@@ -44231,7 +44250,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "flex overflow-auto md:overflow-hidden md:pb-48 flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4"
+            "flex overflow-auto md:overflow-hidden flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4 md:pb-16"
         },
         [
           _c("div", {
@@ -44259,16 +44278,111 @@ var render = function() {
         2
       ),
       _vm._v(" "),
+      _vm.location.approved_comments.length > 0
+        ? _c(
+            "div",
+            { staticClass: "xl:px-24 px-8 py-24 relative bg-tan-100" },
+            [
+              _c(
+                "h3",
+                { staticClass: "font-display uppercase text-2xl mb-12" },
+                [_vm._v("Stories & Comments")]
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.location.approved_comments, function(comment) {
+                return _c("div", { key: comment.id, staticClass: "my-10" }, [
+                  _c("h4", { staticClass: "text-base font-medium mb-3" }, [
+                    _vm._v(_vm._s(comment.author))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", {
+                    staticClass: "whitespace-pre-line leading-normal",
+                    domProps: { innerHTML: _vm._s(comment.text) }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    { staticClass: "block mt-4 opacity-75 font-mono text-xs" },
+                    [_vm._v(_vm._s(comment.frontend_date))]
+                  )
+                ])
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "xl:px-24 px-8 pt-12 border-t border-dotted mt-12 pb-48 relative bg-gray-100"
+        },
+        [
+          _c(
+            "h3",
+            {
+              staticClass: "font-display uppercase text-2xl mb-8",
+              staticStyle: { "font-weight": "500" }
+            },
+            [_vm._v("Share Your Story")]
+          ),
+          _vm._v(" "),
+          _c("comment-form", {
+            on: { "comment-created": _vm.handleCommentCreated }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "absolute inset-0 bg-gray-100 transition xl:px-24 pt-24 px-8 flex flex-col",
+              style: _vm.confirmationStyle
+            },
+            [
+              _c(
+                "h3",
+                { staticClass: "font-display uppercase text-2xl mb-8" },
+                [_vm._v("Thanks for Your Story")]
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "leading-normal gradient" }, [
+                _vm._v(
+                  "Your submission is under review and will show up under the comments for this story once it is approved."
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "clickable",
+                {
+                  staticClass:
+                    "w-full mt-10 text-center py-3 px-2 border border-black uppercase",
+                  on: { click: _vm.addAnotherComment }
+                },
+                [_vm._v("Add Another Comment")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c("portal", { attrs: { to: "end-of-document" } }, [
-        _c(
-          "a",
-          { ref: "lightbox", attrs: { href: _vm.location.photo, title: "" } },
-          [
-            _c("img", {
-              attrs: { src: _vm.location.photo, alt: "", title: "" }
-            })
-          ]
-        )
+        _vm.location.photo !== null
+          ? _c(
+              "a",
+              {
+                ref: "lightbox",
+                attrs: { href: _vm.location.photo, title: "" }
+              },
+              [
+                _c("img", {
+                  attrs: { src: _vm.location.photo, alt: "", title: "" }
+                })
+              ]
+            )
+          : _vm._e()
       ])
     ],
     1
@@ -45166,7 +45280,7 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "xl:px-24 px-8 pb-24" },
+        { staticClass: "xl:px-24 px-8 pb-48" },
         [
           _c("div", { staticClass: "pt-5 mb-12 md:mb-24 lg:pt-12" }, [
             _c(
@@ -45275,93 +45389,6 @@ var render = function() {
               _c("close-icon", {
                 staticClass: "w-8 h-8 lg:w-5 lg:h-5 text-black"
               })
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm.story.approved_comments.length > 0
-        ? _c(
-            "div",
-            { staticClass: "xl:px-24 px-8 py-24 relative bg-tan-100" },
-            [
-              _c(
-                "h3",
-                { staticClass: "font-display uppercase text-2xl mb-12" },
-                [_vm._v("Stories & Comments")]
-              ),
-              _vm._v(" "),
-              _vm._l(_vm.story.approved_comments, function(comment) {
-                return _c("div", { key: comment.id, staticClass: "my-10" }, [
-                  _c("h4", { staticClass: "text-base font-medium mb-3" }, [
-                    _vm._v(_vm._s(comment.author))
-                  ]),
-                  _vm._v(" "),
-                  _c("span", {
-                    staticClass: "whitespace-pre-line leading-normal",
-                    domProps: { innerHTML: _vm._s(comment.text) }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    { staticClass: "block mt-4 opacity-75 font-mono text-xs" },
-                    [_vm._v(_vm._s(comment.frontend_date))]
-                  )
-                ])
-              })
-            ],
-            2
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "xl:px-24 px-8 pt-24 pb-48 relative bg-white" },
-        [
-          _c(
-            "h3",
-            {
-              staticClass: "font-display uppercase text-2xl mb-8",
-              staticStyle: { "font-weight": "500" }
-            },
-            [_vm._v("Share Your Story")]
-          ),
-          _vm._v(" "),
-          _c("comment-form", {
-            on: { "comment-created": _vm.handleCommentCreated }
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "absolute inset-0 bg-white transition xl:px-24 pt-24 px-8 flex flex-col",
-              style: _vm.confirmationStyle
-            },
-            [
-              _c(
-                "h3",
-                { staticClass: "font-display uppercase text-2xl mb-8" },
-                [_vm._v("Thanks for Your Story")]
-              ),
-              _vm._v(" "),
-              _c("p", { staticClass: "leading-normal gradient" }, [
-                _vm._v(
-                  "Your submission is under review and will show up under the comments for this story once it is approved."
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "clickable",
-                {
-                  staticClass:
-                    "w-full mt-10 text-center py-3 px-2 border border-black uppercase",
-                  on: { click: _vm.addAnotherComment }
-                },
-                [_vm._v("Add Another Comment")]
-              )
             ],
             1
           )

@@ -6,9 +6,9 @@ use KSUGMap\Comment;
 
 class Comments
 {
-    public function __construct(Stories $stories)
+    public function __construct(Places $places)
     {
-        $this->stories = $stories;
+        $this->places = $places;
     }
 
     public function create($fillable)
@@ -16,8 +16,8 @@ class Comments
         return Comment::create($fillable);
     }
 
-    public function forStory($id)
+    public function forPlace($place)
     {
-        return $this->stories->findOrFail($id)->comments()->whereApproved()->get();
+        return $place->comments()->whereApproved()->get();
     }
 }

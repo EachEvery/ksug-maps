@@ -2,7 +2,6 @@
 
 namespace KSUGMap\Nova;
 
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use KSUGMap\Nova\Actions\ApproveComments;
 use KSUGMap\Nova\Actions\UnapproveComments;
@@ -10,7 +9,6 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Comment extends Resource
 {
@@ -34,13 +32,14 @@ class Comment extends Resource
      * @var array
      */
     public static $search = [
-        'author', 'email', 'text'
+        'author', 'email', 'text',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function fields(Request $request)
@@ -50,14 +49,15 @@ class Comment extends Resource
             Text::make('Email')->readonly(),
             Textarea::make('Text')->readonly(),
             Boolean::make('Is Approved')->hideWhenCreating()->hideWhenUpdating(),
-            Date::make('Created At')->readonly()
+            Date::make('Created At')->readonly(),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function cards(Request $request)
@@ -68,7 +68,8 @@ class Comment extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function filters(Request $request)
@@ -79,7 +80,8 @@ class Comment extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function lenses(Request $request)
@@ -90,11 +92,12 @@ class Comment extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function actions(Request $request)
     {
-        return [new ApproveComments, new UnapproveComments];
+        return [new ApproveComments(), new UnapproveComments()];
     }
 }

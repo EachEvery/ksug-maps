@@ -15,9 +15,9 @@ class Comment extends Model
         return filled($this->approved_at);
     }
 
-    public function story()
+    public function place()
     {
-        return $this->belongsTo(Story::class);
+        return $this->belongsTo(Place::class);
     }
 
     public function scopeWhereApproved($q)

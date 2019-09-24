@@ -74,6 +74,7 @@ class Place extends Resource
             Text::make('Lat')->hideFromIndex(),
             Text::make('Long')->hideFromIndex(),
             HasMany::make('Stories'),
+            HasMany::make('Comments'),
         ];
     }
 

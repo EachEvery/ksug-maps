@@ -12,7 +12,7 @@ class Story extends Model implements MapsToSearchResult
 
     protected $guraded = ['id'];
     protected $table = 'stories';
-    protected $with = ['place', 'approved_comments'];
+    protected $with = ['place'];
     protected $appends = ['admin_url', 'public_url'];
 
     public function getAdminUrlAttribute()
@@ -38,15 +38,5 @@ class Story extends Model implements MapsToSearchResult
     public function place()
     {
         return $this->belongsTo(Place::class);
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function approved_comments()
-    {
-        return $this->comments()->whereNotNull('approved_at');
     }
 }

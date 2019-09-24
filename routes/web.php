@@ -19,8 +19,8 @@ Route::get('/stories', function (Stories $stories) {
     return $stories->all();
 });
 
-Route::get('/stories/{story_id}/comments', 'StoryCommentsController@index');
-Route::post('/stories/{story_id}/comments', 'StoryCommentsController@store');
+Route::get('/places/{place_slug}/comments', 'PlaceCommentsController@index');
+Route::post('/places/{place_slug}/comments', 'PlaceCommentsController@store');
 
 Route::get('/{vue?}', function () {
     return view('master');
