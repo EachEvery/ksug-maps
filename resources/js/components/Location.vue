@@ -29,16 +29,18 @@
       <h4 class="font-mono text-md font-bold uppercase mb-3">{{storyCount}}</h4>
 
       <div class="mb-12">
-        <div class="flex">
+        <router-link :to="chevronLink" class="flex cursor-pointer md:cursor-default">
           <h1
             class="font-display font-black lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
             :class="{'text-2xl': location.name.length > 21, 'text-4xl': location.name.length < 21}"
           >{{location.name}}</h1>
 
-          <router-link :to="chevronLink" class="md:hidden">
-            <chevron-up-icon class="w-8 h-8 mt-1 text-black transition" :style="chevronStyle" />
-          </router-link>
-        </div>
+          <chevron-up-icon
+            class="w-8 h-8 mt-1 text-black transition md:hidden"
+            :style="chevronStyle"
+          />
+        </router-link>
+
         <a
           v-if="isAdmin"
           :href="location.admin_url"
@@ -49,7 +51,7 @@
     </div>
 
     <div
-      class="flex overflow-auto md:overflow-hidden flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4 md:pb-16"
+      class="flex overflow-auto md:overflow-hidden flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4 md:pb-16 mb-24"
     >
       <div class="w-5 md:hidden" style="flex: 0 0 auto;"></div>
 
@@ -78,10 +80,13 @@
         <span class="block mt-4 opacity-75 font-mono text-xs">{{comment.frontend_date}}</span>
       </div>
     </div>
-    <div class="xl:px-24 px-8 pt-12 border-t border-dotted mt-12 pb-48 relative bg-gray-100">
+    <div class="xl:px-24 px-8 pt-12 border-t border-dotted pb-48 relative bg-gray-100">
       <h3 class="font-display uppercase text-2xl mb-8" style="font-weight: 500;">Share Your Story</h3>
 
-      <comment-form @comment-created="handleCommentCreated" />
+      <comment-form
+        @comment-created="handleCommentCreated"
+        :post-url="`/places/${location.slug}/comments`"
+      />
 
       <div
         class="absolute inset-0 bg-gray-100 transition xl:px-24 pt-24 px-8 flex flex-col"

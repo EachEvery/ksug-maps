@@ -3750,6 +3750,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     clickable: _Clickable__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  props: {
+    postUrl: String
+  },
   data: function data() {
     return {
       state: "default"
@@ -3768,7 +3771,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 this.state = "loading";
                 _context.next = 3;
-                return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_3__["formPost"])("".concat(window.location.pathname, "/comments"), this.$refs.form);
+                return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_3__["formPost"])(this.postUrl, this.$refs.form);
 
               case 3:
                 _ref = _context.sent;
@@ -4041,6 +4044,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -44200,57 +44208,58 @@ var render = function() {
           [_vm._v(_vm._s(_vm.storyCount))]
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "mb-12" }, [
-          _c(
-            "div",
-            { staticClass: "flex" },
-            [
-              _c(
-                "h1",
-                {
-                  staticClass:
-                    "font-display font-black lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto",
-                  class: {
-                    "text-2xl": _vm.location.name.length > 21,
-                    "text-4xl": _vm.location.name.length < 21
-                  }
-                },
-                [_vm._v(_vm._s(_vm.location.name))]
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                { staticClass: "md:hidden", attrs: { to: _vm.chevronLink } },
-                [
-                  _c("chevron-up-icon", {
-                    staticClass: "w-8 h-8 mt-1 text-black transition",
-                    style: _vm.chevronStyle
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.isAdmin
-            ? _c(
-                "a",
-                {
-                  staticClass: "underline inline-block mt-3",
-                  attrs: { href: _vm.location.admin_url, target: "_blank" }
-                },
-                [_vm._v("Edit Place")]
-              )
-            : _vm._e()
-        ])
+        _c(
+          "div",
+          { staticClass: "mb-12" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "flex cursor-pointer md:cursor-default",
+                attrs: { to: _vm.chevronLink }
+              },
+              [
+                _c(
+                  "h1",
+                  {
+                    staticClass:
+                      "font-display font-black lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto",
+                    class: {
+                      "text-2xl": _vm.location.name.length > 21,
+                      "text-4xl": _vm.location.name.length < 21
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.location.name))]
+                ),
+                _vm._v(" "),
+                _c("chevron-up-icon", {
+                  staticClass: "w-8 h-8 mt-1 text-black transition md:hidden",
+                  style: _vm.chevronStyle
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm.isAdmin
+              ? _c(
+                  "a",
+                  {
+                    staticClass: "underline inline-block mt-3",
+                    attrs: { href: _vm.location.admin_url, target: "_blank" }
+                  },
+                  [_vm._v("Edit Place")]
+                )
+              : _vm._e()
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
       _c(
         "div",
         {
           staticClass:
-            "flex overflow-auto md:overflow-hidden flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4 md:pb-16"
+            "flex overflow-auto md:overflow-hidden flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4 md:pb-16 mb-24"
         },
         [
           _c("div", {
@@ -44316,7 +44325,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "xl:px-24 px-8 pt-12 border-t border-dotted mt-12 pb-48 relative bg-gray-100"
+            "xl:px-24 px-8 pt-12 border-t border-dotted pb-48 relative bg-gray-100"
         },
         [
           _c(
@@ -44329,6 +44338,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("comment-form", {
+            attrs: { "post-url": "/places/" + _vm.location.slug + "/comments" },
             on: { "comment-created": _vm.handleCommentCreated }
           }),
           _vm._v(" "),

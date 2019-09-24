@@ -44,7 +44,9 @@ export default {
   components: {
     clickable
   },
-
+  props: {
+    postUrl: String
+  },
   data() {
     return {
       state: "default"
@@ -54,10 +56,7 @@ export default {
     async handleSubmit() {
       this.state = "loading";
 
-      let { data } = await formPost(
-        `${window.location.pathname}/comments`,
-        this.$refs.form
-      );
+      let { data } = await formPost(this.postUrl, this.$refs.form);
 
       this.$refs.form.reset();
 

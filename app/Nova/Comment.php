@@ -5,6 +5,7 @@ namespace KSUGMap\Nova;
 use Illuminate\Http\Request;
 use KSUGMap\Nova\Actions\ApproveComments;
 use KSUGMap\Nova\Actions\UnapproveComments;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
@@ -50,6 +51,7 @@ class Comment extends Resource
             Textarea::make('Text')->readonly(),
             Boolean::make('Is Approved')->hideWhenCreating()->hideWhenUpdating(),
             Date::make('Created At')->readonly(),
+            BelongsTo::make('Place'),
         ];
     }
 
