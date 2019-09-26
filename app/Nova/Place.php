@@ -44,8 +44,6 @@ class Place extends Resource
     {
         return [
             Text::make('Name'),
-
-            Text::make('Public Url')->hideFromIndex(),
             Text::make('Photo')->hideFromIndex(),
             Text::make('Alt Text')->hideFromIndex(),
             Text::make('Photo Preview', function () {

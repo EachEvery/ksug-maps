@@ -17,6 +17,7 @@
       >
         <main-menu v-if="menuOpen" class="flex-grow overflow-hidden" :is-location="isLocation" />
         <search v-if="searchOpen" class="flex-grow overflow-hidden" />
+        <filters v-if="filterOpen" class="flex-grow overflow-hidden" />
       </transition>
 
       <p
@@ -41,6 +42,17 @@
         </clickable>
 
         <clickable
+          class="mr-5 w-6 h-6 self-center transition"
+          @click="() => toggleState('filter')"
+          :class="{'opacity-25': filterOpen}"
+        >
+          <filter-icon
+            class="w-full h-full transition"
+            :class="{'text-orange': !filterOpen && filters.length > 0}"
+          />
+        </clickable>
+
+        <clickable
           class="w-8 h-8 transition"
           @click="() => toggleState('menu')"
           :class="{'opacity-25': menuOpen}"
@@ -57,18 +69,22 @@ import clickable from "./Clickable";
 import searchIcon from "./SearchIcon";
 import menuIcon from "./MenuIcon";
 import mainMenu from "./MainMenu";
+import filters from "./Filter";
 import search from "./Search";
-
+import filterIcon from "./FilterIcon";
+import { mapState } from "vuex";
 export default {
   props: {
     isLocation: Boolean
   },
   components: {
+    filterIcon,
     clickable,
     searchIcon,
     menuIcon,
     mainMenu,
-    search
+    search,
+    filters
   },
   data() {
     return {
@@ -93,6 +109,7 @@ export default {
   },
 
   computed: {
+    ...mapState(["filters"]),
     isMap() {
       return true;
     },
@@ -105,15 +122,18 @@ export default {
     searchOpen({ state }) {
       return state === "search";
     },
-    isOpen({ menuOpen, searchOpen, isLocation }) {
-      return (menuOpen || searchOpen) && !isLocation;
+    filterOpen({ state }) {
+      return state === "filter";
+    },
+    isOpen({ menuOpen, searchOpen, isLocation, filterOpen }) {
+      return (menuOpen || searchOpen || filterOpen) && !isLocation;
     },
     isClosed({ isOpen }) {
       return !isOpen;
     },
     containerClass({ isOpen, isLocation }) {
       return {
-        "md:max-w-xs": !isOpen,
+        "md:max-w-md": !isOpen,
         "md:max-w-lg": isOpen,
         "-translate-y-5": isLocation
       };
