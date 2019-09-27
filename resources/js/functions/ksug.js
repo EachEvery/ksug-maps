@@ -1,14 +1,8 @@
-import getSlug from "slugify";
-
-export const mapStoriesToLocations = stories => {
-    return [...new Set(stories.map(story => story.place))].map(location => {
-        let locationStories = stories.filter(
-            item => +item.place_id === +location.id
-        );
-
+export const mapPlaces = (locations, stories) => {
+    return locations.map(loc => {
         return {
-            ...location,
-            stories: locationStories
+            ...loc,
+            stories: stories.filter(s => +s.place_id === +loc.id)
         };
     });
 };

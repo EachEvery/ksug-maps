@@ -90,7 +90,7 @@
           href="https://www.library.kent.edu/special-collections-and-archives/kent-state-shootings-may-4-collection"
           class="underline mt-3"
           target="_blank"
-        >Kent State May 4 Collection</a>
+        >Kent State Special Collections &amp; Archives</a>
 
         <a href="https://eachevery.com" class="underline mt-3" target="_blank">Each + Every</a>
       </div>

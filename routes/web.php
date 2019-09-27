@@ -1,6 +1,7 @@
 <?php
 
 use KSUGMap\Repositories\Stories;
+use KSUGMap\Repositories\Places;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,10 @@ Route::get('/search', 'SearchController');
 
 Route::get('/stories', function (Stories $stories) {
     return $stories->all();
+});
+
+Route::get('/places', function (Places $places) {
+    return $places->all();
 });
 
 Route::get('/places/{place_slug}/comments', 'PlaceCommentsController@index');

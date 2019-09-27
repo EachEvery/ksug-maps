@@ -144,8 +144,8 @@ export default {
   },
 
   computed: {
-    ...mapState(["stories"]),
-    ...mapGetters(["locations", "isAdmin"]),
+    ...mapState(["stories", "places"]),
+    ...mapGetters(["isAdmin"]),
 
     firstLast({ story }) {
       let parts = story.subject.split(",");

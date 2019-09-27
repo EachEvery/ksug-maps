@@ -15,4 +15,9 @@ class Places
     {
         return Place::findOrFail($id);
     }
+
+    public function all()
+    {
+        return Place::all();
+    }
 }

@@ -2,7 +2,7 @@
   <clickable
     class="relative text-left"
     @click="emit"
-    :class="{'opacity-25': !isActive, 'mr-5 pr-5': filters.length > 0, 'mr-10': filters.length === 0}"
+    :class="{'opacity-25': isActive, 'mr-5 pr-5': filters.length > 0, 'mr-10': filters.length === 0}"
   >
     <span>
       <slot />

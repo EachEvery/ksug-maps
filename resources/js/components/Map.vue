@@ -108,7 +108,7 @@ export default {
         ).place;
       }
 
-      return this.$store.getters.locations.find(
+      return this.$store.state.places.find(
         loc => loc.slug === this.$route.params.location
       );
     },
@@ -349,7 +349,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.initMap();
-
       document.getElementById("map").addEventListener("dblclick", () => {
         this.zoom(this.nextZoom);
       });

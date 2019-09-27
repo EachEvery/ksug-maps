@@ -60,4 +60,12 @@
     .flex-retain {
         flex: 0 0 auto;
     }
+
+    .left-full {
+        left: 100%;
+    }
+
+    .bottom-full {
+        bottom: 100%;
+    }
 }

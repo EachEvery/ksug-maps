@@ -42,14 +42,18 @@
         </clickable>
 
         <clickable
-          class="mr-5 w-6 h-6 self-center transition"
+          class="mr-5 w-6 h-6 self-center transition relative"
           @click="() => toggleState('filter')"
           :class="{'opacity-25': filterOpen}"
         >
-          <filter-icon
-            class="w-full h-full transition"
-            :class="{'text-orange': !filterOpen && filters.length > 0}"
-          />
+          <filter-icon class="w-full h-full transition" />
+
+          <div
+            class="w-4 h-4 flex justify-center items-center absolute left-full bottom-full text-white bg-black rounded-full -mb-1 -ml-1"
+            v-if="filters.length > 0"
+          >
+            <span class="text-2xs">{{filters.length}}</span>
+          </div>
         </clickable>
 
         <clickable

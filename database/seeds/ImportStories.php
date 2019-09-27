@@ -19,7 +19,12 @@ class ImportStories extends Seeder
         $data->map(function ($item) {
             $hasPhoto = str_contains(@$item->{'photo'}, 'http');
 
-            $place = Place::firstOrCreate(['name' => trim(title_case(@$item->{'Place '}))], [
+            $latLong = [
+                'lat' => @$item->{'Latitude'},
+                'long' => @$item->{'Longitude'},
+            ];
+
+            $place = Place::firstOrCreate($latLong, [
                 'name' => trim(title_case(@$item->{'Place '})),
                 'lat' => @$item->{'Latitude'},
                 'long' => @$item->{'Longitude'},
@@ -32,7 +37,7 @@ class ImportStories extends Seeder
                 'day' => @$item->{'Date of Story'},
                 'content' => @$item->{'Story'},
                 'place_id' => $place->id,
-                'subject' => @$item->{'Name'},
+                'subject' => title_case(trim(@$item->{'Name'})),
                 'full_story_link' => @$item->{'Link to audio'},
                 'role' => @$item->{'Role'},
             ]);

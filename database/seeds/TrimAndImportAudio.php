@@ -40,7 +40,7 @@ class TrimAndImportAudio extends Seeder
             $arr = explode('/', $item->{'Link to audio'});
 
             $id = array_pop($arr);
-            $path = sprintf('ksug/%s-%s-%s-%s-ffmpeg.mp3', str_slug($item->{'Name'}), $id, trim($item->{'Audio start'}), trim($item->{'Audio stop'}), $padding);
+            $path = sprintf('ksug/%s-%s-%s-%s-final.mp3', str_slug($item->{'Name'}), $id, trim($item->{'Audio start'}), trim($item->{'Audio stop'}), $padding);
 
             if (!Storage::disk('s3')->exists($path)) {
                 echo "\n".'Grabbing audio src from url...';
@@ -56,7 +56,7 @@ class TrimAndImportAudio extends Seeder
 
                     echo "\n".'Trimming audio...';
 
-                    $audio->filters()->clip(TimeCode::fromSeconds($start), TimeCode::fromSeconds($stop));
+                    $audio->filters()->clip(TimeCode::fromSeconds($start), TimeCode::fromSeconds($stop - $start));
                     $audio->save(new Mp3(), storage_path('app/'.$path));
 
                     echo "\n".'Saving to s3...';

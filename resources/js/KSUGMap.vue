@@ -3,7 +3,7 @@
     <div class="w-full h-full relative overflow-hidden bg-black">
       <map-component
         :filters="filters"
-        :locations="locations"
+        :locations="places"
         :show-overlay-button="!isLocation"
         :is-location="isLocation"
         @location-clicked="handleLocationClicked"
@@ -56,14 +56,19 @@ export default {
       pullMapLeft: false
     };
   },
+  watch: {
+    places() {
+      console.log("places", this.places);
+    }
+  },
   async mounted() {
-    await this.ensureStories();
+    await this.ensureData();
     this.preloadImages();
   },
   methods: {
-    ...mapActions(["ensureStories"]),
+    ...mapActions(["ensureData"]),
     preloadImages() {
-      [...this.locations].forEach(item => {
+      [...this.places].forEach(item => {
         if (item.photo !== null) {
           let image = new Image();
 
@@ -79,16 +84,15 @@ export default {
     }
   },
   computed: {
-    ...mapState(["stories", "filters"]),
-    ...mapGetters(["locations"]),
+    ...mapState(["stories", "filters", "places"]),
     isLocation({ $route }) {
       return ["location", "preview", "story"].includes($route.name);
     },
     isAdmin() {
       return window.isAdmin;
     },
-    ready({ stories }) {
-      return stories.length > 0;
+    ready({ stories, places }) {
+      return stories.length > 0 && places.length > 0;
     },
     imageLoaded({ state }) {
       return state === "imageLoaded";

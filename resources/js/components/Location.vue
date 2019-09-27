@@ -159,7 +159,8 @@ export default {
     goBack(e) {
       if (
         $(e.target).hasClass("fluidbox--initialized") ||
-        $(e.target).hasClass("fluidbox__overlay")
+        $(e.target).hasClass("fluidbox__overlay") ||
+        $(e.target).hasClass("fluidbox__ghost")
       ) {
         return;
       }
@@ -186,8 +187,8 @@ export default {
     $(this.$refs.lightbox).off();
   },
   computed: {
-    ...mapGetters(["locations", "isAdmin"]),
-    ...mapState(["stories"]),
+    ...mapGetters(["isAdmin"]),
+    ...mapState(["stories", "places"]),
     confirmationStyle({ state }) {
       let showIt = state === "showCommentConfirmation";
 
@@ -206,8 +207,8 @@ export default {
         transform: isPreview ? "none" : "rotate(-180deg)"
       };
     },
-    location({ locations }) {
-      return locations.find(item => item.slug === this.$route.params.location);
+    location({ places }) {
+      return places.find(item => item.slug === this.$route.params.location);
     },
 
     isPreview() {

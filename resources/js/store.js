@@ -5,26 +5,34 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import { unique, filled } from "./functions/helpers";
-import { mapStoriesToLocations, mapStories } from "./functions/ksug";
+import { mapPlaces, mapStories } from "./functions/ksug";
 
 export default new Vuex.Store({
     state: {
         stories: [],
         filters: [],
-        comments: []
+        comments: [],
+        places: []
     },
     actions: {
-        ensureStories(context) {
+        ensureData(context) {
             return new Promise(async resolve => {
-                let { data } = await Axios.get("/stories");
+                let storyRes = await Axios.get("/stories");
 
-                context.commit("setStories", data);
+                context.commit("setStories", storyRes.data);
+
+                let placeRes = await Axios.get("/places");
+
+                context.commit("setPlaces", placeRes.data);
 
                 resolve();
             });
         }
     },
     mutations: {
+        setPlaces(state, places) {
+            state.places = mapPlaces(places, state.stories);
+        },
         setStories(state, stories) {
             state.stories = mapStories(stories);
         },
@@ -51,9 +59,6 @@ export default new Vuex.Store({
         },
         days({ stories }) {
             return filled(unique(stories.map(s => s.day)));
-        },
-        locations({ stories }) {
-            return mapStoriesToLocations(stories);
         }
     }
 });
