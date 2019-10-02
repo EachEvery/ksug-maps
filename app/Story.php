@@ -15,9 +15,9 @@ class Story extends Model implements MapsToSearchResult
     protected $with = ['place'];
     protected $appends = ['admin_url', 'public_url', 'role'];
 
-    public function getRoleAttribute()
+    public function getRoleAttribute($val)
     {
-        return title_case(trim($this->attributes['role']));
+        return title_case(trim($val));
     }
 
     public function getAdminUrlAttribute()
