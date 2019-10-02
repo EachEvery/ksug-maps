@@ -17,11 +17,11 @@
       <p class="text-sm leading-normal mt-10">
         This website draws from the 110 oral histories in the Kent State University
         <a
-          href="#"
+          href="https://www.library.kent.edu/special-collections-and-archives/kent-state-shootings-may-4-collection"
           class="underline"
-        >May 4th collection</a>. It maps stories from those histories that describe memories of events at a particular place in Kent between May 1st and May 5th, 1970. This initial version does not include stories about sites within the National Historic Landmark (the spaces near the shooting). We hope to extend this project to include those stories as well as add oral histories collected by the
+        >Kent State Special Collections &amp; Archives</a>. It maps stories from those histories that describe memories of events at a particular place in Kent between May 1st and May 5th, 1970. This initial version does not include stories about sites within the National Historic Landmark (the spaces near the shooting). We hope to extend this project to include those stories as well as add oral histories collected by the
         <a
-          href="#"
+          href="https://www.kentohiohistory.org"
           class="underline"
         >Kent Historical Society</a>.
       </p>
