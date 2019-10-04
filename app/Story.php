@@ -13,7 +13,7 @@ class Story extends Model implements MapsToSearchResult
     protected $guraded = ['id'];
     protected $table = 'stories';
     protected $with = ['place'];
-    protected $appends = ['admin_url', 'public_url', 'role'];
+    protected $appends = ['admin_url', 'public_url'];
 
     public function getRoleAttribute($val)
     {
