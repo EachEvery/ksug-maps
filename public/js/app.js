@@ -40584,7 +40584,7 @@ Popper.Defaults = Defaults;
  /*! 
   * portal-vue © Thorsten Lünborg, 2019 
   * 
-  * Version: 2.1.5
+  * Version: 2.1.6
   * 
   * LICENCE: MIT 
   * 
@@ -40720,7 +40720,7 @@ var Wormhole = Vue.extend({
       var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var to = transport.to,
           from = transport.from;
-      if (!to || !from) return;
+      if (!to || !from && force === false) return;
 
       if (!this.transports[to]) {
         return;
@@ -43230,7 +43230,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", { staticClass: "text-sm leading-normal mt-10" }, [
           _vm._v(
-            "\n      This website draws from the 110 oral histories in the Kent State University\n      "
+            "\n      This website draws from the 110 oral histories in the\n      "
           ),
           _c(
             "a",
@@ -43241,7 +43241,11 @@ var staticRenderFns = [
                   "https://www.library.kent.edu/special-collections-and-archives/kent-state-shootings-may-4-collection"
               }
             },
-            [_vm._v("Kent State Special Collections & Archives")]
+            [
+              _vm._v(
+                "May 4 Collection, Kent State Special Collections & Archives"
+              )
+            ]
           ),
           _vm._v(
             ". It maps stories from those histories that describe memories of events at a particular place in Kent between May 1st and May 5th, 1970. This initial version does not include stories about sites within the National Historic Landmark (the spaces near the shooting). We hope to extend this project to include those stories as well as add oral histories collected by the\n      "
@@ -65597,8 +65601,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/nate/projects/valet/maps/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/nate/projects/valet/maps/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/vulcan/Source 🔋/mappingmay4/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/vulcan/Source 🔋/mappingmay4/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

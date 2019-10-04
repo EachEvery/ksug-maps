@@ -24,6 +24,11 @@ class Place extends Model implements MapsToSearchResult
         return url(sprintf('/places/%s/preview', $this->slug));
     }
 
+    public function getPhotoAttribute($val)
+    {
+        return filled($val) ? str_replace(['http:', 'https:'], '', $val) : '';
+    }
+
     public function toSearchResult(): object
     {
         $storyCount = $this->stories()->count();
