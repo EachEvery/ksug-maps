@@ -7,7 +7,7 @@
       <router-link to="/about">ABOUT THE PROJECT</router-link>
     </li>
     <li class="mb-10 shrink-when-active">
-      <a href="#">SIGN UP FOR UPDATES</a>
+      <a href="https://mailchi.mp/531c4843f76c/mappingmay4" target="_blank">SIGN UP FOR UPDATES</a>
     </li>
   </ul>
 </template>
