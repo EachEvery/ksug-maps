@@ -26,7 +26,9 @@ class Place extends Model implements MapsToSearchResult
 
     public function getPhotoAttribute($val)
     {
-        return filled($val) ? str_replace(['http:', 'https:'], '', $val) : '';
+        info($val);
+
+        return filled($val) ? str_replace(['http:', 'https:'], '', $val) : null;
     }
 
     public function toSearchResult(): object
