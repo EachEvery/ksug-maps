@@ -28,7 +28,8 @@ module.exports = {
                 purple: "#C6C1CE",
                 tan: {
                     100: "#F0EBE6",
-                    200: "#D8C6BF"
+                    200: "#D8C6BF",
+                    300: "#F0CFB4"
                 }
             },
             spacing: {

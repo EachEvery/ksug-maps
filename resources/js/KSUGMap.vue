@@ -64,6 +64,10 @@ export default {
   async mounted() {
     await this.ensureData();
     this.preloadImages();
+
+    if (this.$route.path === "/") {
+      this.$router.push("/about");
+    }
   },
   methods: {
     ...mapActions(["ensureData"]),
