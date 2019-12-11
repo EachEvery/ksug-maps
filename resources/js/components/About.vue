@@ -5,7 +5,7 @@
     id="about-container"
   >
     <page-section class="bg-white" id="about-may-4">
-      <div class="-mr-24">
+      <div class="-mr-12">
         <img
           src="//nhmisc.s3.amazonaws.com/ksug/d4dff96a075d8cd5f98a56aad48e0988.jpg"
           class="w-full mb-2"
