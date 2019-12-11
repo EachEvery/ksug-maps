@@ -20,6 +20,9 @@ module.exports = {
             "8xl": "5.25rem"
         },
         extend: {
+            maxWidth: {
+                base: "35rem"
+            },
             colors: {
                 current: "currentColor",
                 orange: "#F0A38C",

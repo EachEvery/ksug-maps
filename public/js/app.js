@@ -43279,8 +43279,7 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-0 md:right-0 md:left-auto transition md:w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0",
-      staticStyle: { "max-width": "40rem" },
+        "fixed inset-0 md:right-0 md:left-auto transition md:w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0 md:max-w-base",
       attrs: { id: "about-container" }
     },
     [
@@ -43288,7 +43287,7 @@ var render = function() {
         "page-section",
         { staticClass: "bg-white", attrs: { id: "about-may-4" } },
         [
-          _c("div", { staticClass: "-mr-24 -mt-16" }, [
+          _c("div", { staticClass: "-mr-24" }, [
             _c("img", {
               staticClass: "w-full mb-2",
               attrs: {
@@ -43353,7 +43352,8 @@ var render = function() {
                 staticClass: "underline",
                 attrs: {
                   href:
-                    "https://www.amazon.com/This-We-Know-Chronology-Shootings/dp/1606351850"
+                    "http://www.kentstateuniversitypress.com/2012/this-we-know/",
+                  target: "_blank"
                 }
               },
               [_vm._v("This We Know")]
@@ -45395,7 +45395,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "px-12 md:px-24 pt-16 pb-24 flex-col flex" },
+    { staticClass: "px-12 md:px-12 pb-12 flex-col flex" },
     [_vm._t("default")],
     2
   )

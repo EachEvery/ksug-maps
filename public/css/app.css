@@ -4647,6 +4647,10 @@ video {
   max-width: 100%;
 }
 
+.max-w-base {
+  max-width: 35rem;
+}
+
 .min-h-0 {
   min-height: 0;
 }
@@ -11496,6 +11500,10 @@ video {
 
   .sm\:max-w-full {
     max-width: 100%;
+  }
+
+  .sm\:max-w-base {
+    max-width: 35rem;
   }
 
   .sm\:min-h-0 {
@@ -18350,6 +18358,10 @@ video {
     max-width: 100%;
   }
 
+  .md\:max-w-base {
+    max-width: 35rem;
+  }
+
   .md\:min-h-0 {
     min-height: 0;
   }
@@ -25202,6 +25214,10 @@ video {
     max-width: 100%;
   }
 
+  .lg\:max-w-base {
+    max-width: 35rem;
+  }
+
   .lg\:min-h-0 {
     min-height: 0;
   }
@@ -32052,6 +32068,10 @@ video {
 
   .xl\:max-w-full {
     max-width: 100%;
+  }
+
+  .xl\:max-w-base {
+    max-width: 35rem;
   }
 
   .xl\:min-h-0 {

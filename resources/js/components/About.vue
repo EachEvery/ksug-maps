@@ -1,12 +1,11 @@
 <template>
   <div
     v-click-outside="goBack"
-    class="fixed inset-0 md:right-0 md:left-auto transition md:w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0"
-    style="max-width: 40rem"
+    class="fixed inset-0 md:right-0 md:left-auto transition md:w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0 md:max-w-base"
     id="about-container"
   >
     <page-section class="bg-white" id="about-may-4">
-      <div class="-mr-24 -mt-16">
+      <div class="-mr-24">
         <img
           src="//nhmisc.s3.amazonaws.com/ksug/d4dff96a075d8cd5f98a56aad48e0988.jpg"
           class="w-full mb-2"
@@ -34,7 +33,8 @@
           class="underline"
         >May 4 Collection, Kent State Special Collections &amp; Archives</a>. It maps stories from those histories that describe memories of events at a particular place in Kent between May 1st and May 5th, 1970 (but does not yet include stories within the National Historic Landmark). This web app is designed to serve as a digital memorial, to remember and honor these events. We have made it both for those who have stories to share, and those who are interested in hearing these stories. This web app does not aim to establish historical facts. Readers will notice that stories associated with some sites are quite contradictory. Instead this web app aims to open a space for dialogue in the hope of building understanding, connection across difference, and ultimately reconciliation. For those seeking a historical account we recommend starting with the short booklet
         <a
-          href="https://www.amazon.com/This-We-Know-Chronology-Shootings/dp/1606351850"
+          href="http://www.kentstateuniversitypress.com/2012/this-we-know/"
+          target="_blank"
           class="underline"
         >This We Know</a>.
       </paragraph>
