@@ -1,7 +1,7 @@
 <template>
   <div
     v-click-outside="goBack"
-    class="fixed inset-0 md:right-0 md:left-auto transition md:w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0 md:max-w-base"
+    class="fixed inset-0 md:right-0 md:left-auto transition md:w-84 xl:w-5/12 overflow-auto mt-64 md:mt-0 md:max-w-base"
     id="about-container"
   >
     <page-section class="bg-white" id="about-may-4">
