@@ -132,7 +132,7 @@
           href="https://www.kentohiohistory.org"
           class="underline mt-3"
           target="_blank"
-        >Kent State Historical Society</a>
+        >Kent Historical Society and Museum</a>
 
         <a
           href="https://www.library.kent.edu/special-collections-and-archives/kent-state-shootings-may-4-collection"
