@@ -141,6 +141,11 @@
         >Kent State Special Collections &amp; Archives</a>
 
         <a href="https://eachevery.com" class="underline mt-3" target="_blank">Each + Every</a>
+
+        <span class="mt-3">Ohio Humanities</span>
+        <span class="mt-3">Kent State 50th commemoration funds</span>
+        <span class="mt-3">College of Arts & Sciences of Kent State</span>
+        <span class="mt-3">University Research Council</span>
       </div>
 
       <div class="flex justify-center mt-24">
@@ -170,13 +175,17 @@
         />
       </div>
 
-      <div class="flex mt-8 justify-center">
+      <div class="flex mt-8 justify-center mb-16">
         <img
           class="w-24 object-contain self-center mx-5"
           alt="Each + Every"
           src="http://nhmisc.s3.amazonaws.com/ksug/EELogo-Black-Full.png"
         />
-        <div class="w-32 mx-5"></div>
+        <img
+          class="w-24 object-contain self-center mx-5"
+          alt="Ohio Humanities"
+          src="http://eachevery.s3.amazonaws.com/ksug/ohio-humanities.png"
+        />
       </div>
     </page-section>
   </div>
