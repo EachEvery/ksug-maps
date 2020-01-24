@@ -142,6 +142,8 @@
 
         <a href="https://eachevery.com" class="underline mt-3" target="_blank">Each + Every</a>
 
+        <header-25>FUNDING FROM</header-25>
+
         <span class="mt-3">Ohio Humanities</span>
         <span class="mt-3">Kent State 50th commemoration funds</span>
         <span class="mt-3">College of Arts & Sciences of Kent State</span>
