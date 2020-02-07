@@ -3,9 +3,12 @@
 namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Traits\Tappable;
 
 class Comment extends Model
 {
+    use Tappable;
+
     protected $guarded = [];
     public $appends = ['frontend_date'];
     protected $dates = ['approved_at'];

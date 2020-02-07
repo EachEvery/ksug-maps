@@ -2,12 +2,16 @@
 
 namespace KSUGMap;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    protected $attributes = [
+        'admin_notifications' => true,
+    ];
 
     /**
      * The attributes that are mass assignable.
