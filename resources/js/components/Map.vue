@@ -86,10 +86,6 @@ export default {
         ]
       });
 
-      this.map.on("click", function(e) {
-        console.log(e.lngLat);
-      });
-
       this.mapboxMarkers = this.markers.map(marker => {
         let el = document.createElement("div");
 
@@ -132,10 +128,6 @@ export default {
 
     handleMarkerClick(marker, e) {
       e.preventDefault();
-
-      this.map.flyTo({
-        curve: 0
-      });
 
       // this.map.flyTo({
       //   center: [+marker.place.long, +marker.place.lat],

@@ -3352,9 +3352,6 @@ __webpack_require__.r(__webpack_exports__);
         zoom: 16,
         maxBounds: [[-81.39301041235215, 41.132502224091496], [-81.32319121255, 41.18378981482479]]
       });
-      this.map.on("click", function (e) {
-        console.log(e.lngLat);
-      });
       this.mapboxMarkers = this.markers.map(function (marker) {
         var el = document.createElement("div");
         el.className = "marker";
@@ -3385,10 +3382,7 @@ __webpack_require__.r(__webpack_exports__);
     handleMarkerClick: function handleMarkerClick(marker, e) {
       var _this2 = this;
 
-      e.preventDefault();
-      this.map.flyTo({
-        curve: 0
-      }); // this.map.flyTo({
+      e.preventDefault(); // this.map.flyTo({
       //   center: [+marker.place.long, +marker.place.lat],
       //   curve: 0
       // });
