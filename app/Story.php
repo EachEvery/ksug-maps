@@ -3,8 +3,8 @@
 namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 use KSUGMap\Contracts\MapsToSearchResult;
+use Laravel\Scout\Searchable;
 
 class Story extends Model implements MapsToSearchResult
 {
@@ -43,5 +43,10 @@ class Story extends Model implements MapsToSearchResult
     public function place()
     {
         return $this->belongsTo(Place::class);
+    }
+
+    public function tours()
+    {
+        return $this->belongsToMany(Tour::class);
     }
 }

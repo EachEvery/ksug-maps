@@ -1876,7 +1876,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_GlobalHeader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/GlobalHeader */ "./resources/js/components/GlobalHeader.vue");
 /* harmony import */ var _components_Map__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Map */ "./resources/js/components/Map.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -1931,10 +1932,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_3__["default"]],
   metaInfo: function metaInfo() {
     return {
       title: "Home",
@@ -1950,11 +1954,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       state: "default",
       pullMapLeft: false
     };
-  },
-  watch: {
-    places: function places() {
-      console.log("places", this.places);
-    }
   },
   mounted: function () {
     var _mounted = _asyncToGenerator(
@@ -1988,7 +1987,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     return mounted;
   }(),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])(["ensureData"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapActions"])(["ensureData"]), {
     preloadImages: function preloadImages() {
       _toConsumableArray(this.places).forEach(function (item) {
         if (item.photo !== null) {
@@ -2004,26 +2003,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$router.push("/places/".concat(location.slug, "/preview"));
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(["stories", "filters", "places"]), {
-    isLocation: function isLocation(_ref) {
-      var $route = _ref.$route;
-      return ["location", "preview", "story"].includes($route.name);
-    },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])(["stories", "filters", "places"]), {
     isAdmin: function isAdmin() {
       return window.isAdmin;
     },
-    ready: function ready(_ref2) {
-      var stories = _ref2.stories,
-          places = _ref2.places;
+    ready: function ready(_ref) {
+      var stories = _ref.stories,
+          places = _ref.places;
       return stories.length > 0 && places.length > 0;
     },
-    imageLoaded: function imageLoaded(_ref3) {
-      var state = _ref3.state;
+    imageLoaded: function imageLoaded(_ref2) {
+      var state = _ref2.state;
       return state === "imageLoaded";
     },
-    mapClass: function mapClass(_ref4) {
-      var imageLoaded = _ref4.imageLoaded,
-          isLocation = _ref4.isLocation;
+    mapClass: function mapClass(_ref3) {
+      var imageLoaded = _ref3.imageLoaded,
+          isLocation = _ref3.isLocation;
       return {
         invisible: !imageLoaded,
         "opacity-0": !imageLoaded,
@@ -3270,25 +3265,136 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
 /* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
+//
 //
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  props: {
+    places: Array
+  },
   data: function data() {
-    return {};
+    return {
+      mapboxMarkers: []
+    };
+  },
+  computed: {
+    markers: function markers(_ref) {
+      var places = _ref.places;
+      return places.map(function (p) {
+        return {
+          place: p,
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [p["long"], p.lat]
+          }
+        };
+      });
+    }
   },
   mounted: function mounted() {
-    mapboxgl.accessToken = "pk.eyJ1IjoibmF0ZWhvYmkiLCJhIjoiY2s1NDlrdDBoMGJwZjNqcWg2a2I4b2E4dyJ9.OTWHd3GaM7SfJvRuFUnpdg";
-    this.map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/natehobi/ck6v53o4u08m31it2o4mtf1b2",
-      center: [-81.348852, 41.15002],
-      zoom: 15,
-      maxBounds: [[-81.404828, 41.1119], // Southwest coordinates
-      [-81.309106, 41.186267] //NE
-      ]
-    });
+    this.initMap();
+  },
+  watch: {
+    $route: function $route($newRoute, $oldRoute) {
+      this.updateMarkerElements();
+    }
+  },
+  methods: {
+    updateMarkerElements: function updateMarkerElements() {
+      $(".marker").css({
+        opacity: 1
+      });
+
+      if (!this.isLocation) {
+        $("canvas").css({
+          opacity: "1"
+        });
+        this.resetActiveMarkers();
+      } else {
+        $("canvas").css({
+          opacity: "0.5"
+        });
+      }
+
+      if (this.isLocation) {
+        $(".marker:not(.active)").css({
+          opacity: "0.1"
+        });
+      }
+    },
+    initMap: function initMap() {
+      var _this = this;
+
+      var center = [-81.348852, 41.15002];
+
+      if (this.isLocation) {
+        center = [+this.currentLocation["long"], +this.currentLocation.lat];
+      }
+
+      mapboxgl.accessToken = "pk.eyJ1IjoibmF0ZWhvYmkiLCJhIjoiY2s3MHg2dTlxMDEzYzNnbnkweWJnbHZzOCJ9.uLkc9fWDpYi6Y_ojutcgWA";
+      this.map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/natehobi/ck6v53o4u08m31it2o4mtf1b2",
+        center: center,
+        maxZoom: 18,
+        minZoom: 14.5,
+        maxBounds: [[-81.404828, 41.1119], [-81.309106, 41.186267]]
+      });
+      this.mapboxMarkers = this.markers.map(function (marker) {
+        var el = document.createElement("div");
+        el.className = "marker";
+        var mapboxMarker = new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(_this.map);
+        el.addEventListener("click", function (e) {
+          _this.handleMarkerClick(marker, e);
+        });
+        return mapboxMarker;
+      });
+
+      if (this.isLocation) {
+        this.setInitialActiveMarker();
+      }
+    },
+    getMapboxMarker: function getMapboxMarker(location) {
+      return this.mapboxMarkers.find(function (m) {
+        return +m._lngLat.lng === +location["long"] && m._lngLat.lat === +location.lat;
+      });
+    },
+    setInitialActiveMarker: function setInitialActiveMarker() {
+      var mbm = this.getMapboxMarker(this.currentLocation);
+      $(mbm._element).addClass("active");
+      this.updateMarkerElements();
+    },
+    resetActiveMarkers: function resetActiveMarkers() {
+      $(".marker").removeClass("active");
+    },
+    handleMarkerClick: function handleMarkerClick(marker, e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      this.map.flyTo({
+        center: [+marker.place["long"], +marker.place.lat],
+        curve: 0
+      });
+      /**
+       * The active markers are reset whenever the
+       * route changes and the new route is not a location
+       */
+
+      setTimeout(function () {
+        _this2.$emit("location-clicked", marker.place);
+
+        $(e.target).addClass("active");
+      }, 300);
+    }
   }
 });
 
@@ -41439,6 +41545,7 @@ var render = function() {
             { staticClass: "w-full h-full relative overflow-hidden bg-black" },
             [
               _c("map-component", {
+                ref: "mapComponent",
                 staticClass: "transition",
                 class: {
                   "-translate-y-35vh": _vm.isLocation,
@@ -41446,7 +41553,7 @@ var render = function() {
                 },
                 attrs: {
                   filters: _vm.filters,
-                  locations: _vm.places,
+                  places: _vm.places,
                   "show-overlay-button": !_vm.isLocation,
                   "is-location": _vm.isLocation
                 },
@@ -63703,6 +63810,40 @@ var mapTheme = [{
     lightness: 17
   }]
 }];
+
+/***/ }),
+
+/***/ "./resources/js/mixins/routeHelpers.js":
+/*!*********************************************!*\
+  !*** ./resources/js/mixins/routeHelpers.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    isLocationRoute: function isLocationRoute($route) {
+      return ["location", "preview", "story"].includes($route.name);
+    }
+  },
+  computed: {
+    isLocation: function isLocation(_ref) {
+      var $route = _ref.$route;
+      return this.isLocationRoute($route);
+    },
+    currentLocation: function currentLocation(_ref2) {
+      var _this = this;
+
+      var places = _ref2.places;
+      if (places === undefined) return undefined;
+      return places.find(function (item) {
+        return item.slug === _this.$route.params.location;
+      });
+    }
+  }
+});
 
 /***/ }),
 

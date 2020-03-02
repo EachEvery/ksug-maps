@@ -5,8 +5,8 @@ namespace KSUGMap\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 
 class Place extends Resource
 {
@@ -36,8 +36,6 @@ class Place extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return array
      */
     public function fields(Request $request)
@@ -46,6 +44,7 @@ class Place extends Resource
             Text::make('Name'),
             Text::make('Photo')->hideFromIndex(),
             Text::make('Alt Text')->hideFromIndex(),
+            Text::make('Photo Caption')->hideFromIndex(),
             Text::make('Photo Preview', function () {
                 $isList = 'nova-api/places' === request()->path();
                 $dimensions = $isList ? 'width: 100px; height 50px;' : 'width: 612px; height 256px;';
@@ -69,8 +68,10 @@ class Place extends Resource
             })->asHtml()->showOnUpdating(),
 
             Boolean::make('Has Photo')->onlyOnIndex(),
+
             Text::make('Lat')->hideFromIndex(),
             Text::make('Long')->hideFromIndex(),
+
             HasMany::make('Stories'),
             HasMany::make('Comments'),
         ];
@@ -78,8 +79,6 @@ class Place extends Resource
 
     /**
      * Get the cards available for the request.
-     *
-     * @param \Illuminate\Http\Request $request
      *
      * @return array
      */
@@ -91,8 +90,6 @@ class Place extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return array
      */
     public function filters(Request $request)
@@ -103,8 +100,6 @@ class Place extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return array
      */
     public function lenses(Request $request)
@@ -114,8 +109,6 @@ class Place extends Resource
 
     /**
      * Get the actions available for the resource.
-     *
-     * @param \Illuminate\Http\Request $request
      *
      * @return array
      */

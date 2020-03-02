@@ -3,12 +3,13 @@
     <div class="w-full h-full relative overflow-hidden bg-black">
       <map-component
         :filters="filters"
-        :locations="places"
+        :places="places"
         :show-overlay-button="!isLocation"
         :is-location="isLocation"
         @location-clicked="handleLocationClicked"
         :class="{'-translate-y-35vh': isLocation, 'md:-translate-x-10': isLocation}"
         class="transition"
+        ref="mapComponent"
       />
     </div>
 
@@ -37,9 +38,12 @@
 <script>
 import globalHeader from "./components/GlobalHeader";
 import mapComponent from "./components/Map";
+import routeHelpers from "./mixins/routeHelpers";
+
 import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
+  mixins: [routeHelpers],
   metaInfo() {
     return {
       title: "Home",
@@ -56,11 +60,7 @@ export default {
       pullMapLeft: false
     };
   },
-  watch: {
-    places() {
-      console.log("places", this.places);
-    }
-  },
+
   async mounted() {
     await this.ensureData();
     this.preloadImages();
@@ -89,9 +89,7 @@ export default {
   },
   computed: {
     ...mapState(["stories", "filters", "places"]),
-    isLocation({ $route }) {
-      return ["location", "preview", "story"].includes($route.name);
-    },
+
     isAdmin() {
       return window.isAdmin;
     },

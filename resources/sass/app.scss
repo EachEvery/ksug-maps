@@ -152,3 +152,25 @@ input[type="range"]:focus::-ms-fill-upper {
 .fluidbox__overlay {
     background-color: rgba(0, 0, 0, 0.9);
 }
+
+.mapboxgl-ctrl-bottom-left {
+    display: none;
+}
+
+canvas {
+    transition: 500ms opacity ease;
+}
+
+.marker {
+    transition: 300ms opacity ease;
+    background-image: url("/images/marker-inactive.png");
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &.active {
+        background-image: url("/images/marker-active.png");
+    }
+}
