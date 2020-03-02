@@ -1,5 +1,7 @@
 <template>
-  <div class="relative w-full h-screen bg-gray-dark" id="map"></div>
+  <div>
+    <div class="relative w-full h-screen bg-gray-dark" id="map"></div>
+  </div>
 </template>
 
 <script>
