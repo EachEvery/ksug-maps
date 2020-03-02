@@ -3347,9 +3347,13 @@ __webpack_require__.r(__webpack_exports__);
         container: "map",
         style: "mapbox://styles/natehobi/ck6v53o4u08m31it2o4mtf1b2",
         center: center,
-        maxZoom: 18,
+        maxZoom: 17.5,
         minZoom: 14.5,
-        maxBounds: [[-81.404828, 41.1119], [-81.309106, 41.186267]]
+        zoom: 16,
+        maxBounds: [[-81.39301041235215, 41.132502224091496], [-81.32319121255, 41.18378981482479]]
+      });
+      this.map.on("click", function (e) {
+        console.log(e.lngLat);
       });
       this.mapboxMarkers = this.markers.map(function (marker) {
         var el = document.createElement("div");
@@ -3383,9 +3387,12 @@ __webpack_require__.r(__webpack_exports__);
 
       e.preventDefault();
       this.map.flyTo({
-        center: [+marker.place["long"], +marker.place.lat],
         curve: 0
-      });
+      }); // this.map.flyTo({
+      //   center: [+marker.place.long, +marker.place.lat],
+      //   curve: 0
+      // });
+
       /**
        * The active markers are reset whenever the
        * route changes and the new route is not a location

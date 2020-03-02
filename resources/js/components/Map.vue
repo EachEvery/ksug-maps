@@ -76,15 +76,18 @@ export default {
 
         center: center,
 
-        maxZoom: 18,
-
+        maxZoom: 17.5,
         minZoom: 14.5,
+        zoom: 16,
 
         maxBounds: [
-          [-81.404828, 41.1119],
-
-          [-81.309106, 41.186267]
+          [-81.39301041235215, 41.132502224091496],
+          [-81.32319121255, 41.18378981482479]
         ]
+      });
+
+      this.map.on("click", function(e) {
+        console.log(e.lngLat);
       });
 
       this.mapboxMarkers = this.markers.map(marker => {
@@ -131,9 +134,13 @@ export default {
       e.preventDefault();
 
       this.map.flyTo({
-        center: [+marker.place.long, +marker.place.lat],
         curve: 0
       });
+
+      // this.map.flyTo({
+      //   center: [+marker.place.long, +marker.place.lat],
+      //   curve: 0
+      // });
 
       /**
        * The active markers are reset whenever the
