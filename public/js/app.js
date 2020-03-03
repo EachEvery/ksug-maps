@@ -41909,7 +41909,7 @@ var render = function() {
               staticClass:
                 "self-start rounded-full w-16 h-16 object-cover md:w-24 md:h-24",
               attrs: {
-                src: "http://nhmisc.s3.amazonaws.com/ksug/assets/jen.jpg",
+                src: "//nhmisc.s3.amazonaws.com/ksug/assets/jen.jpg",
                 alt: "Jennifer Mapes"
               }
             })
@@ -41947,7 +41947,7 @@ var render = function() {
               staticClass:
                 "self-start rounded-full w-16 h-16 object-cover md:w-24 md:h-24",
               attrs: {
-                src: "http://nhmisc.s3.amazonaws.com/ksug/assets/sara.jpg",
+                src: "//nhmisc.s3.amazonaws.com/ksug/assets/sara.jpg",
                 alt: "Jennifer Mapes"
               }
             })
@@ -42046,8 +42046,7 @@ var render = function() {
               staticClass: "w-24 object-contain self-center mx-5",
               attrs: {
                 alt: "Be the Change - May 4 Visitors Center",
-                src:
-                  "http://nhmisc.s3.amazonaws.com/ksug/assets/be-the-change.png"
+                src: "//nhmisc.s3.amazonaws.com/ksug/assets/be-the-change.png"
               }
             }),
             _vm._v(" "),
@@ -42056,7 +42055,7 @@ var render = function() {
               attrs: {
                 alt: "Kent Historical Society Museum",
                 src:
-                  "http://nhmisc.s3.amazonaws.com/ksug/assets/kent-historical-society.png"
+                  "//nhmisc.s3.amazonaws.com/ksug/assets/kent-historical-society.png"
               }
             })
           ]),
@@ -42067,8 +42066,7 @@ var render = function() {
               attrs: {
                 alt:
                   "Embrace Kent State University Libraries - Digital Collections",
-                src:
-                  "http://nhmisc.s3.amazonaws.com/ksug/assets/ksu-libraries.png"
+                src: "//nhmisc.s3.amazonaws.com/ksug/assets/ksu-libraries.png"
               }
             }),
             _vm._v(" "),
@@ -42077,7 +42075,7 @@ var render = function() {
               attrs: {
                 alt: "Kent State University",
                 src:
-                  "http://nhmisc.s3.amazonaws.com/ksug/assets/kent-state-university.png"
+                  "//nhmisc.s3.amazonaws.com/ksug/assets/kent-state-university.png"
               }
             })
           ]),
@@ -42087,7 +42085,7 @@ var render = function() {
               staticClass: "w-24 object-contain self-center mx-5",
               attrs: {
                 alt: "Each + Every",
-                src: "http://nhmisc.s3.amazonaws.com/ksug/EELogo-Black-Full.png"
+                src: "//nhmisc.s3.amazonaws.com/ksug/EELogo-Black-Full.png"
               }
             }),
             _vm._v(" "),
@@ -42095,8 +42093,7 @@ var render = function() {
               staticClass: "w-24 object-contain self-center mx-5",
               attrs: {
                 alt: "Ohio Humanities",
-                src:
-                  "http://eachevery.s3.amazonaws.com/ksug/ohio-humanities.png"
+                src: "//eachevery.s3.amazonaws.com/ksug/ohio-humanities.png"
               }
             })
           ])

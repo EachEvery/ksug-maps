@@ -152,7 +152,7 @@
                 </p>
 
                 <img
-                    src="http://nhmisc.s3.amazonaws.com/ksug/assets/jen.jpg"
+                    src="//nhmisc.s3.amazonaws.com/ksug/assets/jen.jpg"
                     alt="Jennifer Mapes"
                     class="self-start rounded-full w-16 h-16 object-cover md:w-24 md:h-24"
                 />
@@ -176,7 +176,7 @@
                     >
                 </p>
                 <img
-                    src="http://nhmisc.s3.amazonaws.com/ksug/assets/sara.jpg"
+                    src="//nhmisc.s3.amazonaws.com/ksug/assets/sara.jpg"
                     alt="Jennifer Mapes"
                     class="self-start rounded-full w-16 h-16 object-cover md:w-24 md:h-24"
                 />
@@ -239,12 +239,12 @@
                 <img
                     class="w-24 object-contain self-center mx-5"
                     alt="Be the Change - May 4 Visitors Center"
-                    src="http://nhmisc.s3.amazonaws.com/ksug/assets/be-the-change.png"
+                    src="//nhmisc.s3.amazonaws.com/ksug/assets/be-the-change.png"
                 />
                 <img
                     class="w-32 object-contain self-center mx-5"
                     alt="Kent Historical Society Museum"
-                    src="http://nhmisc.s3.amazonaws.com/ksug/assets/kent-historical-society.png"
+                    src="//nhmisc.s3.amazonaws.com/ksug/assets/kent-historical-society.png"
                 />
             </div>
 
@@ -252,13 +252,13 @@
                 <img
                     class="w-24 object-contain self-center mx-5"
                     alt="Embrace Kent State University Libraries - Digital Collections"
-                    src="http://nhmisc.s3.amazonaws.com/ksug/assets/ksu-libraries.png"
+                    src="//nhmisc.s3.amazonaws.com/ksug/assets/ksu-libraries.png"
                 />
 
                 <img
                     class="w-32 object-contain self-center mx-5"
                     alt="Kent State University"
-                    src="http://nhmisc.s3.amazonaws.com/ksug/assets/kent-state-university.png"
+                    src="//nhmisc.s3.amazonaws.com/ksug/assets/kent-state-university.png"
                 />
             </div>
 
@@ -266,12 +266,12 @@
                 <img
                     class="w-24 object-contain self-center mx-5"
                     alt="Each + Every"
-                    src="http://nhmisc.s3.amazonaws.com/ksug/EELogo-Black-Full.png"
+                    src="//nhmisc.s3.amazonaws.com/ksug/EELogo-Black-Full.png"
                 />
                 <img
                     class="w-24 object-contain self-center mx-5"
                     alt="Ohio Humanities"
-                    src="http://eachevery.s3.amazonaws.com/ksug/ohio-humanities.png"
+                    src="//eachevery.s3.amazonaws.com/ksug/ohio-humanities.png"
                 />
             </div>
         </page-section>
