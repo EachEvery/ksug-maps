@@ -3263,11 +3263,19 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
-/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
+/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3278,7 +3286,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_3__["default"]],
   props: {
     places: Array
   },
@@ -3308,9 +3316,13 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     $route: function $route($newRoute, $oldRoute) {
       this.updateMarkerElements();
+      this.updateCanDoubleClickToZoom();
     }
   },
   methods: {
+    updateCanDoubleClickToZoom: function updateCanDoubleClickToZoom() {
+      this.map;
+    },
     updateMarkerElements: function updateMarkerElements() {
       $(".marker").css({
         opacity: 1
@@ -3379,25 +3391,60 @@ __webpack_require__.r(__webpack_exports__);
     resetActiveMarkers: function resetActiveMarkers() {
       $(".marker").removeClass("active");
     },
-    handleMarkerClick: function handleMarkerClick(marker, e) {
+    syncZoom: function syncZoom() {
       var _this2 = this;
 
-      e.preventDefault(); // this.map.flyTo({
-      //   center: [+marker.place.long, +marker.place.lat],
-      //   curve: 0
-      // });
+      return new Promise(function (resolve) {
+        _this2.map.zoomTo(16);
 
-      /**
-       * The active markers are reset whenever the
-       * route changes and the new route is not a location
-       */
+        setTimeout(function () {
+          resolve();
+        }, 300);
+      });
+    },
+    handleMarkerClick: function () {
+      var _handleMarkerClick = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(marker, e) {
+        var _this3 = this;
 
-      setTimeout(function () {
-        _this2.$emit("location-clicked", marker.place);
+        var currentZoom;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                e.preventDefault();
+                currentZoom = this.map.getZoom();
+                this.map.easeTo({
+                  center: [+marker.place["long"], +marker.place.lat],
+                  curve: 0,
+                  zoom: currentZoom < 16 ? 16 : currentZoom
+                });
+                /**
+                 * The active markers are reset whenever the
+                 * route changes and the new route is not a location
+                 */
 
-        $(e.target).addClass("active");
-      }, 300);
-    }
+                setTimeout(function () {
+                  _this3.$emit("location-clicked", marker.place);
+
+                  $(e.target).addClass("active");
+                }, 300);
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function handleMarkerClick(_x, _x2) {
+        return _handleMarkerClick.apply(this, arguments);
+      }
+
+      return handleMarkerClick;
+    }()
   }
 });
 
@@ -43519,21 +43566,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
+  return _c(
+    "div",
+    { style: { "pointer-events": _vm.isLocation ? "none" : "auto" } },
+    [
       _c("div", {
         staticClass: "relative w-full h-screen bg-gray-dark",
         attrs: { id: "map" }
       })
-    ])
-  }
-]
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="{'pointer-events': isLocation ? 'none': 'auto'}">
     <div class="relative w-full h-screen bg-gray-dark" id="map"></div>
   </div>
 </template>
@@ -42,10 +42,15 @@ export default {
   watch: {
     $route($newRoute, $oldRoute) {
       this.updateMarkerElements();
+      this.updateCanDoubleClickToZoom();
     }
   },
 
   methods: {
+    updateCanDoubleClickToZoom() {
+      this.map;
+    },
+
     updateMarkerElements() {
       $(".marker").css({ opacity: 1 });
 
@@ -60,6 +65,7 @@ export default {
         $(".marker:not(.active)").css({ opacity: "0.1" });
       }
     },
+
     initMap() {
       let center = [-81.348852, 41.15002];
 
@@ -126,13 +132,26 @@ export default {
       $(".marker").removeClass("active");
     },
 
-    handleMarkerClick(marker, e) {
+    syncZoom() {
+      return new Promise(resolve => {
+        this.map.zoomTo(16);
+
+        setTimeout(() => {
+          resolve();
+        }, 300);
+      });
+    },
+
+    async handleMarkerClick(marker, e) {
       e.preventDefault();
 
-      // this.map.flyTo({
-      //   center: [+marker.place.long, +marker.place.lat],
-      //   curve: 0
-      // });
+      let currentZoom = this.map.getZoom();
+
+      this.map.easeTo({
+        center: [+marker.place.long, +marker.place.lat],
+        curve: 0,
+        zoom: currentZoom < 16 ? 16 : currentZoom
+      });
 
       /**
        * The active markers are reset whenever the
