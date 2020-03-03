@@ -3456,6 +3456,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var center = [-81.348852, 41.15002];
 
       if (this.isLocation) {
+        console.log("ussing location center");
         center = [+this.currentLocation["long"], +this.currentLocation.lat];
       }
 
@@ -64539,31 +64540,50 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     isLocationRoute: function isLocationRoute($route) {
       return ["location", "preview", "story"].includes($route.name);
     }
   },
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["stories"]), {
     isLocation: function isLocation(_ref) {
       var $route = _ref.$route;
       return this.isLocationRoute($route);
     },
-    currentLocation: function currentLocation(_ref2) {
+    story: function story(_ref2) {
       var _this = this;
 
-      var places = _ref2.places;
-      if (places === undefined) return undefined;
-      return places.find(function (item) {
-        return item.slug === _this.$route.params.location;
+      var stories = _ref2.stories;
+      return stories.find(function (s) {
+        return +s.id === +_this.$route.params.story;
       });
     },
-    isAbout: function isAbout(_ref3) {
-      var $route = _ref3.$route;
+    currentLocation: function currentLocation(_ref3) {
+      var _this2 = this;
+
+      var places = _ref3.places;
+
+      if (this.story) {
+        return this.story.place;
+      }
+
+      if (places === undefined) return undefined;
+      return places.find(function (item) {
+        return item.slug === _this2.$route.params.location;
+      });
+    },
+    isAbout: function isAbout(_ref4) {
+      var $route = _ref4.$route;
       return $route.name === "about";
     }
-  }
+  })
 });
 
 /***/ }),
