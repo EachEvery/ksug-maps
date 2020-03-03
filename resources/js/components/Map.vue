@@ -1,167 +1,231 @@
 <template>
-  <div :style="{'pointer-events': isLocation ? 'none': 'auto'}">
-    <div class="relative w-full h-screen bg-gray-dark" id="map"></div>
-  </div>
+    <div :style="{ 'pointer-events': isLocation ? 'none' : 'auto' }">
+        <div class="relative w-full h-screen bg-gray-dark" id="map"></div>
+
+        <clickable
+            class="fixed bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition mb-5"
+            :class="{
+                'bg-black': overlayShowing,
+                'bg-white': !overlayShowing,
+                'opacity-0': !showOverlayButton
+            }"
+            @click="handleOverlayButtonClick"
+        >
+            <map-icon
+                class="w-8 h-8 self-center transition"
+                :class="{
+                    'text-white': overlayShowing,
+                    'text-black': !overlayShowing
+                }"
+            />
+        </clickable>
+
+        <div
+            class="flex fixed bottom-0 right-0 mb-5 mr-5"
+            :class="{ 'opacity-0': !showOverlayButton }"
+        >
+            <clickable
+                class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3"
+                :class="{ 'opacity-25': prevZoom === currentZoom }"
+                @click="() => zoom(prevZoom)"
+            >
+                <minus-icon class="w-5 h-5 self-center" />
+            </clickable>
+
+            <clickable
+                class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow"
+                :class="{ 'opacity-25': nextZoom === currentZoom }"
+                @click="() => zoom(nextZoom)"
+            >
+                <plus-icon class="w-5 h-5 self-center" />
+            </clickable>
+        </div>
+    </div>
 </template>
 
 <script>
 import mapbox from "mapbox-gl";
 import jquery from "jquery";
+
 import routeHelpers from "../mixins/routeHelpers";
+import handlesMapboxZoom from "../mixins/handlesMapboxZoom";
+import handlesArialOverlay from "../mixins/handlesArialOverlay";
+
+import clickable from "./Clickable";
+import plusIcon from "./PlusIcon";
+import minusIcon from "./MinusIcon";
+import mapIcon from "./MapIcon";
 
 export default {
-  mixins: [routeHelpers],
+    components: { plusIcon, minusIcon, mapIcon, clickable },
 
-  props: {
-    places: Array
-  },
+    mixins: [routeHelpers, handlesMapboxZoom, handlesArialOverlay],
 
-  data() {
-    return {
-      mapboxMarkers: []
-    };
-  },
+    props: {
+        places: Array,
+        filters: Array
+    },
 
-  computed: {
-    markers({ places }) {
-      return places.map(p => ({
-        place: p,
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [p.long, p.lat]
+    data() {
+        return {
+            mapboxMarkers: []
+        };
+    },
+
+    computed: {
+        markers({ places }) {
+            return places.map(p => ({
+                place: p,
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [p.long, p.lat]
+                }
+            }));
         }
-      }));
+    },
+
+    mounted() {
+        this.initMap();
+    },
+
+    watch: {
+        $route($newRoute, $oldRoute) {
+            this.updateMarkerElements();
+        },
+        filters(filters) {
+            this.mapboxMarkers.forEach(mbm => {
+                let filteredStories = mbm.place.stories.filter(item => {
+                    for (let i = 0; i < filters.length; i++) {
+                        let filter = filters[i];
+
+                        if (item[filter.key.trim()] === filter.value.trim()) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                });
+
+                let shouldSupressMaker =
+                    filteredStories.length === 0 && filters.length > 0;
+
+                $(mbm._element).css({
+                    opacity: shouldSupressMaker ? 0.3 : 1
+                });
+            });
+        }
+    },
+
+    methods: {
+        updateMarkerElements() {
+            $(".marker").css({ opacity: 1 });
+
+            if (!this.isLocation) {
+                $("canvas").css({ opacity: "1" });
+                this.resetActiveMarkers();
+            } else {
+                $("canvas").css({ opacity: "0.5" });
+            }
+
+            if (this.isLocation) {
+                $(".marker:not(.active)").css({ opacity: "0.1" });
+            }
+        },
+
+        initMap() {
+            let center = [-81.348852, 41.15002];
+
+            if (this.isLocation) {
+                center = [
+                    +this.currentLocation.long,
+                    +this.currentLocation.lat
+                ];
+            }
+
+            mapboxgl.accessToken =
+                "pk.eyJ1IjoibmF0ZWhvYmkiLCJhIjoiY2s3MHg2dTlxMDEzYzNnbnkweWJnbHZzOCJ9.uLkc9fWDpYi6Y_ojutcgWA";
+
+            this.map = new mapboxgl.Map({
+                container: "map",
+                style: "mapbox://styles/natehobi/ck6v53o4u08m31it2o4mtf1b2",
+
+                center: center,
+
+                maxZoom: this.zoomSteps[this.zoomSteps.length - 1],
+                minZoom: this.zoomSteps[0],
+                zoom: this.currentZoom,
+
+                maxBounds: [
+                    [-81.39301041235215, 41.132502224091496],
+                    [-81.32319121255, 41.18378981482479]
+                ]
+            });
+
+            this.mapboxMarkers = this.markers.map(marker => {
+                let el = document.createElement("div");
+
+                el.className = "marker";
+
+                let mapboxMarker = new mapboxgl.Marker(el)
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(this.map);
+
+                el.addEventListener("click", e => {
+                    this.handleMarkerClick(marker, e);
+                });
+
+                return {
+                    ...marker,
+                    ...mapboxMarker
+                };
+            });
+
+            if (this.isLocation) {
+                this.setInitialActiveMarker();
+            }
+        },
+
+        getMapboxMarker(location) {
+            return this.mapboxMarkers.find(
+                m =>
+                    +m._lngLat.lng === +location.long &&
+                    m._lngLat.lat === +location.lat
+            );
+        },
+
+        setInitialActiveMarker() {
+            let mbm = this.getMapboxMarker(this.currentLocation);
+
+            $(mbm._element).addClass("active");
+
+            this.updateMarkerElements();
+        },
+
+        resetActiveMarkers() {
+            $(".marker").removeClass("active");
+        },
+
+        async handleMarkerClick(marker, e) {
+            e.preventDefault();
+
+            let currentZoom = this.map.getZoom();
+
+            this.map.easeTo({
+                center: [+marker.place.long, +marker.place.lat],
+                curve: 0,
+                zoom: currentZoom < 16 ? 16 : currentZoom
+            });
+
+            /**
+             * The active markers are reset whenever the
+             * route changes and the new route is not a location
+             */
+            setTimeout(() => {
+                this.$emit("location-clicked", marker.place);
+                $(e.target).addClass("active");
+            }, 300);
+        }
     }
-  },
-
-  mounted() {
-    this.initMap();
-  },
-
-  watch: {
-    $route($newRoute, $oldRoute) {
-      this.updateMarkerElements();
-      this.updateCanDoubleClickToZoom();
-    }
-  },
-
-  methods: {
-    updateCanDoubleClickToZoom() {
-      this.map;
-    },
-
-    updateMarkerElements() {
-      $(".marker").css({ opacity: 1 });
-
-      if (!this.isLocation) {
-        $("canvas").css({ opacity: "1" });
-        this.resetActiveMarkers();
-      } else {
-        $("canvas").css({ opacity: "0.5" });
-      }
-
-      if (this.isLocation) {
-        $(".marker:not(.active)").css({ opacity: "0.1" });
-      }
-    },
-
-    initMap() {
-      let center = [-81.348852, 41.15002];
-
-      if (this.isLocation) {
-        center = [+this.currentLocation.long, +this.currentLocation.lat];
-      }
-
-      mapboxgl.accessToken =
-        "pk.eyJ1IjoibmF0ZWhvYmkiLCJhIjoiY2s3MHg2dTlxMDEzYzNnbnkweWJnbHZzOCJ9.uLkc9fWDpYi6Y_ojutcgWA";
-
-      this.map = new mapboxgl.Map({
-        container: "map",
-        style: "mapbox://styles/natehobi/ck6v53o4u08m31it2o4mtf1b2",
-
-        center: center,
-
-        maxZoom: 17.5,
-        minZoom: 14.5,
-        zoom: 16,
-
-        maxBounds: [
-          [-81.39301041235215, 41.132502224091496],
-          [-81.32319121255, 41.18378981482479]
-        ]
-      });
-
-      this.mapboxMarkers = this.markers.map(marker => {
-        let el = document.createElement("div");
-
-        el.className = "marker";
-
-        let mapboxMarker = new mapboxgl.Marker(el)
-          .setLngLat(marker.geometry.coordinates)
-          .addTo(this.map);
-
-        el.addEventListener("click", e => {
-          this.handleMarkerClick(marker, e);
-        });
-
-        return mapboxMarker;
-      });
-
-      if (this.isLocation) {
-        this.setInitialActiveMarker();
-      }
-    },
-
-    getMapboxMarker(location) {
-      return this.mapboxMarkers.find(
-        m =>
-          +m._lngLat.lng === +location.long && m._lngLat.lat === +location.lat
-      );
-    },
-
-    setInitialActiveMarker() {
-      let mbm = this.getMapboxMarker(this.currentLocation);
-
-      $(mbm._element).addClass("active");
-
-      this.updateMarkerElements();
-    },
-
-    resetActiveMarkers() {
-      $(".marker").removeClass("active");
-    },
-
-    syncZoom() {
-      return new Promise(resolve => {
-        this.map.zoomTo(16);
-
-        setTimeout(() => {
-          resolve();
-        }, 300);
-      });
-    },
-
-    async handleMarkerClick(marker, e) {
-      e.preventDefault();
-
-      let currentZoom = this.map.getZoom();
-
-      this.map.easeTo({
-        center: [+marker.place.long, +marker.place.lat],
-        curve: 0,
-        zoom: currentZoom < 16 ? 16 : currentZoom
-      });
-
-      /**
-       * The active markers are reset whenever the
-       * route changes and the new route is not a location
-       */
-      setTimeout(() => {
-        this.$emit("location-clicked", marker.place);
-        $(e.target).addClass("active");
-      }, 300);
-    }
-  }
 };
 </script>
