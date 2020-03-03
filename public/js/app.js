@@ -3467,7 +3467,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         center: center,
         maxZoom: this.zoomSteps[this.zoomSteps.length - 1],
         minZoom: this.zoomSteps[0],
-        zoom: this.currentZoom,
+        zoom: this.isLocation ? 16 : this.currentZoom,
         maxBounds: [[-81.39301041235215, 41.132502224091496], [-81.32319121255, 41.18378981482479]]
       });
       this.mapboxMarkers = this.markers.map(function (marker) {
@@ -64482,7 +64482,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       currentZoom: 13.5,
-      zoomSteps: [13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5],
+      zoomSteps: [13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5],
       zooming: false
     };
   },

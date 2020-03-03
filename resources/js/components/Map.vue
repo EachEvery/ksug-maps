@@ -103,7 +103,7 @@ export default {
 
         maxZoom: this.zoomSteps[this.zoomSteps.length - 1],
         minZoom: this.zoomSteps[0],
-        zoom: this.currentZoom,
+        zoom: this.isLocation ? 16 : this.currentZoom,
 
         maxBounds: [
           [-81.39301041235215, 41.132502224091496],
