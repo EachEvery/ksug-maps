@@ -21,23 +21,24 @@
         </clickable>
 
         <div
-            class="flex fixed bottom-0 right-0 mb-5 mr-5"
+            class="flex flex-col fixed bottom-0 left-0 mb-5 mr-5"
             :class="{ 'opacity-0': !showOverlayButton }"
+            style="margin-bottom: 6.5rem; margin-left: 1.65rem;"
         >
             <clickable
-                class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3"
-                :class="{ 'opacity-25': prevZoom === currentZoom }"
-                @click="() => zoom(prevZoom)"
+                class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mb-3"
+                :class="{ 'opacity-25': nextZoom < currentZoom }"
+                @click="() => zoom(nextZoom)"
             >
-                <minus-icon class="w-5 h-5 self-center" />
+                <plus-icon class="w-5 h-5 self-center" />
             </clickable>
 
             <clickable
                 class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow"
-                :class="{ 'opacity-25': nextZoom === currentZoom }"
-                @click="() => zoom(nextZoom)"
+                :class="{ 'opacity-25': prevZoom > currentZoom }"
+                @click="() => zoom(prevZoom)"
             >
-                <plus-icon class="w-5 h-5 self-center" />
+                <minus-icon class="w-5 h-5 self-center" />
             </clickable>
         </div>
     </div>
@@ -50,6 +51,7 @@ import jquery from "jquery";
 import routeHelpers from "../mixins/routeHelpers";
 import handlesMapboxZoom from "../mixins/handlesMapboxZoom";
 import handlesArialOverlay from "../mixins/handlesArialOverlay";
+import handlesMapboxMarkers from "../mixins/handlesMapboxMarkers";
 
 import clickable from "./Clickable";
 import plusIcon from "./PlusIcon";
@@ -59,80 +61,23 @@ import mapIcon from "./MapIcon";
 export default {
     components: { plusIcon, minusIcon, mapIcon, clickable },
 
-    mixins: [routeHelpers, handlesMapboxZoom, handlesArialOverlay],
+    mixins: [
+        routeHelpers,
+        handlesMapboxZoom,
+        handlesArialOverlay,
+        handlesMapboxMarkers
+    ],
 
     props: {
         places: Array,
         filters: Array
     },
 
-    data() {
-        return {
-            mapboxMarkers: []
-        };
-    },
-
-    computed: {
-        markers({ places }) {
-            return places.map(p => ({
-                place: p,
-                type: "Feature",
-                geometry: {
-                    type: "Point",
-                    coordinates: [p.long, p.lat]
-                }
-            }));
-        }
-    },
-
     mounted() {
         this.initMap();
     },
 
-    watch: {
-        $route($newRoute, $oldRoute) {
-            this.updateMarkerElements();
-        },
-        filters(filters) {
-            this.mapboxMarkers.forEach(mbm => {
-                let filteredStories = mbm.place.stories.filter(item => {
-                    for (let i = 0; i < filters.length; i++) {
-                        let filter = filters[i];
-
-                        if (item[filter.key.trim()] === filter.value.trim()) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                });
-
-                let shouldSupressMaker =
-                    filteredStories.length === 0 && filters.length > 0;
-
-                $(mbm._element).css({
-                    opacity: shouldSupressMaker ? 0.3 : 1
-                });
-            });
-        }
-    },
-
     methods: {
-        updateMarkerElements() {
-            $(".marker").css({ opacity: 1 });
-
-            if (!this.isLocation) {
-                $("canvas").css({ opacity: "1" });
-                this.resetActiveMarkers();
-            } else {
-                $("canvas").css({ opacity: "0.5" });
-            }
-
-            if (this.isLocation) {
-                $(".marker:not(.active)").css({ opacity: "0.1" });
-            }
-        },
-
         initMap() {
             let center = [-81.348852, 41.15002];
 
@@ -184,47 +129,6 @@ export default {
             if (this.isLocation) {
                 this.setInitialActiveMarker();
             }
-        },
-
-        getMapboxMarker(location) {
-            return this.mapboxMarkers.find(
-                m =>
-                    +m._lngLat.lng === +location.long &&
-                    m._lngLat.lat === +location.lat
-            );
-        },
-
-        setInitialActiveMarker() {
-            let mbm = this.getMapboxMarker(this.currentLocation);
-
-            $(mbm._element).addClass("active");
-
-            this.updateMarkerElements();
-        },
-
-        resetActiveMarkers() {
-            $(".marker").removeClass("active");
-        },
-
-        async handleMarkerClick(marker, e) {
-            e.preventDefault();
-
-            let currentZoom = this.map.getZoom();
-
-            this.map.easeTo({
-                center: [+marker.place.long, +marker.place.lat],
-                curve: 0,
-                zoom: currentZoom < 16 ? 16 : currentZoom
-            });
-
-            /**
-             * The active markers are reset whenever the
-             * route changes and the new route is not a location
-             */
-            setTimeout(() => {
-                this.$emit("location-clicked", marker.place);
-                $(e.target).addClass("active");
-            }, 300);
         }
     }
 };

@@ -11,7 +11,7 @@ export default {
 
     methods: {
         handleOverlayButtonClick() {
-            this.overlayShowing === this.toggleArialPhotoLayer();
+            this.overlayShowing = this.toggleArialPhotoLayer();
         },
         toggleArialPhotoLayer() {
             let currentValue = this.map.getPaintProperty(

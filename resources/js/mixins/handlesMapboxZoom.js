@@ -15,6 +15,7 @@ export default {
                 } else {
                     this.zooming = true;
                     this.map.zoomTo(zoom);
+                    this.currentZoom = zoom;
 
                     setTimeout(() => {
                         this.zooming = false;

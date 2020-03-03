@@ -3263,25 +3263,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
-/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
-/* harmony import */ var _mixins_handlesMapboxZoom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixins/handlesMapboxZoom */ "./resources/js/mixins/handlesMapboxZoom.js");
-/* harmony import */ var _mixins_handlesArialOverlay__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../mixins/handlesArialOverlay */ "./resources/js/mixins/handlesArialOverlay.js");
+/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
+/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
+/* harmony import */ var _mixins_handlesMapboxZoom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixins/handlesMapboxZoom */ "./resources/js/mixins/handlesMapboxZoom.js");
+/* harmony import */ var _mixins_handlesArialOverlay__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixins/handlesArialOverlay */ "./resources/js/mixins/handlesArialOverlay.js");
+/* harmony import */ var _mixins_handlesMapboxMarkers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../mixins/handlesMapboxMarkers */ "./resources/js/mixins/handlesMapboxMarkers.js");
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var _PlusIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PlusIcon */ "./resources/js/components/PlusIcon.vue");
 /* harmony import */ var _MinusIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./MinusIcon */ "./resources/js/components/MinusIcon.vue");
 /* harmony import */ var _MapIcon__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./MapIcon */ "./resources/js/components/MapIcon.vue");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -3331,6 +3324,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+
 
 
 
@@ -3347,81 +3342,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     mapIcon: _MapIcon__WEBPACK_IMPORTED_MODULE_9__["default"],
     clickable: _Clickable__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
-  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_handlesMapboxZoom__WEBPACK_IMPORTED_MODULE_4__["default"], _mixins_handlesArialOverlay__WEBPACK_IMPORTED_MODULE_5__["default"]],
+  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_2__["default"], _mixins_handlesMapboxZoom__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_handlesArialOverlay__WEBPACK_IMPORTED_MODULE_4__["default"], _mixins_handlesMapboxMarkers__WEBPACK_IMPORTED_MODULE_5__["default"]],
   props: {
     places: Array,
     filters: Array
   },
-  data: function data() {
-    return {
-      mapboxMarkers: []
-    };
-  },
-  computed: {
-    markers: function markers(_ref) {
-      var places = _ref.places;
-      return places.map(function (p) {
-        return {
-          place: p,
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: [p["long"], p.lat]
-          }
-        };
-      });
-    }
-  },
   mounted: function mounted() {
     this.initMap();
   },
-  watch: {
-    $route: function $route($newRoute, $oldRoute) {
-      this.updateMarkerElements();
-    },
-    filters: function filters(_filters) {
-      this.mapboxMarkers.forEach(function (mbm) {
-        var filteredStories = mbm.place.stories.filter(function (item) {
-          for (var i = 0; i < _filters.length; i++) {
-            var filter = _filters[i];
-
-            if (item[filter.key.trim()] === filter.value.trim()) {
-              return true;
-            }
-          }
-
-          return false;
-        });
-        var shouldSupressMaker = filteredStories.length === 0 && _filters.length > 0;
-        $(mbm._element).css({
-          opacity: shouldSupressMaker ? 0.3 : 1
-        });
-      });
-    }
-  },
   methods: {
-    updateMarkerElements: function updateMarkerElements() {
-      $(".marker").css({
-        opacity: 1
-      });
-
-      if (!this.isLocation) {
-        $("canvas").css({
-          opacity: "1"
-        });
-        this.resetActiveMarkers();
-      } else {
-        $("canvas").css({
-          opacity: "0.5"
-        });
-      }
-
-      if (this.isLocation) {
-        $(".marker:not(.active)").css({
-          opacity: "0.1"
-        });
-      }
-    },
     initMap: function initMap() {
       var _this = this;
 
@@ -3454,63 +3383,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.isLocation) {
         this.setInitialActiveMarker();
       }
-    },
-    getMapboxMarker: function getMapboxMarker(location) {
-      return this.mapboxMarkers.find(function (m) {
-        return +m._lngLat.lng === +location["long"] && m._lngLat.lat === +location.lat;
-      });
-    },
-    setInitialActiveMarker: function setInitialActiveMarker() {
-      var mbm = this.getMapboxMarker(this.currentLocation);
-      $(mbm._element).addClass("active");
-      this.updateMarkerElements();
-    },
-    resetActiveMarkers: function resetActiveMarkers() {
-      $(".marker").removeClass("active");
-    },
-    handleMarkerClick: function () {
-      var _handleMarkerClick = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(marker, e) {
-        var _this2 = this;
-
-        var currentZoom;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                e.preventDefault();
-                currentZoom = this.map.getZoom();
-                this.map.easeTo({
-                  center: [+marker.place["long"], +marker.place.lat],
-                  curve: 0,
-                  zoom: currentZoom < 16 ? 16 : currentZoom
-                });
-                /**
-                 * The active markers are reset whenever the
-                 * route changes and the new route is not a location
-                 */
-
-                setTimeout(function () {
-                  _this2.$emit("location-clicked", marker.place);
-
-                  $(e.target).addClass("active");
-                }, 300);
-
-              case 4:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function handleMarkerClick(_x, _x2) {
-        return _handleMarkerClick.apply(this, arguments);
-      }
-
-      return handleMarkerClick;
-    }()
+    }
   }
 });
 
@@ -43668,23 +43541,24 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "flex fixed bottom-0 right-0 mb-5 mr-5",
-          class: { "opacity-0": !_vm.showOverlayButton }
+          staticClass: "flex flex-col fixed bottom-0 left-0 mb-5 mr-5",
+          class: { "opacity-0": !_vm.showOverlayButton },
+          staticStyle: { "margin-bottom": "6.5rem", "margin-left": "1.65rem" }
         },
         [
           _c(
             "clickable",
             {
               staticClass:
-                "transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mr-3",
-              class: { "opacity-25": _vm.prevZoom === _vm.currentZoom },
+                "transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mb-3",
+              class: { "opacity-25": _vm.nextZoom < _vm.currentZoom },
               on: {
                 click: function() {
-                  return _vm.zoom(_vm.prevZoom)
+                  return _vm.zoom(_vm.nextZoom)
                 }
               }
             },
-            [_c("minus-icon", { staticClass: "w-5 h-5 self-center" })],
+            [_c("plus-icon", { staticClass: "w-5 h-5 self-center" })],
             1
           ),
           _vm._v(" "),
@@ -43693,14 +43567,14 @@ var render = function() {
             {
               staticClass:
                 "transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow",
-              class: { "opacity-25": _vm.nextZoom === _vm.currentZoom },
+              class: { "opacity-25": _vm.prevZoom > _vm.currentZoom },
               on: {
                 click: function() {
-                  return _vm.zoom(_vm.nextZoom)
+                  return _vm.zoom(_vm.prevZoom)
                 }
               }
             },
-            [_c("plus-icon", { staticClass: "w-5 h-5 self-center" })],
+            [_c("minus-icon", { staticClass: "w-5 h-5 self-center" })],
             1
           )
         ],
@@ -64319,13 +64193,159 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     handleOverlayButtonClick: function handleOverlayButtonClick() {
-      this.overlayShowing === this.toggleArialPhotoLayer();
+      this.overlayShowing = this.toggleArialPhotoLayer();
     },
     toggleArialPhotoLayer: function toggleArialPhotoLayer() {
       var currentValue = this.map.getPaintProperty("arial-photo", "raster-opacity");
       var newValue = currentValue === 1 ? 0 : 1;
       this.map.setPaintProperty("arial-photo", "raster-opacity", newValue);
       return newValue === 1;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/mixins/handlesMapboxMarkers.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/mixins/handlesMapboxMarkers.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      mapboxMarkers: []
+    };
+  },
+  methods: {
+    getMapboxMarker: function getMapboxMarker(location) {
+      return this.mapboxMarkers.find(function (m) {
+        return +m._lngLat.lng === +location["long"] && m._lngLat.lat === +location.lat;
+      });
+    },
+    updateMarkerElements: function updateMarkerElements() {
+      $(".marker").css({
+        opacity: 1
+      });
+
+      if (!this.isLocation) {
+        $("canvas").css({
+          opacity: "1"
+        });
+        this.resetActiveMarkers();
+      } else {
+        $("canvas").css({
+          opacity: "0.5"
+        });
+      }
+
+      if (this.isLocation) {
+        $(".marker:not(.active)").css({
+          opacity: "0.1"
+        });
+      }
+    },
+    setInitialActiveMarker: function setInitialActiveMarker() {
+      var mbm = this.getMapboxMarker(this.currentLocation);
+      $(mbm._element).addClass("active");
+      this.updateMarkerElements();
+    },
+    resetActiveMarkers: function resetActiveMarkers() {
+      $(".marker").removeClass("active");
+    },
+    handleMarkerClick: function () {
+      var _handleMarkerClick = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(marker, e) {
+        var _this = this;
+
+        var currentZoom;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                e.preventDefault();
+                currentZoom = this.map.getZoom();
+                this.map.easeTo({
+                  center: [+marker.place["long"], +marker.place.lat],
+                  curve: 0,
+                  zoom: currentZoom < 16 ? 16 : currentZoom
+                });
+                /**
+                 * The active markers are reset whenever the
+                 * route changes and the new route is not a location
+                 */
+
+                setTimeout(function () {
+                  _this.$emit("location-clicked", marker.place);
+
+                  $(e.target).addClass("active");
+                }, 300);
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function handleMarkerClick(_x, _x2) {
+        return _handleMarkerClick.apply(this, arguments);
+      }
+
+      return handleMarkerClick;
+    }()
+  },
+  computed: {
+    markers: function markers(_ref) {
+      var places = _ref.places;
+      return places.map(function (p) {
+        return {
+          place: p,
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [p["long"], p.lat]
+          }
+        };
+      });
+    }
+  },
+  watch: {
+    $route: function $route($newRoute, $oldRoute) {
+      this.updateMarkerElements();
+    },
+    filters: function filters(_filters) {
+      this.mapboxMarkers.forEach(function (mbm) {
+        var filteredStories = mbm.place.stories.filter(function (item) {
+          for (var i = 0; i < _filters.length; i++) {
+            var filter = _filters[i];
+
+            if (item[filter.key.trim()] === filter.value.trim()) {
+              return true;
+            }
+          }
+
+          return false;
+        });
+        var shouldSupressMaker = filteredStories.length === 0 && _filters.length > 0;
+        $(mbm._element).css({
+          opacity: shouldSupressMaker ? 0.3 : 1
+        });
+      });
     }
   }
 });
@@ -64361,6 +64381,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.map.zoomTo(_zoom);
 
+          _this.currentZoom = _zoom;
           setTimeout(function () {
             _this.zooming = false;
             resolve();
