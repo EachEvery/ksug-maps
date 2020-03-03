@@ -14,6 +14,9 @@ export default {
             return places.find(
                 item => item.slug === this.$route.params.location
             );
+        },
+        isAbout({ $route }) {
+            return $route.name === "about";
         }
     }
 };

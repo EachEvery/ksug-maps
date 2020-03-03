@@ -2,45 +2,51 @@
     <div :style="{ 'pointer-events': isLocation ? 'none' : 'auto' }">
         <div class="relative w-full h-screen bg-gray-dark" id="map"></div>
 
-        <clickable
-            class="fixed bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition mb-5"
-            :class="{
-                'bg-black': overlayShowing,
-                'bg-white': !overlayShowing,
-                'opacity-0': !showOverlayButton
-            }"
-            @click="handleOverlayButtonClick"
-        >
-            <map-icon
-                class="w-8 h-8 self-center transition"
+        <portal to="end-of-document">
+            <clickable
+                class="fixed bottom-0 left-0 h-16 w-16 flex justify-center rounded-full m-5 transition-faster mb-5"
                 :class="{
-                    'text-white': overlayShowing,
-                    'text-black': !overlayShowing
+                    'bg-black': overlayShowing,
+                    'bg-white': !overlayShowing,
+                    '-translate-x-20': !showOverlayButton,
+                    'opacity-0': !showOverlayButton
                 }"
-            />
-        </clickable>
-
-        <div
-            class="flex flex-col fixed bottom-0 left-0 mb-5 mr-5"
-            :class="{ 'opacity-0': !showOverlayButton }"
-            style="margin-bottom: 6.5rem; margin-left: 1.65rem;"
-        >
-            <clickable
-                class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mb-3"
-                :class="{ 'opacity-25': nextZoom < currentZoom }"
-                @click="() => zoom(nextZoom)"
+                @click="handleOverlayButtonClick"
             >
-                <plus-icon class="w-5 h-5 self-center" />
+                <map-icon
+                    class="w-8 h-8 self-center transition"
+                    :class="{
+                        'text-white': overlayShowing,
+                        'text-black': !overlayShowing
+                    }"
+                />
             </clickable>
 
-            <clickable
-                class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow"
-                :class="{ 'opacity-25': prevZoom > currentZoom }"
-                @click="() => zoom(prevZoom)"
+            <div
+                class="flex flex-col fixed bottom-0 left-0 mb-5 mr-5 transition"
+                :class="{
+                    '-translate-x-20': !showOverlayButton,
+                    'opacity-0': !showOverlayButton
+                }"
+                style="margin-bottom: 6.5rem; margin-left: 1.65rem;"
             >
-                <minus-icon class="w-5 h-5 self-center" />
-            </clickable>
-        </div>
+                <clickable
+                    class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow mb-3"
+                    :class="{ 'opacity-50': nextZoom < currentZoom }"
+                    @click="() => zoom(nextZoom)"
+                >
+                    <plus-icon class="w-5 h-5 self-center" />
+                </clickable>
+
+                <clickable
+                    class="transition w-12 h-12 bg-white flex justify-center text-black rounded-full shadow"
+                    :class="{ 'opacity-50': prevZoom > currentZoom }"
+                    @click="() => zoom(prevZoom)"
+                >
+                    <minus-icon class="w-5 h-5 self-center" />
+                </clickable>
+            </div>
+        </portal>
     </div>
 </template>
 

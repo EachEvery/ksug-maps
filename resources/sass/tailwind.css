@@ -41,6 +41,10 @@
         transform: translateX(-3rem);
     }
 
+    .-translate-x-20 {
+        transform: translateX(-6rem);
+    }
+
     .translate-x-2 {
         transform: translateX(0.75rem);
     }
