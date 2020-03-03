@@ -64480,8 +64480,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      currentZoom: 16,
-      zoomSteps: [14.5, 15, 15.5, 16, 16.5, 17, 17.5],
+      currentZoom: 13.5,
+      zoomSteps: [13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5],
       zooming: false
     };
   },
