@@ -1,7 +1,7 @@
 <title>Mapping May 4 | Kent State University Department of Geography</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="csrf-token" value="{{csrf_token()}}" />
 <link rel="stylesheet" href="https://use.typekit.net/gow0spk.css">
 
