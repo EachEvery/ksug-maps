@@ -3,9 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="csrf-token" value="{{csrf_token()}}" />
-<link rel="stylesheet" href="https://use.typekit.net/gow0spk.css">
-
-
+<link rel="stylesheet" href="https://use.typekit.net/gow0spk.css" />
 <link rel="stylesheet" href="{{mix('css/app.css')}}" type="text/css" />
 <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
 
