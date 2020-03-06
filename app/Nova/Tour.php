@@ -2,7 +2,6 @@
 
 namespace KSUGMap\Nova;
 
-use Benjacho\BelongsToManyField\BelongsToManyField as BelongsToMany;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
@@ -42,7 +41,6 @@ class Tour extends Resource
         return [
             Text::make('Name'),
             Trix::make('Description'),
-            BelongsToMany::make('Stories', 'stories')->optionsLabel('subject'),
         ];
     }
 

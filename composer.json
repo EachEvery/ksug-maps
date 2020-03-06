@@ -10,7 +10,6 @@
     "require": {
         "php": "^7.1.3",
         "algolia/algoliasearch-client-php": "^2.2",
-        "benjacho/belongs-to-many-field": "^1.0.3",
         "doctrine/dbal": "^2.9",
         "eachevery/welcome": "*",
         "falahati/php-mp3": "dev-master",
