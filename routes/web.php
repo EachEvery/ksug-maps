@@ -1,5 +1,6 @@
 <?php
 
+use KSUGMap\Queries\ToursWithPlaces;
 use KSUGMap\Repositories\Places;
 use KSUGMap\Repositories\Stories;
 use KSUGMap\Tour;
@@ -25,8 +26,8 @@ Route::get('/places', function (Places $places) {
     return $places->all();
 });
 
-Route::get('/tours', function () {
-    return Tour::all();
+Route::get('/tours', function (ToursWithPlaces $q) {
+    return $q->get();
 });
 
 Route::get('/places/{place_slug}/comments', 'PlaceCommentsController@index');

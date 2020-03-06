@@ -12,7 +12,9 @@ export default new Vuex.Store({
         stories: [],
         filters: [],
         comments: [],
-        places: []
+        places: [],
+        tours: [],
+        directions: undefined
     },
     actions: {
         ensureData(context) {
@@ -34,6 +36,9 @@ export default new Vuex.Store({
         }
     },
     mutations: {
+        setDirections(state, directions) {
+            state.directions = directions;
+        },
         setPlaces(state, places) {
             state.places = mapPlaces(places, state.stories);
         },

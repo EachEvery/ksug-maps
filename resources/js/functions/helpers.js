@@ -14,3 +14,7 @@ export const formPost = (url, formEl) => {
         headers: { "Content-Type": "multipart/form-data" }
     });
 };
+
+export const getMapboxToken = () => {
+    return "pk.eyJ1IjoibmF0ZWhvYmkiLCJhIjoiY2s3MHg2dTlxMDEzYzNnbnkweWJnbHZzOCJ9.uLkc9fWDpYi6Y_ojutcgWA";
+};

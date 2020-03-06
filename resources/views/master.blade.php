@@ -17,7 +17,6 @@
     <script>
         window.isAdmin = {{Auth::check() ? 'true' : 'false'}}
     </script>
-    
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js'></script>
     <script type="text/javascript" src="{{mix('js/app.js')}}"></script>

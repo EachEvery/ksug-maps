@@ -2,7 +2,9 @@
 
 namespace KSUGMap\Nova;
 
+use Benjacho\BelongsToManyField\BelongsToManyField;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 
@@ -41,6 +43,12 @@ class Tour extends Resource
         return [
             Text::make('Name'),
             Trix::make('Description'),
+            Text::make('Public Url', function () {
+                $url = $this->resource->public_url;
+
+                return sprintf('<a href="%s" target="_blank" class="no-underline dim text-primary font-bold">View on Website</a>', $url);
+            })->asHtml(),
+            BelongsToMany::make('Stories')->searchable(),
         ];
     }
 

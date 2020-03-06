@@ -3,6 +3,7 @@
 namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use KSUGMap\Contracts\MapsToSearchResult;
 use Laravel\Scout\Searchable;
@@ -34,7 +35,7 @@ class Story extends Model implements MapsToSearchResult
     public function toSearchResult(): object
     {
         return (object) [
-            'title' => sprintf('%s · %s', $this->subject, $this->place->name),
+            'title' => $this->title,
             'subtitle' => sprintf('<i>%s</i> - %s', $this->day, Str::limit($this->content)),
             'path' => sprintf('/stories/%s', $this->id),
             'role' => $this->role,

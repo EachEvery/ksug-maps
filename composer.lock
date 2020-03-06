@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0ef43cbc876a7844f99e439a39974eb",
+    "content-hash": "cc4ea24c1c4aa273578907a6b8cc289e",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -273,6 +273,49 @@
                 "sdk"
             ],
             "time": "2020-03-05T19:19:55+00:00"
+        },
+        {
+            "name": "benjacho/belongs-to-many-field",
+            "version": "1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Benjacho/belongs-to-many-field-nova.git",
+                "reference": "607e466161ba7f72b837cdd6e0ef54c818a342e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Benjacho/belongs-to-many-field-nova/zipball/607e466161ba7f72b837cdd6e0ef54c818a342e9",
+                "reference": "607e466161ba7f72b837cdd6e0ef54c818a342e9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Benjacho\\BelongsToManyField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Benjacho\\BelongsToManyField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "belongsToMany nova representation in field.",
+            "keywords": [
+                "Many to Many Field",
+                "belongsToMany",
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-02-05T20:03:43+00:00"
         },
         {
             "name": "brick/math",
@@ -979,55 +1022,6 @@
             "time": "2020-02-13T22:36:52+00:00"
         },
         {
-<<<<<<< HEAD
-            "name": "erusev/parsedown",
-            "version": "1.7.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/erusev/parsedown.git",
-                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
-                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.35"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Parsedown": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Emanuil Rusev",
-                    "email": "hello@erusev.com",
-                    "homepage": "http://erusev.com"
-                }
-            ],
-            "description": "Parser for Markdown.",
-            "homepage": "http://parsedown.org",
-            "keywords": [
-                "markdown",
-                "parser"
-            ],
-            "time": "2019-12-30T22:54:17+00:00"
-        },
-        {
-=======
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
             "name": "evenement/evenement",
             "version": "v3.0.1",
             "source": {
@@ -1733,11 +1727,7 @@
                 "framework",
                 "laravel"
             ],
-<<<<<<< HEAD
-            "time": "2020-02-14T14:29:11+00:00"
-=======
             "time": "2020-03-06T13:50:22+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "laravel/helpers",
@@ -1922,11 +1912,7 @@
                 "laravel",
                 "search"
             ],
-<<<<<<< HEAD
-            "time": "2019-09-24T21:06:28+00:00"
-=======
             "time": "2020-03-03T13:33:44+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "laravel/tinker",
@@ -1990,11 +1976,7 @@
                 "laravel",
                 "psysh"
             ],
-<<<<<<< HEAD
-            "time": "2019-08-07T15:10:45+00:00"
-=======
             "time": "2020-02-05T15:00:44+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "laravel/ui",
@@ -2335,11 +2317,7 @@
                 "logging",
                 "psr-3"
             ],
-<<<<<<< HEAD
-            "time": "2019-12-20T14:15:16+00:00"
-=======
             "time": "2019-12-20T14:22:59+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "moontoast/math",
@@ -3524,11 +3502,7 @@
                 "once",
                 "spatie"
             ],
-<<<<<<< HEAD
-            "time": "2017-08-24T21:16:25+00:00"
-=======
             "time": "2020-02-18T15:10:38+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3832,79 +3806,6 @@
             "license": [
                 "MIT"
             ],
-<<<<<<< HEAD
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony ErrorHandler Component",
-            "homepage": "https://symfony.com",
-            "time": "2020-02-26T11:45:31+00:00"
-        },
-        {
-            "name": "symfony/event-dispatcher",
-            "version": "v4.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "4ad8e149799d3128621a3a1f70e92b9897a8930d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/4ad8e149799d3128621a3a1f70e92b9897a8930d",
-                "reference": "4ad8e149799d3128621a3a1f70e92b9897a8930d",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3",
-                "symfony/event-dispatcher-contracts": "^1.1"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<3.4"
-            },
-            "provide": {
-                "psr/event-dispatcher-implementation": "1.0",
-                "symfony/event-dispatcher-implementation": "1.1"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/config": "^3.4|^4.0|^5.0",
-                "symfony/dependency-injection": "^3.4|^4.0|^5.0",
-                "symfony/expression-language": "^3.4|^4.0|^5.0",
-                "symfony/http-foundation": "^3.4|^4.0|^5.0",
-                "symfony/service-contracts": "^1.1|^2",
-                "symfony/stopwatch": "^3.4|^4.0|^5.0"
-            },
-            "suggest": {
-                "symfony/dependency-injection": "",
-                "symfony/http-kernel": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-=======
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
             "authors": [
                 {
                     "name": "Fabien Potencier",
@@ -4317,7 +4218,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3",
+                "php": "^7.2.5",
                 "symfony/polyfill-intl-idn": "^1.10",
                 "symfony/polyfill-mbstring": "^1.0"
             },
@@ -4362,11 +4263,7 @@
                 "mime",
                 "mime-type"
             ],
-<<<<<<< HEAD
-            "time": "2020-02-04T09:32:40+00:00"
-=======
             "time": "2020-02-04T09:41:09+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -4900,11 +4797,7 @@
                 "uri",
                 "url"
             ],
-<<<<<<< HEAD
-            "time": "2020-02-25T12:41:09+00:00"
-=======
             "time": "2020-02-25T14:24:11+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "symfony/service-contracts",
@@ -5171,11 +5064,7 @@
                 "debug",
                 "dump"
             ],
-<<<<<<< HEAD
-            "time": "2020-02-24T13:10:00+00:00"
-=======
             "time": "2020-02-26T22:30:10+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -5437,32 +5326,6 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-<<<<<<< HEAD
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Graham Campbell",
-                    "email": "graham@alt-three.com",
-                    "homepage": "https://gjcampbell.co.uk/"
-                },
-                {
-                    "name": "Vance Lucas",
-                    "email": "vance@vancelucas.com",
-                    "homepage": "https://vancelucas.com/"
-                }
-            ],
-            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
-            "keywords": [
-                "dotenv",
-                "env",
-                "environment"
-            ],
-            "time": "2019-09-10T21:37:39+00:00"
-        }
-    ],
-    "packages-dev": [
-=======
                 "MIT"
             ],
             "description": "Send PHP errors to Flare",
@@ -5475,7 +5338,6 @@
             ],
             "time": "2020-03-02T15:52:04+00:00"
         },
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         {
             "name": "facade/ignition",
             "version": "2.0.1",
@@ -5530,34 +5392,12 @@
                     "Facade\\Ignition\\": "src"
                 },
                 "files": [
-<<<<<<< HEAD
-                    "helpers.php"
-=======
                     "src/helpers.php"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
-<<<<<<< HEAD
-            ],
-            "authors": [
-                {
-                    "name": "Marcel Pociot",
-                    "email": "marcel@beyondco.de",
-                    "homepage": "https://beyondco.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Symfony Var-Dump Server for Laravel",
-            "homepage": "https://github.com/beyondcode/laravel-dump-server",
-            "keywords": [
-                "beyondcode",
-                "laravel-dump-server"
-            ],
-            "time": "2019-08-11T13:17:40+00:00"
-=======
             ],
             "description": "A beautiful error page for Laravel applications.",
             "homepage": "https://github.com/facade/ignition",
@@ -5568,7 +5408,6 @@
                 "page"
             ],
             "time": "2020-03-05T12:32:22+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "facade/ignition-contracts",
@@ -5605,15 +5444,6 @@
                     "role": "Developer"
                 }
             ],
-<<<<<<< HEAD
-            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://www.doctrine-project.org/projects/instantiator.html",
-            "keywords": [
-                "constructor",
-                "instantiate"
-            ],
-            "time": "2019-10-21T16:45:58+00:00"
-=======
             "description": "Solution contracts for Ignition",
             "homepage": "https://github.com/facade/ignition-contracts",
             "keywords": [
@@ -5622,7 +5452,6 @@
                 "ignition"
             ],
             "time": "2019-08-30T14:06:08+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "filp/whoops",
@@ -6343,11 +6172,7 @@
                 "testing",
                 "xunit"
             ],
-<<<<<<< HEAD
-            "time": "2018-10-31T16:06:48+00:00"
-=======
             "time": "2019-11-20T13:55:58+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -6619,9 +6444,6 @@
                 "testing",
                 "xunit"
             ],
-<<<<<<< HEAD
-            "time": "2020-01-08T08:45:45+00:00"
-=======
             "time": "2020-01-08T08:49:49+00:00"
         },
         {
@@ -6692,7 +6514,6 @@
                 "syntax"
             ],
             "time": "2020-03-02T05:59:21+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -7031,11 +6852,7 @@
             "keywords": [
                 "global state"
             ],
-<<<<<<< HEAD
-            "time": "2017-04-27T15:39:26+00:00"
-=======
             "time": "2019-02-01T05:30:01+00:00"
->>>>>>> f2e35ebea1c3e2bb1389b030929071df1c68bfeb
         },
         {
             "name": "sebastian/object-enumerator",

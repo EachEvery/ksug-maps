@@ -1,44 +1,49 @@
 <template>
-  <div v-if="ready" class="relative">
-    <div class="w-full h-full relative overflow-hidden bg-black">
-      <map-component
-        :filters="filters"
-        :places="places"
-        :show-overlay-button="!isLocation && !isAbout && !menuOpen"
-        :is-location="isLocation"
-        @location-clicked="handleLocationClicked"
-        :class="{
+    <div v-if="ready" class="relative">
+        <div class="w-full h-full relative overflow-hidden bg-black">
+            <map-component
+                :filters="filters"
+                :places="places"
+                :show-overlay-button="!isLocation && !isAbout && !menuOpen"
+                :is-location="isLocation"
+                @location-clicked="handleLocationClicked"
+                :class="{
                     '-translate-y-35vh': isLocation,
                     'md:-translate-x-10': isLocation
                 }"
-        class="transition"
-        ref="mapComponent"
-      />
+                class="transition"
+                ref="mapComponent"
+            />
+        </div>
+
+        <transition
+            enter-class="opacity-0 translate-y-1 md:translate-x-2"
+            leave-to-class="opacity-0 translate-y-1 md:translate-x-2"
+            enter-active-class="transition"
+            leave-active-class="transition"
+        >
+            <router-view />
+        </transition>
+
+        <global-header
+            :is-location="isLocation"
+            @state-changed="menuIsOpen => (menuOpen = menuIsOpen)"
+        />
+
+        <a
+            href="/admin"
+            v-if="isAdmin"
+            style="color: rgba(255,255,255,.8);"
+            class="fixed top-0 right-0 bg-black text-sm py-2 px-4 rounded-full m-2 shadow-lg"
+            >Admin Mode</a
+        >
+
+        <portal-target
+            name="end-of-document"
+            multiple
+            class="fixed"
+        ></portal-target>
     </div>
-
-    <transition
-      enter-class="opacity-0 translate-y-1 md:translate-x-2"
-      leave-to-class="opacity-0 translate-y-1 md:translate-x-2"
-      enter-active-class="transition"
-      leave-active-class="transition"
-    >
-      <router-view />
-    </transition>
-
-    <global-header
-      :is-location="isLocation"
-      @state-changed="(menuIsOpen) => menuOpen = menuIsOpen"
-    />
-
-    <a
-      href="/admin"
-      v-if="isAdmin"
-      style="color: rgba(255,255,255,.8);"
-      class="fixed top-0 right-0 bg-black text-sm py-2 px-4 rounded-full m-2 shadow-lg"
-    >Admin Mode</a>
-
-    <portal-target name="end-of-document" multiple class="fixed"></portal-target>
-  </div>
 </template>
 
 <script>
@@ -49,74 +54,77 @@ import routeHelpers from "./mixins/routeHelpers";
 import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
-  mixins: [routeHelpers],
+    mixins: [routeHelpers],
 
-  metaInfo() {
-    return {
-      title: "Home",
-      titleTemplate: "%s | Mapping May 4"
-    };
-  },
+    metaInfo() {
+        return {
+            title: "Home",
+            titleTemplate: "%s | Mapping May 4"
+        };
+    },
 
-  components: {
-    globalHeader,
-    mapComponent
-  },
+    components: {
+        globalHeader,
+        mapComponent
+    },
 
-  data() {
-    return {
-      state: "default",
-      pullMapLeft: false,
-      menuOpen: false
-    };
-  },
+    data() {
+        return {
+            state: "default",
+            pullMapLeft: false,
+            menuOpen: false
+        };
+    },
 
-  async mounted() {
-    await this.ensureData();
-    this.preloadImages();
+    async mounted() {
+        await this.ensureData();
+        this.preloadImages();
 
-    if (this.$route.path === "/") {
-      this.$router.push("/about");
-    }
-  },
-  methods: {
-    ...mapActions(["ensureData"]),
-    preloadImages() {
-      [...this.places].forEach(item => {
-        if (item.photo !== null) {
-          let image = new Image();
+        console.log(this.$route);
 
-          image.src = item.photo;
+        if (this.$route.path === "/") {
+            this.$router.push("/about");
         }
-      });
     },
-    handleImageLoad() {
-      this.state = "imageLoaded";
-    },
-    handleLocationClicked(location) {
-      this.$router.push(`/places/${location.slug}/preview`);
-    }
-  },
-  computed: {
-    ...mapState(["stories", "filters", "places"]),
+    methods: {
+        ...mapActions(["ensureData"]),
+        preloadImages() {
+            [...this.places].forEach(item => {
+                if (item.photo !== null) {
+                    let image = new Image();
 
-    isAdmin() {
-      return window.isAdmin;
+                    image.src = item.photo;
+                }
+            });
+        },
+        handleImageLoad() {
+            this.state = "imageLoaded";
+        },
+        handleLocationClicked(location) {
+            this.$router.push(`/places/${location.slug}/preview`);
+        }
     },
-    ready({ stories, places }) {
-      return stories.length > 0 && places.length > 0;
-    },
-    imageLoaded({ state }) {
-      return state === "imageLoaded";
-    },
+    computed: {
+        ...mapState(["stories", "filters", "places", "tours"]),
 
-    mapClass({ imageLoaded, isLocation }) {
-      return {
-        invisible: !imageLoaded,
-        "opacity-0": !imageLoaded,
-        "zoom-map": isLocation
-      };
+        isAdmin() {
+            return window.isAdmin;
+        },
+        ready({ stories, places, tours }) {
+            return stories.length > 0 && places.length > 0 && tours.length > 0;
+        },
+
+        imageLoaded({ state }) {
+            return state === "imageLoaded";
+        },
+
+        mapClass({ imageLoaded, isLocation }) {
+            return {
+                invisible: !imageLoaded,
+                "opacity-0": !imageLoaded,
+                "zoom-map": isLocation
+            };
+        }
     }
-  }
 };
 </script>

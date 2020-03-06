@@ -10,4 +10,18 @@ class Tour extends Model
     {
         return $this->belongsToMany(Story::class);
     }
+
+    public function getPublicUrlAttribute()
+    {
+        return url('tours/'.$this->slug);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($tour) {
+            $tour->slug = str_slug($tour->name);
+        });
+    }
 }

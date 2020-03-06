@@ -3,6 +3,7 @@
 namespace KSUGMap\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Text;
@@ -63,6 +64,15 @@ class Story extends Resource
             BelongsToMany::make('Tours'),
             BelongsTo::make('Place')->hideFromIndex(),
         ];
+    }
+
+    public function title()
+    {
+        $key = sprintf('story:%s:%s:title', $this->id, $this->updated_at);
+
+        return Cache::rememberForever($key, function () {
+            return $this->subject.' - '.$this->place->name.' - '.str_limit($this->content, 30);
+        });
     }
 
     /**
