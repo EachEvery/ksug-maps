@@ -2,8 +2,8 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use KSUGMap\Story;
 use Faker\Generator as Faker;
+use KSUGMap\Story;
 
 $factory->define(Story::class, function (Faker $faker) {
     return [

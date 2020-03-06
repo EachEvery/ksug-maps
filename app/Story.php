@@ -3,6 +3,7 @@
 namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use KSUGMap\Contracts\MapsToSearchResult;
 use Laravel\Scout\Searchable;
 
@@ -17,7 +18,7 @@ class Story extends Model implements MapsToSearchResult
 
     public function getRoleAttribute($val)
     {
-        return title_case(trim($val));
+        return Str::title(trim($val));
     }
 
     public function getAdminUrlAttribute()
@@ -34,7 +35,7 @@ class Story extends Model implements MapsToSearchResult
     {
         return (object) [
             'title' => sprintf('%s · %s', $this->subject, $this->place->name),
-            'subtitle' => sprintf('<i>%s</i> - %s', $this->day, str_limit($this->content)),
+            'subtitle' => sprintf('<i>%s</i> - %s', $this->day, Str::limit($this->content)),
             'path' => sprintf('/stories/%s', $this->id),
             'role' => $this->role,
         ];

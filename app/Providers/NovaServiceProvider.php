@@ -3,10 +3,10 @@
 namespace KSUGMap\Providers;
 
 use Eachevery\Welcome\Welcome;
-use Laravel\Nova\Nova;
-use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\NovaApplicationServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -49,7 +49,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Welcome()
+            new Welcome(),
         ];
     }
 
@@ -77,5 +77,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      * Register any application services.
      */
     public function register()
-    { }
+    {
+    }
 }

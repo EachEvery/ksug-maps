@@ -15,7 +15,7 @@ class Story extends Resource
      *
      * @var string
      */
-    public static $model = 'KSUGMap\Story';
+    public static $model = \KSUGMap\Story::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
