@@ -2,8 +2,8 @@
 
 namespace KSUGMap\Http\Controllers\Auth;
 
-use KSUGMap\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use KSUGMap\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {

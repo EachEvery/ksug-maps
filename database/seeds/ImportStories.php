@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use TANIOS\Airtable\Airtable;
 use GuzzleHttp\Client as Guzzle;
-use KSUGMap\Story;
+use Illuminate\Database\Seeder;
 use KSUGMap\Place;
+use KSUGMap\Story;
+use TANIOS\Airtable\Airtable;
 
 class ImportStories extends Seeder
 {

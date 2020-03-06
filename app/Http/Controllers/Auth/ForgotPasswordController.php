@@ -2,8 +2,8 @@
 
 namespace KSUGMap\Http\Controllers\Auth;
 
-use KSUGMap\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use KSUGMap\Http\Controllers\Controller;
 
 class ForgotPasswordController extends Controller
 {

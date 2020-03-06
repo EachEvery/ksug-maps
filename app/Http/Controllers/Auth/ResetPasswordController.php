@@ -2,8 +2,8 @@
 
 namespace KSUGMap\Http\Controllers\Auth;
 
-use KSUGMap\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use KSUGMap\Http\Controllers\Controller;
 
 class ResetPasswordController extends Controller
 {

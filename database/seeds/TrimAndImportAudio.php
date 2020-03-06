@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use TANIOS\Airtable\Airtable;
-use GuzzleHttp\Client as Guzzle;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use FFMpeg\FFProbe;
 use FFMpeg\Format\Audio\Mp3;
+use GuzzleHttp\Client as Guzzle;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use KSUGMap\Story;
+use TANIOS\Airtable\Airtable;
 
 class TrimAndImportAudio extends Seeder
 {
@@ -63,7 +63,7 @@ class TrimAndImportAudio extends Seeder
             $id = array_pop($arr);
             $path = sprintf('ksug/final-%s-%s-%s-%s.mp3', str_slug($item->{'Name'}), $id, trim($item->{'Audio start'}), trim($item->{'Audio stop'}), $padding);
 
-            if (!Storage::disk('s3')->exists($path)) {
+            if (! Storage::disk('s3')->exists($path)) {
                 echo sprintf("\n\nProcessing %s of %s", $current, count($data));
                 echo "\n".'Grabbing audio src from url...';
 
@@ -105,7 +105,7 @@ class TrimAndImportAudio extends Seeder
                     Storage::disk('local')->delete(storage_path('app/'.$path));
 
                     echo "\n".'Saved audio '.Storage::disk('s3')->url($path);
-                    ++$current;
+                    $current++;
                 } catch (\Exception $e) {
                     dump($e);
                     echo "\n".'No audio file found for '.$item->{'Link to audio'};
