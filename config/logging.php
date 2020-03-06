@@ -5,6 +5,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Log Channel
@@ -16,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'single'),
+    'default' => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
@@ -99,4 +100,5 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
     ],
+
 ];

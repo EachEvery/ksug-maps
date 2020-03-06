@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -67,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => KSUGMap\User::class,
+            'model' => App\User::class,
         ],
 
         // 'users' => [
@@ -112,4 +113,5 @@ return [
     */
 
     'password_timeout' => 10800,
+
 ];
