@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -30,4 +29,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'sparkpost' => [
+        'secret' => env('SPARKPOST_SECRET'),
+    ],
+
+    'airtable' => [
+        'key' => env('AIRTABLE_KEY'),
+        'base' => env('AIRTABLE_BASE'),
+    ],
 ];

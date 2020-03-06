@@ -12,6 +12,7 @@
             "email": "taylor@laravel.com"
         }
     ],
+    "version": "2.0",
     "require": {
         "php": ">=7.1.0",
         "cakephp/chronos": "^1.0",
