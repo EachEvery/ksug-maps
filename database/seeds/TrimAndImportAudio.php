@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use FFMpeg\FFProbe;
@@ -61,7 +62,7 @@ class TrimAndImportAudio extends Seeder
             $arr = explode('/', $item->{'Link to audio'});
 
             $id = array_pop($arr);
-            $path = sprintf('ksug/final-%s-%s-%s-%s.mp3', str_slug($item->{'Name'}), $id, trim($item->{'Audio start'}), trim($item->{'Audio stop'}), $padding);
+            $path = sprintf('ksug/final-%s-%s-%s-%s.mp3', Str::slug($item->{'Name'}), $id, trim($item->{'Audio start'}), trim($item->{'Audio stop'}), $padding);
 
             if (! Storage::disk('s3')->exists($path)) {
                 echo sprintf("\n\nProcessing %s of %s", $current, count($data));

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Database\Seeder;
 use KSUGMap\Place;
@@ -17,7 +18,7 @@ class ImportStories extends Seeder
     public function process($data)
     {
         $data->map(function ($item) {
-            $hasPhoto = str_contains(@$item->{'photo'}, 'http');
+            $hasPhoto = Str::contains(@$item->{'photo'}, 'http');
 
             $latLong = [
                 'lat' => @$item->{'Latitude'},
@@ -25,7 +26,7 @@ class ImportStories extends Seeder
             ];
 
             $place = Place::firstOrCreate($latLong, [
-                'name' => trim(title_case(@$item->{'Place '})),
+                'name' => trim(Str::title(@$item->{'Place '})),
                 'lat' => @$item->{'Latitude'},
                 'long' => @$item->{'Longitude'},
                 'photo' => $hasPhoto ? @$item->{'photo'} : null,
@@ -37,7 +38,7 @@ class ImportStories extends Seeder
                 'day' => @$item->{'Date of Story'},
                 'content' => @$item->{'Story'},
                 'place_id' => $place->id,
-                'subject' => title_case(trim(@$item->{'Name'})),
+                'subject' => Str::title(trim(@$item->{'Name'})),
                 'full_story_link' => @$item->{'Link to audio'},
                 'role' => @$item->{'Role'},
             ]);
