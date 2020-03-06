@@ -17,13 +17,17 @@ export default new Vuex.Store({
     actions: {
         ensureData(context) {
             return new Promise(async resolve => {
-                let storyRes = await Axios.get("/stories");
+                let { data: stories } = await Axios.get("/stories");
 
-                context.commit("setStories", storyRes.data);
+                context.commit("setStories", stories);
 
-                let placeRes = await Axios.get("/places");
+                let { data: places } = await Axios.get("/places");
 
-                context.commit("setPlaces", placeRes.data);
+                context.commit("setPlaces", places);
+
+                let { data: tours } = await Axios.get("/tours");
+
+                context.commit("setTours", tours);
 
                 resolve();
             });
@@ -35,6 +39,9 @@ export default new Vuex.Store({
         },
         setStories(state, stories) {
             state.stories = mapStories(stories);
+        },
+        setTours(state, tours) {
+            state.tours = tours;
         },
         clearFilters({ filters }) {
             filters.splice(0, filters.length);

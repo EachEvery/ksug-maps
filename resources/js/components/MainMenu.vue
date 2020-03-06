@@ -1,5 +1,7 @@
 <template>
-  <ul class="flex flex-col text-center font-display text-4xl max-w-xs mx-auto leading-tight mt-24">
+  <ul
+    class="flex flex-col text-center font-display text-2xl md:text-4xl max-w-xs mx-auto leading-tight mt-8 md:mt-24"
+  >
     <li class="mb-6 shrink-when-active" :class="{'opacity-25': isMap}">
       <router-link to="/">MAP</router-link>
     </li>

@@ -109,6 +109,9 @@ export default {
   watch: {
     $route: function() {
       this.state = "default";
+    },
+    isOpen(val) {
+      this.$emit("state-changed", val);
     }
   },
 

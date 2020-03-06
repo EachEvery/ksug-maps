@@ -130,9 +130,20 @@ export default {
         };
       });
 
+      this.map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          trackUserLocation: true
+        })
+      );
+
       if (this.isLocation) {
         this.setInitialActiveMarker();
       }
+
+      $(".mapboxgl-ctrl-geolocate").click();
     }
   }
 };
