@@ -3,13 +3,10 @@
 namespace Laravel\Nova\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Console\DetectsApplicationNamespace;
 use Illuminate\Support\Str;
 
 class InstallCommand extends Command
 {
-    use DetectsApplicationNamespace;
-
     /**
      * The name and signature of the console command.
      *
@@ -80,8 +77,9 @@ class InstallCommand extends Command
     /**
      * Set the namespace on the given file.
      *
-     * @param  string  $file
-     * @param  string  $namespace
+     * @param string $file
+     * @param string $namespace
+     *
      * @return void
      */
     protected function setAppNamespaceOn($file, $namespace)
