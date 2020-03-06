@@ -17,7 +17,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.5",
         "laravel/framework": "^7.0",
-        "laravel/nova": "dev-master",
+        "laravel/nova": "*",
         "laravel/scout": "^8.0",
         "laravel/tinker": "^2.0",
         "league/flysystem-aws-s3-v3": "^1.0",
