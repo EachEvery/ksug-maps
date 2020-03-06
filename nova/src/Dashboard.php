@@ -6,8 +6,9 @@ use Illuminate\Support\Str;
 
 abstract class Dashboard extends Element
 {
-    use AuthorizedToSee;
-    use ProxiesCanSeeToGate;
+    use AuthorizedToSee,
+        Metable,
+        ProxiesCanSeeToGate;
 
     /**
      * Get the displayable name of the dashboard.

@@ -3,6 +3,7 @@
 namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use KSUGMap\Contracts\MapsToSearchResult;
 use Laravel\Scout\Searchable;
 
@@ -67,7 +68,7 @@ class Place extends Model implements MapsToSearchResult
         parent::boot();
 
         static::saving(function ($place) {
-            $place->slug = str_slug($place->name);
+            $place->slug = Str::slug($place->name);
         });
     }
 }

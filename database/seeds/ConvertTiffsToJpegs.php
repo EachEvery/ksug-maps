@@ -26,7 +26,7 @@ class ConvertTiffsToJpegs extends Seeder
 
             $newFile = $parts->implode('').'.jpg';
 
-            if (!Storage::disk('s3')->exists('ksug/'.$newFile)) {
+            if (! Storage::disk('s3')->exists('ksug/'.$newFile)) {
                 $base64 = base64_encode(file_get_contents($placeWithTiffPhoto->photo));
 
                 Image::make($base64)->save(storage_path('app/ksug/'.$newFile));

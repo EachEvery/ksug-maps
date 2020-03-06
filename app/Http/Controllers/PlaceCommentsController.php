@@ -2,8 +2,8 @@
 
 namespace KSUGMap\Http\Controllers;
 
-use KSUGMap\Repositories\Comments;
 use Illuminate\Http\Request;
+use KSUGMap\Repositories\Comments;
 use KSUGMap\Repositories\Places;
 
 class PlaceCommentsController

@@ -13,7 +13,7 @@ class Tour extends Resource
      *
      * @var string
      */
-    public static $model = 'KSUGMap\Tour';
+    public static $model = \KSUGMap\Tour::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

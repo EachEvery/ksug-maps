@@ -3,13 +3,13 @@
 namespace KSUGMap\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
-use Laravel\Nova\Actions\Action;
-use Illuminate\Support\Collection;
-use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\ActionFields;
 
 class UnapproveComments extends Action
 {
@@ -25,7 +25,7 @@ class UnapproveComments extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         DB::table('comments')->whereIn('id', $models->pluck('id'))->update([
-            'approved_at' => NULL
+            'approved_at' => null,
         ]);
     }
 

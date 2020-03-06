@@ -2,11 +2,11 @@
 
 namespace KSUGMap\Http\Controllers\Auth;
 
-use KSUGMap\User;
-use KSUGMap\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use KSUGMap\Http\Controllers\Controller;
+use KSUGMap\User;
 
 class RegisterController extends Controller
 {

@@ -15,7 +15,7 @@ class User extends Resource
      *
      * @var string
      */
-    public static $model = 'KSUGMap\\User';
+    public static $model = \KSUGMap\User::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

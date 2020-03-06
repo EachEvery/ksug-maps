@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Tests\TestCase;
-use KSUGMap\Story;
 use KSUGMap\Comment;
+use KSUGMap\Story;
+use Tests\TestCase;
 
 class CommentsTest extends TestCase
 {

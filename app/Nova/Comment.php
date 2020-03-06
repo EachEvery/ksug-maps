@@ -18,7 +18,7 @@ class Comment extends Resource
      *
      * @var string
      */
-    public static $model = 'KSUGMap\Comment';
+    public static $model = \KSUGMap\Comment::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

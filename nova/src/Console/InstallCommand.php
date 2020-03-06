@@ -52,7 +52,7 @@ class InstallCommand extends Command
      */
     protected function registerNovaServiceProvider()
     {
-        $namespace = Str::replaceLast('\\', '', $this->getAppNamespace());
+        $namespace = Str::replaceLast('\\', '', $this->laravel->getNamespace());
 
         file_put_contents(config_path('app.php'), str_replace(
             "{$namespace}\\Providers\EventServiceProvider::class,".PHP_EOL,
@@ -68,7 +68,7 @@ class InstallCommand extends Command
      */
     protected function setAppNamespace()
     {
-        $namespace = $this->getAppNamespace();
+        $namespace = $this->laravel->getNamespace();
 
         $this->setAppNamespaceOn(app_path('Nova/User.php'), $namespace);
         $this->setAppNamespaceOn(app_path('Providers/NovaServiceProvider.php'), $namespace);

@@ -3,9 +3,10 @@
 namespace Laravel\Nova\Tests\Fixtures;
 
 use Laravel\Nova\Contracts\Cover;
+use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\Field;
 
-class GitHubAvatar extends Field implements Cover
+class GitHubAvatar extends Avatar implements Cover
 {
     /**
      * Resolve the thumbnail URL for the field.
