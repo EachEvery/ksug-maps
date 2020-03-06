@@ -15,7 +15,7 @@ class Place extends Resource
      *
      * @var string
      */
-    public static $model = 'KSUGMap\Place';
+    public static $model = \KSUGMap\Place::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
