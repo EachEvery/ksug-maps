@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Str;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use KSUGMap\Place;
 use KSUGMap\Story;
 use TANIOS\Airtable\Airtable;

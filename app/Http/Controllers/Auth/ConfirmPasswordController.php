@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace KSUGMap\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
+use KSUGMap\Http\Controllers\Controller;
+use KSUGMap\Providers\RouteServiceProvider;
 
 class ConfirmPasswordController extends Controller
 {

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Str;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use FFMpeg\FFProbe;
@@ -8,6 +7,7 @@ use FFMpeg\Format\Audio\Mp3;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use KSUGMap\Story;
 use TANIOS\Airtable\Airtable;
 
