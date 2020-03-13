@@ -8,7 +8,9 @@ class Tour extends Model
 {
     public function stories()
     {
-        return $this->belongsToMany(Story::class);
+        return $this->belongsToMany(Story::class)
+            ->withPivot(['id', 'sort_order'])
+            ->orderBy('story_tour.sort_order');
     }
 
     public function getPublicUrlAttribute()

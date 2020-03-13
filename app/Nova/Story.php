@@ -8,9 +8,12 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use OptimistDigital\NovaSortable\Traits\HasSortableRows;
 
 class Story extends Resource
 {
+    use HasSortableRows;
+
     /**
      * The model the resource corresponds to.
      *

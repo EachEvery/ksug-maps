@@ -66,6 +66,9 @@ export default {
             return places.map(p => ({
                 place: p,
                 type: "Feature",
+                properties: {
+                    description: p.name
+                },
                 geometry: {
                     type: "Point",
                     coordinates: [p.long, p.lat]

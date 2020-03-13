@@ -13,14 +13,17 @@ export default {
                 if (this.map.getZoom() === zoom || this.zooming) {
                     resolve();
                 } else {
-                    this.zooming = true;
                     this.map.zoomTo(zoom);
                     this.currentZoom = zoom;
 
-                    setTimeout(() => {
-                        this.zooming = false;
-                        resolve();
-                    }, 450);
+                    // this.zooming = true;
+                    // this.map.zoomTo(zoom);
+                    // this.currentZoom = zoom;
+
+                    // setTimeout(() => {
+                    //     this.zooming = false;
+                    //     resolve();
+                    // }, 450);
                 }
             });
         }

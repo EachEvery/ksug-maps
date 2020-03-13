@@ -1,11 +1,11 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.565 2">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.707 2">
     <line
-      x1="8.565"
-      transform="translate(1 1)"
+      x1="10.707"
+      transform="translate(11.707 1) rotate(180)"
       fill="none"
       stroke="currentColor"
-      stroke-linecap="round"
+      stroke-linecap="square"
       stroke-width="2"
     />
   </svg>

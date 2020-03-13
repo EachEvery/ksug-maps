@@ -7,10 +7,19 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use KSUGMap\Contracts\MapsToSearchResult;
 use Laravel\Scout\Searchable;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class Story extends Model implements MapsToSearchResult
+class Story extends Model implements MapsToSearchResult, Sortable
 {
     use Searchable;
+    use SortableTrait;
+
+    public $sortable = [
+        'order_column_name' => 'sort_order',
+        'sort_when_creating' => false,
+        'sort_on_pivot' => true,
+    ];
 
     protected $guraded = ['id'];
     protected $table = 'stories';

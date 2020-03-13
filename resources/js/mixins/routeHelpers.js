@@ -8,10 +8,18 @@ export default {
     },
 
     computed: {
-        ...mapState(["stories"]),
+        ...mapState(["stories", "tours"]),
 
         isLocation({ $route }) {
             return this.isLocationRoute($route);
+        },
+
+        isTour({ tour }) {
+            return tour !== undefined;
+        },
+
+        tour({ tours }) {
+            return tours.find(t => t.slug === this.$route.params.tour);
         },
 
         story({ stories }) {
