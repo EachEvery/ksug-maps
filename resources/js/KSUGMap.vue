@@ -30,7 +30,11 @@
       @state-changed="menuIsOpen => (menuOpen = menuIsOpen)"
     />
 
-    <explore :open="exploreOpen" />
+    <explore
+      :open="exploreOpen"
+      @toggle="exploreOpen = !exploreOpen"
+      :hide="isLocation || isAbout"
+    />
 
     <a
       href="/admin"
@@ -79,8 +83,6 @@ export default {
   async mounted() {
     await this.ensureData();
     this.preloadImages();
-
-    console.log(this.$route);
 
     if (this.$route.path === "/") {
       this.$router.push("/about");

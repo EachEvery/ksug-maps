@@ -4,16 +4,27 @@ export default {
     computed: {
         ...mapState(["directions"])
     },
-    watch: {
-        $route() {
-            if (!this.isTour) {
-                this.map.removeSource("route");
-                this.map.removeLayer("route");
+    methods: {
+        remove(prop, id) {
+            let get = `get${_.capitalize(prop)}`;
+            let remove = `remove${_.capitalize(prop)}`;
+
+            if (this.map[get](id) !== undefined) {
+                console.log(prop, id, "exists, removing...");
+                this.map[remove](id);
+
                 return;
             }
+
+            console.log(prop, id, "does not exist, ignorning...");
         },
 
-        directions(directions) {
+        removeRouteLayer() {
+            this.remove("source", "route");
+            this.remove("layer", "route");
+        },
+
+        addRouteLayer() {
             this.map.addSource("route", {
                 type: "geojson",
                 data: {
@@ -21,7 +32,8 @@ export default {
                     properties: {},
                     geometry: {
                         type: "LineString",
-                        coordinates: directions.routes[0].geometry.coordinates
+                        coordinates: this.directions.routes[0].geometry
+                            .coordinates
                     }
                 }
             });
@@ -40,6 +52,31 @@ export default {
                     "line-dasharray": [0.1, 2]
                 }
             });
+        },
+        syncMapState() {
+            if (!this.mapLoaded) {
+                return;
+            }
+
+            if (this.isTour) {
+                this.addRouteLayer();
+            } else {
+                this.removeRouteLayer();
+            }
+        }
+    },
+
+    watch: {
+        $route() {
+            this.syncMapState();
+        },
+
+        directions() {
+            this.syncMapState();
+        },
+
+        mapLoaded() {
+            this.syncMapState();
         }
     }
 };

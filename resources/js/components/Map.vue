@@ -84,6 +84,12 @@ export default {
     this.initMap();
   },
 
+  data() {
+    return {
+      mapLoaded: false
+    };
+  },
+
   methods: {
     initMap() {
       let center = [-81.348852, 41.15002];
@@ -108,6 +114,10 @@ export default {
           [-81.39301041235215, 41.132502224091496],
           [-81.32319121255, 41.18378981482479]
         ]
+      });
+
+      this.map.on("load", () => {
+        this.mapLoaded = true;
       });
 
       this.mapboxMarkers = this.markers.map(marker => {
