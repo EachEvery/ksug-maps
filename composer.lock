@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62d51ccb79fc5b92812d7dba9a06de2f",
+    "content-hash": "04ec20bdda4c14a71c0834f1e249d446",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -1688,7 +1688,7 @@
         },
         {
             "name": "laravel/nova",
-            "version": "dev-master",
+            "version": "dev-shift-ci-v7.3.0",
             "dist": {
                 "type": "path",
                 "url": "./nova",
@@ -7135,7 +7135,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "falahati/php-mp3": 20
+        "falahati/php-mp3": 20,
+        "laravel/nova": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
