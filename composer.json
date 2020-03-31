@@ -14,17 +14,17 @@
         "eachevery/welcome": "*",
         "falahati/php-mp3": "dev-master",
         "fideloper/proxy": "^4.2",
+        "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.5",
         "laravel/framework": "^7.4",
-        "laravel/nova": "*",
+        "laravel/nova": "dev-shift-ci-v7.4.0",
         "laravel/scout": "^8.0",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "php-ffmpeg/php-ffmpeg": "^0.14.0",
-        "sleiman/airtable-php": "^2.2",
-        "laravel/ui": "^2.0",
-        "fruitcake/laravel-cors": "^1.0"
+        "sleiman/airtable-php": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",
