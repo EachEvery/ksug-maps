@@ -35383,3 +35383,28 @@ canvas {
 .mapboxgl-popup-content {
   font-family: "letter-gothic-std";
 }
+
+.dropdown-enter-active {
+  -webkit-animation: bounce-in 300ms;
+          animation: bounce-in 300ms;
+}
+
+@-webkit-keyframes bounce-in {
+  0% {
+    transform: scale(0.96) translateY(0.25rem);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.96) translateY(0.25rem);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}

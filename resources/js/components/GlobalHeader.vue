@@ -3,7 +3,7 @@
     class="fixed top-0 w-full transition"
     :style="containerStyle"
     :class="containerClass"
-    v-click-outside="() => setState('default')"
+    v-click-outside="handleClickOutside"
   >
     <div
       class="h-screen w-full absolute transition pt-24 bg-white flex flex-col justify-between pb-10"
@@ -50,9 +50,9 @@
 
           <div
             class="w-4 h-4 flex justify-center items-center absolute left-full bottom-full text-white bg-black rounded-full -mb-1 -ml-1"
-            v-if="filters.length > 0"
+            v-if="validFilters.length > 0"
           >
-            <span class="text-2xs">{{filters.length}}</span>
+            <span class="text-2xs">{{validFilters.length}}</span>
           </div>
         </clickable>
 
@@ -76,7 +76,7 @@ import mainMenu from "./MainMenu";
 import filters from "./Filter";
 import search from "./Search";
 import filterIcon from "./FilterIcon";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   props: {
     isLocation: Boolean,
@@ -98,6 +98,11 @@ export default {
     };
   },
   methods: {
+    handleClickOutside() {
+      if (window.dropdownOpen) return;
+
+      this.setState("default");
+    },
     setState(state) {
       this.lastState = this.state;
       this.state = state;
@@ -118,6 +123,7 @@ export default {
 
   computed: {
     ...mapState(["filters"]),
+    ...mapGetters([["validFilters"]]),
     isMap() {
       return true;
     },

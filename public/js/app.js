@@ -3762,6 +3762,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4663,6 +4678,184 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Dropdown.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    contentStyle: {
+      type: Object,
+      "default": function _default() {}
+    },
+    closeOnAction: {
+      type: Boolean,
+      "default": true
+    },
+    alignContent: {
+      "default": "right",
+      type: String
+    }
+  },
+  data: function data() {
+    return {
+      buttonToFocusAfterClose: null,
+      state: "default",
+      stateChanged: Date.now(),
+      top: 0,
+      left: 0,
+      right: 0
+    };
+  },
+  methods: {
+    setTriggerRectangle: function setTriggerRectangle() {
+      var trigger = this.$refs[this.triggerContainerRef].firstChild;
+      var rect = trigger.getBoundingClientRect();
+      this.top = rect.top + rect.height;
+      this.left = rect.left;
+      this.right = window.innerWidth - rect.right;
+    },
+    close: function close() {
+      var _this = this;
+
+      if (this.state !== "default") {
+        this.stateChange = Date.now();
+      }
+
+      this.state = "default";
+      this.$emit("close");
+      setTimeout(function () {
+        window.dropdownOpen = false;
+        _this.buttonToFocusAfterClose = null;
+      }, 100);
+    },
+    toggle: function toggle(e) {
+      console.log("togggling");
+
+      if (this.isOpen) {
+        this.close();
+      } else {
+        this.lastOpened = this._uid;
+        this.stateChange = Date.now();
+        this.setTriggerRectangle();
+        window.dropdownOpen = true;
+        this.state = "open";
+        this.buttonToFocusAfterClose = this.$refs[this.triggerContainerRef].firstChild;
+        this.$emit("open");
+      }
+    },
+    getContentStyle: function getContentStyle() {},
+    elementInDropdownContent: function elementInDropdownContent(dropdownContent, target) {
+      return dropdownContent.innerHTML.includes(target.innerHTML);
+    },
+    escape: function escape(e) {
+      if (e.keyCode === 27) {
+        this.close();
+
+        if (this.buttonToFocusAfterClose !== null) {
+          this.buttonToFocusAfterClose.focus();
+        }
+      }
+    },
+    documentClick: function documentClick(e, uid) {
+      var _this2 = this;
+
+      this.$nextTick(function () {
+        var el = _this2.$refs.dropdownContent;
+
+        if (!el) {
+          return;
+        }
+
+        var shouldClose = !_this2.elementInDropdownContent(el, e.target) || _this2.closeOnAction;
+
+        if (shouldClose && !_this2.isAnimating()) {
+          // this.state = "default";
+          // this.$emit("close");
+          _this2.close();
+        }
+      });
+    },
+    isAnimating: function isAnimating() {
+      return Date.now() - this.stateChange < 400;
+    }
+  },
+  computed: {
+    dropdownStyle: function dropdownStyle(_ref) {
+      var _objectSpread2;
+
+      var contentStyle = _ref.contentStyle,
+          alignContent = _ref.alignContent;
+      var trigger = this.$refs[this.triggerContainerRef];
+      return _objectSpread({}, contentStyle, {}, (_objectSpread2 = {
+        top: this.top + "px"
+      }, _defineProperty(_objectSpread2, alignContent, this[alignContent] + "px"), _defineProperty(_objectSpread2, "width", trigger.clientWidth + "px"), _objectSpread2));
+    },
+    isOpen: function isOpen(_ref2) {
+      var trigger = _ref2.trigger;
+      return this.state === "open";
+    },
+    stateChangedRently: function stateChangedRently() {
+      return Date.now() - this.stateChange < 100;
+    },
+    animating: function animating() {
+      return Date.now() - this.stateChange < 400;
+    },
+    triggerContainerRef: function triggerContainerRef() {
+      return "triggerContainerId".concat(this._uid);
+    }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    this.$nextTick(function () {
+      _this3.setTriggerRectangle();
+    });
+    window.addEventListener("resize", this.setTriggerRectangle);
+    window.addEventListener("scroll", this.setTriggerRectangle);
+  },
+  created: function created() {
+    document.addEventListener("click", this.documentClick);
+    document.addEventListener("keydown", this.escape.bind(this._uid));
+  },
+  destroyed: function destroyed() {
+    document.removeEventListener("click", this.documentClick);
+    document.removeEventListener("keydown", this.escape);
+    window.removeEventListener("resize", this.setTriggerRectangle);
+    window.removeEventListener("scroll", this.setTriggerRectangle);
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Explore.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Explore.vue?vue&type=script&lang=js& ***!
@@ -4855,8 +5048,15 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var _FilterButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FilterButton */ "./resources/js/components/FilterButton.vue");
-/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _SelectBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SelectBox */ "./resources/js/components/SelectBox.vue");
+/* harmony import */ var _PlusIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PlusIcon */ "./resources/js/components/PlusIcon.vue");
+/* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
+/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -4865,40 +5065,6 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4934,19 +5100,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
+
+var filterStub = {
+  role: undefined,
+  day: undefined
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     clickable: _Clickable__WEBPACK_IMPORTED_MODULE_0__["default"],
-    filterButton: _FilterButton__WEBPACK_IMPORTED_MODULE_1__["default"]
+    filterButton: _FilterButton__WEBPACK_IMPORTED_MODULE_1__["default"],
+    selectbox: _SelectBox__WEBPACK_IMPORTED_MODULE_2__["default"],
+    plusIcon: _PlusIcon__WEBPACK_IMPORTED_MODULE_3__["default"],
+    closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
       activeFilter: "day",
       activeCollection: "days",
-      state: "default"
+      state: "default",
+      filters: _toConsumableArray(this.$store.state.filters)
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(["filters"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(["roles", "names", "days"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(["roles", "names", "days"]), {
     filterItems: function filterItems(_ref) {
       var activeCollection = _ref.activeCollection;
       var items = this[activeCollection].map(function (item) {
@@ -4955,7 +5132,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return _toConsumableArray(new Set(items)).sort();
     }
   }),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapMutations"])(["toggleFilter", "clearFilters"]), {
+  watch: {
+    filters: {
+      deep: true,
+      handler: function handler(filters) {
+        this.setFilters(filters);
+      }
+    }
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapMutations"])(["setFilters", "clearFilters"]), {
+    removeFilter: function removeFilter(i) {
+      this.filters.splice(i, 1);
+    },
+    addFilter: function addFilter() {
+      this.filters.push(_objectSpread({}, filterStub));
+    },
     itemSelected: function itemSelected(item) {
       var _this = this;
 
@@ -5156,6 +5347,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: {
+    handleClickOutside: function handleClickOutside() {
+      if (window.dropdownOpen) return;
+      this.setState("default");
+    },
     setState: function setState(state) {
       this.lastState = this.state;
       this.state = state;
@@ -5172,7 +5367,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$emit("state-changed", val);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["filters"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["filters"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])([["validFilters"]]), {
     isMap: function isMap() {
       return true;
     },
@@ -6008,54 +6203,62 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
-/* harmony import */ var _SearchIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SearchIcon */ "./resources/js/components/SearchIcon.vue");
-/* harmony import */ var _Spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Spinner */ "./resources/js/components/Spinner.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var _SearchIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SearchIcon */ "./resources/js/components/SearchIcon.vue");
+/* harmony import */ var _Spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Spinner */ "./resources/js/components/Spinner.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var fuse_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! fuse.js */ "./node_modules/fuse.js/dist/fuse.esm.js");
+/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -6064,59 +6267,137 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_1__["default"],
-    searchIcon: _SearchIcon__WEBPACK_IMPORTED_MODULE_2__["default"],
-    spinner: _Spinner__WEBPACK_IMPORTED_MODULE_3__["default"]
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_0__["default"],
+    searchIcon: _SearchIcon__WEBPACK_IMPORTED_MODULE_1__["default"],
+    spinner: _Spinner__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
-      results: [],
       state: "default",
       q: ""
     };
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["stories"]), {
+    results: function results(_ref) {
+      var q = _ref.q,
+          stories = _ref.stories;
+
+      if (q.trim() === "") {
+        return stories;
+      }
+
+      var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_5__["default"](stories, {
+        keys: ["subject", "role", "place.name", "day", "content"],
+        threshold: 0.1
+      });
+      var matchingIds = fuse.search(q).map(function (result) {
+        return result.item.id;
+      });
+      return stories.filter(function (s) {
+        return matchingIds.includes(s.id);
+      });
+    }
+  }),
+  methods: {
+    getStoryColor: _functions_ksug__WEBPACK_IMPORTED_MODULE_6__["getStoryColor"],
+    truncate: lodash__WEBPACK_IMPORTED_MODULE_4___default.a.truncate
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SelectBox.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SelectBox.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Dropdown */ "./resources/js/components/Dropdown.vue");
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    dropdown: _Dropdown__WEBPACK_IMPORTED_MODULE_0__["default"],
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    value: String,
+    emptyLabel: {
+      "default": "None"
+    },
+    options: {
+      required: true
+    }
+  },
+  computed: {
+    selectedLabel: function selectedLabel(_ref) {
+      var selectedOption = _ref.value;
+      return selectedOption;
+    }
+  },
   watch: {
-    q: function q() {
-      this.state = "loading";
-      clearTimeout(this.searchTimeout);
-      this.searchTimeout = setTimeout(this.updateResults, 300);
+    value: function value(val) {
+      console.log("recieved new value", val);
     }
   },
   methods: {
-    getStoryColor: _functions_ksug__WEBPACK_IMPORTED_MODULE_5__["getStoryColor"],
-    updateResults: function () {
-      var _updateResults = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _ref, data;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_4___default.a.get("/search?q=" + this.q);
-
-              case 2:
-                _ref = _context.sent;
-                data = _ref.data;
-                this.results = data;
-                this.state = "default";
-
-              case 6:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function updateResults() {
-        return _updateResults.apply(this, arguments);
-      }
-
-      return updateResults;
-    }()
+    handleClick: function handleClick(option) {
+      console.log("emitting");
+      this.$emit("input", this.getOptionValue(option));
+    },
+    getButtonClass: function getButtonClass(option) {
+      var active = option && this.optionIsSelected(option);
+      return {
+        "bg-black": active,
+        "text-white": active,
+        "text-black": !active
+      };
+    },
+    optionIsSelected: function optionIsSelected(option) {
+      //TODO: support key/value pairs
+      return option === this.value;
+    },
+    getOptionValue: function getOptionValue(option) {
+      //TODO: support key/value pairs
+      return option;
+    },
+    getOptionLabel: function getOptionLabel(option) {
+      //TODO: support key/value pairs
+      return option;
+    }
   }
 });
 
@@ -11422,6 +11703,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".dropdown[data-v-ef782e08] {\n  position: relative;\n}\n.dropdown__content[data-v-ef782e08] {\n  position: fixed;\n  min-width: 100px;\n  background: #fff;\n  overflow-x: hidden;\n  overflox-y: scroll;\n  z-index: 100;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Story.vue?vue&type=style&index=0&id=3849ef1a&lang=scss&scoped=true&":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Story.vue?vue&type=style&index=0&id=3849ef1a&lang=scss&scoped=true& ***!
@@ -12090,6 +12390,1308 @@ EventEmitter.EventEmitter = EventEmitter;
 if (true) {
   module.exports = EventEmitter;
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/fuse.js/dist/fuse.esm.js":
+/*!***********************************************!*\
+  !*** ./node_modules/fuse.js/dist/fuse.esm.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Fuse.js v5.1.0 - Lightweight fuzzy-search (http://fusejs.io)
+ *
+ * Copyright (c) 2020 Kiro Risk (http://kiro.me)
+ * All Rights Reserved. Apache Software License 2.0
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+function bitapScore(
+  pattern,
+  { errors = 0, currentLocation = 0, expectedLocation = 0, distance = 100 }
+) {
+  const accuracy = errors / pattern.length;
+  const proximity = Math.abs(expectedLocation - currentLocation);
+
+  if (!distance) {
+    // Dodge divide by zero error.
+    return proximity ? 1.0 : accuracy
+  }
+
+  return accuracy + proximity / distance
+}
+
+function matchedIndiced(matchmask = [], minMatchCharLength = 1) {
+  let matchedIndices = [];
+  let start = -1;
+  let end = -1;
+  let i = 0;
+
+  for (let len = matchmask.length; i < len; i += 1) {
+    let match = matchmask[i];
+    if (match && start === -1) {
+      start = i;
+    } else if (!match && start !== -1) {
+      end = i - 1;
+      if (end - start + 1 >= minMatchCharLength) {
+        matchedIndices.push([start, end]);
+      }
+      start = -1;
+    }
+  }
+
+  // (i-1 - start) + 1 => i - start
+  if (matchmask[i - 1] && i - start >= minMatchCharLength) {
+    matchedIndices.push([start, i - 1]);
+  }
+
+  return matchedIndices
+}
+
+function bitapSearch(
+  text,
+  pattern,
+  patternAlphabet,
+  {
+    location = 0,
+    distance = 100,
+    threshold = 0.6,
+    findAllMatches = false,
+    minMatchCharLength = 1,
+    includeMatches = false
+  }
+) {
+  const patternLen = pattern.length;
+  // Set starting location at beginning text and initialize the alphabet.
+  const textLen = text.length;
+  // Handle the case when location > text.length
+  const expectedLocation = Math.max(0, Math.min(location, textLen));
+  // Highest score beyond which we give up.
+  let currentThreshold = threshold;
+  // Is there a nearby exact match? (speedup)
+  let bestLocation = text.indexOf(pattern, expectedLocation);
+
+  // a mask of the matches
+  const matchMask = [];
+  for (let i = 0; i < textLen; i += 1) {
+    matchMask[i] = 0;
+  }
+
+  if (bestLocation !== -1) {
+    let score = bitapScore(pattern, {
+      errors: 0,
+      currentLocation: bestLocation,
+      expectedLocation,
+      distance
+    });
+    currentThreshold = Math.min(score, currentThreshold);
+
+    // What about in the other direction? (speed up)
+    bestLocation = text.lastIndexOf(pattern, expectedLocation + patternLen);
+
+    if (bestLocation !== -1) {
+      let score = bitapScore(pattern, {
+        errors: 0,
+        currentLocation: bestLocation,
+        expectedLocation,
+        distance
+      });
+      currentThreshold = Math.min(score, currentThreshold);
+    }
+  }
+
+  // Reset the best location
+  bestLocation = -1;
+
+  let lastBitArr = [];
+  let finalScore = 1;
+  let binMax = patternLen + textLen;
+
+  const mask = 1 << (patternLen <= 31 ? patternLen - 1 : 30);
+
+  for (let i = 0; i < patternLen; i += 1) {
+    // Scan for the best match; each iteration allows for one more error.
+    // Run a binary search to determine how far from the match location we can stray
+    // at this error level.
+    let binMin = 0;
+    let binMid = binMax;
+
+    while (binMin < binMid) {
+      const score = bitapScore(pattern, {
+        errors: i,
+        currentLocation: expectedLocation + binMid,
+        expectedLocation,
+        distance
+      });
+
+      if (score <= currentThreshold) {
+        binMin = binMid;
+      } else {
+        binMax = binMid;
+      }
+
+      binMid = Math.floor((binMax - binMin) / 2 + binMin);
+    }
+
+    // Use the result from this iteration as the maximum for the next.
+    binMax = binMid;
+
+    let start = Math.max(1, expectedLocation - binMid + 1);
+    let finish = findAllMatches
+      ? textLen
+      : Math.min(expectedLocation + binMid, textLen) + patternLen;
+
+    // Initialize the bit array
+    let bitArr = Array(finish + 2);
+
+    bitArr[finish + 1] = (1 << i) - 1;
+
+    for (let j = finish; j >= start; j -= 1) {
+      let currentLocation = j - 1;
+      let charMatch = patternAlphabet[text.charAt(currentLocation)];
+
+      if (charMatch) {
+        matchMask[currentLocation] = 1;
+      }
+
+      // First pass: exact match
+      bitArr[j] = ((bitArr[j + 1] << 1) | 1) & charMatch;
+
+      // Subsequent passes: fuzzy match
+      if (i !== 0) {
+        bitArr[j] |=
+          ((lastBitArr[j + 1] | lastBitArr[j]) << 1) | 1 | lastBitArr[j + 1];
+      }
+
+      if (bitArr[j] & mask) {
+        finalScore = bitapScore(pattern, {
+          errors: i,
+          currentLocation,
+          expectedLocation,
+          distance
+        });
+
+        // This match will almost certainly be better than any existing match.
+        // But check anyway.
+        if (finalScore <= currentThreshold) {
+          // Indeed it is
+          currentThreshold = finalScore;
+          bestLocation = currentLocation;
+
+          // Already passed `loc`, downhill from here on in.
+          if (bestLocation <= expectedLocation) {
+            break
+          }
+
+          // When passing `bestLocation`, don't exceed our current distance from `expectedLocation`.
+          start = Math.max(1, 2 * expectedLocation - bestLocation);
+        }
+      }
+    }
+
+    // No hope for a (better) match at greater error levels.
+    const score = bitapScore(pattern, {
+      errors: i + 1,
+      currentLocation: expectedLocation,
+      expectedLocation,
+      distance
+    });
+
+    if (score > currentThreshold) {
+      break
+    }
+
+    lastBitArr = bitArr;
+  }
+
+  let result = {
+    isMatch: bestLocation >= 0,
+    // Count exact matches (those with a score of 0) to be "almost" exact
+    score: !finalScore ? 0.001 : finalScore
+  };
+
+  if (includeMatches) {
+    result.matchedIndices = matchedIndiced(matchMask, minMatchCharLength);
+  }
+
+  return result
+}
+
+function patternAlphabet(pattern) {
+  let mask = {};
+  let len = pattern.length;
+
+  for (let i = 0; i < len; i += 1) {
+    mask[pattern.charAt(i)] = 0;
+  }
+
+  for (let i = 0; i < len; i += 1) {
+    mask[pattern.charAt(i)] |= 1 << (len - i - 1);
+  }
+
+  return mask
+}
+
+// Machine word size
+const MAX_BITS = 32;
+
+class BitapSearch {
+  constructor(
+    pattern,
+    {
+      // Approximately where in the text is the pattern expected to be found?
+      location = 0,
+      // Determines how close the match must be to the fuzzy location (specified above).
+      // An exact letter match which is 'distance' characters away from the fuzzy location
+      // would score as a complete mismatch. A distance of '0' requires the match be at
+      // the exact location specified, a threshold of '1000' would require a perfect match
+      // to be within 800 characters of the fuzzy location to be found using a 0.8 threshold.
+      distance = 100,
+      // At what point does the match algorithm give up. A threshold of '0.0' requires a perfect match
+      // (of both letters and location), a threshold of '1.0' would match anything.
+      threshold = 0.6,
+      // Indicates whether comparisons should be case sensitive.
+      isCaseSensitive = false,
+      // When true, the algorithm continues searching to the end of the input even if a perfect
+      // match is found before the end of the same input.
+      findAllMatches = false,
+      // Minimum number of characters that must be matched before a result is considered a match
+      minMatchCharLength = 1,
+
+      includeMatches = false
+    }
+  ) {
+    this.options = {
+      location,
+      distance,
+      threshold,
+      isCaseSensitive,
+      findAllMatches,
+      includeMatches,
+      minMatchCharLength
+    };
+
+    if (pattern.length > MAX_BITS) {
+      throw new Error(`Pattern length exceeds max of ${MAX_BITS}.`)
+    }
+
+    this.pattern = isCaseSensitive ? pattern : pattern.toLowerCase();
+    this.patternAlphabet = patternAlphabet(this.pattern);
+  }
+
+  searchIn(value) {
+    let text = value.$;
+    return this.searchInString(text)
+  }
+
+  searchInString(text) {
+    const { isCaseSensitive, includeMatches } = this.options;
+
+    if (!isCaseSensitive) {
+      text = text.toLowerCase();
+    }
+
+    // Exact match
+    if (this.pattern === text) {
+      let result = {
+        isMatch: true,
+        score: 0
+      };
+
+      if (includeMatches) {
+        result.matchedIndices = [[0, text.length - 1]];
+      }
+
+      return result
+    }
+
+    // Otherwise, use Bitap algorithm
+    const {
+      location,
+      distance,
+      threshold,
+      findAllMatches,
+      minMatchCharLength
+    } = this.options;
+    return bitapSearch(text, this.pattern, this.patternAlphabet, {
+      location,
+      distance,
+      threshold,
+      findAllMatches,
+      minMatchCharLength,
+      includeMatches
+    })
+  }
+}
+
+// Token: 'file
+// Match type: exact-match
+// Description: Items that include `file`
+
+const isForPattern = (pattern) => pattern.charAt(0) == "'";
+
+const sanitize = (pattern) => pattern.substr(1);
+
+const match = (pattern, text) => {
+  const sanitizedPattern = sanitize(pattern);
+  const index = text.indexOf(sanitizedPattern);
+  const isMatch = index > -1;
+
+  return {
+    isMatch,
+    score: 0
+  }
+};
+
+var exactMatch = {
+  isForPattern,
+  sanitize,
+  match
+};
+
+// Token: !fire
+// Match type: inverse-exact-match
+// Description: Items that do not include `fire`
+
+const isForPattern$1 = (pattern) => pattern.charAt(0) == '!';
+
+const sanitize$1 = (pattern) => pattern.substr(1);
+
+const match$1 = (pattern, text) => {
+  const sanitizedPattern = sanitize$1(pattern);
+  const isMatch = text.indexOf(sanitizedPattern) === -1;
+
+  return {
+    isMatch,
+    score: 0
+  }
+};
+
+var inverseExactMatch = {
+  isForPattern: isForPattern$1,
+  sanitize: sanitize$1,
+  match: match$1
+};
+
+// Token: ^file
+// Match type: prefix-exact-match
+// Description: Items that start with `file`
+
+const isForPattern$2 = (pattern) => pattern.charAt(0) == '^';
+
+const sanitize$2 = (pattern) => pattern.substr(1);
+
+const match$2 = (pattern, text) => {
+  const sanitizedPattern = sanitize$2(pattern);
+  const isMatch = text.startsWith(sanitizedPattern);
+
+  return {
+    isMatch,
+    score: 0
+  }
+};
+
+var prefixExactMatch = {
+  isForPattern: isForPattern$2,
+  sanitize: sanitize$2,
+  match: match$2
+};
+
+// Token: !^fire
+// Match type: inverse-prefix-exact-match
+// Description: Items that do not start with `fire`
+
+const isForPattern$3 = (pattern) =>
+  pattern.charAt(0) == '!' && pattern.charAt(1) == '^';
+
+const sanitize$3 = (pattern) => pattern.substr(2);
+
+const match$3 = (pattern, text) => {
+  const sanitizedPattern = sanitize$3(pattern);
+  const isMatch = !text.startsWith(sanitizedPattern);
+
+  return {
+    isMatch,
+    score: 0
+  }
+};
+
+var inversePrefixExactMatch = {
+  isForPattern: isForPattern$3,
+  sanitize: sanitize$3,
+  match: match$3
+};
+
+// Token: .file$
+// Match type: suffix-exact-match
+// Description: Items that end with `.file`
+
+const isForPattern$4 = (pattern) => pattern.charAt(pattern.length - 1) == '$';
+
+const sanitize$4 = (pattern) => pattern.substr(0, pattern.length - 1);
+
+const match$4 = (pattern, text) => {
+  const sanitizedPattern = sanitize$4(pattern);
+  const isMatch = text.endsWith(sanitizedPattern);
+
+  return {
+    isMatch,
+    score: 0
+  }
+};
+
+var suffixExactMatch = {
+  isForPattern: isForPattern$4,
+  sanitize: sanitize$4,
+  match: match$4
+};
+
+// Token: !.file$
+// Match type: inverse-suffix-exact-match
+// Description: Items that do not end with `.file`
+
+const isForPattern$5 = (pattern) =>
+  pattern.charAt(0) == '!' && pattern.charAt(pattern.length - 1) == '$';
+
+const sanitize$5 = (pattern) => pattern.substring(1, pattern.length - 1);
+
+const match$5 = (pattern, text) => {
+  const sanitizedPattern = sanitize$5(pattern);
+  const isMatch = !text.endsWith(sanitizedPattern);
+
+  return {
+    isMatch,
+    score: 0
+  }
+};
+
+var inverseSuffixExactMatch = {
+  isForPattern: isForPattern$5,
+  sanitize: sanitize$5,
+  match: match$5
+};
+
+const INFINITY = 1 / 0;
+
+const isArray = (value) =>
+  !Array.isArray
+    ? Object.prototype.toString.call(value) === '[object Array]'
+    : Array.isArray(value);
+
+// Adapted from:
+// https://github.com/lodash/lodash/blob/f4ca396a796435422bd4fd41fadbd225edddf175/.internal/baseToString.js
+const baseToString = (value) => {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value
+  }
+  let result = value + '';
+  return result == '0' && 1 / value == -INFINITY ? '-0' : result
+};
+
+const toString = (value) => (value == null ? '' : baseToString(value));
+
+const isString = (value) => typeof value === 'string';
+
+const isNumber = (value) => typeof value === 'number';
+
+const isDefined = (value) => value !== undefined && value !== null;
+
+// Return a 2D array representation of the query, for simpler parsing.
+// Example:
+// "^core go$ | rb$ | py$ xy$" => [["^core", "go$"], ["rb$"], ["py$", "xy$"]]
+const queryfy = (pattern) =>
+  pattern.split('|').map((item) => item.trim().split(/ +/g));
+
+/**
+ * Command-like searching
+ * ======================
+ *
+ * Given multiple search terms delimited by spaces.e.g. `^jscript .python$ ruby !java`,
+ * search in a given text.
+ *
+ * Search syntax:
+ *
+ * | Token       | Match type                 | Description                            |
+ * | ----------- | -------------------------- | -------------------------------------- |
+ * | `jscript`   | fuzzy-match                | Items that match `jscript`             |
+ * | `'python`   | exact-match                | Items that include `python`            |
+ * | `!ruby`     | inverse-exact-match        | Items that do not include `ruby`       |
+ * | `^java`     | prefix-exact-match         | Items that start with `java`           |
+ * | `!^earlang` | inverse-prefix-exact-match | Items that do not start with `earlang` |
+ * | `.js$`      | suffix-exact-match         | Items that end with `.js`              |
+ * | `!.go$`     | inverse-suffix-exact-match | Items that do not end with `.go`       |
+ *
+ * A single pipe character acts as an OR operator. For example, the following
+ * query matches entries that start with `core` and end with either`go`, `rb`,
+ * or`py`.
+ *
+ * ```
+ * ^core go$ | rb$ | py$
+ * ```
+ */
+class ExtendedSearch {
+  constructor(pattern, options) {
+    const { isCaseSensitive } = options;
+    this.query = null;
+    this.options = options;
+    // A <pattern>:<BitapSearch> key-value pair for optimizing searching
+    this._fuzzyCache = {};
+
+    if (isString(pattern) && pattern.trim().length > 0) {
+      this.pattern = isCaseSensitive ? pattern : pattern.toLowerCase();
+      this.query = queryfy(this.pattern);
+    }
+  }
+
+  searchIn(value) {
+    const query = this.query;
+
+    if (!this.query) {
+      return {
+        isMatch: false,
+        score: 1
+      }
+    }
+
+    let text = value.$;
+
+    text = this.options.isCaseSensitive ? text : text.toLowerCase();
+
+    let matchFound = false;
+
+    for (let i = 0, qLen = query.length; i < qLen; i += 1) {
+      const parts = query[i];
+      let result = null;
+      matchFound = true;
+
+      for (let j = 0, pLen = parts.length; j < pLen; j += 1) {
+        let token = parts[j];
+        result = this._search(token, text);
+        if (!result.isMatch) {
+          // AND condition, short-circuit and move on to next part
+          matchFound = false;
+          break
+        }
+      }
+
+      // OR condition, so if TRUE, return
+      if (matchFound) {
+        return result
+      }
+    }
+
+    // Nothing was matched
+    return {
+      isMatch: false,
+      score: 1
+    }
+  }
+
+  _search(pattern, text) {
+    if (exactMatch.isForPattern(pattern)) {
+      return exactMatch.match(pattern, text)
+    } else if (prefixExactMatch.isForPattern(pattern)) {
+      return prefixExactMatch.match(pattern, text)
+    } else if (inversePrefixExactMatch.isForPattern(pattern)) {
+      return inversePrefixExactMatch.match(pattern, text)
+    } else if (inverseSuffixExactMatch.isForPattern(pattern)) {
+      return inverseSuffixExactMatch.match(pattern, text)
+    } else if (suffixExactMatch.isForPattern(pattern)) {
+      return suffixExactMatch.match(pattern, text)
+    } else if (inverseExactMatch.isForPattern(pattern)) {
+      return inverseExactMatch.match(pattern, text)
+    } else {
+      let searcher = this._fuzzyCache[pattern];
+      if (!searcher) {
+        searcher = new BitapSearch(pattern, this.options);
+        this._fuzzyCache[pattern] = searcher;
+      }
+      return searcher.searchInString(text)
+    }
+  }
+}
+
+const NGRAM_LEN = 3;
+
+function ngram(
+  text,
+  { n = NGRAM_LEN, pad = true, sort = false }
+) {
+  let nGrams = [];
+
+  if (text === null || text === undefined) {
+    return nGrams
+  }
+
+  text = text.toLowerCase();
+  if (pad) {
+    text = ` ${text} `;
+  }
+
+  let index = text.length - n + 1;
+  if (index < 1) {
+    return nGrams
+  }
+
+  while (index--) {
+    nGrams[index] = text.substr(index, n);
+  }
+
+  if (sort) {
+    nGrams.sort((a, b) => (a == b ? 0 : a < b ? -1 : 1));
+  }
+
+  return nGrams
+}
+
+// Assumes arrays are sorted
+function union (arr1, arr2) {
+  let result = [];
+  let i = 0;
+  let j = 0;
+
+  while (i < arr1.length && j < arr2.length) {
+    let item1 = arr1[i];
+    let item2 = arr2[j];
+
+    if (item1 < item2) {
+      result.push(item1);
+      i += 1;
+    } else if (item2 < item1) {
+      result.push(item2);
+      j += 1;
+    } else {
+      result.push(item2);
+      i += 1;
+      j += 1;
+    }
+  }
+
+  while (i < arr1.length) {
+    result.push(arr1[i]);
+    i += 1;
+  }
+
+  while (j < arr2.length) {
+    result.push(arr2[j]);
+    j += 1;
+  }
+
+  return result
+}
+
+// Assumes arrays are sorted
+function intersection(arr1, arr2) {
+  let result = [];
+  let i = 0;
+  let j = 0;
+
+  while (i < arr1.length && j < arr2.length) {
+    let item1 = arr1[i];
+    let item2 = arr2[j];
+
+    if (item1 == item2) {
+      result.push(item1);
+      i += 1;
+      j += 1;
+    } else if (item1 < item2) {
+      i += 1;
+    } else if (item1 > item2) {
+      j += 1;
+    } else {
+      i += 1;
+      j += 1;
+    }
+  }
+
+  return result
+}
+
+function jaccardDistance(nGram1, nGram2) {
+  let nGramUnion = union(nGram1, nGram2);
+  let nGramIntersection = intersection(nGram1, nGram2);
+
+  return 1 - nGramIntersection.length / nGramUnion.length
+}
+
+class NGramSearch {
+  constructor(pattern, options = { threshold: 0.6 }) {
+    // Create the ngram, and sort it
+    this.options = options;
+    this.patternNgram = ngram(pattern, { sort: true });
+  }
+  searchIn(value) {
+    let textNgram = value.ng;
+    if (!textNgram) {
+      textNgram = ngram(value.$, { sort: true });
+      value.ng = textNgram;
+    }
+
+    let jacardResult = jaccardDistance(this.patternNgram, textNgram);
+
+    const isMatch = jacardResult < this.options.threshold;
+
+    return {
+      score: isMatch ? jacardResult : 1,
+      isMatch
+    }
+  }
+}
+
+function get(obj, path) {
+  let list = [];
+  let arr = false;
+
+  const _get = (obj, path) => {
+    if (!path) {
+      // If there's no path left, we've gotten to the object we care about.
+      list.push(obj);
+    } else {
+      const dotIndex = path.indexOf('.');
+
+      let key = path;
+      let remaining = null;
+
+      if (dotIndex !== -1) {
+        key = path.slice(0, dotIndex);
+        remaining = path.slice(dotIndex + 1);
+      }
+
+      const value = obj[key];
+
+      if (isDefined(value)) {
+        if (!remaining && (isString(value) || isNumber(value))) {
+          list.push(toString(value));
+        } else if (isArray(value)) {
+          arr = true;
+          // Search each item in the array.
+          for (let i = 0, len = value.length; i < len; i += 1) {
+            _get(value[i], remaining);
+          }
+        } else if (remaining) {
+          // An object. Recurse further.
+          _get(value, remaining);
+        }
+      }
+    }
+  };
+
+  _get(obj, path);
+
+  if (arr) {
+    return list
+  }
+
+  return list[0]
+}
+
+function createIndex(
+  keys,
+  list,
+  { getFn = get, ngrams = false } = {}
+) {
+  let indexedList = [];
+
+  // List is Array<String>
+  if (isString(list[0])) {
+    // Iterate over every string in the list
+    for (let i = 0, len = list.length; i < len; i += 1) {
+      const value = list[i];
+
+      if (isDefined(value)) {
+        // if (!isCaseSensitive) {
+        //   value = value.toLowerCase()
+        // }
+
+        let record = {
+          $: value,
+          idx: i
+        };
+
+        if (ngrams) {
+          record.ng = ngram(value, { sort: true });
+        }
+
+        indexedList.push(record);
+      }
+    }
+  } else {
+    // List is Array<Object>
+    const keysLen = keys.length;
+
+    for (let i = 0, len = list.length; i < len; i += 1) {
+      let item = list[i];
+
+      let record = { idx: i, $: {} };
+
+      // Iterate over every key (i.e, path), and fetch the value at that key
+      for (let j = 0; j < keysLen; j += 1) {
+        let key = keys[j];
+        let value = getFn(item, key);
+
+        if (!isDefined(value)) {
+          continue
+        }
+
+        if (isArray(value)) {
+          let subRecords = [];
+          const stack = [{ arrayIndex: -1, value }];
+
+          while (stack.length) {
+            const { arrayIndex, value } = stack.pop();
+
+            if (!isDefined(value)) {
+              continue
+            }
+
+            if (isString(value)) {
+              // if (!isCaseSensitive) {
+              //   v = v.toLowerCase()
+              // }
+
+              let subRecord = { $: value, idx: arrayIndex };
+
+              if (ngrams) {
+                subRecord.ng = ngram(value, { sort: true });
+              }
+
+              subRecords.push(subRecord);
+            } else if (isArray(value)) {
+              for (let k = 0, arrLen = value.length; k < arrLen; k += 1) {
+                stack.push({
+                  arrayIndex: k,
+                  value: value[k]
+                });
+              }
+            }
+          }
+          record.$[key] = subRecords;
+        } else {
+          // if (!isCaseSensitive) {
+          //   value = value.toLowerCase()
+          // }
+
+          let subRecord = { $: value };
+
+          if (ngrams) {
+            subRecord.ng = ngram(value, { sort: true });
+          }
+
+          record.$[key] = subRecord;
+        }
+      }
+
+      indexedList.push(record);
+    }
+  }
+
+  return indexedList
+}
+
+class KeyStore {
+  constructor(keys) {
+    this._keys = {};
+    this._keyNames = [];
+    this._length = keys.length;
+
+    // Iterate over every key
+    if (keys.length && isString(keys[0])) {
+      for (let i = 0; i < this._length; i += 1) {
+        const key = keys[i];
+        this._keys[key] = {
+          weight: 1
+        };
+        this._keyNames.push(key);
+      }
+    } else {
+      let totalWeight = 0;
+
+      for (let i = 0; i < this._length; i += 1) {
+        const key = keys[i];
+
+        if (!Object.prototype.hasOwnProperty.call(key, 'name')) {
+          throw new Error('Missing "name" property in key object')
+        }
+
+        const keyName = key.name;
+        this._keyNames.push(keyName);
+
+        if (!Object.prototype.hasOwnProperty.call(key, 'weight')) {
+          throw new Error('Missing "weight" property in key object')
+        }
+
+        const weight = key.weight;
+
+        if (weight <= 0 || weight >= 1) {
+          throw new Error(
+            '"weight" property in key must be in the range of (0, 1)'
+          )
+        }
+
+        this._keys[keyName] = {
+          weight
+        };
+
+        totalWeight += weight;
+      }
+
+      // Normalize weights so that their sum is equal to 1
+      for (let i = 0; i < this._length; i += 1) {
+        const keyName = this._keyNames[i];
+        const keyWeight = this._keys[keyName].weight;
+        this._keys[keyName].weight = keyWeight / totalWeight;
+      }
+    }
+  }
+  get(key, name) {
+    return this._keys[key] ? this._keys[key][name] : -1
+  }
+  keys() {
+    return this._keyNames
+  }
+  count() {
+    return this._length
+  }
+  toJSON() {
+    return JSON.stringify(this._keys)
+  }
+}
+
+function transformMatches(result, data) {
+  const matches = result.matches;
+  data.matches = [];
+
+  if (!isDefined(matches)) {
+    return
+  }
+
+  for (let i = 0, len = matches.length; i < len; i += 1) {
+    let match = matches[i];
+
+    if (!isDefined(match.indices) || match.indices.length === 0) {
+      continue
+    }
+
+    let obj = {
+      indices: match.indices,
+      value: match.value
+    };
+
+    if (match.key) {
+      obj.key = match.key;
+    }
+
+    if (match.idx > -1) {
+      obj.refIndex = match.idx;
+    }
+
+    data.matches.push(obj);
+  }
+}
+
+function transformScore(result, data) {
+  data.score = result.score;
+}
+
+const BasicOptions = {
+  // When true, the algorithm continues searching to the end of the input even if a perfect
+  // match is found before the end of the same input.
+  isCaseSensitive: false,
+  // Minimum number of characters that must be matched before a result is considered a match
+  findAllMatches: false,
+  includeMatches: false,
+  includeScore: false,
+  // List of properties that will be searched. This also supports nested properties.
+  keys: [],
+  // Minimum number of characters that must be matched before a result is considered a match
+  minMatchCharLength: 1,
+  // Whether to sort the result list, by score
+  shouldSort: true,
+  // Default sort function
+  sortFn: (a, b) => a.score - b.score
+};
+
+const FuzzyOptions = {
+  // Approximately where in the text is the pattern expected to be found?
+  location: 0,
+  // At what point does the match algorithm give up. A threshold of '0.0' requires a perfect match
+  // (of both letters and location), a threshold of '1.0' would match anything.
+  threshold: 0.6,
+  // Determines how close the match must be to the fuzzy location (specified above).
+  // An exact letter match which is 'distance' characters away from the fuzzy location
+  // would score as a complete mismatch. A distance of '0' requires the match be at
+  // the exact location specified, a threshold of '1000' would require a perfect match
+  // to be within 800 characters of the fuzzy location to be found using a 0.8 threshold.
+  distance: 100
+};
+
+const AdvancedOptions = {
+  // Enabled extended-searching
+  useExtendedSearch: false,
+  // The get function to use when fetching an object's properties.
+  // The default will search nested paths *ie foo.bar.baz*
+  getFn: get
+};
+
+const defaultOptions = {
+  ...BasicOptions,
+  ...FuzzyOptions,
+  ...AdvancedOptions
+};
+
+class Fuse {
+  constructor(list, options = defaultOptions, index = null) {
+    this.options = { ...defaultOptions, ...options };
+    // `caseSensitive` is deprecated, use `isCaseSensitive` instead
+    this.options.isCaseSensitive = options.caseSensitive;
+    delete this.options.caseSensitive;
+
+    this._processKeys(this.options.keys);
+    this.setCollection(list, index);
+  }
+
+  setCollection(list, index = null) {
+    this.list = list;
+    this.listIsStringArray = isString(list[0]);
+
+    if (index) {
+      this.setIndex(index);
+    } else {
+      this.setIndex(this._createIndex());
+    }
+  }
+
+  setIndex(listIndex) {
+    this._indexedList = listIndex;
+  }
+
+  _processKeys(keys) {
+    this._keyStore = new KeyStore(keys);
+  }
+
+  _createIndex() {
+    return createIndex(this._keyStore.keys(), this.list, {
+      getFn: this.options.getFn
+    })
+  }
+
+  search(pattern, opts = { limit: false }) {
+    const { useExtendedSearch, shouldSort } = this.options;
+
+    let searcher = null;
+
+    if (useExtendedSearch) {
+      searcher = new ExtendedSearch(pattern, this.options);
+    } else if (pattern.length > MAX_BITS) {
+      searcher = new NGramSearch(pattern, this.options);
+    } else {
+      searcher = new BitapSearch(pattern, this.options);
+    }
+
+    let results = this._searchUsing(searcher);
+
+    this._computeScore(results);
+
+    if (shouldSort) {
+      this._sort(results);
+    }
+
+    if (opts.limit && isNumber(opts.limit)) {
+      results = results.slice(0, opts.limit);
+    }
+
+    return this._format(results)
+  }
+
+  _searchUsing(searcher) {
+    const list = this._indexedList;
+    const results = [];
+    const { includeMatches } = this.options;
+
+    // List is Array<String>
+    if (this.listIsStringArray) {
+      // Iterate over every string in the list
+      for (let i = 0, len = list.length; i < len; i += 1) {
+        let value = list[i];
+        let { $: text, idx } = value;
+
+        if (!isDefined(text)) {
+          continue
+        }
+
+        let searchResult = searcher.searchIn(value);
+
+        const { isMatch, score } = searchResult;
+
+        if (!isMatch) {
+          continue
+        }
+
+        let match = { score, value: text };
+
+        if (includeMatches) {
+          match.indices = searchResult.matchedIndices;
+        }
+
+        results.push({
+          item: text,
+          idx,
+          matches: [match]
+        });
+      }
+    } else {
+      // List is Array<Object>
+      const keyNames = this._keyStore.keys();
+      const keysLen = this._keyStore.count();
+
+      for (let i = 0, len = list.length; i < len; i += 1) {
+        let { $: item, idx } = list[i];
+
+        if (!isDefined(item)) {
+          continue
+        }
+
+        let matches = [];
+
+        // Iterate over every key (i.e, path), and fetch the value at that key
+        for (let j = 0; j < keysLen; j += 1) {
+          let key = keyNames[j];
+          let value = item[key];
+
+          if (!isDefined(value)) {
+            continue
+          }
+
+          if (isArray(value)) {
+            for (let k = 0, len = value.length; k < len; k += 1) {
+              let arrItem = value[k];
+              let text = arrItem.$;
+              let idx = arrItem.idx;
+
+              if (!isDefined(text)) {
+                continue
+              }
+
+              let searchResult = searcher.searchIn(arrItem);
+
+              const { isMatch, score } = searchResult;
+
+              if (!isMatch) {
+                continue
+              }
+
+              let match = { score, key, value: text, idx };
+
+              if (includeMatches) {
+                match.indices = searchResult.matchedIndices;
+              }
+
+              matches.push(match);
+            }
+          } else {
+            let text = value.$;
+            let searchResult = searcher.searchIn(value);
+
+            const { isMatch, score } = searchResult;
+
+            if (!isMatch) {
+              continue
+            }
+
+            let match = { score, key, value: text };
+
+            if (includeMatches) {
+              match.indices = searchResult.matchedIndices;
+            }
+
+            matches.push(match);
+          }
+        }
+
+        if (matches.length) {
+          results.push({
+            idx,
+            item,
+            matches
+          });
+        }
+      }
+    }
+
+    return results
+  }
+
+  _computeScore(results) {
+    for (let i = 0, len = results.length; i < len; i += 1) {
+      const result = results[i];
+      const matches = result.matches;
+      const scoreLen = matches.length;
+
+      let totalWeightedScore = 1;
+
+      for (let j = 0; j < scoreLen; j += 1) {
+        const item = matches[j];
+        const key = item.key;
+        const keyWeight = this._keyStore.get(key, 'weight');
+        const weight = keyWeight > -1 ? keyWeight : 1;
+        const score =
+          item.score === 0 && keyWeight > -1 ? Number.EPSILON : item.score;
+
+        totalWeightedScore *= Math.pow(score, weight);
+      }
+
+      result.score = totalWeightedScore;
+    }
+  }
+
+  _sort(results) {
+    results.sort(this.options.sortFn);
+  }
+
+  _format(results) {
+    const finalOutput = [];
+
+    const { includeMatches, includeScore } = this.options;
+
+    let transformers = [];
+
+    if (includeMatches) transformers.push(transformMatches);
+    if (includeScore) transformers.push(transformScore);
+
+    for (let i = 0, len = results.length; i < len; i += 1) {
+      const result = results[i];
+      const { idx } = result;
+
+      const data = {
+        item: this.list[idx],
+        refIndex: idx
+      };
+
+      if (transformers.length) {
+        for (let j = 0, len = transformers.length; j < len; j += 1) {
+          transformers[j](result, data);
+        }
+      }
+
+      finalOutput.push(data);
+    }
+
+    return finalOutput
+  }
+}
+
+Fuse.version = '5.1.0';
+Fuse.createIndex = createIndex;
+Fuse.defaultOptions = defaultOptions;
+
+/* harmony default export */ __webpack_exports__["default"] = (Fuse);
 
 
 /***/ }),
@@ -50097,6 +51699,36 @@ Sortable.mount(Remove, Revert);
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Story.vue?vue&type=style&index=0&id=3849ef1a&lang=scss&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Story.vue?vue&type=style&index=0&id=3849ef1a&lang=scss&scoped=true& ***!
@@ -50934,7 +52566,7 @@ var render = function() {
                     "fixed top-0 right-0 bg-orange text-black font-mono text-sm py-2 px-4 rounded-b-left shadow-lg hidden md:inline-block",
                   staticStyle: {
                     "border-bottom-left-radius": "5px",
-                    color: "rgba(0,0,0,.8)",
+                    color: "rgba(0, 0, 0, 0.8)",
                     right: "3.2rem"
                   },
                   attrs: { href: "/admin" }
@@ -51995,6 +53627,72 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=template&id=ef782e08&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Dropdown.vue?vue&type=template&id=ef782e08&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "relative dropdown inline-block" },
+    [
+      _c(
+        "div",
+        {
+          ref: _vm.triggerContainerRef,
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.toggle($event)
+            }
+          }
+        },
+        [_vm._t("trigger", null, { state: _vm.state })],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "portal",
+        { attrs: { to: "end-of-document" } },
+        [
+          _c("transition", { attrs: { name: "dropdown" } }, [
+            _vm.isOpen
+              ? _c(
+                  "div",
+                  {
+                    ref: "dropdownContent",
+                    staticClass: "dropdown__content",
+                    style: _vm.dropdownStyle
+                  },
+                  [_vm._t("content", null, { close: _vm.close })],
+                  2
+                )
+              : _vm._e()
+          ])
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Explore.vue?vue&type=template&id=fdb0bb10&":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Explore.vue?vue&type=template&id=fdb0bb10& ***!
@@ -52022,7 +53720,7 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-x-0 md:inset-x-auto md:right-0 top-0 bg-white pt-4 transition md:min-w-md overflow-y-scroll overflow-x-hidden",
+        "fixed inset-x-0 md:inset-x-auto md:right-0 top-0 bg-white pt-4 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible",
       staticStyle: {
         "min-height": "100vh",
         "max-width": "40rem",
@@ -52063,7 +53761,7 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "px-8" }, [
+      _c("div", { staticClass: "px-8 md:overflow-y-scroll md:h-full" }, [
         _c(
           "h1",
           {
@@ -52216,141 +53914,107 @@ var render = function() {
       staticClass: "leading-tight text-left px-5 h-full flex flex-col relative"
     },
     [
-      _c("h1", { staticClass: "font-display text-lg font-black mb-5" }, [
-        _vm._v("FILTER STORIES")
-      ]),
-      _vm._v(" "),
       _c(
-        "div",
-        {
-          staticClass:
-            "flex border-b-2 border-black pb-2 justify-between flex-shrink-0"
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "flex" },
-            [
-              _c(
-                "filter-button",
-                {
-                  attrs: {
-                    "collection-name": "days",
-                    filter: "day",
-                    filters: _vm.filters,
-                    "active-filter": _vm.activeFilter
-                  },
-                  on: { click: _vm.setActiveFilter }
-                },
-                [_vm._v("Date")]
-              ),
-              _vm._v(" "),
-              _c(
-                "filter-button",
-                {
-                  attrs: {
-                    "collection-name": "names",
-                    filter: "subject",
-                    filters: _vm.filters,
-                    "active-filter": _vm.activeFilter
-                  },
-                  on: { click: _vm.setActiveFilter }
-                },
-                [_vm._v("Name")]
-              ),
-              _vm._v(" "),
-              _c(
-                "filter-button",
-                {
-                  attrs: {
-                    "collection-name": "roles",
-                    filter: "role",
-                    filters: _vm.filters,
-                    "active-filter": _vm.activeFilter
-                  },
-                  on: { click: _vm.setActiveFilter }
-                },
-                [_vm._v("Role")]
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.filters.length > 0
-            ? _c(
-                "clickable",
-                {
-                  staticClass: "text-xs opacity-25",
-                  on: { click: _vm.clearFilters }
-                },
-                [_vm._v("× Clear All Filters")]
-              )
-            : _vm._e()
-        ],
-        1
+        "h1",
+        { staticClass: "font-display text-3xl font-black mb-5 uppercase" },
+        [_vm._v("FILTER LOCATIONS")]
       ),
       _vm._v(" "),
-      _c(
-        "ul",
-        { staticClass: "flex-grow overflow-auto mb-5 pt-5" },
-        _vm._l(_vm.filterItems, function(item, i) {
-          return _c(
-            "li",
-            { key: i, staticClass: "flex mb-4" },
-            [
-              _c(
-                "clickable",
-                {
-                  staticClass: "text-left flex",
-                  staticStyle: { "line-height": "1.4" },
-                  on: {
-                    click: function() {
-                      return _vm.toggleFilter({
-                        key: _vm.activeFilter,
-                        value: item
-                      })
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "w-5 h-5 rounded border transition mr-2 flex-shrink-0 flex justify-center",
-                      class: {
-                        "bg-blue": _vm.itemSelected(item),
-                        "border-blue border-b-black ": _vm.itemSelected(item),
-                        "border-black": !_vm.itemSelected(item)
-                      }
-                    },
-                    [
-                      _c(
-                        "span",
-                        {
-                          staticClass: "transition self-center",
-                          class: { "opacity-0": !_vm.itemSelected(item) },
-                          style: {
-                            transform:
-                              "translateY(" +
-                              (!_vm.itemSelected(item) ? ".05rem" : 0) +
-                              ")"
+      _vm._l(_vm.filters, function(filter, i) {
+        return _c(
+          "div",
+          { key: i, staticClass: "flex mb-4" },
+          [
+            _c(
+              "selectbox",
+              {
+                staticClass: "w-32",
+                attrs: { options: _vm.days },
+                model: {
+                  value: filter.day,
+                  callback: function($$v) {
+                    _vm.$set(filter, "day", $$v)
+                  },
+                  expression: "filter.day"
+                }
+              },
+              [_vm._v("Day")]
+            ),
+            _vm._v(" "),
+            _c(
+              "selectbox",
+              {
+                staticClass: "flex-grow ml-4",
+                attrs: { options: _vm.roles },
+                model: {
+                  value: filter.role,
+                  callback: function($$v) {
+                    _vm.$set(filter, "role", $$v)
+                  },
+                  expression: "filter.role"
+                }
+              },
+              [_vm._v("Role")]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "ml-4 w-8 flex items-center" },
+              [
+                _vm.filters.length !== 1 && i !== _vm.filters.length - 1
+                  ? _c(
+                      "clickable",
+                      {
+                        staticClass:
+                          "w-8 h-8 rounded-full bg-white shadow flex items-center justify-center",
+                        on: {
+                          click: function($event) {
+                            $event.stopPropagation()
+                            return _vm.removeFilter(i)
                           }
-                        },
-                        [_vm._v("✓")]
-                      )
-                    ]
-                  ),
-                  _vm._v("\n        " + _vm._s(item) + "\n      ")
-                ]
-              )
-            ],
-            1
-          )
-        }),
-        0
-      )
-    ]
+                        }
+                      },
+                      [
+                        _c("plus-icon", {
+                          staticClass: "w-4 h-4",
+                          staticStyle: {
+                            transform: "rotate(45deg)",
+                            color: "rgba(0,0,0,.6)"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                i === _vm.filters.length - 1
+                  ? _c(
+                      "clickable",
+                      {
+                        staticClass:
+                          "w-8 h-8 rounded-full bg-black flex items-center justify-center",
+                        class: { "opacity-25": _vm.filters.length === 4 },
+                        attrs: { disabled: _vm.filters.length === 4 },
+                        on: {
+                          click: function($event) {
+                            $event.stopPropagation()
+                            return _vm.addFilter($event)
+                          }
+                        }
+                      },
+                      [_c("plus-icon", { staticClass: "w-4 h-4 text-white" })],
+                      1
+                    )
+                  : _vm._e()
+              ],
+              1
+            )
+          ],
+          1
+        )
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -52504,10 +54168,8 @@ var render = function() {
         {
           name: "click-outside",
           rawName: "v-click-outside",
-          value: function() {
-            return _vm.setState("default")
-          },
-          expression: "() => setState('default')"
+          value: _vm.handleClickOutside,
+          expression: "handleClickOutside"
         }
       ],
       staticClass: "fixed top-0 w-full transition",
@@ -52626,7 +54288,7 @@ var render = function() {
                     staticClass: "w-full h-full transition"
                   }),
                   _vm._v(" "),
-                  _vm.filters.length > 0
+                  _vm.validFilters.length > 0
                     ? _c(
                         "div",
                         {
@@ -52635,7 +54297,7 @@ var render = function() {
                         },
                         [
                           _c("span", { staticClass: "text-2xs" }, [
-                            _vm._v(_vm._s(_vm.filters.length))
+                            _vm._v(_vm._s(_vm.validFilters.length))
                           ])
                         ]
                       )
@@ -54122,9 +55784,11 @@ var render = function() {
       staticClass: "leading-tight text-left px-5 h-full flex flex-col relative"
     },
     [
-      _c("h1", { staticClass: "font-display text-lg font-black mb-3" }, [
-        _vm._v("SEARCH STORIES")
-      ]),
+      _c(
+        "h1",
+        { staticClass: "font-display text-3xl font-black uppercase mb-3" },
+        [_vm._v("\n        search directory\n    ")]
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -54142,7 +55806,7 @@ var render = function() {
             staticClass: "flex-grow py-2 focus:outline-none",
             attrs: {
               type: "text",
-              placeholder: "Search by Name, Location, Role"
+              placeholder: "Search by Name, Place, or Day"
             },
             domProps: { value: _vm.q },
             on: {
@@ -54168,7 +55832,7 @@ var render = function() {
             {
               staticClass:
                 "inset-x-0 bg-white overflow-auto absolute z-50 border-b border-g px-5",
-              staticStyle: { top: "5rem", bottom: "1rem" }
+              staticStyle: { top: "6.26rem", bottom: "1rem" }
             },
             _vm._l(_vm.results, function(result, i) {
               return _c(
@@ -54177,19 +55841,36 @@ var render = function() {
                   key: i,
                   staticClass: "px-8 py-4 hover:bg-grey-100 block border-white",
                   class: { "border-t-2": i > 0 },
-                  style: { background: _vm.getStoryColor(result) },
-                  attrs: { to: result.path }
+                  style: { background: result.color },
+                  attrs: { to: "/stories/" + result.id }
                 },
                 [
                   _c("h1", { staticClass: "text-grey-800 font-bold mb-2" }, [
-                    _vm._v(_vm._s(result.title))
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(result.subject) +
+                        "\n            "
+                    )
                   ]),
                   _vm._v(" "),
-                  _c("p", {
-                    staticClass:
-                      "font-light leading-tight tracking-tight opacity-75",
-                    domProps: { innerHTML: _vm._s(result.subtitle) }
-                  })
+                  _c(
+                    "p",
+                    {
+                      staticClass:
+                        "font-light leading-tight tracking-tight opacity-75"
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(result.day) +
+                          " ·\n                " +
+                          _vm._s(
+                            _vm.truncate(result.content, { length: 150 })
+                          ) +
+                          "\n            "
+                      )
+                    ]
+                  )
                 ]
               )
             }),
@@ -54236,6 +55917,94 @@ var render = function() {
         }
       })
     ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SelectBox.vue?vue&type=template&id=5d2959d4&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SelectBox.vue?vue&type=template&id=5d2959d4& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "dropdown",
+    { attrs: { "align-content": "left" } },
+    [
+      _c(
+        "clickable",
+        {
+          staticClass:
+            "font-mono border-2 border-black text-black flex justify-between p-4 items-center font-bold w-full",
+          attrs: { slot: "trigger" },
+          slot: "trigger"
+        },
+        [
+          !_vm.value
+            ? _c("span", [_vm._t("default")], 2)
+            : _c("span", [_vm._v(_vm._s(_vm.selectedLabel))]),
+          _vm._v(" "),
+          _c("span", { staticClass: "inline-block ml-4" }, [_vm._v("▼")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "flex flex-col border-2 border-t-0 border-black",
+          attrs: { slot: "content" },
+          slot: "content"
+        },
+        [
+          _c(
+            "clickable",
+            {
+              staticClass: "p-4 font-mono text-left font-bold",
+              class: _vm.getButtonClass(undefined),
+              on: {
+                click: function($event) {
+                  return _vm.$emit("input", undefined)
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.emptyLabel))]
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.options, function(option, i) {
+            return _c(
+              "clickable",
+              {
+                key: i,
+                staticClass: "p-4 font-mono text-left font-bold",
+                class: _vm.getButtonClass(option),
+                on: {
+                  click: function($event) {
+                    return _vm.handleClick(option)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm.getOptionLabel(option)))]
+            )
+          })
+        ],
+        2
+      )
+    ],
+    1
   )
 }
 var staticRenderFns = []
@@ -76251,6 +78020,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Dropdown.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Dropdown.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Dropdown_vue_vue_type_template_id_ef782e08_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Dropdown.vue?vue&type=template&id=ef782e08&scoped=true& */ "./resources/js/components/Dropdown.vue?vue&type=template&id=ef782e08&scoped=true&");
+/* harmony import */ var _Dropdown_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Dropdown.vue?vue&type=script&lang=js& */ "./resources/js/components/Dropdown.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Dropdown_vue_vue_type_style_index_0_id_ef782e08_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss& */ "./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Dropdown_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Dropdown_vue_vue_type_template_id_ef782e08_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Dropdown_vue_vue_type_template_id_ef782e08_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "ef782e08",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Dropdown.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Dropdown.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Dropdown.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Dropdown.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss& ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_style_index_0_id_ef782e08_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_style_index_0_id_ef782e08_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_style_index_0_id_ef782e08_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_style_index_0_id_ef782e08_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_style_index_0_id_ef782e08_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_style_index_0_id_ef782e08_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Dropdown.vue?vue&type=template&id=ef782e08&scoped=true&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/Dropdown.vue?vue&type=template&id=ef782e08&scoped=true& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_template_id_ef782e08_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Dropdown.vue?vue&type=template&id=ef782e08&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=template&id=ef782e08&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_template_id_ef782e08_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_template_id_ef782e08_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Explore.vue":
 /*!*********************************************!*\
   !*** ./resources/js/components/Explore.vue ***!
@@ -77841,6 +79697,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/SelectBox.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/SelectBox.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SelectBox_vue_vue_type_template_id_5d2959d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectBox.vue?vue&type=template&id=5d2959d4& */ "./resources/js/components/SelectBox.vue?vue&type=template&id=5d2959d4&");
+/* harmony import */ var _SelectBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectBox.vue?vue&type=script&lang=js& */ "./resources/js/components/SelectBox.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SelectBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SelectBox_vue_vue_type_template_id_5d2959d4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SelectBox_vue_vue_type_template_id_5d2959d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/SelectBox.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/SelectBox.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/SelectBox.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SelectBox.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SelectBox.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/SelectBox.vue?vue&type=template&id=5d2959d4&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/SelectBox.vue?vue&type=template&id=5d2959d4& ***!
+  \******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBox_vue_vue_type_template_id_5d2959d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SelectBox.vue?vue&type=template&id=5d2959d4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SelectBox.vue?vue&type=template&id=5d2959d4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBox_vue_vue_type_template_id_5d2959d4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBox_vue_vue_type_template_id_5d2959d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Spinner.vue":
 /*!*********************************************!*\
   !*** ./resources/js/components/Spinner.vue ***!
@@ -78751,11 +80676,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -78770,15 +80701,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     updateMarkerElements: function updateMarkerElements() {
+      var _this = this;
+
       $(".marker").css({
         opacity: 1
       });
 
-      if (!this.isLocation) {
+      if (!this.isLocation && this.validFilters.length === 0) {
         $("canvas").css({
           opacity: "1"
         });
         this.resetActiveMarkers();
+      } else if (!this.isLocation && this.validFilters.length > 0) {
+        this.mapboxMarkers.forEach(function (marker) {
+          var markerStoriesMatchingAnyFilterSet = marker.place.stories.filter(function (s) {
+            var passingFilters = _this.validFilters.filter(function (f) {
+              if (f.day && s.day) {
+                return f.day == s.day && f.role === s.role;
+              }
+
+              if (f.day) {
+                return f.day.trim() === s.day;
+              }
+
+              if (f.role) {
+                return f.role === s.role;
+              }
+            });
+
+            return passingFilters.length !== 0;
+          });
+
+          if (markerStoriesMatchingAnyFilterSet.length === 0) {
+            $(marker._element).css({
+              opacity: 0.3
+            });
+          } else {
+            $(marker._element).css({
+              opacity: 1
+            });
+          }
+        });
       } else {
         $("canvas").css({
           opacity: "0.5"
@@ -78803,7 +80766,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _handleMarkerClick = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(marker, e) {
-        var _this = this;
+        var _this2 = this;
 
         var currentZoom;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -78823,7 +80786,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                  */
 
                 setTimeout(function () {
-                  _this.$emit("location-clicked", marker.place);
+                  _this2.$emit("location-clicked", marker.place);
 
                   $(e.target).addClass("active");
                 }, 300);
@@ -78843,7 +80806,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return handleMarkerClick;
     }()
   },
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(["validFilters"]), {
     markers: function markers(_ref) {
       var places = _ref.places;
       return places.map(function (p) {
@@ -78860,29 +80823,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         };
       });
     }
-  },
+  }),
   watch: {
+    validFilters: {
+      deep: true,
+      handler: function handler(filters) {
+        this.updateMarkerElements();
+      }
+    },
     $route: function $route($newRoute, $oldRoute) {
       this.updateMarkerElements();
-    },
-    filters: function filters(_filters) {
-      this.mapboxMarkers.forEach(function (mbm) {
-        var filteredStories = mbm.place.stories.filter(function (item) {
-          for (var i = 0; i < _filters.length; i++) {
-            var filter = _filters[i];
-
-            if (item[filter.key.trim()] === filter.value.trim()) {
-              return true;
-            }
-          }
-
-          return false;
-        });
-        var shouldSupressMaker = filteredStories.length === 0 && _filters.length > 0;
-        $(mbm._element).css({
-          opacity: shouldSupressMaker ? 0.3 : 1
-        });
-      });
     }
   }
 });
@@ -79157,7 +81107,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     places: undefined,
     directions: undefined,
     comments: [],
-    filters: [],
+    filters: [{
+      role: undefined,
+      day: undefined
+    }],
     geolocations: []
   },
   actions: {
@@ -79212,6 +81165,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     }
   },
   mutations: {
+    setFilters: function setFilters(state, filters) {
+      state.filters = filters;
+    },
     addGeolocation: function addGeolocation(state, geolocation) {
       state.geolocations.push(geolocation);
     },
@@ -79240,8 +81196,14 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     }
   },
   getters: {
-    featuredStories: function featuredStories(_ref7) {
-      var stories = _ref7.stories;
+    validFilters: function validFilters(_ref7) {
+      var filters = _ref7.filters;
+      return filters.filter(function (f) {
+        return f.day || f.role;
+      });
+    },
+    featuredStories: function featuredStories(_ref8) {
+      var stories = _ref8.stories;
       return stories.map(function (s) {
         return _objectSpread({}, s, {
           featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
@@ -79253,30 +81215,27 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
         return a.featured_sort_order - b.featured_sort_order;
       });
     },
-    userLocation: function userLocation(_ref8) {
-      var geolocations = _ref8.geolocations;
+    userLocation: function userLocation(_ref9) {
+      var geolocations = _ref9.geolocations;
       return geolocations.length === 0 ? undefined : lodash__WEBPACK_IMPORTED_MODULE_6___default.a.last(geolocations);
     },
     isAdmin: function isAdmin() {
       return window.isAdmin;
     },
-    roles: function roles(_ref9) {
-      var stories = _ref9.stories;
+    roles: function roles(_ref10) {
+      var stories = _ref10.stories;
       return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["filled"])(Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["unique"])(stories.map(function (s) {
         return s.role;
       })));
     },
-    names: function names(_ref10) {
-      var stories = _ref10.stories;
+    names: function names(_ref11) {
+      var stories = _ref11.stories;
       return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["filled"])(Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["unique"])(stories.map(function (s) {
         return s.subject;
       })));
     },
-    days: function days(_ref11) {
-      var stories = _ref11.stories;
-      return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["filled"])(Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["unique"])(stories.map(function (s) {
-        return s.day;
-      })));
+    days: function days() {
+      return ["May 1", "May 2", "May 3", "May 4", "May 5"];
     }
   }
 }));

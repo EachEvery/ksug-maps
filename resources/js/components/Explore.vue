@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed inset-x-0 md:inset-x-auto md:right-0 top-0 bg-white pt-4 transition md:min-w-md overflow-y-scroll overflow-x-hidden"
+    class="fixed inset-x-0 md:inset-x-auto md:right-0 top-0 bg-white pt-4 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible"
     style="min-height: 100vh; max-width: 40rem; height: 100vh;"
     v-click-outside="handleClickOutside"
     :style="containerStyle"
@@ -14,7 +14,7 @@
     <!-- Desktop Explore Heading -->
     <desktop-explore-toggle @click="$emit('toggle')"></desktop-explore-toggle>
 
-    <div class="px-8">
+    <div class="px-8 md:overflow-y-scroll md:h-full">
       <h1 class="text-8xl font-display uppercase cursor-pointer" @click="$emit('toggle')">Explore</h1>
 
       <div class="mt-12">

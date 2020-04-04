@@ -1,13 +1,14 @@
+import { mapGetters } from "vuex";
 export default {
     data() {
         return {
-            mapboxMarkers: []
+            mapboxMarkers: [],
         };
     },
     methods: {
         getMapboxMarker(location) {
             return this.mapboxMarkers.find(
-                m =>
+                (m) =>
                     +m._lngLat.lng === +location.long &&
                     m._lngLat.lat === +location.lat
             );
@@ -16,9 +17,41 @@ export default {
         updateMarkerElements() {
             $(".marker").css({ opacity: 1 });
 
-            if (!this.isLocation) {
+            if (!this.isLocation && this.validFilters.length === 0) {
                 $("canvas").css({ opacity: "1" });
                 this.resetActiveMarkers();
+            } else if (!this.isLocation && this.validFilters.length > 0) {
+                this.mapboxMarkers.forEach((marker) => {
+                    let markerStoriesMatchingAnyFilterSet = marker.place.stories.filter(
+                        (s) => {
+                            let passingFilters = this.validFilters.filter(
+                                (f) => {
+                                    if (f.day && s.day) {
+                                        return (
+                                            f.day == s.day && f.role === s.role
+                                        );
+                                    }
+
+                                    if (f.day) {
+                                        return f.day.trim() === s.day;
+                                    }
+
+                                    if (f.role) {
+                                        return f.role === s.role;
+                                    }
+                                }
+                            );
+
+                            return passingFilters.length !== 0;
+                        }
+                    );
+
+                    if (markerStoriesMatchingAnyFilterSet.length === 0) {
+                        $(marker._element).css({ opacity: 0.3 });
+                    } else {
+                        $(marker._element).css({ opacity: 1 });
+                    }
+                });
             } else {
                 $("canvas").css({ opacity: "0.5" });
             }
@@ -48,7 +81,7 @@ export default {
             this.map.easeTo({
                 center: [+marker.place.long, +marker.place.lat],
                 curve: 0,
-                zoom: currentZoom < 16 ? 16 : currentZoom
+                zoom: currentZoom < 16 ? 16 : currentZoom,
             });
 
             /**
@@ -59,48 +92,57 @@ export default {
                 this.$emit("location-clicked", marker.place);
                 $(e.target).addClass("active");
             }, 300);
-        }
+        },
     },
     computed: {
+        ...mapGetters(["validFilters"]),
+
         markers({ places }) {
-            return places.map(p => ({
+            return places.map((p) => ({
                 place: p,
                 type: "Feature",
                 properties: {
-                    description: p.name
+                    description: p.name,
                 },
                 geometry: {
                     type: "Point",
-                    coordinates: [p.long, p.lat]
-                }
+                    coordinates: [p.long, p.lat],
+                },
             }));
-        }
+        },
     },
     watch: {
+        validFilters: {
+            deep: true,
+            handler(filters) {
+                this.updateMarkerElements();
+            },
+        },
+
         $route($newRoute, $oldRoute) {
             this.updateMarkerElements();
         },
-        filters(filters) {
-            this.mapboxMarkers.forEach(mbm => {
-                let filteredStories = mbm.place.stories.filter(item => {
-                    for (let i = 0; i < filters.length; i++) {
-                        let filter = filters[i];
+        // filters(filters) {
+        //     this.mapboxMarkers.forEach((mbm) => {
+        //         let filteredStories = mbm.place.stories.filter((item) => {
+        //             for (let i = 0; i < filters.length; i++) {
+        //                 let filter = filters[i];
 
-                        if (item[filter.key.trim()] === filter.value.trim()) {
-                            return true;
-                        }
-                    }
+        //                 if (item[filter.key.trim()] === filter.value.trim()) {
+        //                     return true;
+        //                 }
+        //             }
 
-                    return false;
-                });
+        //             return false;
+        //         });
 
-                let shouldSupressMaker =
-                    filteredStories.length === 0 && filters.length > 0;
+        //         let shouldSupressMaker =
+        //             filteredStories.length === 0 && filters.length > 0;
 
-                $(mbm._element).css({
-                    opacity: shouldSupressMaker ? 0.3 : 1
-                });
-            });
-        }
-    }
+        //         $(mbm._element).css({
+        //             opacity: shouldSupressMaker ? 0.3 : 1,
+        //         });
+        //     });
+        // },
+    },
 };

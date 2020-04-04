@@ -28,6 +28,7 @@
     "dependencies": {
         "@google/markerclusterer": "^1.0.3",
         "@mapbox/mapbox-sdk": "^0.9.0",
+        "fuse.js": "^5.1.0",
         "geolib": "^3.2.1",
         "laravel-vapor": "^0.4.0",
         "load-google-maps-api": "^2.0.1",

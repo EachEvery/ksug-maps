@@ -17,12 +17,12 @@ export default {
 
             let locationCoords = {
                 latitude: +this.lat.toFixed(8),
-                longitude: +this.lng.toFixed(8)
+                longitude: +this.lng.toFixed(8),
             };
 
             let userCoords = {
                 latitude: +this.userLocation.coords.latitude.toFixed(8),
-                longitude: +this.userLocation.coords.longitude.toFixed(8)
+                longitude: +this.userLocation.coords.longitude.toFixed(8),
             };
 
             let distanceInMeters = getDistance(userCoords, locationCoords);
@@ -31,6 +31,6 @@ export default {
                 convertDistance(distanceInMeters, "mi").toFixed(1) +
                 " MILES FROM YOU"
             );
-        }
-    }
+        },
+    },
 };
