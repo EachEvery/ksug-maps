@@ -13,6 +13,7 @@
         "benjacho/belongs-to-many-field": "^1.4",
         "doctrine/dbal": "^2.9",
         "eachevery/welcome": "*",
+        "ebess/advanced-nova-media-library": "*",
         "falahati/php-mp3": "dev-master",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
@@ -24,17 +25,19 @@
         "laravel/scout": "^8.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "laravel/vapor-core": "^2.5",
         "league/flysystem-aws-s3-v3": "^1.0",
         "optimistdigital/nova-sortable": "^1.3",
         "php-ffmpeg/php-ffmpeg": "^0.14.0",
         "sleiman/airtable-php": "^2.2"
     },
     "require-dev": {
+        "beyondcode/laravel-dump-server": "^1.4",
+        "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^4.1",
-        "phpunit/phpunit": "^8.5",
-        "facade/ignition": "^2.0"
+        "phpunit/phpunit": "^8.5"
     },
     "config": {
         "optimize-autoloader": true,
@@ -82,6 +85,10 @@
         {
             "type": "path",
             "url": "./nova-components/Welcome"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/bkintanar/advanced-nova-media-library"
         }
     ]
 }

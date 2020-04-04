@@ -2,8 +2,8 @@
 
 namespace KSUGMap\Nova;
 
+use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -42,18 +42,6 @@ class Place extends Resource
     {
         return [
             Text::make('Name'),
-            Text::make('Photo')->hideFromIndex(),
-            Text::make('Alt Text')->hideFromIndex(),
-            Text::make('Photo Caption')->hideFromIndex(),
-            Text::make('Photo Preview', function () {
-                $isList = 'nova-api/places' === request()->path();
-                $dimensions = $isList ? 'width: 100px; height 50px;' : 'width: 612px; height 256px;';
-
-                return sprintf(
-                    '<img src="%s" class=" my-2 shadow-lg  transition bg-black rounded-lg" style="object-fit: cover; object-position: %s; %s" />',
-                    $this->resource->photo, $this->resource->photo_position, $dimensions
-                );
-            })->asHtml(),
 
             Select::make('Photo Position')->options([
                 'top' => 'Top',
@@ -67,7 +55,11 @@ class Place extends Resource
                 return sprintf('<a href="%s" target="_blank" class="no-underline dim text-primary font-bold">View on Website</a>', $url);
             })->asHtml()->showOnUpdating(),
 
-            Boolean::make('Has Photo')->onlyOnIndex(),
+            Images::make('Photos', 'place_photos')->croppable(false)
+                ->customPropertiesFields([
+                    Text::make('Alt Text'),
+                    Text::make('Photo Caption'),
+                ]),
 
             Text::make('Lat')->hideFromIndex(),
             Text::make('Long')->hideFromIndex(),

@@ -2,17 +2,36 @@
 
 namespace KSUGMap\Nova;
 
+use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\NovaSortable\Traits\HasSortableRows;
 
 class Story extends Resource
 {
     use HasSortableRows;
+
+    /**
+     * Make the sort controls only apply to
+     * the relationship view. https://github.com/optimistdigital/nova-sortable/issues/16.
+     */
+    public function serializeForIndex(NovaRequest $request, $fields = null)
+    {
+        if ($request->viaRelationship() && $request->newResource()->resource->sortable['sort_on_pivot']) {
+            return array_merge(parent::serializeForIndex($request, $fields), [
+                'sortable' => true,
+            ]);
+        } else {
+            return array_merge(parent::serializeForIndex($request, $fields), [
+                'sortable' => false,
+            ]);
+        }
+    }
 
     /**
      * The model the resource corresponds to.
@@ -55,13 +74,13 @@ class Story extends Resource
             })->asHtml(),
 
             Text::make('Full Story Link')->hideFromIndex(),
-            Text::make('Audio')->hideFromIndex(),
+            Files::make('Audio', 'story_audio'),
             Text::make('Audio Preview', function () {
-                if (empty($this->resource->audio)) {
+                if ($this->resource->getMedia('story_audio')->count() === 0) {
                     return 'N/A';
                 }
 
-                return sprintf('<audio src="%s" controls />', $this->resource->audio);
+                return sprintf('<audio src="%s" controls />', $this->resource->audio_url);
             })->asHtml()->hideFromIndex(),
             Textarea::make('Content'),
             BelongsToMany::make('Tours'),

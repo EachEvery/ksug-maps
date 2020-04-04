@@ -15,15 +15,6 @@ export default {
                 } else {
                     this.map.zoomTo(zoom);
                     this.currentZoom = zoom;
-
-                    // this.zooming = true;
-                    // this.map.zoomTo(zoom);
-                    // this.currentZoom = zoom;
-
-                    // setTimeout(() => {
-                    //     this.zooming = false;
-                    //     resolve();
-                    // }, 450);
                 }
             });
         }

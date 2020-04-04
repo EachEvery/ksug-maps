@@ -3,6 +3,7 @@
 namespace KSUGMap\Nova;
 
 use Benjacho\BelongsToManyField\BelongsToManyField;
+use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Text;
@@ -22,7 +23,7 @@ class Tour extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -43,6 +44,10 @@ class Tour extends Resource
         return [
             Text::make('Name'),
             Trix::make('Description'),
+            Images::make('Cover Photo', 'tour_cover')
+                ->enableExistingMedia()
+                ->croppable(false),
+            Text::make('Duration'),
             Text::make('Public Url', function () {
                 $url = $this->resource->public_url;
 

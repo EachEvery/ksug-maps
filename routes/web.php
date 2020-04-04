@@ -18,9 +18,11 @@ use KSUGMap\Tour;
 
 Route::get('/search', 'SearchController');
 
-Route::get('/stories', function (Stories $stories) {
-    return $stories->all();
-});
+// Route::get('/stories', function (Stories $stories) {
+//     return $stories->all();
+// });
+
+Route::resource('stories', 'StoryController')->only(['index', 'update']);
 
 Route::get('/places', function (Places $places) {
     return $places->all();
@@ -36,5 +38,5 @@ Route::post('/places/{place_slug}/comments', 'PlaceCommentsController@store');
 Route::get('/{vue?}', function () {
     return view('master');
 })->where([
-    'vue' => '^((?!admin|nova-api).)*$',
+    'vue' => '^((?!admin|nova-api|media).)*$',
 ]);

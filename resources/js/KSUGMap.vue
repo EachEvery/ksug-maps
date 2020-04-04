@@ -1,20 +1,33 @@
 <template>
-  <div v-if="ready" class="relative">
-    <div class="w-full h-full relative overflow-hidden bg-black">
+  <div v-if="ready" class="relative bg-black">
+    <div
+      class="w-full h-full relative overflow-hidden bg-black transition"
+      :style="{ transform: exploreOpen ? 'scale(1.2)' : 'none' }"
+    >
       <map-component
+        :block-clicks="isLocation || exploreOpen"
         :filters="filters"
         :places="places"
-        :show-overlay-button="!isLocation && !isAbout && !menuOpen"
+        :show-overlay-button="!isLocation && !isAbout && !menuOpen && !exploreOpen"
         :is-location="isLocation"
         @location-clicked="handleLocationClicked"
         :class="{
-                    '-translate-y-35vh': isLocation,
+                    '-translate-y-5vh': isLocation,
                     'md:-translate-x-10': isLocation
                 }"
         class="transition"
         ref="mapComponent"
       />
     </div>
+
+    <a
+      href="/admin"
+      v-if="isAdmin"
+      style="border-bottom-left-radius: 5px; color: rgba(0,0,0,.8); right: 3.2rem;"
+      class="fixed top-0 right-0 bg-orange text-black font-mono text-sm py-2 px-4 rounded-b-left shadow-lg hidden md:inline-block"
+    >Admin Mode</a>
+
+    <explore :open="exploreOpen" @toggle="handleExploreToggle" :hide="isLocation || isAbout" />
 
     <transition
       enter-class="opacity-0 translate-y-1 md:translate-x-2"
@@ -27,21 +40,9 @@
 
     <global-header
       :is-location="isLocation"
+      :should-hide-menu="isLocation || exploreOpen"
       @state-changed="menuIsOpen => (menuOpen = menuIsOpen)"
     />
-
-    <explore
-      :open="exploreOpen"
-      @toggle="exploreOpen = !exploreOpen"
-      :hide="isLocation || isAbout"
-    />
-
-    <a
-      href="/admin"
-      v-if="isAdmin"
-      style="color: rgba(255,255,255,.8);"
-      class="fixed top-0 right-0 bg-black text-sm py-2 px-4 rounded-full m-2 shadow-lg"
-    >Admin Mode</a>
 
     <portal-target name="end-of-document" multiple class="fixed"></portal-target>
   </div>
@@ -75,8 +76,7 @@ export default {
     return {
       state: "default",
       pullMapLeft: false,
-      menuOpen: false,
-      exploreOpen: false
+      menuOpen: false
     };
   },
 
@@ -85,11 +85,25 @@ export default {
     this.preloadImages();
 
     if (this.$route.path === "/") {
-      this.$router.push("/about");
+      // this.$router.push("/about");
     }
   },
+
   methods: {
     ...mapActions(["ensureData"]),
+
+    handleExploreToggle() {
+      console.log("wow", this.exploreOpen);
+
+      let newRoute = this.exploreOpen ? "/" : "/explore";
+
+      this.$router.push(newRoute);
+    },
+
+    focusMap() {
+      this.menuOpen = false;
+    },
+
     preloadImages() {
       [...this.places].forEach(item => {
         if (item.photo !== null) {
@@ -99,9 +113,11 @@ export default {
         }
       });
     },
+
     handleImageLoad() {
       this.state = "imageLoaded";
     },
+
     handleLocationClicked(location) {
       this.$router.push(`/places/${location.slug}/preview`);
     }
@@ -109,11 +125,17 @@ export default {
   computed: {
     ...mapState(["stories", "filters", "places", "tours"]),
 
+    exploreOpen({ $route }) {
+      return $route.name === "explore";
+    },
+
     isAdmin() {
       return window.isAdmin;
     },
     ready({ stories, places, tours }) {
-      return stories.length > 0 && places.length > 0 && tours.length > 0;
+      return (
+        stories !== undefined && places !== undefined && tours !== undefined
+      );
     },
 
     imageLoaded({ state }) {

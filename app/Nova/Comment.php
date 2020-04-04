@@ -2,6 +2,7 @@
 
 namespace KSUGMap\Nova;
 
+use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Illuminate\Http\Request;
 use KSUGMap\Nova\Actions\ApproveComments;
 use KSUGMap\Nova\Actions\UnapproveComments;
@@ -52,6 +53,7 @@ class Comment extends Resource
             Boolean::make('Is Approved')->hideWhenCreating()->hideWhenUpdating(),
             Date::make('Created At')->readonly(),
             BelongsTo::make('Place'),
+            Files::make('Media', 'comment_media'),
         ];
     }
 

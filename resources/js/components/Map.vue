@@ -1,29 +1,60 @@
 <template>
-  <div :style="{ 'pointer-events': isLocation ? 'none' : 'auto' }">
+  <div :style="{ 'pointer-events': blockClicks ? 'none' : 'auto' }" class="relative">
     <div class="relative w-full h-screen bg-gray-dark" id="map"></div>
 
     <portal to="end-of-document">
       <div
-        class="flex flex-col fixed bottom-0 left-0 mb-48 ml-5 transition"
+        class="absolute bottom-0 left-0 w-full w-screen md:w-25rem p-6 bg-white transition"
+        :class="{'translate-y-full': !showingLayersMenu}"
+        v-click-outside="handleLayersClickOutside"
+      >
+        <h1 class="uppercase font-display text-3xl">Toggle Map Layers</h1>
+
+        <div class="flex justify-between mt-5">
+          <span class="font-mono text-md font-bold">1970 Aerial Photo</span>
+
+          <div class="flex items-center">
+            <on-off-switch v-model="showAerialPhoto" />
+            <span
+              class="w-8 font-mono text-md ml-3 font-bold uppercase"
+            >{{showAerialPhoto ? 'On' : 'Off'}}</span>
+          </div>
+        </div>
+
+        <div class="flex justify-between mt-5">
+          <span class="font-mono text-md font-bold">1970 Landmarks</span>
+
+          <div class="flex items-center">
+            <on-off-switch v-model="showLandmarks" />
+            <span
+              class="w-8 font-mono text-md ml-3 font-bold uppercase"
+            >{{showLandmarks ? 'On' : 'Off'}}</span>
+          </div>
+        </div>
+      </div>
+    </portal>
+    <portal to="end-of-document">
+      <div
+        class="flex flex-col fixed bottom-0 left-0 mb-48 md:mb-5 ml-5 transition"
         :class="{
-                    '-translate-x-20': !showOverlayButton,
-                    'opacity-0': !showOverlayButton
+                    '-translate-x-20': !showControls,
+                    'opacity-0': !showControls
                 }"
       >
         <clickable
           class="h-12 w-12 flex justify-center rounded-full transition-faster mb-3"
           :class="{
-                    'bg-black': overlayShowing,
-                    'bg-white': !overlayShowing,                                        
-                }"
-          @click="handleOverlayButtonClick"
+                        'bg-black': showAerialPhoto,
+                        'bg-white': !showAerialPhoto
+                    }"
+          @click.stop="handleOverlayButtonClick"
         >
           <layer-icon
             class="w-6 h-6 self-center transition"
             :class="{
-                        'text-white': overlayShowing,
-                        'text-black': !overlayShowing
-                    }"
+                            'text-white': showAerialPhoto,
+                            'text-black': !showAerialPhoto
+                        }"
           />
         </clickable>
 
@@ -62,10 +93,14 @@ import plusIcon from "./PlusIcon";
 import minusIcon from "./MinusIcon";
 import layerIcon from "./LayerIcon";
 
+import onOffSwitch from "./OnOffSwitch";
 import { getMapboxToken } from "../functions/helpers";
+import { mapMutations } from "vuex";
+
+mapboxgl.accessToken = getMapboxToken();
 
 export default {
-  components: { plusIcon, minusIcon, layerIcon, clickable },
+  components: { plusIcon, minusIcon, layerIcon, clickable, onOffSwitch },
 
   mixins: [
     routeHelpers,
@@ -77,7 +112,8 @@ export default {
 
   props: {
     places: Array,
-    filters: Array
+    filters: Array,
+    blockClicks: Boolean
   },
 
   mounted() {
@@ -86,19 +122,66 @@ export default {
 
   data() {
     return {
-      mapLoaded: false
+      mapLoaded: false,
+      state: "default",
+      showLandmarks: true,
+      showAerialPhoto: true
     };
   },
+  computed: {
+    showingLayersMenu({ state }) {
+      return state === "showingLayersMenu";
+    },
+    showControls({ showingLayersMenu, showOverlayButton }) {
+      return showOverlayButton && !showingLayersMenu;
+    }
+  },
 
+  watch: {
+    state() {
+      clearTimeout(this.clickOutsideGate);
+
+      setTimeout(() => {
+        this.canClickOutside = this.showingLayersMenu;
+      }, 300);
+    },
+    showLandmarks(val) {
+      let layerIds = [
+        "ksu-campus-label",
+        "ksu-campus",
+        "historic-landmark-label",
+        "historic-landmark",
+        "students-killed",
+        "students-wounded"
+      ];
+
+      //   this.map.setPaintProperty("historic-landmark", "raster-opacity", 0);
+
+      layerIds.forEach(id => {
+        // this.map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+        this.map.setLayoutProperty(id, "visibility", val ? "visible" : "none");
+      });
+    }
+  },
   methods: {
+    ...mapMutations(["addGeolocation"]),
+
+    handleLayersClickOutside() {
+      if (this.canClickOutside) {
+        this.state = "default";
+      }
+    },
+
+    handleOverlayButtonClick() {
+      this.state = "showingLayersMenu";
+    },
+
     initMap() {
       let center = [-81.348852, 41.15002];
 
       if (this.isLocation) {
         center = [+this.currentLocation.long, +this.currentLocation.lat];
       }
-
-      mapboxgl.accessToken = getMapboxToken();
 
       this.map = new mapboxgl.Map({
         container: "map",
@@ -147,6 +230,42 @@ export default {
           trackUserLocation: true
         })
       );
+
+      navigator.geolocation.watchPosition(pos => {
+        this.addGeolocation(pos);
+      });
+
+      this.map.on("click", "students-killed", e => {
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(e.features[0].properties.Name)
+          .addTo(this.map);
+      });
+
+      this.map.on("click", "students-wounded", e => {
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(e.features[0].properties.Name)
+          .addTo(this.map);
+      });
+
+      this.map.on("mouseenter", "students-killed", () => {
+        this.map.getCanvas().style.cursor = "pointer";
+      });
+
+      // Change it back to a pointer when it leaves.
+      this.map.on("mouseleave", "students-killed", () => {
+        this.map.getCanvas().style.cursor = "";
+      });
+
+      this.map.on("mouseenter", "students-wounded", () => {
+        this.map.getCanvas().style.cursor = "pointer";
+      });
+
+      // Change it back to a pointer when it leaves.
+      this.map.on("mouseleave", "students-wounded", () => {
+        this.map.getCanvas().style.cursor = "";
+      });
 
       if (this.isLocation) {
         this.setInitialActiveMarker();

@@ -6,14 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use KSUGMap\Contracts\MapsToSearchResult;
 use Laravel\Scout\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Place extends Model implements MapsToSearchResult
+class Place extends Model implements MapsToSearchResult, HasMedia
 {
+    use InteractsWithMedia;
     use Searchable;
 
     protected $appends = ['admin_url', 'public_url'];
-    public $with = ['approved_comments'];
+    public $with = ['approved_comments', 'photos'];
+
     protected $guarded = [];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('place_photos');
+    }
+
+    public function photos()
+    {
+        return $this->media()->where('collection_name', 'place_photos');
+    }
 
     public function getAdminUrlAttribute()
     {

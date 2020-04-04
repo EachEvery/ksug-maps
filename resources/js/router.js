@@ -12,6 +12,7 @@ export default new VueRouter({
     mode: "history",
     routes: [
         { path: "/about", component: About, name: "about" },
+        { path: "/explore", name: "explore" },
 
         { path: "/places/:location", component: Location, name: "location" },
 

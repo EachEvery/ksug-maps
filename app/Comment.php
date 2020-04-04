@@ -4,14 +4,23 @@ namespace KSUGMap;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Tappable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Comment extends Model
+class Comment extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use Tappable;
 
-    protected $guarded = [];
     public $appends = ['frontend_date'];
     protected $dates = ['approved_at'];
+    protected $guarded = [];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('comment_media')
+            ->singleFile();
+    }
 
     public function getIsApprovedAttribute()
     {

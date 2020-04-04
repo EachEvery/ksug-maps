@@ -1,14 +1,14 @@
 <template>
-  <div class="w-full overflow-hidden pt-8">
+  <div class="w-full overflow-hidden pt-8" style="max-width: 45rem;min-width: 24rem;">
     <div
       class="px-8 xl:px-24 py-4"
       style="background: rgba(255, 255, 255, .98); box-shadow: 0 10px 15px 21px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
     >
-      <div class="text-center font-sans text-xs lg:-ml-6 xl:mb-3 xl:text-base">{{label}}</div>
+      <div class="text-center font-mono uppercase text-xs lg:-ml-6 xl:mb-3 xl:text-base">{{ label }}</div>
 
       <div class="flex">
         <clickable
-          @click.prevent="() =>controlAudio('play')"
+          @click.prevent="() => controlAudio('play')"
           v-if="state !== 'play'"
           class="rounded-full"
         >
@@ -16,7 +16,7 @@
         </clickable>
 
         <clickable
-          @click.prevent="() =>controlAudio('pause')"
+          @click.prevent="() => controlAudio('pause')"
           v-if="state !== 'pause'"
           class="rounded-full"
         >
@@ -43,7 +43,7 @@
 
         <span
           class="self-center text-black font-mono font-semibold w-16 -mt-1 text-center"
-        >{{timestamp}}</span>
+        >{{ timestamp }}</span>
       </div>
     </div>
   </div>
@@ -129,4 +129,3 @@ export default {
   }
 };
 </script>
-

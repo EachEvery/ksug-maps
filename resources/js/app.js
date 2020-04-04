@@ -11,6 +11,9 @@ import KSUGMap from "./KSUGMap.vue";
 import VueMeta from "vue-meta";
 import ClickOutside from "v-click-outside";
 import PortalVue from "portal-vue";
+import _ from "lodash";
+
+Object.defineProperty(Vue.prototype, "$_", { value: _ });
 
 import router from "./router";
 import store from "./store";

@@ -1,9 +1,12 @@
 <template>
   <div
-    style="width: 100vh; transform: rotate(90deg) translateY(-100%) translateX(100%); transform-origin: right top;"
-    class="bg-white absolute flex justify-center border-b top-0 left-0 border-b py-2"
+    style="width: 100vh; transform: rotate(90deg); left: 0; transform-origin: left top;"
+    class="bg-white absolute flex justify-center top-0 left-0 border-b shadow py-5 text-gray-600 hover:text-gray-900 transition"
     v-on="$listeners"
   >
-    <h1 class="text-4xl uppercase font-display cursor-pointer">Explore</h1>
+    <h1
+      class="text-xs uppercase cursor-pointer font-mono"
+      style="transform: rotate(180deg)"
+    >explore tours &amp; stories</h1>
   </div>
 </template>

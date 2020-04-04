@@ -14,7 +14,7 @@ class AddOrderToStoryTourTable extends Migration
     public function up()
     {
         Schema::table('story_tour', function (Blueprint $table) {
-            $table->unsignedInteger('sort_order');
+            $table->unsignedInteger('sort_order')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddOrderToStoryTourTable extends Migration
     public function down()
     {
         Schema::table('story_tour', function (Blueprint $table) {
-            $table->unsignedInteger('sort_order');
+            $table->unsignedInteger('sort_order')->nullable();
         });
     }
 }

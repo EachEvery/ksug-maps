@@ -6,15 +6,17 @@ Vue.use(Vuex);
 
 import { unique, filled } from "./functions/helpers";
 import { mapPlaces, mapStories } from "./functions/ksug";
+import _ from "lodash";
 
 export default new Vuex.Store({
     state: {
-        stories: [],
-        filters: [],
+        stories: undefined,
+        tours: undefined,
+        places: undefined,
+        directions: undefined,
         comments: [],
-        places: [],
-        tours: [],
-        directions: undefined
+        filters: [],
+        geolocations: []
     },
     actions: {
         ensureData(context) {
@@ -36,9 +38,14 @@ export default new Vuex.Store({
         }
     },
     mutations: {
+        addGeolocation(state, geolocation) {
+            state.geolocations.push(geolocation);
+        },
+
         setDirections(state, directions) {
             state.directions = directions;
         },
+
         setPlaces(state, places) {
             state.places = mapPlaces(places, state.stories);
         },
@@ -59,7 +66,23 @@ export default new Vuex.Store({
             index === -1 ? filters.push(filter) : filters.splice(index, 1);
         }
     },
+
     getters: {
+        featuredStories({ stories }) {
+            return stories
+                .map(s => ({
+                    ...s,
+                    featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
+                        ? s.featured_sort_order
+                        : 0
+                }))
+                .filter(s => s.featured)
+                .sort((a, b) => a.featured_sort_order - b.featured_sort_order);
+        },
+        userLocation({ geolocations }) {
+            return geolocations.length === 0 ? undefined : _.last(geolocations);
+        },
+
         isAdmin() {
             return window.isAdmin;
         },

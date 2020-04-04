@@ -179,3 +179,11 @@ canvas {
         background-image: url("/images/marker-active.png");
     }
 }
+
+.mapboxgl-popup-close-button {
+    display: none;
+}
+
+.mapboxgl-popup-content {
+    font-family: "letter-gothic-std";
+}

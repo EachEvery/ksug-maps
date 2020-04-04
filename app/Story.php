@@ -5,15 +5,20 @@ namespace KSUGMap;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Tappable;
 use KSUGMap\Contracts\MapsToSearchResult;
 use Laravel\Scout\Searchable;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Story extends Model implements MapsToSearchResult, Sortable
+class Story extends Model implements MapsToSearchResult, Sortable, HasMedia
 {
     use Searchable;
     use SortableTrait;
+    use InteractsWithMedia;
+    use Tappable;
 
     public $sortable = [
         'order_column_name' => 'sort_order',
@@ -21,10 +26,31 @@ class Story extends Model implements MapsToSearchResult, Sortable
         'sort_on_pivot' => true,
     ];
 
-    protected $guraded = ['id'];
+    protected $casts = [
+        'featured' => 'boolean',
+    ];
+
+    protected $guarded = ['id'];
+
     protected $table = 'stories';
     protected $with = ['place'];
     protected $appends = ['admin_url', 'public_url'];
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('story_audio')
+            ->singleFile();
+    }
+
+    public function getAudioUrlAttribute()
+    {
+        $key = sprintf('stories:%s:%s:audio_url', $this->id, $this->updated_at);
+
+        return Cache::rememberForever($key, function () {
+            return $this->getMedia('story_audio')->first()->getFullUrl();
+        });
+    }
 
     public function getRoleAttribute($val)
     {

@@ -3,31 +3,13 @@ export default {
         showOverlayButton: Boolean
     },
 
-    data() {
-        return {
-            overlayShowing: true
-        };
-    },
-
-    methods: {
-        handleOverlayButtonClick() {
-            this.overlayShowing = this.toggleArialPhotoLayer();
-        },
-        toggleArialPhotoLayer() {
-            let currentValue = this.map.getPaintProperty(
-                "arial-photo",
-                "raster-opacity"
-            );
-
-            let newValue = currentValue === 1 ? 0 : 1;
-
+    watch: {
+        showAerialPhoto(val) {
             this.map.setPaintProperty(
                 "arial-photo",
                 "raster-opacity",
-                newValue
+                val ? 1 : 0
             );
-
-            return newValue === 1;
         }
     }
 };

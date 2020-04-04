@@ -23,6 +23,13 @@ module.exports = {
             maxWidth: {
                 base: "35rem"
             },
+            minWidth: {
+                "84": "20.125rem",
+                md: "33rem"
+            },
+            width: {
+                "25rem": "25rem"
+            },
             colors: {
                 current: "currentColor",
                 orange: "#F0A38C",
@@ -30,6 +37,7 @@ module.exports = {
                 blue: "#C9D9E0",
                 purple: "#C6C1CE",
                 tan: {
+                    50: "#FAF5F0",
                     100: "#F0EBE6",
                     200: "#D8C6BF",
                     300: "#F0CFB4"

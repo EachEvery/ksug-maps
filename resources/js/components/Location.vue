@@ -2,38 +2,23 @@
   <div
     v-click-outside="goBack"
     :class="containerClass"
-    class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto"
-    style="max-width: 45rem"
+    class="fixed inset-0 md:right-0 md:left-auto bg-tan-100 transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto"
+    style="max-width: 45rem; min-width: 24rem;"
   >
-    <div
-      v-if="location.photo !== null"
-      class="h-64 absolute md:relative inset-x-0 w-full bottom-full md:bottom-auto overflow-hidden md:pt-0 pt-10"
-    >
-      <img
-        :src="location.photo"
-        @click="handleImageClick"
-        style="cursor: zoom-in"
-        @load="handleImageLoad"
-        :class="{'translate-y-full': !isPreview, 'md:translate-y-0': !isPreview}"
-        class="h-full object-cover w-full transition bg-black"
-        :style="{transform: state === 'loaded' ? 'scale(1.05)' : 'none', 'object-position': location.photo_position}"
-      />
-
-      <span
-        class="absolute font-mono text-2xs font-bold right-0 left-0 bottom-0 text-center text-white font-light px-4 pb-2 pt-5 px-5 xl:px-24"
-        style="background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0);"
-      >{{location.photo_caption}}</span>
-    </div>
+    <router-link :to="chevronLink" class="absolute top-0 inset-x-0 h-32"></router-link>
 
     <div class="px-5 xl:px-8 md:mt-5">
-      <h4 class="font-mono text-md font-bold uppercase mb-3">{{storyCount}}</h4>
+      <h4 class="font-mono text-md font-bold uppercase mb-3">Location &middot; {{ storyCount }}</h4>
 
-      <div class="mb-12">
+      <div class="mb-3">
         <router-link :to="chevronLink" class="flex cursor-pointer md:cursor-default">
           <h1
-            class="font-display font-black lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-10 h-24 md:h-auto"
-            :class="{'text-2xl': location.name.length > 21, 'text-4xl': location.name.length < 21}"
-          >{{location.name}}</h1>
+            class="font-display font-black text-3xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-10 md:h-auto"
+            :class="{
+                            'text-2xl': location.name.length > 21,
+                            'text-4xl': location.name.length < 21
+                        }"
+          >{{ location.name }}</h1>
 
           <chevron-up-icon
             class="w-8 h-8 mt-1 text-black transition md:hidden"
@@ -50,37 +35,62 @@
       </div>
     </div>
 
-    <div
-      class="flex overflow-auto md:overflow-hidden flex-no-wrap md:flex-wrap hide-scrollbars xl:px-8 xl:grid md:px-5 grid-columns-2 grid-gap grid-gap-4 md:pb-16 mb-24"
-    >
-      <div class="w-5 md:hidden" style="flex: 0 0 auto;"></div>
+    <scroll-container v-if="location.photos.length" class="md:px-5 xl:px-8 mb-8 mt-6">
+      <clickable
+        @click="handleImageClick(photo)"
+        v-for="(photo, i) in location.photos"
+        :key="i"
+        class="text-left"
+      >
+        <img
+          :src="photo.url"
+          :alt="photo.custom_properties.alt_text"
+          class="h-64 object-cover transition"
+          :class="getImageClass(photo)"
+          @load="setLoaded(photo)"
+        />
 
+        <p class="font-mono max-w-xs mt-2 text-xs">{{ photo.custom_properties.photo_caption }}</p>
+
+        <portal to="end-of-document">
+          <a :href="photo.url" title class="lightbox" v-if="photo.url !== null">
+            <img :src="photo.url" :alt="photo.custom_properties.alt_text" />
+          </a>
+        </portal>
+      </clickable>
+    </scroll-container>
+
+    <scroll-container
+      class="md:flex-wrap xl:grid md:px-5 xl:px-8 pb-6 grid-columns-2 grid-gap grid-gap-4 md:pb-24 mb-24 mt-12 md:overflow-hidden"
+    >
       <story-card
         :story="story"
         v-for="(story, i) in location.stories"
         :key="story.id"
+        :class="{ 'xl:translate-y-5': isEven(i) }"
         class="mr-4 md:mr-0 w-72 md:w-full h-48vh md:mb-5 xl:mb-2 flex-retain"
-        :class="{'xl:translate-y-5': isEven(i)}"
-        :style="{color: story.color}"
+        :style="{ color: story.color }"
         style="max-height: 25rem"
       />
-
-      <div class="w-1 md:hidden" style="flex: 0 0 auto;"></div>
-    </div>
+    </scroll-container>
 
     <div
-      class="xl:px-24 px-8 py-24 relative bg-tan-100"
+      class="xl:px-24 px-8 py-24 relative bg-black text-white"
       v-if="location.approved_comments.length > 0"
     >
       <h3 class="font-display uppercase text-2xl mb-12">Stories &amp; Comments</h3>
 
       <div v-for="comment in location.approved_comments" :key="comment.id" class="my-10">
-        <h4 class="text-base font-medium mb-3">{{comment.author}}</h4>
+        <h4 class="text-xl uppercase font-medium mb-3 font-display">{{ comment.author }}</h4>
         <span class="whitespace-pre-line leading-normal" v-html="comment.text"></span>
-        <span class="block mt-4 opacity-75 font-mono text-xs">{{comment.frontend_date}}</span>
+        <span class="block mt-4 opacity-75 font-mono text-xs">
+          {{
+          comment.frontend_date
+          }}
+        </span>
       </div>
     </div>
-    <div class="xl:px-24 px-8 pt-12 border-t border-dotted pb-48 relative bg-gray-100">
+    <div class="xl:px-24 px-8 pt-12 border-t border-dotted pb-48 relative bg-white">
       <h3 class="font-display uppercase text-2xl mb-8" style="font-weight: 500;">Share Your Story</h3>
 
       <comment-form
@@ -89,14 +99,15 @@
       />
 
       <div
-        class="absolute inset-0 bg-gray-100 transition xl:px-24 pt-24 px-8 flex flex-col"
+        class="absolute inset-0 bg-white transition xl:px-24 pt-24 px-8 flex flex-col"
         :style="confirmationStyle"
       >
         <h3 class="font-display uppercase text-2xl mb-8">Thanks for Your Story</h3>
 
-        <p
-          class="leading-normal gradient"
-        >Your submission is under review and will show up under the comments for this story once it is approved.</p>
+        <p class="leading-normal gradient">
+          Your submission is under review and will show up under the
+          comments for this story once it is approved.
+        </p>
 
         <clickable
           class="w-full mt-10 text-center py-3 px-2 border border-black uppercase"
@@ -104,12 +115,6 @@
         >Add Another Comment</clickable>
       </div>
     </div>
-
-    <portal to="end-of-document">
-      <a :href="location.photo" title ref="lightbox" v-if="location.photo !== null">
-        <img :src="location.photo" alt title />
-      </a>
-    </portal>
   </div>
 </template>
 
@@ -118,6 +123,7 @@ import chevronUpIcon from "./ChevronUpIcon";
 import storyCard from "./StoryCard";
 import commentForm from "./CommentForm";
 import clickable from "./Clickable";
+import scrollContainer from "./ScrollContainer";
 
 import { mapState, mapGetters } from "vuex";
 
@@ -133,25 +139,46 @@ export default {
     chevronUpIcon,
     storyCard,
     commentForm,
-    clickable
+    clickable,
+    scrollContainer
   },
 
   data() {
     return {
       state: "default",
-      scrollOverflow: !this.isPreview
+      scrollOverflow: !this.isPreview,
+      loadedUrls: []
     };
   },
 
   methods: {
+    getImageClass(url) {
+      let isLoaded = this.photoIsLoaded(url);
+
+      return {
+        "opacity-0": !isLoaded,
+        "translate-y-1": !isLoaded
+      };
+    },
+
+    photoIsLoaded(url) {
+      return this.loadedUrls.find(u => u === url) !== undefined;
+    },
+    setLoaded(url) {
+      this.loadedUrls.push(url);
+    },
     handleCommentCreated(comment) {
       this.state = "showCommentConfirmation";
     },
     addAnotherComment() {
       this.state = this.lastState;
     },
-    handleImageClick() {
-      this.$refs.lightbox.click();
+    handleImageClick(photo) {
+      let $lightbox = $(`.lightbox[href="${photo.url}"]`);
+
+      console.log($lightbox, "lightbox");
+
+      $lightbox.trigger("click");
     },
     isEven(index) {
       return index % 2 > 0;
@@ -173,7 +200,9 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      $(this.$refs.lightbox).fluidbox();
+      $(".lightbox").each(function() {
+        $(this).fluidbox();
+      });
     });
   },
   watch: {
@@ -184,7 +213,7 @@ export default {
     }
   },
   beforeDestroy() {
-    $(this.$refs.lightbox).off();
+    $(".lightbox").off();
   },
   computed: {
     ...mapGetters(["isAdmin"]),
@@ -241,4 +270,3 @@ export default {
   }
 };
 </script>
-

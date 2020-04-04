@@ -4,6 +4,7 @@ namespace KSUGMap\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use KSUGMap\Story;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,8 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
+        Route::model('story', Story::class);
     }
 
     /**

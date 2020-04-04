@@ -2,7 +2,7 @@
   <div
     v-click-outside="handleClickOutside"
     class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story"
-    style="max-width: 45rem"
+    style="max-width: 45rem; min-width: 24rem;"
     :style="{'background-color': story.color, '--currentColor': story.color, '--transparentColor': transparentColor}"
   >
     <div class="xl:px-24 px-8 pb-48">
@@ -15,12 +15,11 @@
         >{{story.place.name}}</h1>
         <h2 class="font-sans text-black text-lg md:text-md">{{firstLast}}</h2>
 
-        <a
-          v-if="isAdmin"
-          :href="story.admin_url"
-          target="_blank"
-          class="underline inline-block mt-3"
-        >Edit Story</a>
+        <div v-if="isAdmin" class="flex mt-3">
+          <a :href="story.admin_url" target="_blank" class="underline inline-block mr-2">Edit Story</a>
+
+          <toggle-story-featured :init-story="story" />
+        </div>
       </div>
 
       <quote-icon class="h-6 w-6 mb-6 text-black" />
@@ -39,7 +38,7 @@
         @click="handleReadFullButtonClick"
       >
         <span
-          class="uppercase text-left font-black flex-grow"
+          class="uppercase text-left font-mono font-black flex-grow"
         >{{showingFull ? 'Show Less' : 'Read Full Transcript'}}</span>
 
         <chevron-up-icon
@@ -54,7 +53,7 @@
         class="font-bold w-full h-16 flex justify-center bg-white mt-16"
         target="_blank"
       >
-        <span class="self-center text-sm xl:text-base">VISIT FULL ORAL HISTORY →</span>
+        <span class="self-center text-sm xl:text-base font-mono font-bold">VISIT FULL ORAL HISTORY →</span>
       </a>
 
       <clickable @click="closeStory" class="fixed top-0 right-0 rounded-full mr-5 mt-5 z-10">
@@ -95,6 +94,7 @@ import closeIcon from "./CloseIcon";
 import clickable from "./Clickable";
 import quoteIcon from "./QuoteIcon";
 import chevronUpIcon from "./ChevronUpIcon";
+import toggleStoryFeatured from "./ToggleStoryFeatured";
 
 import { mapState, mapGetters } from "vuex";
 
@@ -120,7 +120,8 @@ export default {
     closeIcon,
     clickable,
     quoteIcon,
-    chevronUpIcon
+    chevronUpIcon,
+    toggleStoryFeatured
   },
 
   methods: {
@@ -133,6 +134,7 @@ export default {
         this.closeStory();
       }
     },
+
     closeStory() {
       this.state = "default";
 
@@ -171,6 +173,7 @@ export default {
         "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + ",0)"
       );
     },
+
     showingFull({ state }) {
       return state === "showAll";
     },
@@ -198,9 +201,11 @@ export default {
     location({ story }) {
       return story.place;
     },
+
     story({ stories }) {
       return stories.find(s => +s.id === +this.$route.params.story);
     },
+
     locationHtml({ story }) {
       let words = story.place.name.split(" ");
 

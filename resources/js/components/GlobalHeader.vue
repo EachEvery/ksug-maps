@@ -79,7 +79,8 @@ import filterIcon from "./FilterIcon";
 import { mapState } from "vuex";
 export default {
   props: {
-    isLocation: Boolean
+    isLocation: Boolean,
+    shouldHideMenu: Boolean
   },
   components: {
     filterIcon,
@@ -138,11 +139,11 @@ export default {
     isClosed({ isOpen }) {
       return !isOpen;
     },
-    containerClass({ isOpen, isLocation }) {
+    containerClass({ isOpen, shouldHideMenu }) {
       return {
         "md:max-w-md": !isOpen,
         "md:max-w-lg": isOpen,
-        "-translate-y-5": isLocation
+        "-translate-y-5": shouldHideMenu
       };
     },
     innerClass({ isOpen }) {
@@ -152,8 +153,8 @@ export default {
         "shadow-lg": isOpen
       };
     },
-    containerStyle({ isOpen, isLocation }) {
-      if (isLocation) {
+    containerStyle({ isOpen, shouldHideMenu }) {
+      if (shouldHideMenu) {
         return {};
       }
 
