@@ -92,10 +92,10 @@ class Story extends Resource
 
     public function title()
     {
-        $key = sprintf('story:%s:%s:title', $this->id, $this->updated_at);
+        $key = sprintf('story:%s:%s:title:', $this->id, $this->updated_at);
 
         return Cache::rememberForever($key, function () {
-            return $this->subject.' - '.$this->place->name.' - '.str_limit($this->content, 30);
+            return $this->subject.' - '.$this->day.' - '.str_limit($this->content, 30);
         });
     }
 

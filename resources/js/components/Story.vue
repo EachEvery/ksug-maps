@@ -95,12 +95,15 @@ import clickable from "./Clickable";
 import quoteIcon from "./QuoteIcon";
 import chevronUpIcon from "./ChevronUpIcon";
 import toggleStoryFeatured from "./ToggleStoryFeatured";
+import handleBack from "../mixins/handleBack";
 
 import { mapState, mapGetters } from "vuex";
 
 import $ from "jquery";
 
 export default {
+  mixins: [handleBack],
+
   metaInfo() {
     return {
       title: this.story.subject,
@@ -140,7 +143,7 @@ export default {
 
       setTimeout(() => {
         this.$refs.audioPlayer.controlAudio("pause");
-        this.$router.push(`/places/${this.location.slug}`);
+        this.back();
       }, 310);
     }
   },
@@ -202,6 +205,10 @@ export default {
       return story.place;
     },
 
+    defaultBackRoute({ location }) {
+      return `/places/${location.slug}/`;
+    },
+
     story({ stories }) {
       return stories.find(s => +s.id === +this.$route.params.story);
     },
@@ -222,6 +229,12 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit("setMapCenter", [
+      +this.location.lat,
+      +this.location.long,
+      16
+    ]);
+
     setTimeout(() => {
       this.state = "showPlayer";
     }, 500);

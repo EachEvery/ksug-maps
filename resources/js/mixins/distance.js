@@ -2,22 +2,15 @@ import { mapGetters } from "vuex";
 import { getDistance, convertDistance } from "geolib";
 
 export default {
-    computed: {
-        ...mapGetters(["userLocation"]),
-
-        distance({ userLocation }) {
-            console.log("user location", userLocation);
-            if (
-                userLocation === undefined ||
-                this.lat === undefined ||
-                this.lng === undefined
-            ) {
-                return undefined;
+    methods: {
+        getLocationDistance(lat, lng) {
+            if (this.userLocation === undefined) {
+                return 0;
             }
 
             let locationCoords = {
-                latitude: +this.lat.toFixed(8),
-                longitude: +this.lng.toFixed(8),
+                latitude: +lat.toFixed(8),
+                longitude: +lng.toFixed(8),
             };
 
             let userCoords = {
@@ -27,8 +20,24 @@ export default {
 
             let distanceInMeters = getDistance(userCoords, locationCoords);
 
+            return convertDistance(distanceInMeters, "mi");
+        },
+    },
+
+    computed: {
+        ...mapGetters(["userLocation"]),
+
+        distance({ userLocation }) {
+            if (
+                userLocation === undefined ||
+                this.lat === undefined ||
+                this.lng === undefined
+            ) {
+                return undefined;
+            }
+
             return (
-                convertDistance(distanceInMeters, "mi").toFixed(1) +
+                this.getLocationDistance(this.lat, this.lng).toFixed(1) +
                 " MILES FROM YOU"
             );
         },

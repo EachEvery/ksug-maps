@@ -8,7 +8,7 @@ class ToursWithPlaces
 {
     public function query()
     {
-        return Tour::with('stories', 'stories.place');
+        return Tour::with('stories', 'stories.place')->where('published', 1);
     }
 
     public function get()

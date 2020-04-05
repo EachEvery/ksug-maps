@@ -44,6 +44,40 @@
             />
           </draggable>
         </scroll-container>
+
+        <div v-if="userLocation">
+          <explore-heading portal-name="recent-comments-heading" class="mt-12">Nearest Places</explore-heading>
+
+          <scroll-container
+            class="-mx-10 md:-mx-8 px-5 md:px-8"
+            buttons-portal="recent-comments-heading"
+          >
+            <location-card
+              v-for="place in [...closestPlacesFirst].slice(0, 4)"
+              :key="place.id"
+              :place="place"
+              class="mr-4 w-72 h-48vh flex-retain"
+              style="max-height: 25rem"
+            />
+          </scroll-container>
+        </div>
+
+        <div v-if="comments.length">
+          <explore-heading portal-name="recent-comments-heading" class="mt-12">Recent Comments</explore-heading>
+
+          <scroll-container
+            class="-mx-10 md:-mx-8 px-5 md:px-8"
+            buttons-portal="recent-comments-heading"
+          >
+            <comment-card
+              v-for="comment in [...comments].slice(0, 9)"
+              :key="comment.id"
+              :comment="comment"
+              class="mr-4 w-72 h-48vh flex-retain"
+              style="max-height: 25rem"
+            />
+          </scroll-container>
+        </div>
       </div>
     </div>
   </div>
@@ -58,10 +92,12 @@ import scrollContainer from "./ScrollContainer";
 import draggable from "vuedraggable";
 import tourCard from "./TourCard";
 import storyCard from "./StoryCard";
-
+import commentCard from "./CommentCard";
 import exploreHeading from "./ExploreSubheading";
+import locationCard from "./LocationCard";
 
 import { mapState, mapGetters } from "vuex";
+import distance from "../mixins/distance";
 
 export default {
   props: {
@@ -70,6 +106,8 @@ export default {
   },
 
   components: {
+    locationCard,
+    commentCard,
     upArrow,
     desktopExploreToggle,
     mobileExploreToggle,
@@ -80,11 +118,17 @@ export default {
     storyCard
   },
 
-  mixins: [windowDimensions],
+  mixins: [windowDimensions, distance],
 
   watch: {
     open() {
       this.setCanClickOutside();
+
+      if (this.open) {
+        setTimeout(() => {
+          this.$store.commit("setMapCenter", [undefined, undefined, 15]);
+        }, 400);
+      }
     }
   },
   data() {
@@ -109,8 +153,19 @@ export default {
   },
 
   computed: {
-    ...mapState(["tours", "stories"]),
-    ...mapGetters(["featuredStories"]),
+    ...mapState(["tours", "stories", "places"]),
+    ...mapGetters(["featuredStories", "comments", "userLocation"]),
+
+    closestPlacesFirst({ places }) {
+      let withDistance = places.map(p => {
+        return {
+          ...p,
+          distance: this.getLocationDistance(+p.lat, +p.long)
+        };
+      });
+
+      return withDistance.sort((a, b) => a.distance - b.distance);
+    },
 
     containerStyle({ open, hide, md }) {
       if (hide) {

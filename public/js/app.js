@@ -3768,15 +3768,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3802,6 +3793,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       menuOpen: false
     };
   },
+  watch: {
+    $route: function $route(route) {
+      this.addRouteToStack(route);
+    }
+  },
   mounted: function () {
     var _mounted = _asyncToGenerator(
     /*#__PURE__*/
@@ -3816,7 +3812,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 2:
               this.preloadImages();
 
-              if (this.$route.path === "/") {// this.$router.push("/about");
+              if (this.$route.path === "/") {
+                this.$router.push("/about");
               }
 
             case 4:
@@ -3833,9 +3830,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     return mounted;
   }(),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapActions"])(["ensureData"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapActions"])(["ensureData"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapMutations"])(["addRouteToStack"]), {
     handleExploreToggle: function handleExploreToggle() {
-      console.log("wow", this.exploreOpen);
       var newRoute = this.exploreOpen ? "/" : "/explore";
       this.$router.push(newRoute);
     },
@@ -4493,6 +4489,104 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentCard.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CommentCard.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _QuoteIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuoteIcon */ "./resources/js/components/QuoteIcon.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    quoteIcon: _QuoteIcon__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    comment: Object
+  },
+  methods: {
+    truncate: lodash__WEBPACK_IMPORTED_MODULE_0___default.a.truncate
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["places"]), {
+    place: function place(_ref) {
+      var comment = _ref.comment,
+          places = _ref.places;
+      return places.find(function (p) {
+        return +p.id === +comment.place_id;
+      });
+    },
+    lat: function lat(_ref2) {
+      var place = _ref2.place;
+      return +place.lat;
+    },
+    lng: function lng(_ref3) {
+      var place = _ref3.place;
+      return +place["long"];
+    },
+    transparentColor: function transparentColor() {
+      var hex = "#F0EBE6";
+      var c = hex.substring(1).split("");
+
+      if (c.length == 3) {
+        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+
+      c = "0x" + c.join("");
+      return "rgba(" + [c >> 16 & 255, c >> 8 & 255, c & 255].join(",") + ",0)";
+    }
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentForm.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CommentForm.vue?vue&type=script&lang=js& ***!
@@ -4755,8 +4849,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, 100);
     },
     toggle: function toggle(e) {
-      console.log("togggling");
-
       if (this.isOpen) {
         this.close();
       } else {
@@ -4871,8 +4963,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _TourCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TourCard */ "./resources/js/components/TourCard.vue");
 /* harmony import */ var _StoryCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./StoryCard */ "./resources/js/components/StoryCard.vue");
-/* harmony import */ var _ExploreSubheading__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ExploreSubheading */ "./resources/js/components/ExploreSubheading.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _CommentCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./CommentCard */ "./resources/js/components/CommentCard.vue");
+/* harmony import */ var _ExploreSubheading__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ExploreSubheading */ "./resources/js/components/ExploreSubheading.vue");
+/* harmony import */ var _LocationCard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./LocationCard */ "./resources/js/components/LocationCard.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_distance__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../mixins/distance */ "./resources/js/mixins/distance.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4928,6 +5023,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
@@ -4944,19 +5076,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     hide: Boolean
   },
   components: {
+    locationCard: _LocationCard__WEBPACK_IMPORTED_MODULE_10__["default"],
+    commentCard: _CommentCard__WEBPACK_IMPORTED_MODULE_8__["default"],
     upArrow: _UpArrow__WEBPACK_IMPORTED_MODULE_0__["default"],
     desktopExploreToggle: _DesktopExploreToggle__WEBPACK_IMPORTED_MODULE_1__["default"],
     mobileExploreToggle: _MobileExploreToggle__WEBPACK_IMPORTED_MODULE_2__["default"],
     scrollContainer: _ScrollContainer__WEBPACK_IMPORTED_MODULE_4__["default"],
     draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_5___default.a,
     tourCard: _TourCard__WEBPACK_IMPORTED_MODULE_6__["default"],
-    exploreHeading: _ExploreSubheading__WEBPACK_IMPORTED_MODULE_8__["default"],
+    exploreHeading: _ExploreSubheading__WEBPACK_IMPORTED_MODULE_9__["default"],
     storyCard: _StoryCard__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
-  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_3__["default"]],
+  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_distance__WEBPACK_IMPORTED_MODULE_12__["default"]],
   watch: {
     open: function open() {
+      var _this = this;
+
       this.setCanClickOutside();
+
+      if (this.open) {
+        setTimeout(function () {
+          _this.$store.commit("setMapCenter", [undefined, undefined, 15]);
+        }, 400);
+      }
     }
   },
   data: function data() {
@@ -4974,18 +5116,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     setCanClickOutside: function setCanClickOutside() {
-      var _this = this;
+      var _this2 = this;
 
       setTimeout(function () {
-        _this.canClickOutside = _this.open;
+        _this2.canClickOutside = _this2.open;
       }, 300);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_9__["mapState"])(["tours", "stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_9__["mapGetters"])(["featuredStories"]), {
-    containerStyle: function containerStyle(_ref) {
-      var open = _ref.open,
-          hide = _ref.hide,
-          md = _ref.md;
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["tours", "stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapGetters"])(["featuredStories", "comments", "userLocation"]), {
+    closestPlacesFirst: function closestPlacesFirst(_ref) {
+      var _this3 = this;
+
+      var places = _ref.places;
+      var withDistance = places.map(function (p) {
+        return _objectSpread({}, p, {
+          distance: _this3.getLocationDistance(+p.lat, +p["long"])
+        });
+      });
+      return withDistance.sort(function (a, b) {
+        return a.distance - b.distance;
+      });
+    },
+    containerStyle: function containerStyle(_ref2) {
+      var open = _ref2.open,
+          hide = _ref2.hide,
+          md = _ref2.md;
 
       if (hide) {
         return {
@@ -4997,8 +5152,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         transform: md ? "translateX(".concat(open ? "0" : "100%", ")") : "translateY(".concat(open ? "0" : "87%", ")")
       };
     },
-    arrowStyle: function arrowStyle(_ref2) {
-      var open = _ref2.open;
+    arrowStyle: function arrowStyle(_ref3) {
+      var open = _ref3.open;
       return {
         transform: "rotate(".concat(open ? "180deg" : 0, ")")
       };
@@ -5093,6 +5248,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5120,7 +5282,7 @@ var filterStub = {
       filters: _toConsumableArray(this.$store.state.filters)
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(["roles", "names", "days"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapState"])(["stories"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(["roles", "names", "days", "validFilters"]), {
     filterItems: function filterItems(_ref) {
       var activeCollection = _ref.activeCollection;
       var items = this[activeCollection].map(function (item) {
@@ -5140,6 +5302,9 @@ var filterStub = {
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapMutations"])(["setFilters", "clearFilters"]), {
     removeFilter: function removeFilter(i) {
       this.filters.splice(i, 1);
+    },
+    clearAll: function clearAll() {
+      this.filters = [_objectSpread({}, filterStub)];
     },
     addFilter: function addFilter() {
       this.filters.push(_objectSpread({}, filterStub));
@@ -5442,7 +5607,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CommentForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CommentForm */ "./resources/js/components/CommentForm.vue");
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var _ScrollContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ScrollContainer */ "./resources/js/components/ScrollContainer.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_handleBack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../mixins/handleBack */ "./resources/js/mixins/handleBack.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../mixins/windowDimensions */ "./resources/js/mixins/windowDimensions.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -5605,6 +5772,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -5612,6 +5797,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_5__["default"], _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_7__["default"]],
   metaInfo: function metaInfo() {
     return {
       title: this.location.name,
@@ -5666,32 +5852,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      this.$router.push("/");
+      this.back();
     },
     handleImageLoad: function handleImageLoad() {
       this.state = "loaded";
     }
   },
   mounted: function mounted() {
+    var _this = this;
+
+    this.$store.commit("setMapCenter", [+this.location.lat, +this.location["long"], 16]);
     this.$nextTick(function () {
       $(".lightbox").each(function () {
         $(this).fluidbox();
       });
+      setTimeout(function () {
+        if (!_this.$route.hash) {
+          return;
+        }
+
+        $(_this.$refs.container).animate({
+          scrollTop: $(_this.$route.hash).offset().top - 20
+        }, 400);
+      }, 700);
     });
   },
   watch: {
     $route: function $route() {
-      var _this = this;
+      var _this2 = this;
 
       setTimeout(function () {
-        _this.scrollOverflow = !_this.isPreview;
+        _this2.scrollOverflow = !_this2.isPreview;
       }, 400);
     }
   },
   beforeDestroy: function beforeDestroy() {
     $(".lightbox").off();
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])(["isAdmin"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(["stories", "places"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(["isAdmin"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapState"])(["stories", "places"]), {
+    defaultBackRoute: function defaultBackRoute() {
+      return "/";
+    },
     phoneNumber: function phoneNumber() {
       return window.phoneNumber;
     },
@@ -5714,11 +5915,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       };
     },
     location: function location(_ref4) {
-      var _this2 = this;
+      var _this3 = this;
 
       var places = _ref4.places;
       return places.find(function (item) {
-        return item.slug === _this2.$route.params.location;
+        return item.slug === _this3.$route.params.location;
       });
     },
     isPreview: function isPreview() {
@@ -5754,6 +5955,72 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return location.name;
     }
   })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LocationCard.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/LocationCard.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_distance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/distance */ "./resources/js/mixins/distance.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_distance__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  props: {
+    place: Object
+  },
+  computed: {
+    location: function location(_ref) {
+      var place = _ref.place;
+      return place;
+    },
+    lat: function lat(_ref2) {
+      var place = _ref2.place;
+      return +place.lat;
+    },
+    lng: function lng(_ref3) {
+      var place = _ref3.place;
+      return +place["long"];
+    },
+    storyCount: function storyCount(_ref4) {
+      var location = _ref4.location;
+
+      if (location.stories.length > 1) {
+        return "".concat(location.stories.length, " stories");
+      }
+
+      return "1 story";
+    }
+  }
 });
 
 /***/ }),
@@ -5958,7 +6225,7 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_12__["
       showAerialPhoto: true
     };
   },
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_13__["mapState"])(["mapCenter"]), {
     showingLayersMenu: function showingLayersMenu(_ref) {
       var state = _ref.state;
       return state === "showingLayersMenu";
@@ -5968,24 +6235,49 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_12__["
           showOverlayButton = _ref2.showOverlayButton;
       return showOverlayButton && !showingLayersMenu;
     }
-  },
+  }),
   watch: {
-    state: function state() {
+    mapCenter: function mapCenter(val) {
       var _this = this;
+
+      this.updateActiveMarker(val);
+      var currentZoom = this.map.getZoom();
+      var ops = {
+        center: [+val[1], +val[0]],
+        curve: 0,
+        zoom: val.length === 2 ? currentZoom : +val[2]
+      };
+
+      if (val.length === 3) {
+        ops["zoom"] = +val[2];
+      }
+
+      if (val[0] === undefined || val[1] === undefined) {
+        ops = {
+          zoom: val[2]
+        };
+      }
+
+      setTimeout(function () {
+        _this.map.easeTo(ops);
+      }, 400);
+    },
+    state: function state() {
+      var _this2 = this;
 
       clearTimeout(this.clickOutsideGate);
       setTimeout(function () {
-        _this.canClickOutside = _this.showingLayersMenu;
+        _this2.canClickOutside = _this2.showingLayersMenu;
       }, 300);
     },
     showLandmarks: function showLandmarks(val) {
-      var _this2 = this;
+      var _this3 = this;
 
       var layerIds = ["ksu-campus-label", "ksu-campus", "historic-landmark-label", "historic-landmark", "students-killed", "students-wounded"]; //   this.map.setPaintProperty("historic-landmark", "raster-opacity", 0);
 
       layerIds.forEach(function (id) {
         // this.map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-        _this2.map.setLayoutProperty(id, "visibility", val ? "visible" : "none");
+        _this3.map.setLayoutProperty(id, "visibility", val ? "visible" : "none");
       });
     }
   },
@@ -5999,7 +6291,7 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_12__["
       this.state = "showingLayersMenu";
     },
     initMap: function initMap() {
-      var _this3 = this;
+      var _this4 = this;
 
       var center = [-81.348852, 41.15002];
 
@@ -6017,14 +6309,14 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_12__["
         maxBounds: [[-81.39301041235215, 41.132502224091496], [-81.32319121255, 41.18378981482479]]
       });
       this.map.on("load", function () {
-        _this3.mapLoaded = true;
+        _this4.mapLoaded = true;
       });
       this.mapboxMarkers = this.markers.map(function (marker) {
         var el = document.createElement("div");
         el.className = "marker";
-        var mapboxMarker = new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(_this3.map);
+        var mapboxMarker = new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(_this4.map);
         el.addEventListener("click", function (e) {
-          _this3.handleMarkerClick(marker, e);
+          _this4.handleMarkerClick(marker, e);
         });
         return _objectSpread({}, marker, {}, mapboxMarker);
       });
@@ -6035,27 +6327,27 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_12__["
         trackUserLocation: true
       }));
       navigator.geolocation.watchPosition(function (pos) {
-        _this3.addGeolocation(pos);
+        _this4.addGeolocation(pos);
       });
       this.map.on("click", "students-killed", function (e) {
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(e.features[0].properties.Name).addTo(_this3.map);
+        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(e.features[0].properties.Name).addTo(_this4.map);
       });
       this.map.on("click", "students-wounded", function (e) {
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(e.features[0].properties.Name).addTo(_this3.map);
+        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(e.features[0].properties.Name).addTo(_this4.map);
       });
       this.map.on("mouseenter", "students-killed", function () {
-        _this3.map.getCanvas().style.cursor = "pointer";
+        _this4.map.getCanvas().style.cursor = "pointer";
       }); // Change it back to a pointer when it leaves.
 
       this.map.on("mouseleave", "students-killed", function () {
-        _this3.map.getCanvas().style.cursor = "";
+        _this4.map.getCanvas().style.cursor = "";
       });
       this.map.on("mouseenter", "students-wounded", function () {
-        _this3.map.getCanvas().style.cursor = "pointer";
+        _this4.map.getCanvas().style.cursor = "pointer";
       }); // Change it back to a pointer when it leaves.
 
       this.map.on("mouseleave", "students-wounded", function () {
-        _this3.map.getCanvas().style.cursor = "";
+        _this4.map.getCanvas().style.cursor = "";
       });
 
       if (this.isLocation) {
@@ -6127,21 +6419,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -6393,7 +6670,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     value: String,
     emptyLabel: {
-      "default": "None"
+      "default": "All"
     },
     options: {
       required: true
@@ -6406,13 +6683,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   watch: {
-    value: function value(val) {
-      console.log("recieved new value", val);
-    }
+    value: function value(val) {}
   },
   methods: {
     handleClick: function handleClick(option) {
-      console.log("emitting");
       this.$emit("input", this.getOptionValue(option));
     },
     getButtonClass: function getButtonClass(option) {
@@ -6491,9 +6765,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _QuoteIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuoteIcon */ "./resources/js/components/QuoteIcon.vue");
 /* harmony import */ var _ChevronUpIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ChevronUpIcon */ "./resources/js/components/ChevronUpIcon.vue");
 /* harmony import */ var _ToggleStoryFeatured__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ToggleStoryFeatured */ "./resources/js/components/ToggleStoryFeatured.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _mixins_handleBack__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../mixins/handleBack */ "./resources/js/mixins/handleBack.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_8__);
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -6596,7 +6871,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_6__["default"]],
   metaInfo: function metaInfo() {
     return {
       title: this.story.subject,
@@ -6633,11 +6910,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       setTimeout(function () {
         _this.$refs.audioPlayer.controlAudio("pause");
 
-        _this.$router.push("/places/".concat(_this.location.slug));
+        _this.back();
       }, 310);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapState"])(["stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(["isAdmin"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])(["isAdmin"]), {
     firstLast: function firstLast(_ref) {
       var story = _ref.story;
       var parts = story.subject.split(",");
@@ -6689,16 +6966,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var story = _ref7.story;
       return story.place;
     },
-    story: function story(_ref8) {
+    defaultBackRoute: function defaultBackRoute(_ref8) {
+      var location = _ref8.location;
+      return "/places/".concat(location.slug, "/");
+    },
+    story: function story(_ref9) {
       var _this2 = this;
 
-      var stories = _ref8.stories;
+      var stories = _ref9.stories;
       return stories.find(function (s) {
         return +s.id === +_this2.$route.params.story;
       });
     },
-    locationHtml: function locationHtml(_ref9) {
-      var story = _ref9.story;
+    locationHtml: function locationHtml(_ref10) {
+      var story = _ref10.story;
       var words = story.place.name.split(" ");
 
       if (words.length === 2) {
@@ -6716,6 +6997,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this3 = this;
 
+    this.$store.commit("setMapCenter", [+this.location.lat, +this.location["long"], 16]);
     setTimeout(function () {
       _this3.state = "showPlayer";
     }, 500);
@@ -6780,15 +7062,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -6799,11 +7072,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   props: {
     story: Object
-  },
-  watch: {
-    distance: function distance(val) {
-      console.log(val, "distance");
-    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["places"]), {
     place: function place(_ref) {
@@ -7098,11 +7366,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   props: {
     tour: Object
-  },
-  watch: {
-    distance: function distance(val) {
-      console.log(val, "wow");
-    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["places"]), {
     firstStory: function firstStory(_ref) {
@@ -11736,6 +11999,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 }));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".gradient[data-v-5634f174] {\n  background: linear-gradient(to bottom, var(--transparentColor), #f0ebe6 75%);\n}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -51736,6 +52018,36 @@ Sortable.mount(Remove, Revert);
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Dropdown.vue?vue&type=style&index=0&id=ef782e08&scoped=true&lang=scss& ***!
@@ -53527,6 +53839,91 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentCard.vue?vue&type=template&id=5634f174&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CommentCard.vue?vue&type=template&id=5634f174&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "router-link",
+    {
+      staticClass:
+        "bg-tan-100 relative shrink-when-active mb-8 flex flex-col overflow-hidden",
+      style: { "--transparentColor": _vm.transparentColor },
+      attrs: { to: "/places/" + _vm.place.slug + "#comment-" + _vm.comment.id }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "text-black overflow-hidden relative p-5 flex-1 flex-shrink-0",
+          class: {
+            "h-full": !_vm.comment.media_is_image,
+            "h-48": _vm.comment.media_is_image
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "flex justify-between font-mono font-bold" },
+            [
+              _c("h3", { staticClass: "self-end text-xs xl:text-2xs" }, [
+                _vm._v(_vm._s(_vm.truncate(_vm.place.name, { length: 20 })))
+              ]),
+              _vm._v(" "),
+              _c("h3", { staticClass: "self-end text-xs xl:text-2xs" }, [
+                _vm._v(_vm._s(_vm.comment.frontend_date))
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("quote-icon", { staticClass: "text-black w-6 pb-1 h-6 mt-6" }),
+          _vm._v(" "),
+          _c(
+            "p",
+            {
+              staticClass:
+                "leading-loose mt-5 text-sm xl:text-base xl:leading-normal"
+            },
+            [_vm._v(_vm._s(_vm.comment.text))]
+          ),
+          _vm._v(" "),
+          _c("div", {
+            staticClass:
+              "inset-x-0 bottom-0 w-full h-12 absolute gradient font-mono"
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.comment.media_is_image
+        ? _c("img", {
+            staticClass: "object-cover flex-grow flex-1",
+            staticStyle: { "max-height": "10rem" },
+            attrs: { src: _vm.comment.media_url }
+          })
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentForm.vue?vue&type=template&id=72ee8928&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CommentForm.vue?vue&type=template&id=72ee8928& ***!
@@ -53897,7 +54294,80 @@ var render = function() {
                 )
               }),
               1
-            )
+            ),
+            _vm._v(" "),
+            _vm.userLocation
+              ? _c(
+                  "div",
+                  [
+                    _c(
+                      "explore-heading",
+                      {
+                        staticClass: "mt-12",
+                        attrs: { "portal-name": "recent-comments-heading" }
+                      },
+                      [_vm._v("Nearest Places")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "scroll-container",
+                      {
+                        staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
+                        attrs: { "buttons-portal": "recent-comments-heading" }
+                      },
+                      _vm._l(
+                        [].concat(_vm.closestPlacesFirst).slice(0, 4),
+                        function(place) {
+                          return _c("location-card", {
+                            key: place.id,
+                            staticClass: "mr-4 w-72 h-48vh flex-retain",
+                            staticStyle: { "max-height": "25rem" },
+                            attrs: { place: place }
+                          })
+                        }
+                      ),
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.comments.length
+              ? _c(
+                  "div",
+                  [
+                    _c(
+                      "explore-heading",
+                      {
+                        staticClass: "mt-12",
+                        attrs: { "portal-name": "recent-comments-heading" }
+                      },
+                      [_vm._v("Recent Comments")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "scroll-container",
+                      {
+                        staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
+                        attrs: { "buttons-portal": "recent-comments-heading" }
+                      },
+                      _vm._l([].concat(_vm.comments).slice(0, 9), function(
+                        comment
+                      ) {
+                        return _c("comment-card", {
+                          key: comment.id,
+                          staticClass: "mr-4 w-72 h-48vh flex-retain",
+                          staticStyle: { "max-height": "25rem" },
+                          attrs: { comment: comment }
+                        })
+                      }),
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e()
           ],
           1
         )
@@ -53973,9 +54443,32 @@ var render = function() {
     },
     [
       _c(
-        "h1",
-        { staticClass: "font-display text-3xl font-black mb-5 uppercase" },
-        [_vm._v("FILTER LOCATIONS")]
+        "div",
+        { staticClass: "flex items-center mb-5" },
+        [
+          _c(
+            "h1",
+            { staticClass: "font-display text-3xl font-black uppercase" },
+            [_vm._v("FILTER LOCATIONS")]
+          ),
+          _vm._v(" "),
+          _vm.validFilters.length || _vm.filters.length > 1
+            ? _c(
+                "clickable",
+                {
+                  staticClass: "uppercase font-mono ml-3",
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      return _vm.clearAll($event)
+                    }
+                  }
+                },
+                [_vm._v("Reset")]
+              )
+            : _vm._e()
+        ],
+        1
       ),
       _vm._v(" "),
       _vm._l(_vm.filters, function(filter, i) {
@@ -54732,6 +55225,7 @@ var render = function() {
           expression: "goBack"
         }
       ],
+      ref: "container",
       staticClass:
         "fixed inset-0 md:right-0 md:left-auto bg-tan-100 transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto",
       class: _vm.containerClass,
@@ -54797,16 +55291,29 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
+      _vm.location.photos.length > 1
+        ? _c(
+            "div",
+            { staticClass: "md:px-5 xl:px-8 -mb-8 mt-8" },
+            [_c("portal-target", { attrs: { name: "photo-arrows" } })],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _vm.location.photos.length
         ? _c(
             "scroll-container",
-            { staticClass: "md:px-5 xl:px-8 mb-8 mt-6" },
+            {
+              staticClass: "md:px-5 xl:px-8 mb-8 mt-6",
+              attrs: { "buttons-portal": "photo-arrows" }
+            },
             _vm._l(_vm.location.photos, function(photo, i) {
               return _c(
                 "clickable",
                 {
                   key: i,
-                  staticClass: "text-left",
+                  staticClass: "text-left mr-4 flex-shrink-0",
+                  staticStyle: { height: "20rem" },
                   on: {
                     click: function($event) {
                       return _vm.handleImageClick(photo.url)
@@ -54815,8 +55322,9 @@ var render = function() {
                 },
                 [
                   _c("img", {
-                    staticClass: "h-64 object-cover transition",
+                    staticClass: "transition",
                     class: _vm.getImageClass(photo),
+                    staticStyle: { height: "13rem" },
                     attrs: {
                       src: photo.url,
                       alt: photo.custom_properties.alt_text
@@ -54893,7 +55401,11 @@ var render = function() {
               _vm._l(_vm.location.approved_comments, function(comment) {
                 return _c(
                   "div",
-                  { key: comment.id, staticClass: "my-10" },
+                  {
+                    key: comment.id,
+                    staticClass: "my-10",
+                    attrs: { id: "comment-" + comment.id }
+                  },
                   [
                     _c(
                       "h4",
@@ -55089,6 +55601,71 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LocationCard.vue?vue&type=template&id=75cb65d0&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/LocationCard.vue?vue&type=template&id=75cb65d0& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "router-link",
+    {
+      staticClass: "bg-tan-100 relative shrink-when-active mb-8 flex flex-col",
+      attrs: { to: "/places/" + _vm.place.slug }
+    },
+    [
+      _c("div", { staticClass: "p-4", staticStyle: { height: "45%" } }, [
+        _c(
+          "h3",
+          {
+            staticClass:
+              "uppercase font-display text-xl font-normal leading-none"
+          },
+          [_vm._v(_vm._s(_vm.place.name))]
+        ),
+        _vm._v(" "),
+        _c("span", { staticClass: "font-mono mt-2 inline-block uppercase" }, [
+          _vm._v(_vm._s(_vm.storyCount))
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.place.photos.length
+        ? _c("img", {
+            staticClass: "flex-grow object-cover",
+            attrs: { src: _vm.place.photos[0].url }
+          })
+        : _c("div", { staticClass: "flex-grow" }),
+      _vm._v(" "),
+      _vm.distance
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "absolute font-mono text-black opacity-50 left-0 text-xs mt-2 tracking-wide",
+              staticStyle: { top: "100%" }
+            },
+            [_vm._v(_vm._s(_vm.distance))]
+          )
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -55853,7 +56430,8 @@ var render = function() {
     "div",
     {
       ref: "container",
-      staticClass: "flex overflow-auto flex-no-wrap hide-scrollbars",
+      staticClass:
+        "flex overflow-auto flex-no-wrap hide-scrollbars items-start",
       on: { scroll: _vm.updateScrollPos }
     },
     [
@@ -55865,7 +56443,7 @@ var render = function() {
       _vm._t("default"),
       _vm._v(" "),
       _c("div", {
-        staticClass: "w-1 md:hidden",
+        staticClass: "w-1 flex-shrink-0",
         staticStyle: { flex: "0 0 auto" }
       }),
       _vm._v(" "),
@@ -56407,7 +56985,7 @@ var render = function() {
   return _c(
     "router-link",
     {
-      staticClass: "bg-current p-5 relative  shrink-when-active mb-8",
+      staticClass: "bg-current p-5 relative shrink-when-active mb-8",
       style: {
         "--transparentColor": _vm.transparentColor,
         "--currentColor": _vm.story.color
@@ -56427,11 +57005,7 @@ var render = function() {
               staticClass:
                 "leading-loose mt-5 text-sm xl:text-base xl:leading-normal"
             },
-            [
-              _vm._v(
-                "\n            " + _vm._s(_vm.story.content) + "\n        "
-              )
-            ]
+            [_vm._v(_vm._s(_vm.story.content))]
           ),
           _vm._v(" "),
           _c(
@@ -56444,25 +57018,13 @@ var render = function() {
               _c(
                 "h3",
                 { staticClass: "self-end text-xs xl:text-2xs font-bold" },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.story.role) +
-                      "\n            "
-                  )
-                ]
+                [_vm._v(_vm._s(_vm.story.role))]
               ),
               _vm._v(" "),
               _c(
                 "h3",
                 { staticClass: "self-end text-xs xl:text-2xs font-bold" },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.story.day) +
-                      "\n            "
-                  )
-                ]
+                [_vm._v(_vm._s(_vm.story.day))]
               )
             ]
           )
@@ -56478,7 +57040,7 @@ var render = function() {
                 "absolute font-mono text-black opacity-50 left-0 text-xs mt-2 tracking-wide",
               staticStyle: { top: "100%" }
             },
-            [_vm._v("\n        " + _vm._s(_vm.distance) + "\n    ")]
+            [_vm._v(_vm._s(_vm.distance))]
           )
         : _vm._e()
     ]
@@ -78060,6 +78622,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/CommentCard.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/CommentCard.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CommentCard_vue_vue_type_template_id_5634f174_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CommentCard.vue?vue&type=template&id=5634f174&scoped=true& */ "./resources/js/components/CommentCard.vue?vue&type=template&id=5634f174&scoped=true&");
+/* harmony import */ var _CommentCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CommentCard.vue?vue&type=script&lang=js& */ "./resources/js/components/CommentCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CommentCard_vue_vue_type_style_index_0_id_5634f174_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss& */ "./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _CommentCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CommentCard_vue_vue_type_template_id_5634f174_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CommentCard_vue_vue_type_template_id_5634f174_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "5634f174",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CommentCard.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CommentCard.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/CommentCard.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CommentCard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss&":
+/*!***********************************************************************************************************!*\
+  !*** ./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss& ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_style_index_0_id_5634f174_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentCard.vue?vue&type=style&index=0&id=5634f174&scoped=true&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_style_index_0_id_5634f174_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_style_index_0_id_5634f174_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_style_index_0_id_5634f174_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_style_index_0_id_5634f174_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_style_index_0_id_5634f174_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CommentCard.vue?vue&type=template&id=5634f174&scoped=true&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/CommentCard.vue?vue&type=template&id=5634f174&scoped=true& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_template_id_5634f174_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CommentCard.vue?vue&type=template&id=5634f174&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommentCard.vue?vue&type=template&id=5634f174&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_template_id_5634f174_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CommentCard_vue_vue_type_template_id_5634f174_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/CommentForm.vue":
 /*!*************************************************!*\
   !*** ./resources/js/components/CommentForm.vue ***!
@@ -78961,6 +79610,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Location_vue_vue_type_template_id_16b5d2a0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Location_vue_vue_type_template_id_16b5d2a0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/LocationCard.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/LocationCard.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _LocationCard_vue_vue_type_template_id_75cb65d0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocationCard.vue?vue&type=template&id=75cb65d0& */ "./resources/js/components/LocationCard.vue?vue&type=template&id=75cb65d0&");
+/* harmony import */ var _LocationCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LocationCard.vue?vue&type=script&lang=js& */ "./resources/js/components/LocationCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _LocationCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _LocationCard_vue_vue_type_template_id_75cb65d0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _LocationCard_vue_vue_type_template_id_75cb65d0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/LocationCard.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/LocationCard.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/LocationCard.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./LocationCard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LocationCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/LocationCard.vue?vue&type=template&id=75cb65d0&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/LocationCard.vue?vue&type=template&id=75cb65d0& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationCard_vue_vue_type_template_id_75cb65d0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./LocationCard.vue?vue&type=template&id=75cb65d0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LocationCard.vue?vue&type=template&id=75cb65d0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationCard_vue_vue_type_template_id_75cb65d0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationCard_vue_vue_type_template_id_75cb65d0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -80692,27 +81410,65 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["userLocation"]), {
-    distance: function distance(_ref) {
-      var userLocation = _ref.userLocation;
-      console.log("user location", userLocation);
-
-      if (userLocation === undefined || this.lat === undefined || this.lng === undefined) {
-        return undefined;
+  methods: {
+    getLocationDistance: function getLocationDistance(lat, lng) {
+      if (this.userLocation === undefined) {
+        return 0;
       }
 
       var locationCoords = {
-        latitude: +this.lat.toFixed(8),
-        longitude: +this.lng.toFixed(8)
+        latitude: +lat.toFixed(8),
+        longitude: +lng.toFixed(8)
       };
       var userCoords = {
         latitude: +this.userLocation.coords.latitude.toFixed(8),
         longitude: +this.userLocation.coords.longitude.toFixed(8)
       };
       var distanceInMeters = Object(geolib__WEBPACK_IMPORTED_MODULE_1__["getDistance"])(userCoords, locationCoords);
-      return Object(geolib__WEBPACK_IMPORTED_MODULE_1__["convertDistance"])(distanceInMeters, "mi").toFixed(1) + " MILES FROM YOU";
+      return Object(geolib__WEBPACK_IMPORTED_MODULE_1__["convertDistance"])(distanceInMeters, "mi");
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["userLocation"]), {
+    distance: function distance(_ref) {
+      var userLocation = _ref.userLocation;
+
+      if (userLocation === undefined || this.lat === undefined || this.lng === undefined) {
+        return undefined;
+      }
+
+      return this.getLocationDistance(this.lat, this.lng).toFixed(1) + " MILES FROM YOU";
     }
   })
+});
+
+/***/ }),
+
+/***/ "./resources/js/mixins/handleBack.js":
+/*!*******************************************!*\
+  !*** ./resources/js/mixins/handleBack.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["routes"])),
+  methods: {
+    back: function back() {
+      if (this.routes.length < 2) {
+        this.$router.push(this.defaultBackRoute);
+      } else {
+        this.$router.go(-1);
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -80762,12 +81518,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var remove = "remove".concat(_.capitalize(prop));
 
       if (this.map[get](id) !== undefined) {
-        console.log(prop, id, "exists, removing...");
         this.map[remove](id);
         return;
       }
-
-      console.log(prop, id, "does not exist, ignorning...");
     },
     removeRouteLayer: function removeRouteLayer() {
       this.remove("source", "route");
@@ -80862,18 +81615,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return +m._lngLat.lng === +location["long"] && m._lngLat.lat === +location.lat;
       });
     },
+    updateActiveMarker: function updateActiveMarker(latlngArr) {
+      var matchingMarker = this.mapboxMarkers.find(function (m) {
+        return +m._lngLat.lng === +latlngArr[1] && m._lngLat.lat === +latlngArr[0];
+      });
+
+      if (matchingMarker) {
+        $(matchingMarker._element).addClass("active");
+        $(matchingMarker._element).css({
+          opacity: 1
+        });
+      } else {
+        this.updateMarkerElements();
+      }
+    },
     updateMarkerElements: function updateMarkerElements() {
       var _this = this;
 
       $(".marker").css({
         opacity: 1
       });
+      this.resetActiveMarkers();
+      $("canvas").css({
+        opacity: "1"
+      });
 
       if (!this.isLocation && this.validFilters.length === 0) {
         $("canvas").css({
           opacity: "1"
         });
-        this.resetActiveMarkers();
       } else if (!this.isLocation && this.validFilters.length > 0) {
         this.mapboxMarkers.forEach(function (marker) {
           var markerStoriesMatchingAnyFilterSet = marker.place.stories.filter(function (s) {
@@ -80930,18 +81700,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(marker, e) {
         var _this2 = this;
 
-        var currentZoom;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 e.preventDefault();
-                currentZoom = this.map.getZoom();
-                this.map.easeTo({
-                  center: [+marker.place["long"], +marker.place.lat],
-                  curve: 0,
-                  zoom: currentZoom < 16 ? 16 : currentZoom
-                });
                 /**
                  * The active markers are reset whenever the
                  * route changes and the new route is not a location
@@ -80949,16 +81712,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 setTimeout(function () {
                   _this2.$emit("location-clicked", marker.place);
-
-                  $(e.target).addClass("active");
                 }, 300);
 
-              case 4:
+              case 2:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee);
       }));
 
       function handleMarkerClick(_x, _x2) {
@@ -81268,6 +82029,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     tours: undefined,
     places: undefined,
     directions: undefined,
+    mapCenter: [],
+    routes: [],
     comments: [],
     filters: [{
       role: undefined,
@@ -81327,6 +82090,12 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     }
   },
   mutations: {
+    setMapCenter: function setMapCenter(state, center) {
+      state.mapCenter = center;
+    },
+    addRouteToStack: function addRouteToStack(state, route) {
+      state.routes.push(route);
+    },
     setFilters: function setFilters(state, filters) {
       state.filters = filters;
     },
@@ -81358,14 +82127,22 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     }
   },
   getters: {
-    validFilters: function validFilters(_ref7) {
-      var filters = _ref7.filters;
+    comments: function comments(_ref7) {
+      var places = _ref7.places;
+      return places.flatMap(function (p) {
+        return p.approved_comments;
+      }).sort(function (a, b) {
+        return b.timestamp - a.timestamp;
+      });
+    },
+    validFilters: function validFilters(_ref8) {
+      var filters = _ref8.filters;
       return filters.filter(function (f) {
         return f.day || f.role;
       });
     },
-    featuredStories: function featuredStories(_ref8) {
-      var stories = _ref8.stories;
+    featuredStories: function featuredStories(_ref9) {
+      var stories = _ref9.stories;
       return stories.map(function (s) {
         return _objectSpread({}, s, {
           featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
@@ -81377,21 +82154,21 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
         return a.featured_sort_order - b.featured_sort_order;
       });
     },
-    userLocation: function userLocation(_ref9) {
-      var geolocations = _ref9.geolocations;
+    userLocation: function userLocation(_ref10) {
+      var geolocations = _ref10.geolocations;
       return geolocations.length === 0 ? undefined : lodash__WEBPACK_IMPORTED_MODULE_6___default.a.last(geolocations);
     },
     isAdmin: function isAdmin() {
       return window.isAdmin;
     },
-    roles: function roles(_ref10) {
-      var stories = _ref10.stories;
+    roles: function roles(_ref11) {
+      var stories = _ref11.stories;
       return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["filled"])(Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["unique"])(stories.map(function (s) {
         return s.role;
       })));
     },
-    names: function names(_ref11) {
-      var stories = _ref11.stories;
+    names: function names(_ref12) {
+      var stories = _ref12.stories;
       return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["filled"])(Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_4__["unique"])(stories.map(function (s) {
         return s.subject;
       })));

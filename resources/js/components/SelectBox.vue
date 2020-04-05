@@ -38,7 +38,7 @@ export default {
   props: {
     value: String,
     emptyLabel: {
-      default: "None"
+      default: "All"
     },
     options: {
       required: true
@@ -50,13 +50,10 @@ export default {
     }
   },
   watch: {
-    value(val) {
-      console.log("recieved new value", val);
-    }
+    value(val) {}
   },
   methods: {
     handleClick(option) {
-      console.log("emitting");
       this.$emit("input", this.getOptionValue(option));
     },
     getButtonClass(option) {

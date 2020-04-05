@@ -14,12 +14,30 @@ export default {
             );
         },
 
+        updateActiveMarker(latlngArr) {
+            let matchingMarker = this.mapboxMarkers.find(
+                (m) =>
+                    +m._lngLat.lng === +latlngArr[1] &&
+                    m._lngLat.lat === +latlngArr[0]
+            );
+
+            if (matchingMarker) {
+                $(matchingMarker._element).addClass("active");
+                $(matchingMarker._element).css({
+                    opacity: 1,
+                });
+            } else {
+                this.updateMarkerElements();
+            }
+        },
+
         updateMarkerElements() {
             $(".marker").css({ opacity: 1 });
+            this.resetActiveMarkers();
+            $("canvas").css({ opacity: "1" });
 
             if (!this.isLocation && this.validFilters.length === 0) {
                 $("canvas").css({ opacity: "1" });
-                this.resetActiveMarkers();
             } else if (!this.isLocation && this.validFilters.length > 0) {
                 this.mapboxMarkers.forEach((marker) => {
                     let markerStoriesMatchingAnyFilterSet = marker.place.stories.filter(
@@ -76,21 +94,12 @@ export default {
         async handleMarkerClick(marker, e) {
             e.preventDefault();
 
-            let currentZoom = this.map.getZoom();
-
-            this.map.easeTo({
-                center: [+marker.place.long, +marker.place.lat],
-                curve: 0,
-                zoom: currentZoom < 16 ? 16 : currentZoom,
-            });
-
             /**
              * The active markers are reset whenever the
              * route changes and the new route is not a location
              */
             setTimeout(() => {
                 this.$emit("location-clicked", marker.place);
-                $(e.target).addClass("active");
             }, 300);
         },
     },

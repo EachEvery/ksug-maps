@@ -95,7 +95,7 @@ import layerIcon from "./LayerIcon";
 
 import onOffSwitch from "./OnOffSwitch";
 import { getMapboxToken } from "../functions/helpers";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 mapboxgl.accessToken = getMapboxToken();
 
@@ -129,6 +129,8 @@ export default {
     };
   },
   computed: {
+    ...mapState(["mapCenter"]),
+
     showingLayersMenu({ state }) {
       return state === "showingLayersMenu";
     },
@@ -138,6 +140,32 @@ export default {
   },
 
   watch: {
+    mapCenter(val) {
+      this.updateActiveMarker(val);
+
+      let currentZoom = this.map.getZoom();
+
+      let ops = {
+        center: [+val[1], +val[0]],
+        curve: 0,
+        zoom: val.length === 2 ? currentZoom : +val[2]
+      };
+
+      if (val.length === 3) {
+        ops["zoom"] = +val[2];
+      }
+
+      if (val[0] === undefined || val[1] === undefined) {
+        ops = {
+          zoom: val[2]
+        };
+      }
+
+      setTimeout(() => {
+        this.map.easeTo(ops);
+      }, 400);
+    },
+
     state() {
       clearTimeout(this.clickOutsideGate);
 

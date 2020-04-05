@@ -3,6 +3,7 @@
     v-click-outside="goBack"
     :class="containerClass"
     class="fixed inset-0 md:right-0 md:left-auto bg-tan-100 transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto"
+    ref="container"
     style="max-width: 45rem; min-width: 24rem;"
   >
     <router-link :to="chevronLink" class="absolute top-0 inset-x-0 h-32"></router-link>
@@ -35,17 +36,27 @@
       </div>
     </div>
 
-    <scroll-container v-if="location.photos.length" class="md:px-5 xl:px-8 mb-8 mt-6">
+    <div v-if="location.photos.length > 1" class="md:px-5 xl:px-8 -mb-8 mt-8">
+      <portal-target name="photo-arrows"></portal-target>
+    </div>
+
+    <scroll-container
+      buttons-portal="photo-arrows"
+      v-if="location.photos.length"
+      class="md:px-5 xl:px-8 mb-8 mt-6"
+    >
       <clickable
         @click="handleImageClick(photo.url)"
         v-for="(photo, i) in location.photos"
         :key="i"
-        class="text-left"
+        class="text-left mr-4 flex-shrink-0"
+        style="height: 20rem; "
       >
         <img
           :src="photo.url"
           :alt="photo.custom_properties.alt_text"
-          class="h-64 object-cover transition"
+          class="transition"
+          style="height: 13rem; "
           :class="getImageClass(photo)"
           @load="setLoaded(photo)"
         />
@@ -80,7 +91,12 @@
     >
       <h3 class="font-display uppercase text-3xl mb-12">Stories &amp; Comments</h3>
 
-      <div v-for="comment in location.approved_comments" :key="comment.id" class="my-10">
+      <div
+        v-for="comment in location.approved_comments"
+        :key="comment.id"
+        class="my-10"
+        :id="`comment-${comment.id}`"
+      >
         <h4 class="text-xl uppercase font-medium mb-3 font-display">{{ comment.author }}</h4>
 
         <portal to="end-of-document" v-if="comment.media_is_image">
@@ -162,10 +178,14 @@ import storyCard from "./StoryCard";
 import commentForm from "./CommentForm";
 import clickable from "./Clickable";
 import scrollContainer from "./ScrollContainer";
+import handleBack from "../mixins/handleBack";
 
 import { mapState, mapGetters } from "vuex";
+import windowDimensions from "../mixins/windowDimensions";
 
 export default {
+  mixins: [handleBack, windowDimensions],
+
   metaInfo() {
     return {
       title: this.location.name,
@@ -228,17 +248,36 @@ export default {
         return;
       }
 
-      this.$router.push("/");
+      this.back();
     },
     handleImageLoad() {
       this.state = "loaded";
     }
   },
   mounted() {
+    this.$store.commit("setMapCenter", [
+      +this.location.lat,
+      +this.location.long,
+      16
+    ]);
+
     this.$nextTick(() => {
       $(".lightbox").each(function() {
         $(this).fluidbox();
       });
+
+      setTimeout(() => {
+        if (!this.$route.hash) {
+          return;
+        }
+
+        $(this.$refs.container).animate(
+          {
+            scrollTop: $(this.$route.hash).offset().top - 20
+          },
+          400
+        );
+      }, 700);
     });
   },
   watch: {
@@ -254,6 +293,11 @@ export default {
   computed: {
     ...mapGetters(["isAdmin"]),
     ...mapState(["stories", "places"]),
+
+    defaultBackRoute() {
+      return "/";
+    },
+
     phoneNumber() {
       return window.phoneNumber;
     },
@@ -265,6 +309,7 @@ export default {
         opacity: showIt ? 1 : 0
       };
     },
+
     chevronLink({ isPreview }) {
       return isPreview
         ? `/places/${this.location.slug}`

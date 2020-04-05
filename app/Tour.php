@@ -11,6 +11,7 @@ class Tour extends Model implements HasMedia
     use InteractsWithMedia;
 
     public $with = ['photos'];
+    public $guarded = ['id'];
 
     public function registerMediaCollections(): void
     {

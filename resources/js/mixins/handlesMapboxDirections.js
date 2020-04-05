@@ -2,7 +2,7 @@ import { mapState } from "vuex";
 
 export default {
     computed: {
-        ...mapState(["directions"])
+        ...mapState(["directions"]),
     },
     methods: {
         remove(prop, id) {
@@ -10,13 +10,10 @@ export default {
             let remove = `remove${_.capitalize(prop)}`;
 
             if (this.map[get](id) !== undefined) {
-                console.log(prop, id, "exists, removing...");
                 this.map[remove](id);
 
                 return;
             }
-
-            console.log(prop, id, "does not exist, ignorning...");
         },
 
         removeRouteLayer() {
@@ -33,9 +30,9 @@ export default {
                     geometry: {
                         type: "LineString",
                         coordinates: this.directions.routes[0].geometry
-                            .coordinates
-                    }
-                }
+                            .coordinates,
+                    },
+                },
             });
 
             this.map.addLayer({
@@ -44,13 +41,13 @@ export default {
                 source: "route",
                 layout: {
                     "line-join": "round",
-                    "line-cap": "round"
+                    "line-cap": "round",
                 },
                 paint: {
                     "line-color": "#fff",
                     "line-width": 4,
-                    "line-dasharray": [0.1, 2]
-                }
+                    "line-dasharray": [0.1, 2],
+                },
             });
         },
         syncMapState() {
@@ -63,7 +60,7 @@ export default {
             } else {
                 this.removeRouteLayer();
             }
-        }
+        },
     },
 
     watch: {
@@ -77,6 +74,6 @@ export default {
 
         mapLoaded() {
             this.syncMapState();
-        }
-    }
+        },
+    },
 };

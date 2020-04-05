@@ -68,7 +68,6 @@ export default {
     },
 
     toggle(e) {
-      console.log("togggling");
       if (this.isOpen) {
         this.close();
       } else {

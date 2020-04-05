@@ -41,12 +41,6 @@ export default {
     tour: Object
   },
 
-  watch: {
-    distance(val) {
-      console.log(val, "wow");
-    }
-  },
-
   computed: {
     ...mapState(["places"]),
 

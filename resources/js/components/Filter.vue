@@ -1,6 +1,13 @@
 <template>
   <div class="leading-tight text-left px-5 h-full flex flex-col relative">
-    <h1 class="font-display text-3xl font-black mb-5 uppercase">FILTER LOCATIONS</h1>
+    <div class="flex items-center mb-5">
+      <h1 class="font-display text-3xl font-black uppercase">FILTER LOCATIONS</h1>
+      <clickable
+        class="uppercase font-mono ml-3"
+        @click.stop="clearAll"
+        v-if="validFilters.length || filters.length > 1"
+      >Reset</clickable>
+    </div>
 
     <div class="flex mb-4" v-for="(filter, i) in filters" :key="i">
       <selectbox :options="days" v-model="filter.day" class="w-32">Day</selectbox>
@@ -63,7 +70,7 @@ export default {
 
   computed: {
     ...mapState(["stories"]),
-    ...mapGetters(["roles", "names", "days"]),
+    ...mapGetters(["roles", "names", "days", "validFilters"]),
     filterItems({ activeCollection }) {
       let items = this[activeCollection].map(item => {
         return item.trim();
@@ -86,6 +93,10 @@ export default {
 
     removeFilter(i) {
       this.filters.splice(i, 1);
+    },
+
+    clearAll() {
+      this.filters = [{ ...filterStub }];
     },
 
     addFilter() {

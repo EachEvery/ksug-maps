@@ -13,10 +13,15 @@ class Comment extends Model implements HasMedia
     use InteractsWithMedia;
     use Tappable;
 
-    public $appends = ['frontend_date', 'media_is_image', 'media_url', 'has_media', 'comment_media'];
+    public $appends = ['frontend_date', 'media_is_image', 'media_url', 'has_media', 'comment_media', 'timestamp'];
 
     protected $dates = ['approved_at'];
     protected $guarded = [];
+
+    public function getTimestampAttribute()
+    {
+        return optional($this->approved_at)->getTimestamp();
+    }
 
     public function getMediaIsImageAttribute()
     {

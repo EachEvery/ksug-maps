@@ -5,7 +5,10 @@ namespace KSUGMap\Nova;
 use Benjacho\BelongsToManyField\BelongsToManyField;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
+use KSUGMap\Nova\Actions\Publish;
+use KSUGMap\Nova\Actions\Unpublish;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 
@@ -48,6 +51,7 @@ class Tour extends Resource
                 ->enableExistingMedia()
                 ->croppable(false),
             Text::make('Duration'),
+            Boolean::make('Published'),
             Text::make('Public Url', function () {
                 $url = $this->resource->public_url;
 
@@ -94,6 +98,6 @@ class Tour extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [new Publish, new Unpublish];
     }
 }

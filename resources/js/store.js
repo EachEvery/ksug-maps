@@ -14,6 +14,8 @@ export default new Vuex.Store({
         tours: undefined,
         places: undefined,
         directions: undefined,
+        mapCenter: [],
+        routes: [],
         comments: [],
         filters: [
             {
@@ -43,6 +45,13 @@ export default new Vuex.Store({
         },
     },
     mutations: {
+        setMapCenter(state, center) {
+            state.mapCenter = center;
+        },
+        addRouteToStack(state, route) {
+            state.routes.push(route);
+        },
+
         setFilters(state, filters) {
             state.filters = filters;
         },
@@ -76,6 +85,14 @@ export default new Vuex.Store({
     },
 
     getters: {
+        comments({ places }) {
+            return places
+                .flatMap((p) => p.approved_comments)
+                .sort((a, b) => {
+                    return b.timestamp - a.timestamp;
+                });
+        },
+
         validFilters({ filters }) {
             return filters.filter((f) => {
                 return f.day || f.role;
