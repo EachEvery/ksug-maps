@@ -16,12 +16,6 @@ use KSUGMap\Tour;
 |
 */
 
-Route::get('/search', 'SearchController');
-
-// Route::get('/stories', function (Stories $stories) {
-//     return $stories->all();
-// });
-
 Route::resource('stories', 'StoryController')->only(['index', 'update']);
 
 Route::get('/places', function (Places $places) {

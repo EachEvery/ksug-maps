@@ -76,7 +76,9 @@ class Story extends Resource
             Text::make('Full Story Link')->hideFromIndex(),
             Files::make('Audio', 'story_audio'),
             Text::make('Audio Preview', function () {
-                if ($this->resource->getMedia('story_audio')->count() === 0) {
+                $media = $this->resource->getMedia('comment_media');
+
+                if ($media->count() === 0) {
                     return 'N/A';
                 }
 

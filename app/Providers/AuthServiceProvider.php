@@ -4,6 +4,8 @@ namespace KSUGMap\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use KSUGMap\Policies\UserPolicy;
+use KSUGMap\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'KSUGMap\Model' => 'KSUGMap\Policies\ModelPolicy',
+
+        // User::class => UserPolicy::class,
     ];
 
     /**
@@ -25,6 +28,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('uploadFiles', function ($user = null) {
+            return true;
+        });
     }
 }

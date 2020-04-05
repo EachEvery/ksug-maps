@@ -37,7 +37,7 @@
 
     <scroll-container v-if="location.photos.length" class="md:px-5 xl:px-8 mb-8 mt-6">
       <clickable
-        @click="handleImageClick(photo)"
+        @click="handleImageClick(photo.url)"
         v-for="(photo, i) in location.photos"
         :key="i"
         class="text-left"
@@ -78,11 +78,36 @@
       class="xl:px-24 px-8 py-24 relative bg-black text-white"
       v-if="location.approved_comments.length > 0"
     >
-      <h3 class="font-display uppercase text-2xl mb-12">Stories &amp; Comments</h3>
+      <h3 class="font-display uppercase text-3xl mb-12">Stories &amp; Comments</h3>
 
       <div v-for="comment in location.approved_comments" :key="comment.id" class="my-10">
         <h4 class="text-xl uppercase font-medium mb-3 font-display">{{ comment.author }}</h4>
-        <span class="whitespace-pre-line leading-normal" v-html="comment.text"></span>
+
+        <portal to="end-of-document" v-if="comment.media_is_image">
+          <a :href="comment.media_url" class="lightbox">
+            <img :src="comment.media_url" />
+          </a>
+        </portal>
+
+        <span class="whitespace-pre-line leading-normal font-mono" v-html="comment.text"></span>
+
+        <clickable @click="handleImageClick(comment.media_url)" class="w-full mt-4">
+          <img
+            v-if="comment.media_is_image"
+            :src="comment.media_url"
+            class="border border-white max-w-md"
+          />
+        </clickable>
+
+        <video
+          v-if="!comment.media_is_image && comment.has_media"
+          controls
+          class="max-w-md p-2 border border-white"
+        >
+          <source :src="comment.media_url" :type="comment.comment_media.mime_type" />
+          Your browser does not support the video file type {{comment.comment_media.mime_type}}.
+        </video>
+
         <span class="block mt-4 opacity-75 font-mono text-xs">
           {{
           comment.frontend_date
@@ -113,6 +138,19 @@
           class="w-full mt-10 text-center py-3 px-2 border border-black uppercase"
           @click="addAnotherComment"
         >Add Another Comment</clickable>
+      </div>
+
+      <div class="bg-gray-300 p-6 mt-12 font-mono md:p-12">
+        <div class="flex items-center mb-4">
+          <img src="/images/voicemail.png" class="h-5 mr-2" />
+          <h3 class="uppercase">Leave a Voicemail</h3>
+        </div>
+        <p class="leading-normal text-sm">
+          Tell your story by leaving a voicemail with your name and message at the number below:
+          <br />
+          <br />
+          <a :href="`tel:${phoneNumber}`" class="text-black underline">{{phoneNumber}}</a>
+        </p>
       </div>
     </div>
   </div>
@@ -173,10 +211,8 @@ export default {
     addAnotherComment() {
       this.state = this.lastState;
     },
-    handleImageClick(photo) {
-      let $lightbox = $(`.lightbox[href="${photo.url}"]`);
-
-      console.log($lightbox, "lightbox");
+    handleImageClick(url) {
+      let $lightbox = $(`.lightbox[href="${url}"]`);
 
       $lightbox.trigger("click");
     },
@@ -218,6 +254,9 @@ export default {
   computed: {
     ...mapGetters(["isAdmin"]),
     ...mapState(["stories", "places"]),
+    phoneNumber() {
+      return window.phoneNumber;
+    },
     confirmationStyle({ state }) {
       let showIt = state === "showCommentConfirmation";
 

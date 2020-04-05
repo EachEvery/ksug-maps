@@ -50,8 +50,21 @@ class Comment extends Resource
             Text::make('Author')->readonly(),
             Text::make('Email')->readonly(),
             Textarea::make('Text')->readonly(),
+
             Boolean::make('Is Approved')->hideWhenCreating()->hideWhenUpdating(),
-            Date::make('Created At')->readonly(),
+            Text::make('Preview Media')->displayUsing(function () {
+                if ($this->resource->getMedia('comment_media')->count() === 0) {
+                    return 'N/A';
+                }
+
+                if ($this->resource->media_is_image) {
+                    return sprintf('<img src="%s" style="max-width: 15rem; border-radius: 5px " />', $this->resource->media_url);
+                }
+
+                return sprintf('<video src="%s" controls style="max-width: 15rem; border-radius: 5px;" />', $this->resource->media_url);
+            })->asHtml()->onlyOnDetail(),
+            Date::make('Created At')->readonly()->hideFromIndex(),
+            Boolean::make('Has Media')->onlyOnIndex(),
             BelongsTo::make('Place'),
             Files::make('Media', 'comment_media'),
         ];

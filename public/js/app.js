@@ -4269,9 +4269,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -5570,6 +5567,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5619,9 +5654,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addAnotherComment: function addAnotherComment() {
       this.state = this.lastState;
     },
-    handleImageClick: function handleImageClick(photo) {
-      var $lightbox = $(".lightbox[href=\"".concat(photo.url, "\"]"));
-      console.log($lightbox, "lightbox");
+    handleImageClick: function handleImageClick(url) {
+      var $lightbox = $(".lightbox[href=\"".concat(url, "\"]"));
       $lightbox.trigger("click");
     },
     isEven: function isEven(index) {
@@ -5658,6 +5692,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     $(".lightbox").off();
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])(["isAdmin"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapState"])(["stories", "places"]), {
+    phoneNumber: function phoneNumber() {
+      return window.phoneNumber;
+    },
     confirmationStyle: function confirmationStyle(_ref) {
       var state = _ref.state;
       var showIt = state === "showCommentConfirmation";
@@ -7051,13 +7088,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -7079,13 +7109,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var tour = _ref.tour;
       return tour.stories[0];
     },
-    lat: function lat(_ref2) {
-      var firstStory = _ref2.firstStory;
-      return +firstStory.place.lat;
+    place: function place(_ref2) {
+      var places = _ref2.places,
+          firstStory = _ref2.firstStory;
+      return places.find(function (p) {
+        return +p.id === +firstStory.place_id;
+      });
     },
-    lng: function lng(_ref3) {
-      var firstStory = _ref3.firstStory;
-      return +firstStory.place["long"];
+    lat: function lat(_ref3) {
+      var place = _ref3.place;
+      return +place.lat;
+    },
+    lng: function lng(_ref4) {
+      var place = _ref4.place;
+      return +place["long"];
     }
   })
 });
@@ -52698,7 +52735,7 @@ var render = function() {
           _vm._v(" "),
           _c("paragraph", { staticClass: "text-white" }, [
             _vm._v(
-              "\n      At Kent State University in Kent, Ohio, on May 4, 1970, 28\n      National Guard troops turned in unison and fired 67 shots at\n      student peace protesters, killing 4 and wounding 9, leaving one\n      paralyzed. On May 1st students began a series of protests in\n      response to Nixon’s expansion of the war from Vietnam to\n      Cambodia. By May 4th they were also protesting the occupation of\n      campus by nearly a thousand troops, more than 100 trucks, 12\n      armored vehicles, 3 tanks with mortar launchers, and 13\n      helicopters. People across the city and campus were traumatized\n      in various ways. After the shootings some community members said\n      that the students deserved to be shot. Even 50 years later\n      division and resentments continue.\n    "
+              "\n      At Kent State University in Kent, Ohio, on May 4, 1970, 28\n      National Guard troops turned in unison and fired 67 shots at\n      student peace protesters, killing 4 and wounding 9, leaving one\n      paralyzed. On May 1st students began a series of protests in\n      response to Nixon’s expansion of the war from Vietnam to\n      Cambodia. By May 4th they were also protesting the occupationp of\n      campus by nearly a thousand troops, more than 100 trucks, 12\n      armored vehicles, 3 tanks with mortar launchers, and 13\n      helicopters. People across the city and campus were traumatized\n      in various ways. After the shootings some community members said\n      that the students deserved to be shot. Even 50 years later\n      division and resentments continue.\n    "
             )
           ]),
           _vm._v(" "),
@@ -52707,7 +52744,11 @@ var render = function() {
             {
               staticClass:
                 "bg-white text-black uppercase font-mono h-12 flex justify-center items-center mt-12 cursor-pointed",
-              on: { click: _vm.goBack }
+              on: {
+                click: function($event) {
+                  return _vm.$router.push("/explore")
+                }
+              }
             },
             [
               _c("span", { staticClass: "text-center" }, [
@@ -53092,11 +53133,15 @@ var render = function() {
       _c("camera-icon", { staticClass: "w-10 h-6 mr-4 mb-5 opacity-75" }),
       _vm._v(" "),
       _c("div", { staticClass: "flex flex-col" }, [
-        _c("p", { staticStyle: { "max-width": "15rem" } }, [
-          _vm._v(
-            "\n            Add a video or photograph (new or old) of your story at this\n            location.\n        "
-          )
-        ]),
+        _c(
+          "p",
+          { staticClass: "mb-4", staticStyle: { "max-width": "15rem" } },
+          [
+            _vm._v(
+              "\n      Add a video or photograph (new or old) of your story at this\n      location.\n    "
+            )
+          ]
+        ),
         _vm._v(" "),
         _c("input", {
           ref: "fileInput",
@@ -53137,7 +53182,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("\n                    ×\n                ")]
+                      [_vm._v("×")]
                     )
                   ]
                 )
@@ -53159,7 +53204,20 @@ var render = function() {
                   },
                   [_vm._v("Upload a Photo or Video")]
                 )
-              : _vm._e()
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass: "italic text-2xs mt-2",
+                staticStyle: { "max-width": "15rem" }
+              },
+              [
+                _vm._v(
+                  "Due to browser restrictions, we only accept MP4 video files."
+                )
+              ]
+            )
           ],
           1
         )
@@ -54751,7 +54809,7 @@ var render = function() {
                   staticClass: "text-left",
                   on: {
                     click: function($event) {
-                      return _vm.handleImageClick(photo)
+                      return _vm.handleImageClick(photo.url)
                     }
                   }
                 },
@@ -54828,38 +54886,102 @@ var render = function() {
             [
               _c(
                 "h3",
-                { staticClass: "font-display uppercase text-2xl mb-12" },
+                { staticClass: "font-display uppercase text-3xl mb-12" },
                 [_vm._v("Stories & Comments")]
               ),
               _vm._v(" "),
               _vm._l(_vm.location.approved_comments, function(comment) {
-                return _c("div", { key: comment.id, staticClass: "my-10" }, [
-                  _c(
-                    "h4",
-                    {
+                return _c(
+                  "div",
+                  { key: comment.id, staticClass: "my-10" },
+                  [
+                    _c(
+                      "h4",
+                      {
+                        staticClass:
+                          "text-xl uppercase font-medium mb-3 font-display"
+                      },
+                      [_vm._v(_vm._s(comment.author))]
+                    ),
+                    _vm._v(" "),
+                    comment.media_is_image
+                      ? _c("portal", { attrs: { to: "end-of-document" } }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "lightbox",
+                              attrs: { href: comment.media_url }
+                            },
+                            [_c("img", { attrs: { src: comment.media_url } })]
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("span", {
                       staticClass:
-                        "text-xl uppercase font-medium mb-3 font-display"
-                    },
-                    [_vm._v(_vm._s(comment.author))]
-                  ),
-                  _vm._v(" "),
-                  _c("span", {
-                    staticClass: "whitespace-pre-line leading-normal",
-                    domProps: { innerHTML: _vm._s(comment.text) }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    { staticClass: "block mt-4 opacity-75 font-mono text-xs" },
-                    [
-                      _vm._v(
-                        "\n        " +
-                          _vm._s(comment.frontend_date) +
-                          "\n      "
-                      )
-                    ]
-                  )
-                ])
+                        "whitespace-pre-line leading-normal font-mono",
+                      domProps: { innerHTML: _vm._s(comment.text) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "clickable",
+                      {
+                        staticClass: "w-full mt-4",
+                        on: {
+                          click: function($event) {
+                            return _vm.handleImageClick(comment.media_url)
+                          }
+                        }
+                      },
+                      [
+                        comment.media_is_image
+                          ? _c("img", {
+                              staticClass: "border border-white max-w-md",
+                              attrs: { src: comment.media_url }
+                            })
+                          : _vm._e()
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !comment.media_is_image && comment.has_media
+                      ? _c(
+                          "video",
+                          {
+                            staticClass: "max-w-md p-2 border border-white",
+                            attrs: { controls: "" }
+                          },
+                          [
+                            _c("source", {
+                              attrs: {
+                                src: comment.media_url,
+                                type: comment.comment_media.mime_type
+                              }
+                            }),
+                            _vm._v(
+                              "\n        Your browser does not support the video file type " +
+                                _vm._s(comment.comment_media.mime_type) +
+                                ".\n      "
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "block mt-4 opacity-75 font-mono text-xs"
+                      },
+                      [
+                        _vm._v(
+                          "\n        " +
+                            _vm._s(comment.frontend_date) +
+                            "\n      "
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
               })
             ],
             2
@@ -54918,6 +55040,32 @@ var render = function() {
               )
             ],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "bg-gray-300 p-6 mt-12 font-mono md:p-12" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("p", { staticClass: "leading-normal text-sm" }, [
+                _vm._v(
+                  "\n        Tell your story by leaving a voicemail with your name and message at the number below:\n        "
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "text-black underline",
+                    attrs: { href: "tel:" + _vm.phoneNumber }
+                  },
+                  [_vm._v(_vm._s(_vm.phoneNumber))]
+                )
+              ])
+            ]
           )
         ],
         1
@@ -54926,7 +55074,21 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex items-center mb-4" }, [
+      _c("img", {
+        staticClass: "h-5 mr-2",
+        attrs: { src: "/images/voicemail.png" }
+      }),
+      _vm._v(" "),
+      _c("h3", { staticClass: "uppercase" }, [_vm._v("Leave a Voicemail")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -56420,7 +56582,7 @@ var render = function() {
               staticClass:
                 "uppercase font-display text-xl font-bold leading-none"
             },
-            [_vm._v("\n            " + _vm._s(_vm.tour.name) + "\n        ")]
+            [_vm._v(_vm._s(_vm.tour.name))]
           ),
           _vm._v(" "),
           _c("span", { staticClass: "font-mono mt-2" }, [
@@ -56442,7 +56604,7 @@ var render = function() {
                 "absolute font-mono text-black opacity-50 left-0 text-xs mt-2 tracking-wide",
               staticStyle: { top: "100%" }
             },
-            [_vm._v("\n        " + _vm._s(_vm.distance) + "\n    ")]
+            [_vm._v(_vm._s(_vm.distance))]
           )
         : _vm._e()
     ]

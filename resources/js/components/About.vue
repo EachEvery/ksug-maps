@@ -29,7 +29,7 @@
         student peace protesters, killing 4 and wounding 9, leaving one
         paralyzed. On May 1st students began a series of protests in
         response to Nixon’s expansion of the war from Vietnam to
-        Cambodia. By May 4th they were also protesting the occupation of
+        Cambodia. By May 4th they were also protesting the occupationp of
         campus by nearly a thousand troops, more than 100 trucks, 12
         armored vehicles, 3 tanks with mortar launchers, and 13
         helicopters. People across the city and campus were traumatized
@@ -39,7 +39,7 @@
       </paragraph>
 
       <clickable
-        @click="goBack"
+        @click="$router.push('/explore')"
         class="bg-white text-black uppercase font-mono h-12 flex justify-center items-center mt-12 cursor-pointed"
       >
         <span class="text-center">Explore May 4, 1970</span>

@@ -55,6 +55,23 @@ class Place extends Model implements MapsToSearchResult, HasMedia
         ];
     }
 
+    public function getEmbedCodeAttribute()
+    {
+        $q = http_build_query([
+            'mousewheel' => 'false',
+            'access_token' => env('MAPBOX_PK'),
+            'fresh' => 'true',
+            'title' => 'view',
+
+        ]);
+
+        $hash = sprintf('%s/%s/%s/0/0', 16.88, $this->lat, $this->long);
+
+        ob_start(); ?><iframe src="https://api.mapbox.com/styles/v1/natehobi/ck8lzpm8m10co1jp7622bt57x.html?<?=$q?>#<?=$hash?>"></iframe><?php
+
+        return ob_get_clean();
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

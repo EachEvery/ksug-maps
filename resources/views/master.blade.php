@@ -16,6 +16,7 @@
 
     <script>
         window.isAdmin = {{Auth::check() ? 'true' : 'false'}}
+        window.phoneNumber = "{{env('PHONE_NUMBER', '(555) 555-5555')}}"
     </script>
 
 

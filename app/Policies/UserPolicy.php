@@ -15,8 +15,10 @@ class UserPolicy
      * @param  \KSUGMap\User  $user
      * @return mixed
      */
-    public function uploadFiles(User $user)
+    public function uploadFiles(User $user = null)
     {
+        dump('here');
+
         return true;
     }
 

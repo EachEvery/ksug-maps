@@ -4,6 +4,7 @@ namespace KSUGMap\Nova;
 
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -54,6 +55,8 @@ class Place extends Resource
 
                 return sprintf('<a href="%s" target="_blank" class="no-underline dim text-primary font-bold">View on Website</a>', $url);
             })->asHtml()->showOnUpdating(),
+
+            Code::make('Embed Code')->onlyOnDetail(),
 
             Images::make('Photos', 'place_photos')->croppable(false)
                 ->customPropertiesFields([
