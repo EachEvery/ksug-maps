@@ -10,7 +10,12 @@
       >
         <h1 class="uppercase font-display text-3xl">Toggle Map Layers</h1>
 
-        <div class="flex justify-between mt-5">
+        <em
+          class="opacity-75 font-mono text-xs"
+          v-if="isTour"
+        >Map layers are disabled during tours...</em>
+
+        <div class="flex justify-between mt-5" :class="{'opacity-25': isTour}">
           <span class="font-mono text-md font-bold">1970 Aerial Photo</span>
 
           <div class="flex items-center">
@@ -21,7 +26,7 @@
           </div>
         </div>
 
-        <div class="flex justify-between mt-5">
+        <div class="flex justify-between mt-5" :class="{'opacity-25': isTour}">
           <span class="font-mono text-md font-bold">1970 Landmarks</span>
 
           <div class="flex items-center">
@@ -87,6 +92,8 @@ import handlesMapboxZoom from "../mixins/handlesMapboxZoom";
 import handlesArialOverlay from "../mixins/handlesArialOverlay";
 import handlesMapboxMarkers from "../mixins/handlesMapboxMarkers";
 import handlesMapboxDirections from "../mixins/handlesMapboxDirections";
+import handlesLandmarkLayer from "../mixins/handlesLandmarkLayer";
+import handlesMapSync from "../mixins/handlesMapSync";
 
 import clickable from "./Clickable";
 import plusIcon from "./PlusIcon";
@@ -94,6 +101,7 @@ import minusIcon from "./MinusIcon";
 import layerIcon from "./LayerIcon";
 
 import onOffSwitch from "./OnOffSwitch";
+
 import { getMapboxToken } from "../functions/helpers";
 import { mapMutations, mapState } from "vuex";
 
@@ -107,7 +115,9 @@ export default {
     handlesMapboxZoom,
     handlesArialOverlay,
     handlesMapboxMarkers,
-    handlesMapboxDirections
+    handlesMapboxDirections,
+    handlesLandmarkLayer,
+    handlesMapSync
   ],
 
   props: {
@@ -123,72 +133,27 @@ export default {
   data() {
     return {
       mapLoaded: false,
-      state: "default",
-      showLandmarks: true,
-      showAerialPhoto: true
+      state: "default"
     };
   },
-  computed: {
-    ...mapState(["mapCenter"]),
 
+  computed: {
     showingLayersMenu({ state }) {
       return state === "showingLayersMenu";
     },
-    showControls({ showingLayersMenu, showOverlayButton }) {
-      return showOverlayButton && !showingLayersMenu;
+
+    showControls({ showingLayersMenu, showOverlayButton, isTour }) {
+      return showOverlayButton && !showingLayersMenu && !isTour;
     }
   },
 
   watch: {
-    mapCenter(val) {
-      this.updateActiveMarker(val);
-
-      let currentZoom = this.map.getZoom();
-
-      let ops = {
-        center: [+val[1], +val[0]],
-        curve: 0,
-        zoom: val.length === 2 ? currentZoom : +val[2]
-      };
-
-      if (val.length === 3) {
-        ops["zoom"] = +val[2];
-      }
-
-      if (val[0] === undefined || val[1] === undefined) {
-        ops = {
-          zoom: val[2]
-        };
-      }
-
-      setTimeout(() => {
-        this.map.easeTo(ops);
-      }, 400);
-    },
-
     state() {
       clearTimeout(this.clickOutsideGate);
 
       setTimeout(() => {
         this.canClickOutside = this.showingLayersMenu;
       }, 300);
-    },
-    showLandmarks(val) {
-      let layerIds = [
-        "ksu-campus-label",
-        "ksu-campus",
-        "historic-landmark-label",
-        "historic-landmark",
-        "students-killed",
-        "students-wounded"
-      ];
-
-      //   this.map.setPaintProperty("historic-landmark", "raster-opacity", 0);
-
-      layerIds.forEach(id => {
-        // this.map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-        this.map.setLayoutProperty(id, "visibility", val ? "visible" : "none");
-      });
     }
   },
   methods: {

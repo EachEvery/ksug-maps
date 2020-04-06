@@ -3,7 +3,7 @@ module.exports = {
         fontFamily: {
             display: ["bureau-grot-compressed", "arial black", "serif"],
             sans: ["signo", "sans-serif"],
-            mono: ["letter-gothic-std", "monospace"]
+            mono: ["letter-gothic-std", "monospace"],
         },
         fontSize: {
             "2xs": ".675rem",
@@ -17,18 +17,22 @@ module.exports = {
             "3xl": "2.5rem",
             "4xl": "2.8125rem",
             "5xl": "3.125rem",
-            "8xl": "5.25rem"
+            "8xl": "5.25rem",
         },
         extend: {
             maxWidth: {
-                base: "35rem"
+                base: "35rem",
             },
             minWidth: {
                 "84": "20.125rem",
-                md: "33rem"
+                md: "33rem",
+            },
+            minHeight: {
+                "20rem": "20rem",
             },
             width: {
-                "25rem": "25rem"
+                "25rem": "25rem",
+                "60vw": "60vw",
             },
             colors: {
                 current: "currentColor",
@@ -40,17 +44,17 @@ module.exports = {
                     50: "#FAF5F0",
                     100: "#F0EBE6",
                     200: "#D8C6BF",
-                    300: "#F0CFB4"
-                }
+                    300: "#F0CFB4",
+                },
             },
             spacing: {
                 "72": "17rem",
                 "84": "20.125rem",
                 "96": "24rem",
                 "48vh": "48vh",
-                "55vh": "55vh"
-            }
-        }
+                "55vh": "55vh",
+            },
+        },
     },
     variants: {},
     plugins: [
@@ -61,14 +65,14 @@ module.exports = {
                 4: "1rem",
                 8: "2rem",
                 "4-x": "1rem",
-                "4-y": "1rem"
+                "4-y": "1rem",
             },
             autoMinWidths: {
                 "16": "4rem",
                 "24": "6rem",
-                "300px": "300px"
+                "300px": "300px",
             },
-            variants: ["responsive"]
-        })
-    ]
+            variants: ["responsive"],
+        }),
+    ],
 };

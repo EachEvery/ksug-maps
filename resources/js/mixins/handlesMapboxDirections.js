@@ -2,7 +2,11 @@ import { mapState } from "vuex";
 
 export default {
     computed: {
-        ...mapState(["directions"]),
+        ...mapState(["directions", "tourActive"]),
+
+        isTour({ $route }) {
+            return $route.name === "tour" || this.tourActive;
+        },
     },
     methods: {
         remove(prop, id) {
@@ -56,6 +60,7 @@ export default {
             }
 
             if (this.isTour) {
+                this.removeRouteLayer();
                 this.addRouteLayer();
             } else {
                 this.removeRouteLayer();
@@ -64,10 +69,6 @@ export default {
     },
 
     watch: {
-        $route() {
-            this.syncMapState();
-        },
-
         directions() {
             this.syncMapState();
         },

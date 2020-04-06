@@ -14,6 +14,7 @@ export default new Vuex.Store({
         tours: undefined,
         places: undefined,
         directions: undefined,
+        tourActive: false,
         mapCenter: [],
         routes: [],
         comments: [],
@@ -45,6 +46,9 @@ export default new Vuex.Store({
         },
     },
     mutations: {
+        setTourIsActive(state, bool) {
+            state.tourActive = bool;
+        },
         setMapCenter(state, center) {
             state.mapCenter = center;
         },
@@ -98,6 +102,7 @@ export default new Vuex.Store({
                 return f.day || f.role;
             });
         },
+
         featuredStories({ stories }) {
             return stories
                 .map((s) => ({

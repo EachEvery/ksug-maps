@@ -32,6 +32,12 @@ export default {
         },
 
         updateMarkerElements() {
+            if (this.isTour) {
+                $(".marker").css({ opacity: 0 });
+
+                return;
+            }
+
             $(".marker").css({ opacity: 1 });
             this.resetActiveMarkers();
             $("canvas").css({ opacity: "1" });
@@ -127,31 +133,5 @@ export default {
                 this.updateMarkerElements();
             },
         },
-
-        $route($newRoute, $oldRoute) {
-            this.updateMarkerElements();
-        },
-        // filters(filters) {
-        //     this.mapboxMarkers.forEach((mbm) => {
-        //         let filteredStories = mbm.place.stories.filter((item) => {
-        //             for (let i = 0; i < filters.length; i++) {
-        //                 let filter = filters[i];
-
-        //                 if (item[filter.key.trim()] === filter.value.trim()) {
-        //                     return true;
-        //                 }
-        //             }
-
-        //             return false;
-        //         });
-
-        //         let shouldSupressMaker =
-        //             filteredStories.length === 0 && filters.length > 0;
-
-        //         $(mbm._element).css({
-        //             opacity: shouldSupressMaker ? 0.3 : 1,
-        //         });
-        //     });
-        // },
     },
 };

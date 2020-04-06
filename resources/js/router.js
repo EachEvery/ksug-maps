@@ -12,6 +12,7 @@ export default new VueRouter({
     mode: "history",
     routes: [
         { path: "/about", component: About, name: "about" },
+
         { path: "/explore", name: "explore" },
 
         { path: "/places/:location", component: Location, name: "location" },
@@ -19,11 +20,11 @@ export default new VueRouter({
         {
             path: "/places/:location/preview",
             component: Location,
-            name: "preview"
+            name: "preview",
         },
 
         { path: "/stories/:story", component: Story, name: "story" },
 
-        { path: "/tours/:tour", component: Tour, name: "tour" }
-    ]
+        { path: "/tours/:tour", component: Tour, name: "tour" },
+    ],
 });

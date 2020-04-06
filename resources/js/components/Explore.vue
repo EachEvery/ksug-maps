@@ -170,7 +170,7 @@ export default {
     containerStyle({ open, hide, md }) {
       if (hide) {
         return {
-          transform: md ? `translateX(100%)` : `translateY(100%)`
+          transform: md ? `translateX(120%)` : `translateY(100%)`
         };
       }
 

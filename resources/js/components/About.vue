@@ -154,10 +154,7 @@
           is an Associate Professor in the Department of Geography at
           Kent State University.
           <br />
-          <a
-            href="mailto:jmapes@kent.edu"
-            class="italic no-underline mt-2 text-xs block"
-          >Contact Jen &rarr;</a>
+          <a href="mailto:jmapes@kent.edu" class="underline italic mt-2 text-xs block">Contact Jen</a>
         </p>
 
         <img
@@ -179,8 +176,8 @@
           <br />
           <a
             href="mailto:sara.koopman@gmail.com"
-            class="italic no-underline mt-2 text-xs block"
-          >Contact Sara &rarr;</a>
+            class="underline italic mt-2 text-xs block"
+          >Contact Sara</a>
         </p>
         <img
           src="//nhmisc.s3.amazonaws.com/ksug/assets/sara.jpg"

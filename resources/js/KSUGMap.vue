@@ -33,7 +33,11 @@
       class="fixed top-0 right-0 bg-orange text-black font-mono text-sm py-2 px-4 rounded-b-left shadow-lg hidden md:inline-block"
     >Admin Mode</a>
 
-    <explore :open="exploreOpen" @toggle="handleExploreToggle" :hide="isLocation || isAbout" />
+    <explore
+      :open="exploreOpen"
+      @toggle="handleExploreToggle"
+      :hide="isLocation || isAbout || isTour"
+    />
 
     <transition
       enter-class="opacity-0 translate-y-1 md:translate-x-2"
@@ -46,7 +50,7 @@
 
     <global-header
       :is-location="isLocation"
-      :should-hide-menu="isLocation || exploreOpen"
+      :should-hide-menu="isLocation || exploreOpen || isTour"
       @state-changed="(menuIsOpen) => (menuOpen = menuIsOpen)"
     />
 
@@ -135,6 +139,10 @@ export default {
   },
   computed: {
     ...mapState(["stories", "filters", "places", "tours"]),
+
+    isTour({ $route }) {
+      return $route.name === "tour";
+    },
 
     exploreOpen({ $route }) {
       return $route.name === "explore";
