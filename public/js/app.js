@@ -5253,6 +5253,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6618,6 +6628,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -6645,6 +6665,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7170,6 +7209,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7221,7 +7295,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, 310);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])(["isAdmin"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["stories", "places", "tourActive"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])(["isAdmin"]), {
     firstLast: function firstLast(_ref) {
       var story = _ref.story;
       var parts = story.subject.split(",");
@@ -7304,7 +7378,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this3 = this;
 
-    this.$store.commit("setMapCenter", [+this.location.lat, +this.location["long"], 16]);
+    if (!this.tourActive) {
+      this.$store.commit("setMapCenter", [+this.location.lat, +this.location["long"], 16]);
+    }
+
     setTimeout(function () {
       _this3.state = "showPlayer";
     }, 500);
@@ -7540,6 +7617,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_18__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _mixins_handleBack__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../mixins/handleBack */ "./resources/js/mixins/handleBack.js");
 
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
@@ -7611,6 +7689,16 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -7631,7 +7719,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_8__["default"], _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_14__["default"]],
+  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_8__["default"], _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_14__["default"], _mixins_handleBack__WEBPACK_IMPORTED_MODULE_20__["default"]],
   components: {
     stepCard: _StepCard__WEBPACK_IMPORTED_MODULE_17__["default"],
     upArrow: _UpArrow__WEBPACK_IMPORTED_MODULE_7__["default"],
@@ -7650,12 +7738,46 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }
   },
   methods: {
+    handleClose: function handleClose() {
+      this.handleEndClick();
+      this.back();
+    },
     handleScrollElementChanged: function handleScrollElementChanged(el) {
-      var latLong = jquery__WEBPACK_IMPORTED_MODULE_19___default()(el).data("stepGeo");
+      var _this = this;
 
-      if (latLong && this.tourActive) {
-        this.$store.commit("setMapCenter", [+latLong[0], +latLong[1], 18]);
+      if (!this.lg) {
+        jquery__WEBPACK_IMPORTED_MODULE_19___default()(".vertical-scroll-container").animate({
+          scrollTop: 0
+        });
       }
+
+      var latLong = jquery__WEBPACK_IMPORTED_MODULE_19___default()(el).data("stepGeo");
+      var placeId = jquery__WEBPACK_IMPORTED_MODULE_19___default()(el).data("placeId");
+      jquery__WEBPACK_IMPORTED_MODULE_19___default()(".tour-stop").removeClass("active");
+
+      if (!this.tourActive || !latLong) {
+        return;
+      }
+
+      if (placeId) {
+        jquery__WEBPACK_IMPORTED_MODULE_19___default()("#place-marker-".concat(placeId)).addClass("active");
+      }
+
+      clearTimeout(this.switchTimeout);
+      this.switchTimeout = setTimeout(function () {
+        if (latLong && _this.tourActive) {
+          if (_this.lg) {
+            _this.$store.commit("setMapCenter", [+latLong[0], +latLong[1], 20]);
+          } else {
+            var centerForScreen = Object(geolib__WEBPACK_IMPORTED_MODULE_12__["computeDestinationPoint"])({
+              latitude: +latLong[0],
+              longitude: +latLong[1]
+            }, 30, -180);
+
+            _this.$store.commit("setMapCenter", [+centerForScreen.latitude, +centerForScreen.longitude, 20]);
+          }
+        }
+      }, 200);
     },
     getKey: function getKey(legIndex, legStepIndex) {
       "".concat(legIndex, "-steps-").concat(legStepIndex);
@@ -7679,9 +7801,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.setCenter();
     },
     getStories: function getStories(place) {
-      return _toConsumableArray(new Set(Object(_functions_ksug__WEBPACK_IMPORTED_MODULE_13__["mapStories"])(this.tour.stories.filter(function (s) {
+      var _this2 = this;
+
+      var storyIds = this.tour.stories.filter(function (s) {
         return +s.place_id === +place.id;
-      }))));
+      }).map(function (s) {
+        return s.id;
+      });
+      storyIds = _toConsumableArray(new Set(storyIds));
+      return storyIds.map(function (id) {
+        return _this2.stories.find(function (s) {
+          return s.id === id;
+        });
+      });
     },
     loadDirections: function () {
       var _loadDirections = _asyncToGenerator(
@@ -7745,6 +7877,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     isFirstStep: function isFirstStep(stepIndex) {
       return stepIndex === 0;
     },
+    getCenterForScreen: function getCenterForScreen(center) {
+      return Object(geolib__WEBPACK_IMPORTED_MODULE_12__["computeDestinationPoint"])(center, this.lg ? 800 : 550, this.lg ? 90 : -180);
+    },
     setCenter: function setCenter() {
       var points = this.includedPlaces.map(function (p) {
         return {
@@ -7757,11 +7892,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
        * Add half a mile to the center so its above our controls
        */
 
-      center = Object(geolib__WEBPACK_IMPORTED_MODULE_12__["computeDestinationPoint"])(center, this.lg ? 400 : 1600, this.lg ? 90 : 180);
+      center = this.getCenterForScreen(center);
       this.$store.commit("setMapCenter", [center.latitude, center.longitude, 15]);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places", "stories"]), {
     startButtonText: function startButtonText(_ref2) {
       var tourActive = _ref2.tourActive;
       return tourActive ? "Stop Tour" : "Start Tour";
@@ -7804,7 +7939,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   }),
   mounted: function mounted() {
     this.loadDirections();
-    this.setCenter();
+
+    if (!this.tourActive) {
+      this.setCenter();
+    }
   }
 });
 
@@ -7902,6 +8040,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/windowDimensions */ "./resources/js/mixins/windowDimensions.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -7917,17 +8058,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_1__["default"]],
   components: {
     scrollContainer: _ScrollContainer__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(["scrollPosition"]), {
     scrollOffset: function scrollOffset(_ref) {
       var lg = _ref.lg;
-      return lg ? 128 : 50;
+      return lg ? 128 : 100;
     }
-  },
+  }),
   data: function data() {
     return {
       activeStep: undefined
@@ -7940,20 +8082,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    var scrollpos = this.scrollPosition;
+    setTimeout(function () {
+      if (_this.lg) {
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()(_this.$refs.container.$el).scrollTop(_this.scrollPosition);
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()(_this.$refs.container.$el).scrollLeft(_this.scrollPosition);
+      }
+    }, 100);
+  },
   methods: {
     scrollToFirstStep: function scrollToFirstStep() {
       var children = jquery__WEBPACK_IMPORTED_MODULE_2___default()(this.$refs.container.$el).find(".vertical-scroll-container > div").toArray();
       this.scrollToElement(children[1]);
     },
     handleScroll: function handleScroll(e) {
-      var _this = this;
+      var _this2 = this;
 
       var children = jquery__WEBPACK_IMPORTED_MODULE_2___default()(this.$refs.container.$el).find(".vertical-scroll-container > div").toArray();
       var scrollPos = e.target[this.lg ? "scrollTop" : "scrollLeft"];
       var startProp = this.lg ? "offsetTop" : "offsetLeft";
+      this.$store.commit("setScrollPosition", scrollPos);
       this.activeStep = children.find(function (c, i) {
-        var offset = c[startProp] - _this.scrollOffset - 10;
-        var range = _this.lg ? jquery__WEBPACK_IMPORTED_MODULE_2___default()(c).outerHeight() : jquery__WEBPACK_IMPORTED_MODULE_2___default()(c.outerWidth);
+        var offset = c[startProp] - _this2.scrollOffset - 10;
+        var range = _this2.lg ? jquery__WEBPACK_IMPORTED_MODULE_2___default()(c).outerHeight() : jquery__WEBPACK_IMPORTED_MODULE_2___default()(c).outerWidth();
         return offset < scrollPos && offset + range > scrollPos;
       });
     },
@@ -7988,6 +8143,21 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -55019,6 +55189,35 @@ var render = function() {
           [
             _c(
               "explore-heading",
+              { attrs: { "portal-name": "featured-tours-heading" } },
+              [_vm._v("Featured Tours")]
+            ),
+            _vm._v(" "),
+            _c(
+              "scroll-container",
+              {
+                staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
+                attrs: { "buttons-portal": "featured-tours-heading" }
+              },
+              _vm._l(_vm.tours, function(tour) {
+                return _c(
+                  "draggable",
+                  { key: tour.id, staticClass: "flex" },
+                  [
+                    _c("tour-card", {
+                      staticClass: "mr-4 w-64 flex-retain",
+                      staticStyle: { height: "24rem" },
+                      attrs: { tour: tour }
+                    })
+                  ],
+                  1
+                )
+              }),
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "explore-heading",
               {
                 staticClass: "mt-12",
                 attrs: { "portal-name": "featured-stories-heading" }
@@ -57059,7 +57258,7 @@ var render = function() {
       staticClass:
         "bg-white max-w-sm p-4 w-60vw mt-55vh min-h-20rem || lg:mt-0 lg:w-full lg:max-w-none lg:mt-12",
       attrs: {
-        "data-location-id": _vm.place.id,
+        "data-place-id": _vm.place.id,
         "data-step-geo": JSON.stringify([+_vm.place.lat, +_vm.place.long])
       }
     },
@@ -57083,7 +57282,7 @@ var render = function() {
           staticClass:
             "font-display text-3xl uppercase font-bold leading-none mb-3 mt-1"
         },
-        [_vm._v(_vm._s(_vm.place.name))]
+        [_vm._v("\n        " + _vm._s(_vm.place.name) + "\n    ")]
       ),
       _vm._v(" "),
       _vm.place.photos.length
@@ -57105,10 +57304,11 @@ var render = function() {
       _vm.step !== undefined
         ? _c("p", { staticClass: "mb-8 mt-4 block" }, [
             _vm._v(
-              "When you're ready, depart from " +
+              "\n        When you're ready, depart from " +
                 _vm._s(_vm.place.name) +
-                " and " +
-                _vm._s(_vm.step.maneuver.instruction)
+                " and\n        " +
+                _vm._s(_vm.step.maneuver.instruction) +
+                "\n    "
             )
           ])
         : _vm._e(),
@@ -57303,17 +57503,25 @@ var render = function() {
       on: { scroll: _vm.updateScrollPos }
     },
     [
-      _c("div", {
-        staticClass: "w-5 md:hidden",
-        staticStyle: { flex: "0 0 auto" }
-      }),
+      _c(
+        "div",
+        {
+          staticClass: "w-5 md:hidden opacity-0",
+          staticStyle: { flex: "0 0 auto" }
+        },
+        [_vm._v("\n        spacer\n    ")]
+      ),
       _vm._v(" "),
       _vm._t("default"),
       _vm._v(" "),
-      _c("div", {
-        staticClass: "w-1 flex-shrink-0",
-        staticStyle: { flex: "0 0 auto" }
-      }),
+      _c(
+        "div",
+        {
+          staticClass: "w-1 flex-shrink-0 opacity-0",
+          staticStyle: { flex: "0 0 auto" }
+        },
+        [_vm._v("\n        spacer\n    ")]
+      ),
       _vm._v(" "),
       _vm.buttonsPortal
         ? _c("portal", { attrs: { to: _vm.buttonsPortal } }, [
@@ -57743,9 +57951,24 @@ var render = function() {
       }
     },
     [
+      _vm.tourActive
+        ? _c(
+            "clickable",
+            {
+              staticClass:
+                "absolute top-0 py-2 bg-black p-4 w-full text-white font-mono text-center font-bold w-full",
+              on: { click: _vm.back }
+            },
+            [_vm._v("\n        ← BACK TO TOUR\n    ")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "div",
-        { staticClass: "xl:px-24 px-8 pb-48" },
+        {
+          staticClass: "xl:px-24 px-8 pb-48",
+          class: { "mt-8": _vm.tourActive }
+        },
         [
           _c("div", { staticClass: "pt-5 mb-12 md:mb-24 lg:pt-12" }, [
             _c(
@@ -57754,7 +57977,15 @@ var render = function() {
                 staticClass:
                   "font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs"
               },
-              [_vm._v(_vm._s(_vm.story.role) + " · " + _vm._s(_vm.story.day))]
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.story.role) +
+                    " · " +
+                    _vm._s(_vm.story.day) +
+                    "\n            "
+                )
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -57763,13 +57994,25 @@ var render = function() {
                 staticClass:
                   "font-display font-black text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
               },
-              [_vm._v(_vm._s(_vm.story.place.name))]
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.story.place.name) +
+                    "\n            "
+                )
+              ]
             ),
             _vm._v(" "),
             _c(
               "h2",
               { staticClass: "font-sans text-black text-lg md:text-md" },
-              [_vm._v(_vm._s(_vm.firstLast))]
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.firstLast) +
+                    "\n            "
+                )
+              ]
             ),
             _vm._v(" "),
             _vm.isAdmin
@@ -57840,7 +58083,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.story.full_story_link
+          _vm.story.full_story_link && !_vm.tourActive
             ? _c(
                 "a",
                 {
@@ -57861,19 +58104,22 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _c(
-            "clickable",
-            {
-              staticClass: "fixed top-0 right-0 rounded-full mr-5 mt-5 z-10",
-              on: { click: _vm.closeStory }
-            },
-            [
-              _c("close-icon", {
-                staticClass: "w-8 h-8 lg:w-5 lg:h-5 text-black"
-              })
-            ],
-            1
-          )
+          !_vm.tourActive
+            ? _c(
+                "clickable",
+                {
+                  staticClass:
+                    "fixed top-0 right-0 rounded-full mr-5 mt-5 z-10",
+                  on: { click: _vm.closeStory }
+                },
+                [
+                  _c("close-icon", {
+                    staticClass: "w-8 h-8 lg:w-5 lg:h-5 text-black"
+                  })
+                ],
+                1
+              )
+            : _vm._e()
         ],
         1
       ),
@@ -58048,7 +58294,12 @@ var render = function() {
               staticClass:
                 "mr-5 lg:h-auto lg:pb-0 lg:items-stretch lg:mr-0 lg:mt-12"
             },
-            [_c("tour-start-card", { attrs: { tour: _vm.tour } })],
+            [
+              _c("tour-start-card", {
+                attrs: { tour: _vm.tour },
+                on: { close: _vm.handleClose }
+              })
+            ],
             1
           ),
           _vm._v(" "),
@@ -58058,7 +58309,7 @@ var render = function() {
                 "vertical-scroll-container",
                 {
                   key: _vm.getKey(legIndex, legStepIndex),
-                  staticClass: "lg:h-auto lg:pb-0 lg:w-full lg:mr-0"
+                  staticClass: "mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0"
                 },
                 [
                   _vm.isFirstStep(legStepIndex)
@@ -58084,7 +58335,7 @@ var render = function() {
           _c(
             "vertical-scroll-container",
             {
-              staticClass: "lg:h-auto lg:pb-0 lg:w-full mr-5 lg:mb-10 lg:mr-0"
+              staticClass: "lg:h-auto lg:pb-0 lg:w-full mr-24 lg:mb-10 lg:mr-0"
             },
             [
               _c(
@@ -58100,10 +58351,10 @@ var render = function() {
                 [
                   _c("p", { staticClass: "mb-8 mt-4 block" }, [
                     _vm._v(
-                      "\n          You've reached the end of the\n          "
+                      "\n                    You've reached the end of the\n                    "
                     ),
                     _c("em", [_vm._v(_vm._s(_vm.tour.name))]),
-                    _vm._v(" tour. Thanks for joining us!\n        ")
+                    _vm._v(" tour. Thanks for joining us!\n                ")
                   ]),
                   _vm._v(" "),
                   _c(
@@ -58233,7 +58484,8 @@ var render = function() {
     "scroll-container",
     {
       ref: "container",
-      staticClass: "lg:flex-col lg:overflow-y-scroll lg:h-screen lg:pb-55vh",
+      staticClass:
+        "lg:flex-col lg:overflow-y-scroll lg:h-screen lg:pb-55vh tour-scroll-container",
       on: { scroll: _vm.handleScroll }
     },
     [_vm._t("default")],
@@ -58271,7 +58523,14 @@ var render = function() {
     [
       _c(
         "clickable",
-        { staticClass: "absolute top-0 right-0 m-8", on: { click: _vm.back } },
+        {
+          staticClass: "absolute top-0 right-0 m-4 lg:m-8",
+          on: {
+            click: function($event) {
+              return _vm.$emit("close")
+            }
+          }
+        },
         [_c("close-icon", { staticClass: "w-5 h-5 text-white" })],
         1
       ),
@@ -58279,13 +58538,14 @@ var render = function() {
       _c(
         "h1",
         {
-          staticClass: "font-display text-5xl font-bold uppercase leading-none"
+          staticClass:
+            "font-display text-3xl lg:text-5xl font-bold uppercase leading-none"
         },
-        [_vm._v(_vm._s(_vm.tour.name))]
+        [_vm._v("\n        " + _vm._s(_vm.tour.name) + "\n    ")]
       ),
       _vm._v(" "),
       _c("h3", { staticClass: "font-display text-xl font-bold uppercase" }, [
-        _vm._v(_vm._s(_vm.tour.duration))
+        _vm._v("\n        " + _vm._s(_vm.tour.duration) + "\n    ")
       ]),
       _vm._v(" "),
       _c(
@@ -58311,7 +58571,7 @@ var render = function() {
         }),
         _vm._v(" "),
         _c("p", { staticClass: "font-mono uppercase" }, [
-          _vm._v("\n      Tour Beings at\n      "),
+          _vm._v("\n            Tour Beings at\n            "),
           _c("br"),
           _vm._v(" "),
           _c("a", { staticClass: "underline", attrs: { href: "#" } }, [
@@ -83118,10 +83378,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["routes"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["routes", "tourActive"])),
   methods: {
     back: function back() {
-      if (this.routes.length < 2) {
+      if (this.routes.length < 2 && !this.tourActive) {
         this.$router.push(this.defaultBackRoute);
       } else {
         this.$router.go(-1);
@@ -83336,16 +83596,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.routeMarkers = this.tourStops.map(function (tourStop, i) {
         var el = document.createElement("div");
         el.className = "tour-stop";
+        el.id = "place-marker-" + tourStop.place.id;
         el.innerHTML = "<span>".concat(i + 1, "</span>");
         var mapboxMarker = new mapboxgl.Marker(el).setLngLat(tourStop.geometry.coordinates).addTo(_this.map);
-        el.addEventListener("click", function (e) {
-          _this.handleTourStopClick(tourStop, e);
+        $(".tour-stop").click(function () {
+          $(".tour-stop").removeClass("active");
+          $(this).addClass("active");
         });
         return _objectSpread({}, tourStop, {}, mapboxMarker);
       });
     },
     removeRouteFromMap: function removeRouteFromMap() {
       var _this2 = this;
+
+      if (this.tourActive) {
+        return;
+      }
 
       return new Promise(function (resolve, reject) {
         if (_this2.map.getLayer("routeLayer") !== undefined) {
@@ -83424,7 +83690,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.isTour) {
         this.addRouteLayer();
       } else {
-        this.removeRouteFromMap();
+        if (!this.tourActive) {
+          this.removeRouteFromMap();
+        }
       }
     }
   },
@@ -83897,6 +84165,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     places: undefined,
     directions: undefined,
     tourActive: false,
+    scrollPosition: 0,
     mapCenter: [],
     routes: [],
     comments: [],
@@ -83958,6 +84227,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     }
   },
   mutations: {
+    setScrollPosition: function setScrollPosition(state, scrollPosition) {
+      state.scrollPosition = scrollPosition;
+    },
     setTourIsActive: function setTourIsActive(state, bool) {
       state.tourActive = bool;
     },

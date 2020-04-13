@@ -37,14 +37,17 @@ export default {
                 let el = document.createElement("div");
 
                 el.className = "tour-stop";
+                el.id = "place-marker-" + tourStop.place.id;
                 el.innerHTML = `<span>${i + 1}</span>`;
 
                 let mapboxMarker = new mapboxgl.Marker(el)
                     .setLngLat(tourStop.geometry.coordinates)
                     .addTo(this.map);
 
-                el.addEventListener("click", e => {
-                    this.handleTourStopClick(tourStop, e);
+                $(".tour-stop").click(function() {
+                    $(".tour-stop").removeClass("active");
+
+                    $(this).addClass("active");
                 });
 
                 return {
@@ -55,6 +58,10 @@ export default {
         },
 
         removeRouteFromMap() {
+            if (this.tourActive) {
+                return;
+            }
+
             return new Promise((resolve, reject) => {
                 if (this.map.getLayer("routeLayer") !== undefined) {
                     this.map.removeLayer("routeLayer");
@@ -115,7 +122,9 @@ export default {
             if (this.isTour) {
                 this.addRouteLayer();
             } else {
-                this.removeRouteFromMap();
+                if (!this.tourActive) {
+                    this.removeRouteFromMap();
+                }
             }
         }
     },

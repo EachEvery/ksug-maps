@@ -15,20 +15,21 @@ export default new Vuex.Store({
         places: undefined,
         directions: undefined,
         tourActive: false,
+        scrollPosition: 0,
         mapCenter: [],
         routes: [],
         comments: [],
         filters: [
             {
                 role: undefined,
-                day: undefined,
-            },
+                day: undefined
+            }
         ],
-        geolocations: [],
+        geolocations: []
     },
     actions: {
         ensureData(context) {
-            return new Promise(async (resolve) => {
+            return new Promise(async resolve => {
                 let { data: stories } = await Axios.get("/stories");
 
                 context.commit("setStories", stories);
@@ -43,9 +44,13 @@ export default new Vuex.Store({
 
                 resolve();
             });
-        },
+        }
     },
     mutations: {
+        setScrollPosition(state, scrollPosition) {
+            state.scrollPosition = scrollPosition;
+        },
+
         setTourIsActive(state, bool) {
             state.tourActive = bool;
         },
@@ -81,37 +86,37 @@ export default new Vuex.Store({
         },
         toggleFilter({ filters }, filter) {
             let index = filters.findIndex(
-                (item) => item.key === filter.key && item.value === filter.value
+                item => item.key === filter.key && item.value === filter.value
             );
 
             index === -1 ? filters.push(filter) : filters.splice(index, 1);
-        },
+        }
     },
 
     getters: {
         comments({ places }) {
             return places
-                .flatMap((p) => p.approved_comments)
+                .flatMap(p => p.approved_comments)
                 .sort((a, b) => {
                     return b.timestamp - a.timestamp;
                 });
         },
 
         validFilters({ filters }) {
-            return filters.filter((f) => {
+            return filters.filter(f => {
                 return f.day || f.role;
             });
         },
 
         featuredStories({ stories }) {
             return stories
-                .map((s) => ({
+                .map(s => ({
                     ...s,
                     featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
                         ? s.featured_sort_order
-                        : 0,
+                        : 0
                 }))
-                .filter((s) => s.featured)
+                .filter(s => s.featured)
                 .sort((a, b) => a.featured_sort_order - b.featured_sort_order);
         },
         userLocation({ geolocations }) {
@@ -122,13 +127,13 @@ export default new Vuex.Store({
             return window.isAdmin;
         },
         roles({ stories }) {
-            return filled(unique(stories.map((s) => s.role)));
+            return filled(unique(stories.map(s => s.role)));
         },
         names({ stories }) {
-            return filled(unique(stories.map((s) => s.subject)));
+            return filled(unique(stories.map(s => s.subject)));
         },
         days() {
             return ["May 1", "May 2", "May 3", "May 4", "May 5"];
-        },
-    },
+        }
+    }
 });

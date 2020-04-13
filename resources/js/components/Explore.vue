@@ -27,16 +27,26 @@
             </h1>
 
             <div class="mt-12">
-                <!-- <explore-heading portal-name="featured-tours-heading">Featured Tours</explore-heading>
+                <explore-heading portal-name="featured-tours-heading"
+                    >Featured Tours</explore-heading
+                >
 
-        <scroll-container
-          class="-mx-10 md:-mx-8 px-5 md:px-8"
-          buttons-portal="featured-tours-heading"
-        >
-          <draggable v-for="tour in tours" :key="tour.id" class="flex">
-            <tour-card :tour="tour" style="height: 24rem" class="mr-4 w-64 flex-retain" />
-          </draggable>
-        </scroll-container> -->
+                <scroll-container
+                    class="-mx-10 md:-mx-8 px-5 md:px-8"
+                    buttons-portal="featured-tours-heading"
+                >
+                    <draggable
+                        v-for="tour in tours"
+                        :key="tour.id"
+                        class="flex"
+                    >
+                        <tour-card
+                            :tour="tour"
+                            style="height: 24rem"
+                            class="mr-4 w-64 flex-retain"
+                        />
+                    </draggable>
+                </scroll-container>
 
                 <explore-heading
                     portal-name="featured-stories-heading"
