@@ -1,5 +1,17 @@
 <template>
     <div class="fixed inset-0 lg:left-auto lg:w-full lg:max-w-sm lg:mr-12">
+        <portal to="end-of-document">
+            <clickable
+                class="fixed top-0 inset-x-0 py-2  p-4 w-full text-black font-bold font-mono text-center w-full  lg:left-auto lg:right-0 lg:max-w-sm lg:mr-12"
+                style="background: #F0A38C"
+                @click="handleEndClick"
+                :style="{
+                    transform: `translateY(${tourActive ? '0' : '-100%'})`
+                }"
+            >
+                &times; END TOUR
+            </clickable>
+        </portal>
         <tour-scroll-container
             ref="scrollContainer"
             @scroll-element-changed="handleScrollElementChanged"
@@ -159,7 +171,7 @@ export default {
                         ]);
                     }
                 }
-            }, 200);
+            }, 100);
         },
 
         getKey(legIndex, legStepIndex) {

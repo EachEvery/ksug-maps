@@ -7698,6 +7698,18 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7777,7 +7789,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             _this.$store.commit("setMapCenter", [+centerForScreen.latitude, +centerForScreen.longitude, 20]);
           }
         }
-      }, 200);
+      }, 100);
     },
     getKey: function getKey(legIndex, legStepIndex) {
       "".concat(legIndex, "-steps-").concat(legStepIndex);
@@ -58281,6 +58293,28 @@ var render = function() {
       staticClass: "fixed inset-0 lg:left-auto lg:w-full lg:max-w-sm lg:mr-12"
     },
     [
+      _c(
+        "portal",
+        { attrs: { to: "end-of-document" } },
+        [
+          _c(
+            "clickable",
+            {
+              staticClass:
+                "fixed top-0 inset-x-0 py-2  p-4 w-full text-black font-bold font-mono text-center w-full  lg:left-auto lg:right-0 lg:max-w-sm lg:mr-12",
+              staticStyle: { background: "#F0A38C" },
+              style: {
+                transform:
+                  "translateY(" + (_vm.tourActive ? "0" : "-100%") + ")"
+              },
+              on: { click: _vm.handleEndClick }
+            },
+            [_vm._v("\n            × END TOUR\n        ")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c(
         "tour-scroll-container",
         {
