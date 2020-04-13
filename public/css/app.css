@@ -4675,6 +4675,10 @@ video {
   max-width: 35rem;
 }
 
+.max-w-40rem {
+  max-width: 40rem;
+}
+
 .min-h-0 {
   min-height: 0;
 }
@@ -7543,6 +7547,10 @@ video {
 
 .bottom-full {
   bottom: 100%;
+}
+
+.top-full {
+  top: 100%;
 }
 
 @media (min-width: 640px) {
@@ -11594,6 +11602,10 @@ video {
     max-width: 35rem;
   }
 
+  .sm\:max-w-40rem {
+    max-width: 40rem;
+  }
+
   .sm\:min-h-0 {
     min-height: 0;
   }
@@ -14462,6 +14474,10 @@ video {
 
   .sm\:bottom-full {
     bottom: 100%;
+  }
+
+  .sm\:top-full {
+    top: 100%;
   }
 }
 
@@ -18514,6 +18530,10 @@ video {
     max-width: 35rem;
   }
 
+  .md\:max-w-40rem {
+    max-width: 40rem;
+  }
+
   .md\:min-h-0 {
     min-height: 0;
   }
@@ -21382,6 +21402,10 @@ video {
 
   .md\:bottom-full {
     bottom: 100%;
+  }
+
+  .md\:top-full {
+    top: 100%;
   }
 }
 
@@ -25434,6 +25458,10 @@ video {
     max-width: 35rem;
   }
 
+  .lg\:max-w-40rem {
+    max-width: 40rem;
+  }
+
   .lg\:min-h-0 {
     min-height: 0;
   }
@@ -28302,6 +28330,10 @@ video {
 
   .lg\:bottom-full {
     bottom: 100%;
+  }
+
+  .lg\:top-full {
+    top: 100%;
   }
 }
 
@@ -32354,6 +32386,10 @@ video {
     max-width: 35rem;
   }
 
+  .xl\:max-w-40rem {
+    max-width: 40rem;
+  }
+
   .xl\:min-h-0 {
     min-height: 0;
   }
@@ -35223,6 +35259,10 @@ video {
   .xl\:bottom-full {
     bottom: 100%;
   }
+
+  .xl\:top-full {
+    top: 100%;
+  }
 }
 body {
   background: #fff;
@@ -35414,6 +35454,26 @@ canvas {
 
 .marker.active {
   background-image: url("/images/marker-active.png");
+}
+
+.tour-stop {
+  transition: 300ms color ease, 300ms background ease;
+  width: 3rem;
+  height: 3rem;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "letter-gothic-std";
+  font-size: 1.75rem;
+  cursor: pointer;
+}
+
+.tour-stop.active {
+  background: #000;
+  color: #fff;
+  position: relative;
 }
 
 .mapboxgl-popup-close-button {

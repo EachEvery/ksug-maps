@@ -9,8 +9,8 @@
   >
     <h3 class="uppercase font-display font-bold text-lg text-black">{{story.subject}}</h3>
     <p
-      class="leading-normal mt-3 text-xs text-black"
-    >{{story.day}}&mdash;{{ truncate(story.content, {length: 55}) }}</p>
+      class="leading-normal mt-1 text-xs text-black"
+    >{{story.day}}&mdash;{{ truncate(story.content, {length: 60}) }}</p>
   </router-link>
 </template>
 

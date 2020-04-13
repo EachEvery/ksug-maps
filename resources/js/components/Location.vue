@@ -118,21 +118,20 @@
         <video
           v-if="!comment.media_is_image && comment.has_media"
           controls
-          class="max-w-md p-2 border border-white"
+          class="max-w-md p-2 border border-white w-full"
         >
           <source :src="comment.media_url" :type="comment.comment_media.mime_type" />
           Your browser does not support the video file type {{comment.comment_media.mime_type}}.
         </video>
 
-        <span class="block mt-4 opacity-75 font-mono text-xs">
-          {{
-          comment.frontend_date
-          }}
-        </span>
+        <span class="block mt-4 opacity-75 font-mono text-xs">{{comment.frontend_date}}</span>
       </div>
     </div>
     <div class="xl:px-24 px-8 pt-12 border-t border-dotted pb-48 relative bg-white">
-      <h3 class="font-display uppercase text-2xl mb-8" style="font-weight: 500;">Share Your Story</h3>
+      <h3
+        class="font-display uppercase text-2xl mb-8"
+        style="font-weight: 500;"
+      >Share Your Story or Reflection</h3>
 
       <comment-form
         @comment-created="handleCommentCreated"

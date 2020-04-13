@@ -5,6 +5,12 @@
     :class="containerClass"
     v-click-outside="handleClickOutside"
   >
+    <a
+      href="/admin"
+      v-if="isAdmin"
+      class="absolute top-full bg-black text-white w-full py-1 text-2xs font-mono font-bold uppercase text-center block"
+    >ADMIN MODE IS CURRENTLY ACTIVE</a>
+
     <div
       class="h-screen w-full absolute transition pt-24 bg-white flex flex-col justify-between pb-10"
       :class="innerClass"

@@ -69,6 +69,8 @@ export default {
 
     updateScrollPos(e) {
       this.scrollPos = e.target.scrollLeft;
+
+      this.$emit("scroll", e);
     },
     setMaxScrollLength() {
       this.$nextTick(() => {
@@ -81,6 +83,9 @@ export default {
     this.setMaxScrollLength();
 
     window.addEventListener("resize", this.setMaxScrollLength);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.setMaxScrollLength);
   }
 };
 </script>

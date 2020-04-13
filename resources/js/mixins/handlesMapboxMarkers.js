@@ -2,13 +2,13 @@ import { mapGetters } from "vuex";
 export default {
     data() {
         return {
-            mapboxMarkers: [],
+            mapboxMarkers: []
         };
     },
     methods: {
         getMapboxMarker(location) {
             return this.mapboxMarkers.find(
-                (m) =>
+                m =>
                     +m._lngLat.lng === +location.long &&
                     m._lngLat.lat === +location.lat
             );
@@ -16,7 +16,7 @@ export default {
 
         updateActiveMarker(latlngArr) {
             let matchingMarker = this.mapboxMarkers.find(
-                (m) =>
+                m =>
                     +m._lngLat.lng === +latlngArr[1] &&
                     m._lngLat.lat === +latlngArr[0]
             );
@@ -24,7 +24,7 @@ export default {
             if (matchingMarker) {
                 $(matchingMarker._element).addClass("active");
                 $(matchingMarker._element).css({
-                    opacity: 1,
+                    opacity: 1
                 });
             } else {
                 this.updateMarkerElements();
@@ -45,26 +45,22 @@ export default {
             if (!this.isLocation && this.validFilters.length === 0) {
                 $("canvas").css({ opacity: "1" });
             } else if (!this.isLocation && this.validFilters.length > 0) {
-                this.mapboxMarkers.forEach((marker) => {
+                this.mapboxMarkers.forEach(marker => {
                     let markerStoriesMatchingAnyFilterSet = marker.place.stories.filter(
-                        (s) => {
-                            let passingFilters = this.validFilters.filter(
-                                (f) => {
-                                    if (f.day && s.day) {
-                                        return (
-                                            f.day == s.day && f.role === s.role
-                                        );
-                                    }
-
-                                    if (f.day) {
-                                        return f.day.trim() === s.day;
-                                    }
-
-                                    if (f.role) {
-                                        return f.role === s.role;
-                                    }
+                        s => {
+                            let passingFilters = this.validFilters.filter(f => {
+                                if (f.day && s.day) {
+                                    return f.day == s.day && f.role === s.role;
                                 }
-                            );
+
+                                if (f.day) {
+                                    return f.day.trim() === s.day;
+                                }
+
+                                if (f.role) {
+                                    return f.role === s.role;
+                                }
+                            });
 
                             return passingFilters.length !== 0;
                         }
@@ -107,31 +103,31 @@ export default {
             setTimeout(() => {
                 this.$emit("location-clicked", marker.place);
             }, 300);
-        },
+        }
     },
     computed: {
         ...mapGetters(["validFilters"]),
 
         markers({ places }) {
-            return places.map((p) => ({
+            return places.map(p => ({
                 place: p,
                 type: "Feature",
                 properties: {
-                    description: p.name,
+                    description: p.name
                 },
                 geometry: {
                     type: "Point",
-                    coordinates: [p.long, p.lat],
-                },
+                    coordinates: [p.long, p.lat]
+                }
             }));
-        },
+        }
     },
     watch: {
         validFilters: {
             deep: true,
             handler(filters) {
                 this.updateMarkerElements();
-            },
-        },
-    },
+            }
+        }
+    }
 };

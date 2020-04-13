@@ -52,12 +52,10 @@ body {
     -ms-overflow-style: none;
 }
 
-a[href^="http://maps.google.com/maps"]
-{
+a[href^="http://maps.google.com/maps"] {
     display: none !important;
 }
-a[href^="https://maps.google.com/maps"]
-{
+a[href^="https://maps.google.com/maps"] {
     display: none !important;
 }
 
@@ -175,10 +173,31 @@ canvas {
     width: 25px;
     height: 25px;
     border-radius: 50%;
+
     cursor: pointer;
 
     &.active {
         background-image: url("/images/marker-active.png");
+    }
+}
+
+.tour-stop {
+    transition: 300ms color ease, 300ms background ease;
+    width: 3rem;
+    height: 3rem;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "letter-gothic-std";
+    font-size: 1.75rem;
+    cursor: pointer;
+
+    &.active {
+        background: #000;
+        color: #fff;
+        position: relative;
     }
 }
 

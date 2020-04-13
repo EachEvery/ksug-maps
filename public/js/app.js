@@ -1641,6 +1641,179 @@ module.exports = createServiceFactory(Directions);
 
 /***/ }),
 
+/***/ "./node_modules/@mapbox/mapbox-sdk/services/optimization.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-sdk/services/optimization.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var v = __webpack_require__(/*! ./service-helpers/validator */ "./node_modules/@mapbox/mapbox-sdk/services/service-helpers/validator.js");
+var createServiceFactory = __webpack_require__(/*! ./service-helpers/create-service-factory */ "./node_modules/@mapbox/mapbox-sdk/services/service-helpers/create-service-factory.js");
+var objectClean = __webpack_require__(/*! ./service-helpers/object-clean */ "./node_modules/@mapbox/mapbox-sdk/services/service-helpers/object-clean.js");
+var stringifyBooleans = __webpack_require__(/*! ./service-helpers/stringify-booleans */ "./node_modules/@mapbox/mapbox-sdk/services/service-helpers/stringify-booleans.js");
+
+/**
+ * Optimization API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#optimization).
+ */
+var Optimization = {};
+
+/**
+ * Get a duration-optimized route.
+ *
+ * Please read [the full HTTP service documentation](https://docs.mapbox.com/api/navigation/#optimization)
+ * to understand all of the available options.
+ *
+ * @param {Object} config
+ * @param {'driving'|'walking'|'cycling'} [config.profile="driving"]
+ * @param {Array<OptimizationWaypoint>} config.waypoints - An ordered array of [`OptimizationWaypoint`](#optimizationwaypoint) objects, between 2 and 12 (inclusive).
+ * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
+ * @param {'any'|'last'} [config.destination="any"] - Returned route ends at `any` or `last` coordinate.
+ * @param {Array<Distribution>} [config.distributions] - An ordered array of [`Distribution`](#distribution) objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the OptimizationWaypoint array.
+ * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometries.
+ * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
+ *   See options listed in [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#instructions-languages).
+ * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
+ * @param {boolean} [config.roundtrip=true] - Specifies whether the trip should complete by returning to the first location.
+ * @param {'any'|'first'} [config.source="any"] - To begin the route, start either from the first coordinate or let the Optimization API choose.
+ * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
+ * @return {MapiRequest}
+ */
+Optimization.getOptimization = function(config) {
+  v.assertShape({
+    profile: v.oneOf('driving', 'walking', 'cycling'),
+    waypoints: v.required(
+      v.arrayOf(
+        v.shape({
+          coordinates: v.required(v.coordinates),
+          approach: v.oneOf('unrestricted', 'curb'),
+          bearing: v.arrayOf(v.range([0, 360])),
+          radius: v.oneOfType(v.number, v.equal('unlimited'))
+        })
+      )
+    ),
+    annotations: v.arrayOf(v.oneOf('duration', 'distance', 'speed')),
+    geometries: v.oneOf('geojson', 'polyline', 'polyline6'),
+    language: v.string,
+    overview: v.oneOf('simplified', 'full', 'false'),
+    roundtrip: v.boolean,
+    steps: v.boolean,
+    source: v.oneOf('any', 'first'),
+    destination: v.oneOf('any', 'last'),
+    distributions: v.arrayOf(
+      v.shape({
+        pickup: v.number,
+        dropoff: v.number
+      })
+    )
+  })(config);
+
+  var path = {
+    coordinates: [],
+    approach: [],
+    bearing: [],
+    radius: [],
+    distributions: []
+  };
+
+  var waypointCount = config.waypoints.length;
+  if (waypointCount < 2 || waypointCount > 12) {
+    throw new Error(
+      'waypoints must include between 2 and 12 OptimizationWaypoints'
+    );
+  }
+
+  /**
+   * @typedef {Object} OptimizationWaypoint
+   * @property {Coordinates} coordinates
+   * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach the waypoint.
+   * @property {[number, number]} [bearing] - Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
+   *   This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
+   *   and the second is the range of degrees the angle can deviate by.
+   * @property {number|'unlimited'} [radius] - Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
+   */
+  config.waypoints.forEach(function(waypoint) {
+    path.coordinates.push(
+      waypoint.coordinates[0] + ',' + waypoint.coordinates[1]
+    );
+
+    // join props which come in pairs
+    ['bearing'].forEach(function(prop) {
+      if (waypoint.hasOwnProperty(prop) && waypoint[prop] != null) {
+        waypoint[prop] = waypoint[prop].join(',');
+      }
+    });
+
+    ['approach', 'bearing', 'radius'].forEach(function(prop) {
+      if (waypoint.hasOwnProperty(prop) && waypoint[prop] != null) {
+        path[prop].push(waypoint[prop]);
+      } else {
+        path[prop].push('');
+      }
+    });
+  });
+
+  /**
+   * @typedef {Object} Distribution
+   * @property {number} pickup - Array index of the item containing coordinates for the pick-up location in the OptimizationWaypoint array.
+   * @property {number} dropoff - Array index of the item containing coordinates for the drop-off location in the OptimizationWaypoint array.
+   */
+  // distributions aren't a property of OptimizationWaypoint, so join them separately
+  if (config.distributions) {
+    config.distributions.forEach(function(dist) {
+      path.distributions.push(dist.pickup + ',' + dist.dropoff);
+    });
+  }
+
+  ['approach', 'bearing', 'radius', 'distributions'].forEach(function(prop) {
+    // avoid sending params which are all `;`
+    if (
+      path[prop].every(function(char) {
+        return char === '';
+      })
+    ) {
+      delete path[prop];
+    } else {
+      path[prop] = path[prop].join(';');
+    }
+  });
+
+  var query = stringifyBooleans({
+    geometries: config.geometries,
+    language: config.language,
+    overview: config.overview,
+    roundtrip: config.roundtrip,
+    steps: config.steps,
+    source: config.source,
+    destination: config.destination,
+    distributions: path.distributions,
+    approaches: path.approach,
+    bearings: path.bearing,
+    radiuses: path.radius
+  });
+
+  return this.client.createRequest({
+    method: 'GET',
+    path: '/optimized-trips/v1/mapbox/:profile/:coordinates',
+    params: {
+      profile: config.profile || 'driving',
+      coordinates: path.coordinates.join(';')
+    },
+    query: objectClean(query)
+  });
+};
+
+module.exports = createServiceFactory(Optimization);
+
+
+/***/ }),
+
 /***/ "./node_modules/@mapbox/mapbox-sdk/services/service-helpers/create-service-factory.js":
 /*!********************************************************************************************!*\
   !*** ./node_modules/@mapbox/mapbox-sdk/services/service-helpers/create-service-factory.js ***!
@@ -3761,17 +3934,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3909,6 +4071,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+//
+//
 //
 //
 //
@@ -4971,8 +5135,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CommentCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./CommentCard */ "./resources/js/components/CommentCard.vue");
 /* harmony import */ var _ExploreSubheading__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ExploreSubheading */ "./resources/js/components/ExploreSubheading.vue");
 /* harmony import */ var _LocationCard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./LocationCard */ "./resources/js/components/LocationCard.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _mixins_distance__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../mixins/distance */ "./resources/js/mixins/distance.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_distance__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../mixins/distance */ "./resources/js/mixins/distance.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -5062,6 +5228,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -5092,18 +5284,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     exploreHeading: _ExploreSubheading__WEBPACK_IMPORTED_MODULE_9__["default"],
     storyCard: _StoryCard__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
-  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_distance__WEBPACK_IMPORTED_MODULE_12__["default"]],
+  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_distance__WEBPACK_IMPORTED_MODULE_13__["default"]],
   watch: {
     open: function open() {
-      var _this = this;
-
       this.setCanClickOutside();
-
-      if (this.open) {
-        setTimeout(function () {
-          _this.$store.commit("setMapCenter", [undefined, undefined, 15]);
-        }, 400);
-      }
     }
   },
   data: function data() {
@@ -5115,27 +5299,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.setCanClickOutside();
   },
   methods: {
+    shuffle: lodash__WEBPACK_IMPORTED_MODULE_11___default.a.shuffle,
     handleClickOutside: function handleClickOutside() {
       if (this.canClickOutside) {
         this.$emit("toggle");
       }
     },
     setCanClickOutside: function setCanClickOutside() {
-      var _this2 = this;
+      var _this = this;
 
       setTimeout(function () {
-        _this2.canClickOutside = _this2.open;
+        _this.canClickOutside = _this.open;
       }, 300);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["tours", "stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapGetters"])(["featuredStories", "comments", "userLocation"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_12__["mapState"])(["tours", "stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_12__["mapGetters"])(["featuredStories", "comments", "userLocation"]), {
     closestPlacesFirst: function closestPlacesFirst(_ref) {
-      var _this3 = this;
+      var _this2 = this;
 
       var places = _ref.places;
       var withDistance = places.map(function (p) {
         return _objectSpread({}, p, {
-          distance: _this3.getLocationDistance(+p.lat, +p["long"])
+          distance: _this2.getLocationDistance(+p.lat, +p["long"])
         });
       });
       return withDistance.sort(function (a, b) {
@@ -5485,6 +5670,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5619,7 +5810,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
 //
 //
 //
@@ -6385,6 +6575,64 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlaceTourCard.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PlaceTourCard.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TourStoryCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TourStoryCard */ "./resources/js/components/TourStoryCard.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    tourStoryCard: _TourStoryCard__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: {
+    place: Object,
+    step: Object,
+    stories: Array,
+    order: Number
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ScrollContainer.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ScrollContainer.vue?vue&type=script&lang=js& ***!
@@ -6469,6 +6717,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateScrollPos: function updateScrollPos(e) {
       this.scrollPos = e.target.scrollLeft;
+      this.$emit("scroll", e);
     },
     setMaxScrollLength: function setMaxScrollLength() {
       var _this = this;
@@ -6481,6 +6730,9 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.setMaxScrollLength();
     window.addEventListener("resize", this.setMaxScrollLength);
+  },
+  destroyed: function destroyed() {
+    window.removeEventListener("resize", this.setMaxScrollLength);
   }
 });
 
@@ -6723,6 +6975,83 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     loadingIcon: _LoadingIcon__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StepCard.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StepCard.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    step: Object
+  },
+  computed: {
+    latLong: function latLong(_ref) {
+      var step = _ref.step;
+      var longLat = step.geometry.coordinates[0];
+      return [longLat[1], longLat[0]];
+    }
+  },
+  methods: {
+    getArrowStyle: function getArrowStyle(string) {
+      if (string === undefined) {
+        return {};
+      }
+
+      var deg = 90;
+
+      if (string.toString().includes("slight")) {
+        deg = 45;
+      }
+
+      if (string.toString().includes("left")) {
+        deg = deg * -1;
+      }
+
+      return {
+        transform: "rotate(".concat(deg, "deg)")
+      };
+    },
+    getMiles: function getMiles(meters) {
+      return (meters & 0.000621371).toFixed(2);
+    },
+    getFeet: function getFeet(meters) {
+      return 3.28084 & meters;
+    },
+    getRotation: function getRotation(str) {
+      if (str === "right") {
+        return "rotate(90deg)";
+      }
+
+      if (str === "left") {
+        return "rotate(-90deg)";
+      }
+    }
   }
 });
 
@@ -7188,19 +7517,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mapbox_mapbox_sdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mapbox/mapbox-sdk */ "./node_modules/@mapbox/mapbox-sdk/index.js");
 /* harmony import */ var _mapbox_mapbox_sdk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_sdk__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mapbox/mapbox-sdk/services/directions */ "./node_modules/@mapbox/mapbox-sdk/services/directions.js");
-/* harmony import */ var _mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _ScrollContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ScrollContainer */ "./resources/js/components/ScrollContainer.vue");
-/* harmony import */ var _VerticalScrollContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./VerticalScrollContainer */ "./resources/js/components/VerticalScrollContainer.vue");
-/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
-/* harmony import */ var _UpArrow__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UpArrow */ "./resources/js/components/UpArrow.vue");
-/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
-/* harmony import */ var _TourStoryCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TourStoryCard */ "./resources/js/components/TourStoryCard.vue");
-/* harmony import */ var _functions_helpers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../functions/helpers */ "./resources/js/functions/helpers.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var geolib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! geolib */ "./node_modules/geolib/es/index.js");
-/* harmony import */ var geolib__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(geolib__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
+/* harmony import */ var _mapbox_mapbox_sdk_services_optimization__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mapbox/mapbox-sdk/services/optimization */ "./node_modules/@mapbox/mapbox-sdk/services/optimization.js");
+/* harmony import */ var _mapbox_mapbox_sdk_services_optimization__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_sdk_services_optimization__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mapbox/mapbox-sdk/services/directions */ "./node_modules/@mapbox/mapbox-sdk/services/directions.js");
+/* harmony import */ var _mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _TourScrollContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TourScrollContainer */ "./resources/js/components/TourScrollContainer.vue");
+/* harmony import */ var _VerticalScrollContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./VerticalScrollContainer */ "./resources/js/components/VerticalScrollContainer.vue");
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var _UpArrow__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./UpArrow */ "./resources/js/components/UpArrow.vue");
+/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
+/* harmony import */ var _TourStoryCard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TourStoryCard */ "./resources/js/components/TourStoryCard.vue");
+/* harmony import */ var _functions_helpers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../functions/helpers */ "./resources/js/functions/helpers.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var geolib__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! geolib */ "./node_modules/geolib/es/index.js");
+/* harmony import */ var geolib__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(geolib__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
+/* harmony import */ var _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../mixins/windowDimensions */ "./resources/js/mixins/windowDimensions.js");
+/* harmony import */ var _PlaceTourCard__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./PlaceTourCard */ "./resources/js/components/PlaceTourCard.vue");
+/* harmony import */ var _TourStartCard__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./TourStartCard */ "./resources/js/components/TourStartCard.vue");
+/* harmony import */ var _StepCard__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./StepCard */ "./resources/js/components/StepCard.vue");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_19__);
 
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
@@ -7272,35 +7611,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+
+
+
+
+
 
 
 
@@ -7314,20 +7631,55 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_7__["default"]],
+  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_8__["default"], _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_14__["default"]],
   components: {
-    scrollContainer: _ScrollContainer__WEBPACK_IMPORTED_MODULE_3__["default"],
-    upArrow: _UpArrow__WEBPACK_IMPORTED_MODULE_6__["default"],
-    verticalScrollContainer: _VerticalScrollContainer__WEBPACK_IMPORTED_MODULE_4__["default"],
-    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_5__["default"],
-    tourStoryCard: _TourStoryCard__WEBPACK_IMPORTED_MODULE_8__["default"]
+    stepCard: _StepCard__WEBPACK_IMPORTED_MODULE_17__["default"],
+    upArrow: _UpArrow__WEBPACK_IMPORTED_MODULE_7__["default"],
+    verticalScrollContainer: _VerticalScrollContainer__WEBPACK_IMPORTED_MODULE_5__["default"],
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_6__["default"],
+    tourStoryCard: _TourStoryCard__WEBPACK_IMPORTED_MODULE_9__["default"],
+    placeTourCard: _PlaceTourCard__WEBPACK_IMPORTED_MODULE_15__["default"],
+    tourStartCard: _TourStartCard__WEBPACK_IMPORTED_MODULE_16__["default"],
+    tourScrollContainer: _TourScrollContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  watch: {
+    tourActive: function tourActive(val) {
+      if (val) {
+        this.$refs.scrollContainer.scrollToFirstStep();
+      }
+    }
   },
   methods: {
-    handleStartButtonClick: function handleStartButtonClick() {
-      this.$store.commit("setTourIsActive", this.tourActive ? false : true);
+    handleScrollElementChanged: function handleScrollElementChanged(el) {
+      var latLong = jquery__WEBPACK_IMPORTED_MODULE_19___default()(el).data("stepGeo");
+
+      if (latLong && this.tourActive) {
+        this.$store.commit("setMapCenter", [+latLong[0], +latLong[1], 18]);
+      }
+    },
+    getKey: function getKey(legIndex, legStepIndex) {
+      "".concat(legIndex, "-steps-").concat(legStepIndex);
+    },
+    getSteps: function getSteps(leg) {
+      /**
+       * We filter out the arrive step for each leg
+       * since we put that info on the start card
+       * of each leg.
+       */
+      return leg.steps.filter(function (s) {
+        return s.maneuver.type !== "arrive";
+      });
+    },
+    isNotLastOrFirstStep: function isNotLastOrFirstStep(stepIndex) {
+      return stepIndex !== 0;
+    },
+    handleEndClick: function handleEndClick() {
+      this.$store.commit("setTourIsActive", false);
+      this.$refs.scrollContainer.scrollToStart();
+      this.setCenter();
     },
     getStories: function getStories(place) {
-      return _toConsumableArray(new Set(Object(_functions_ksug__WEBPACK_IMPORTED_MODULE_12__["mapStories"])(this.tour.stories.filter(function (s) {
+      return _toConsumableArray(new Set(Object(_functions_ksug__WEBPACK_IMPORTED_MODULE_13__["mapStories"])(this.tour.stories.filter(function (s) {
         return +s.place_id === +place.id;
       }))));
     },
@@ -7335,30 +7687,33 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var _loadDirections = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var req, _ref, directions;
+        var client, req, _ref, directions;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.directionsClient = _mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_2___default()(_mapbox_mapbox_sdk__WEBPACK_IMPORTED_MODULE_1___default()({
-                  accessToken: Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_9__["getMapboxToken"])()
-                }));
+                client = _mapbox_mapbox_sdk__WEBPACK_IMPORTED_MODULE_1___default()({
+                  accessToken: Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_10__["getMapboxToken"])()
+                });
+                this.optimizationClient = _mapbox_mapbox_sdk_services_optimization__WEBPACK_IMPORTED_MODULE_2___default()(client);
+                this.directionsClient = _mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_3___default()(client);
                 req = this.directionsClient.getDirections({
                   profile: "walking",
                   waypoints: this.waypoints,
                   steps: true,
-                  geometries: "geojson"
+                  geometries: "geojson",
+                  bannerInstructions: true
                 });
-                _context.next = 4;
+                _context.next = 6;
                 return req.send();
 
-              case 4:
+              case 6:
                 _ref = _context.sent;
                 directions = _ref.body;
                 this.$store.commit("setDirections", directions);
 
-              case 7:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -7387,49 +7742,60 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         return "rotate(-90deg)";
       }
     },
+    isFirstStep: function isFirstStep(stepIndex) {
+      return stepIndex === 0;
+    },
     setCenter: function setCenter() {
-      var points = this.places.map(function (p) {
+      var points = this.includedPlaces.map(function (p) {
         return {
           latitude: +p.lat,
           longitude: +p["long"]
         };
       });
-      var center = Object(geolib__WEBPACK_IMPORTED_MODULE_11__["getCenter"])(points);
+      var center = Object(geolib__WEBPACK_IMPORTED_MODULE_12__["getCenter"])(points);
       /**
        * Add half a mile to the center so its above our controls
        */
 
-      center = Object(geolib__WEBPACK_IMPORTED_MODULE_11__["computeDestinationPoint"])(center, 1600, 180);
-      this.$store.commit("setMapCenter", [center.latitude, center.longitude, 14]);
+      center = Object(geolib__WEBPACK_IMPORTED_MODULE_12__["computeDestinationPoint"])(center, this.lg ? 400 : 1600, this.lg ? 90 : 180);
+      this.$store.commit("setMapCenter", [center.latitude, center.longitude, 15]);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_10__["mapState"])(["directions", "tourActive"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places"]), {
     startButtonText: function startButtonText(_ref2) {
       var tourActive = _ref2.tourActive;
       return tourActive ? "Stop Tour" : "Start Tour";
     },
     firstPlace: function firstPlace(_ref3) {
-      var tour = _ref3.tour;
-      return tour.stories[0].place;
+      var includedPlaces = _ref3.includedPlaces;
+      return includedPlaces[0];
     },
-    legs: function legs(_ref4) {
-      var directions = _ref4.directions;
+    lastPlace: function lastPlace(_ref4) {
+      var includedPlaces = _ref4.includedPlaces;
+      return lodash__WEBPACK_IMPORTED_MODULE_18___default.a.last(includedPlaces);
+    },
+    legs: function legs(_ref5) {
+      var directions = _ref5.directions;
       if (!directions) return undefined;
       return directions.routes[0].legs;
     },
-    loading: function loading(_ref5) {
-      var directions = _ref5.directions;
+    loading: function loading(_ref6) {
+      var directions = _ref6.directions;
       return directions === undefined;
     },
-    places: function places(_ref6) {
-      var tour = _ref6.tour;
-      return _toConsumableArray(new Set(tour.stories.map(function (s) {
-        return s.place;
-      })));
+    includedPlaces: function includedPlaces(_ref7) {
+      var tour = _ref7.tour,
+          places = _ref7.places;
+      var includedPlacesIds = tour.stories.map(function (s) {
+        return +s.place.id;
+      });
+      return places.filter(function (p) {
+        return includedPlacesIds.includes(+p.id);
+      });
     },
-    waypoints: function waypoints(_ref7) {
-      var places = _ref7.places;
-      return places.map(function (p) {
+    waypoints: function waypoints(_ref8) {
+      var includedPlaces = _ref8.includedPlaces;
+      return includedPlaces.map(function (p) {
         return {
           coordinates: [+p["long"], +p.lat]
         };
@@ -7439,7 +7805,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   mounted: function mounted() {
     this.loadDirections();
     this.setCenter();
-    console.log(this.places);
   }
 });
 
@@ -7520,6 +7885,174 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return +place["long"];
     }
   })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourScrollContainer.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TourScrollContainer.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ScrollContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ScrollContainer */ "./resources/js/components/ScrollContainer.vue");
+/* harmony import */ var _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/windowDimensions */ "./resources/js/mixins/windowDimensions.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  components: {
+    scrollContainer: _ScrollContainer__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  computed: {
+    scrollOffset: function scrollOffset(_ref) {
+      var lg = _ref.lg;
+      return lg ? 128 : 50;
+    }
+  },
+  data: function data() {
+    return {
+      activeStep: undefined
+    };
+  },
+  watch: {
+    activeStep: function activeStep(newVal, oldVal) {
+      if (newVal !== oldVal && newVal !== undefined) {
+        this.$emit("scroll-element-changed", this.activeStep);
+      }
+    }
+  },
+  methods: {
+    scrollToFirstStep: function scrollToFirstStep() {
+      var children = jquery__WEBPACK_IMPORTED_MODULE_2___default()(this.$refs.container.$el).find(".vertical-scroll-container > div").toArray();
+      this.scrollToElement(children[1]);
+    },
+    handleScroll: function handleScroll(e) {
+      var _this = this;
+
+      var children = jquery__WEBPACK_IMPORTED_MODULE_2___default()(this.$refs.container.$el).find(".vertical-scroll-container > div").toArray();
+      var scrollPos = e.target[this.lg ? "scrollTop" : "scrollLeft"];
+      var startProp = this.lg ? "offsetTop" : "offsetLeft";
+      this.activeStep = children.find(function (c, i) {
+        var offset = c[startProp] - _this.scrollOffset - 10;
+        var range = _this.lg ? jquery__WEBPACK_IMPORTED_MODULE_2___default()(c).outerHeight() : jquery__WEBPACK_IMPORTED_MODULE_2___default()(c.outerWidth);
+        return offset < scrollPos && offset + range > scrollPos;
+      });
+    },
+    scrollToElement: function scrollToElement(el) {
+      var prop = this.lg ? "scrollTop" : "scrollLeft";
+      var elProp = this.lg ? "offsetTop" : "offsetLeft";
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()(this.$refs.container.$el).animate(_defineProperty({}, prop, el[elProp] - this.scrollOffset), 600);
+    },
+    scrollToStart: function scrollToStart() {
+      var prop = this.lg ? "scrollTop" : "scrollLeft";
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()(this.$refs.container.$el).animate(_defineProperty({}, prop, 0), 1600);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourStartCard.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TourStartCard.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
+/* harmony import */ var _mixins_handleBack__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixins/handleBack */ "./resources/js/mixins/handleBack.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_3__["default"]],
+  components: {
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_1__["default"],
+    closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  props: {
+    tour: Object
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["directions", "tourActive", "places"]), {
+    defaultBackRoute: function defaultBackRoute() {
+      return "/explore";
+    },
+    firstPlace: function firstPlace(_ref) {
+      var tour = _ref.tour;
+      return tour.stories[0].place;
+    },
+    startButtonText: function startButtonText(_ref2) {
+      var tourActive = _ref2.tourActive;
+      return tourActive ? "Stop Tour" : "Start Tour";
+    }
+  }),
+  methods: {
+    handleStartButtonClick: function handleStartButtonClick() {
+      this.$store.commit("setTourIsActive", this.tourActive ? false : true);
+    }
+  }
 });
 
 /***/ }),
@@ -53179,23 +53712,6 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.isAdmin
-            ? _c(
-                "a",
-                {
-                  staticClass:
-                    "fixed top-0 right-0 bg-orange text-black font-mono text-sm py-2 px-4 rounded-b-left shadow-lg hidden md:inline-block",
-                  staticStyle: {
-                    "border-bottom-left-radius": "5px",
-                    color: "rgba(0, 0, 0, 0.8)",
-                    right: "3.2rem"
-                  },
-                  attrs: { href: "/admin" }
-                },
-                [_vm._v("Admin Mode")]
-              )
-            : _vm._e(),
-          _vm._v(" "),
           _c("explore", {
             attrs: {
               open: _vm.exploreOpen,
@@ -53274,7 +53790,7 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0 md:max-w-base",
+        "fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0 md:max-w-base max-w-full",
       attrs: { id: "about-container" }
     },
     [
@@ -53291,7 +53807,7 @@ var render = function() {
             "h1",
             {
               staticClass:
-                "font-display text-8xl leading-none uppercase font-medium py-6 mt-6"
+                "font-display text-5xl md:text-8xl leading-none uppercase font-medium py-6 mt-6 h-48 md:h-auto object-cover"
             },
             [
               _vm._v("\n      Mapping\n      "),
@@ -53302,7 +53818,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "-mr-12" }, [
             _c("img", {
-              staticClass: "w-full mb-2",
+              staticClass: "w-full mb-2 h-48 md:h-auto object-cover",
               attrs: {
                 src:
                   "//nhmisc.s3.amazonaws.com/ksug/d4dff96a075d8cd5f98a56aad48e0988.jpg"
@@ -54448,12 +54964,8 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-x-0 md:inset-x-auto md:right-0 top-0 bg-white pt-4 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible",
-      staticStyle: {
-        "min-height": "100vh",
-        "max-width": "40rem",
-        height: "100vh"
-      },
+        "fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible",
+      staticStyle: { "min-height": "100vh", height: "100vh" },
       style: _vm.containerStyle
     },
     [
@@ -54467,11 +54979,9 @@ var render = function() {
           }
         },
         [
-          _c(
-            "h3",
-            { staticClass: "text-lg uppercase font-light font-mono px-8" },
-            [_vm._v("Explore Tours & Stories")]
-          ),
+          _c("h3", { staticClass: "text-lg uppercase font-light font-mono" }, [
+            _vm._v("\n            Explore Tours & Stories\n        ")
+          ]),
           _vm._v(" "),
           _c("up-arrow", {
             staticClass: "w-8 w-8 text-black",
@@ -54500,42 +55010,13 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Explore")]
+          [_vm._v("\n            Explore\n        ")]
         ),
         _vm._v(" "),
         _c(
           "div",
           { staticClass: "mt-12" },
           [
-            _c(
-              "explore-heading",
-              { attrs: { "portal-name": "featured-tours-heading" } },
-              [_vm._v("Featured Tours")]
-            ),
-            _vm._v(" "),
-            _c(
-              "scroll-container",
-              {
-                staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
-                attrs: { "buttons-portal": "featured-tours-heading" }
-              },
-              _vm._l(_vm.tours, function(tour) {
-                return _c(
-                  "draggable",
-                  { key: tour.id, staticClass: "flex" },
-                  [
-                    _c("tour-card", {
-                      staticClass: "mr-4 w-64 flex-retain",
-                      staticStyle: { height: "24rem" },
-                      attrs: { tour: tour }
-                    })
-                  ],
-                  1
-                )
-              }),
-              1
-            ),
-            _vm._v(" "),
             _c(
               "explore-heading",
               {
@@ -54551,7 +55032,7 @@ var render = function() {
                 staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
                 attrs: { "buttons-portal": "featured-stories-heading" }
               },
-              _vm._l(_vm.featuredStories, function(story) {
+              _vm._l(_vm.shuffle(_vm.featuredStories), function(story) {
                 return _c(
                   "draggable",
                   { key: story.id, staticClass: "flex" },
@@ -55001,6 +55482,18 @@ var render = function() {
       style: _vm.containerStyle
     },
     [
+      _vm.isAdmin
+        ? _c(
+            "a",
+            {
+              staticClass:
+                "absolute top-full bg-black text-white w-full py-1 text-2xs font-mono font-bold uppercase text-center block",
+              attrs: { href: "/admin" }
+            },
+            [_vm._v("ADMIN MODE IS CURRENTLY ACTIVE")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "div",
         {
@@ -55732,7 +56225,8 @@ var render = function() {
                       ? _c(
                           "video",
                           {
-                            staticClass: "max-w-md p-2 border border-white",
+                            staticClass:
+                              "max-w-md p-2 border border-white w-full",
                             attrs: { controls: "" }
                           },
                           [
@@ -55756,13 +56250,7 @@ var render = function() {
                       {
                         staticClass: "block mt-4 opacity-75 font-mono text-xs"
                       },
-                      [
-                        _vm._v(
-                          "\n        " +
-                            _vm._s(comment.frontend_date) +
-                            "\n      "
-                        )
-                      ]
+                      [_vm._v(_vm._s(comment.frontend_date))]
                     )
                   ],
                   1
@@ -55786,7 +56274,7 @@ var render = function() {
               staticClass: "font-display uppercase text-2xl mb-8",
               staticStyle: { "font-weight": "500" }
             },
-            [_vm._v("Share Your Story")]
+            [_vm._v("Share Your Story or Reflection")]
           ),
           _vm._v(" "),
           _c("comment-form", {
@@ -56374,7 +56862,7 @@ var render = function() {
     _vm._g(
       {
         staticClass:
-          "flex justify-between items-center cursor-pointer md:hidden"
+          "flex justify-between items-center cursor-pointer md:hidden px-8"
       },
       _vm.$listeners
     ),
@@ -56541,6 +57029,93 @@ var render = function() {
         ])
       ])
     ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlaceTourCard.vue?vue&type=template&id=b00d4058&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PlaceTourCard.vue?vue&type=template&id=b00d4058& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "bg-white max-w-sm p-4 w-60vw mt-55vh min-h-20rem || lg:mt-0 lg:w-full lg:max-w-none lg:mt-12",
+      attrs: {
+        "data-location-id": _vm.place.id,
+        "data-step-geo": JSON.stringify([+_vm.place.lat, +_vm.place.long])
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "flex items-center h-8 w-8 justify-center font-mono rounded-full bg-black text-white"
+        },
+        [_c("span", { staticClass: "text-sm" }, [_vm._v(_vm._s(_vm.order))])]
+      ),
+      _vm._v(" "),
+      _c("span", { staticClass: "font-mono uppercase block font-bold mt-4" }, [
+        _vm._v(_vm._s(_vm.order === 1 ? "Start" : "Arrive") + " At")
+      ]),
+      _vm._v(" "),
+      _c(
+        "h1",
+        {
+          staticClass:
+            "font-display text-3xl uppercase font-bold leading-none mb-3 mt-1"
+        },
+        [_vm._v(_vm._s(_vm.place.name))]
+      ),
+      _vm._v(" "),
+      _vm.place.photos.length
+        ? _c("img", {
+            staticClass: "h-32 w-full object-cover",
+            attrs: { src: _vm.place.photos[0].url }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._l(_vm.stories, function(story, s) {
+        return _c("tour-story-card", {
+          key: "story-" + s,
+          staticClass: "mt-3",
+          style: { color: story.color },
+          attrs: { story: story }
+        })
+      }),
+      _vm._v(" "),
+      _vm.step !== undefined
+        ? _c("p", { staticClass: "mb-8 mt-4 block" }, [
+            _vm._v(
+              "When you're ready, depart from " +
+                _vm._s(_vm.place.name) +
+                " and " +
+                _vm._s(_vm.step.maneuver.instruction)
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._t("default")
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -57071,6 +57646,67 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StepCard.vue?vue&type=template&id=48e46767&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StepCard.vue?vue&type=template&id=48e46767& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "bg-black text-white p-4 w-60vw mt-55vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12",
+      attrs: { "data-step-geo": JSON.stringify(_vm.latLong) }
+    },
+    [
+      _c("img", {
+        staticClass: "w-12 h-12",
+        style: _vm.getArrowStyle(_vm.step.maneuver.modifier),
+        attrs: { src: "/images/upArrow.png" }
+      }),
+      _vm._v(" "),
+      _c("h3", { staticClass: "font-display uppercase text-3xl" }, [
+        _c("span", [
+          _vm._v(
+            _vm._s(_vm.step.maneuver.type) +
+              " " +
+              _vm._s(_vm.step.maneuver.modifier)
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("\n    " + _vm._s(_vm.step.maneuver.instruction) + ".\n    "),
+        _vm.step.maneuver.type === "turn"
+          ? _c("span", [
+              _vm._v(
+                "Continue for " +
+                  _vm._s(_vm.getFeet(_vm.step.distance)) +
+                  " feet."
+              )
+            ])
+          : _vm._e()
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Story.vue?vue&type=template&id=3849ef1a&scoped=true&":
 /*!********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Story.vue?vue&type=template&id=3849ef1a&scoped=true& ***!
@@ -57395,202 +58031,105 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "fixed inset-0" },
+    {
+      staticClass: "fixed inset-0 lg:left-auto lg:w-full lg:max-w-sm lg:mr-12"
+    },
     [
       _c(
-        "scroll-container",
+        "tour-scroll-container",
+        {
+          ref: "scrollContainer",
+          on: { "scroll-element-changed": _vm.handleScrollElementChanged }
+        },
         [
-          _c("vertical-scroll-container", { staticClass: "mr-5" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "p-6 bg-black text-white w-60vw mt-55vh min-h-20rem"
-              },
-              [
-                _c(
-                  "h1",
-                  {
-                    staticClass:
-                      "font-display text-5xl font-bold uppercase leading-none"
-                  },
-                  [_vm._v(_vm._s(_vm.tour.name))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "h3",
-                  { staticClass: "font-display text-xl font-bold uppercase" },
-                  [_vm._v(_vm._s(_vm.tour.duration))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "clickable",
-                  {
-                    staticClass:
-                      "h-12 flex items-center justify-center bg-white my-5 w-full",
-                    on: { click: _vm.handleStartButtonClick }
-                  },
-                  [
-                    _c(
-                      "span",
-                      {
-                        staticClass: "text-black font-bold font-mono uppercase"
-                      },
-                      [_vm._v(_vm._s(_vm.startButtonText))]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "flex my-6" }, [
-                  _c("img", {
-                    staticClass: "w-5 h-5 mr-4",
-                    attrs: {
-                      src: "/images/map.png",
-                      alt: "A map folded at its creases"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "font-mono uppercase" }, [
-                    _vm._v("\n            Tour Beings at\n            "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      { staticClass: "underline", attrs: { href: "#" } },
-                      [_vm._v(_vm._s(_vm.firstPlace.name))]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", {
-                  staticClass: "leading-normal",
-                  domProps: { innerHTML: _vm._s(_vm.tour.description) }
-                }),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "w-full h-48 object-cover mt-8",
-                  attrs: { src: _vm.tour.photos[0].url }
-                })
-              ],
-              1
-            )
-          ]),
+          _c(
+            "vertical-scroll-container",
+            {
+              staticClass:
+                "mr-5 lg:h-auto lg:pb-0 lg:items-stretch lg:mr-0 lg:mt-12"
+            },
+            [_c("tour-start-card", { attrs: { tour: _vm.tour } })],
+            1
+          ),
           _vm._v(" "),
-          _vm._l(_vm.legs, function(leg, i) {
-            return _vm._l(leg.steps, function(step, j) {
+          _vm._l(_vm.legs, function(leg, legIndex) {
+            return _vm._l(_vm.getSteps(leg), function(step, legStepIndex) {
               return _c(
                 "vertical-scroll-container",
-                { key: i + "-steps-" + j, staticClass: "mr-5" },
+                {
+                  key: _vm.getKey(legIndex, legStepIndex),
+                  staticClass: "lg:h-auto lg:pb-0 lg:w-full lg:mr-0"
+                },
                 [
-                  j === 0
-                    ? _c(
-                        "div",
-                        {
-                          staticClass:
-                            "bg-white max-w-sm p-4 w-60vw mt-55vh min-h-20rem"
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "flex items-center h-8 w-8 justify-center font-mono rounded-full bg-black text-white"
-                            },
-                            [
-                              _c("span", { staticClass: "text-md" }, [
-                                _vm._v(_vm._s(i + 1))
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "h1",
-                            {
-                              staticClass:
-                                "font-display text-3xl uppercase font-bold"
-                            },
-                            [_vm._v(_vm._s(_vm.places[i].name))]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "mb-8" }, [
-                            _vm._v(
-                              "Depart from " +
-                                _vm._s(_vm.places[i].name) +
-                                " and " +
-                                _vm._s(leg.steps[0].maneuver.instruction)
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _vm.places[i].photos.length
-                            ? _c("img", {
-                                staticClass: "h-32 w-full object-cover",
-                                attrs: { src: _vm.places[i].photos[0].url }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm._l(_vm.getStories(_vm.places[i]), function(
-                            story
-                          ) {
-                            return _c("tour-story-card", {
-                              key: i + "-steps-" + j + "-story-" + story.id,
-                              staticClass: "mt-3",
-                              style: { color: story.color },
-                              attrs: { story: story }
-                            })
-                          })
-                        ],
-                        2
-                      )
+                  _vm.isFirstStep(legStepIndex)
+                    ? _c("place-tour-card", {
+                        attrs: {
+                          place: _vm.includedPlaces[legIndex],
+                          step: leg.steps[0],
+                          stories: _vm.getStories(_vm.includedPlaces[legIndex]),
+                          order: legIndex + 1
+                        }
+                      })
                     : _vm._e(),
                   _vm._v(" "),
-                  j !== 0
-                    ? _c(
-                        "div",
-                        {
-                          staticClass:
-                            "bg-black text-white p-4 w-60vw mt-55vh min-h-20rem"
-                        },
-                        [
-                          _c("img", {
-                            staticClass: "w-8 h-8",
-                            attrs: { src: "/images/upArrow.png" }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "h3",
-                            { staticClass: "font-display uppercase text-3xl" },
-                            [
-                              _vm._v(
-                                _vm._s(step.maneuver.type) +
-                                  " " +
-                                  _vm._s(step.maneuver.modifier)
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("p", [
-                            _vm._v(
-                              "\n            " +
-                                _vm._s(step.maneuver.instruction) +
-                                ".\n            "
-                            ),
-                            step.maneuver.type === "turn"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "Continue for " +
-                                      _vm._s(_vm.getFeet(step.distance)) +
-                                      " feet."
-                                  )
-                                ])
-                              : _vm._e()
-                          ])
-                        ]
-                      )
+                  _vm.isNotLastOrFirstStep(legStepIndex)
+                    ? _c("step-card", { attrs: { step: step } })
                     : _vm._e()
-                ]
+                ],
+                1
               )
             })
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "vertical-scroll-container",
+            {
+              staticClass: "lg:h-auto lg:pb-0 lg:w-full mr-5 lg:mb-10 lg:mr-0"
+            },
+            [
+              _c(
+                "place-tour-card",
+                {
+                  attrs: {
+                    place: _vm.lastPlace,
+                    step: undefined,
+                    stories: _vm.getStories(_vm.lastPlace),
+                    order: _vm.includedPlaces.length
+                  }
+                },
+                [
+                  _c("p", { staticClass: "mb-8 mt-4 block" }, [
+                    _vm._v(
+                      "\n          You've reached the end of the\n          "
+                    ),
+                    _c("em", [_vm._v(_vm._s(_vm.tour.name))]),
+                    _vm._v(" tour. Thanks for joining us!\n        ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "clickable",
+                    {
+                      staticClass:
+                        "h-12 flex items-center justify-center bg-black my-5 w-full",
+                      on: { click: _vm.handleEndClick }
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "text-white font-bold font-mono uppercase"
+                        },
+                        [_vm._v("Back to Start")]
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         2
       )
@@ -57675,6 +58214,132 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourScrollContainer.vue?vue&type=template&id=7461cea1&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TourScrollContainer.vue?vue&type=template&id=7461cea1& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "scroll-container",
+    {
+      ref: "container",
+      staticClass: "lg:flex-col lg:overflow-y-scroll lg:h-screen lg:pb-55vh",
+      on: { scroll: _vm.handleScroll }
+    },
+    [_vm._t("default")],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourStartCard.vue?vue&type=template&id=28a289bf&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TourStartCard.vue?vue&type=template&id=28a289bf& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "p-6 bg-black relative text-white w-60vw mt-55vh min-h-20rem max-w-sm ||| lg:mt-0 lg:w-full"
+    },
+    [
+      _c(
+        "clickable",
+        { staticClass: "absolute top-0 right-0 m-8", on: { click: _vm.back } },
+        [_c("close-icon", { staticClass: "w-5 h-5 text-white" })],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "h1",
+        {
+          staticClass: "font-display text-5xl font-bold uppercase leading-none"
+        },
+        [_vm._v(_vm._s(_vm.tour.name))]
+      ),
+      _vm._v(" "),
+      _c("h3", { staticClass: "font-display text-xl font-bold uppercase" }, [
+        _vm._v(_vm._s(_vm.tour.duration))
+      ]),
+      _vm._v(" "),
+      _c(
+        "clickable",
+        {
+          staticClass:
+            "h-12 flex items-center justify-center bg-white my-5 w-full",
+          on: { click: _vm.handleStartButtonClick }
+        },
+        [
+          _c(
+            "span",
+            { staticClass: "text-black font-bold font-mono uppercase" },
+            [_vm._v(_vm._s(_vm.startButtonText))]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex my-6" }, [
+        _c("img", {
+          staticClass: "w-5 h-5 mr-4",
+          attrs: { src: "/images/map.png", alt: "A map folded at its creases" }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "font-mono uppercase" }, [
+          _vm._v("\n      Tour Beings at\n      "),
+          _c("br"),
+          _vm._v(" "),
+          _c("a", { staticClass: "underline", attrs: { href: "#" } }, [
+            _vm._v(_vm._s(_vm.firstPlace.name))
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "leading-normal",
+        domProps: { innerHTML: _vm._s(_vm.tour.description) }
+      }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "w-full h-48 object-cover mt-8",
+        attrs: { src: _vm.tour.photos[0].url }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourStoryCard.vue?vue&type=template&id=327a7b52&scoped=true&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TourStoryCard.vue?vue&type=template&id=327a7b52&scoped=true& ***!
@@ -57708,11 +58373,11 @@ var render = function() {
         [_vm._v(_vm._s(_vm.story.subject))]
       ),
       _vm._v(" "),
-      _c("p", { staticClass: "leading-normal mt-3 text-xs text-black" }, [
+      _c("p", { staticClass: "leading-normal mt-1 text-xs text-black" }, [
         _vm._v(
           _vm._s(_vm.story.day) +
             "—" +
-            _vm._s(_vm.truncate(_vm.story.content, { length: 55 }))
+            _vm._s(_vm.truncate(_vm.story.content, { length: 60 }))
         )
       ])
     ]
@@ -57777,7 +58442,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "h-screen overflow-y-scroll flex-shrink-0 hide-scrollbars pb-12"
+        "h-screen overflow-y-scroll flex-shrink-0 hide-scrollbars pb-12 vertical-scroll-container"
     },
     [_vm._t("default")],
     2
@@ -80787,6 +81452,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/PlaceTourCard.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/PlaceTourCard.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PlaceTourCard_vue_vue_type_template_id_b00d4058___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PlaceTourCard.vue?vue&type=template&id=b00d4058& */ "./resources/js/components/PlaceTourCard.vue?vue&type=template&id=b00d4058&");
+/* harmony import */ var _PlaceTourCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PlaceTourCard.vue?vue&type=script&lang=js& */ "./resources/js/components/PlaceTourCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PlaceTourCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PlaceTourCard_vue_vue_type_template_id_b00d4058___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PlaceTourCard_vue_vue_type_template_id_b00d4058___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PlaceTourCard.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PlaceTourCard.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/PlaceTourCard.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceTourCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PlaceTourCard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlaceTourCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceTourCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PlaceTourCard.vue?vue&type=template&id=b00d4058&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/PlaceTourCard.vue?vue&type=template&id=b00d4058& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceTourCard_vue_vue_type_template_id_b00d4058___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PlaceTourCard.vue?vue&type=template&id=b00d4058& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlaceTourCard.vue?vue&type=template&id=b00d4058&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceTourCard_vue_vue_type_template_id_b00d4058___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceTourCard_vue_vue_type_template_id_b00d4058___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/PlayIcon.vue":
 /*!**********************************************!*\
   !*** ./resources/js/components/PlayIcon.vue ***!
@@ -81311,6 +82045,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/StepCard.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/StepCard.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _StepCard_vue_vue_type_template_id_48e46767___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StepCard.vue?vue&type=template&id=48e46767& */ "./resources/js/components/StepCard.vue?vue&type=template&id=48e46767&");
+/* harmony import */ var _StepCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StepCard.vue?vue&type=script&lang=js& */ "./resources/js/components/StepCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _StepCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _StepCard_vue_vue_type_template_id_48e46767___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _StepCard_vue_vue_type_template_id_48e46767___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/StepCard.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/StepCard.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/StepCard.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StepCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./StepCard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StepCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StepCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/StepCard.vue?vue&type=template&id=48e46767&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/StepCard.vue?vue&type=template&id=48e46767& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StepCard_vue_vue_type_template_id_48e46767___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./StepCard.vue?vue&type=template&id=48e46767& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StepCard.vue?vue&type=template&id=48e46767&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StepCard_vue_vue_type_template_id_48e46767___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StepCard_vue_vue_type_template_id_48e46767___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Story.vue":
 /*!*******************************************!*\
   !*** ./resources/js/components/Story.vue ***!
@@ -81705,6 +82508,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCard_vue_vue_type_template_id_5583021a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCard_vue_vue_type_template_id_5583021a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TourScrollContainer.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/TourScrollContainer.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TourScrollContainer_vue_vue_type_template_id_7461cea1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TourScrollContainer.vue?vue&type=template&id=7461cea1& */ "./resources/js/components/TourScrollContainer.vue?vue&type=template&id=7461cea1&");
+/* harmony import */ var _TourScrollContainer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TourScrollContainer.vue?vue&type=script&lang=js& */ "./resources/js/components/TourScrollContainer.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TourScrollContainer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TourScrollContainer_vue_vue_type_template_id_7461cea1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TourScrollContainer_vue_vue_type_template_id_7461cea1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TourScrollContainer.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TourScrollContainer.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/TourScrollContainer.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TourScrollContainer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TourScrollContainer.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourScrollContainer.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TourScrollContainer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TourScrollContainer.vue?vue&type=template&id=7461cea1&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/TourScrollContainer.vue?vue&type=template&id=7461cea1& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourScrollContainer_vue_vue_type_template_id_7461cea1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TourScrollContainer.vue?vue&type=template&id=7461cea1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourScrollContainer.vue?vue&type=template&id=7461cea1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourScrollContainer_vue_vue_type_template_id_7461cea1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourScrollContainer_vue_vue_type_template_id_7461cea1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TourStartCard.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/TourStartCard.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TourStartCard_vue_vue_type_template_id_28a289bf___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TourStartCard.vue?vue&type=template&id=28a289bf& */ "./resources/js/components/TourStartCard.vue?vue&type=template&id=28a289bf&");
+/* harmony import */ var _TourStartCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TourStartCard.vue?vue&type=script&lang=js& */ "./resources/js/components/TourStartCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TourStartCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TourStartCard_vue_vue_type_template_id_28a289bf___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TourStartCard_vue_vue_type_template_id_28a289bf___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TourStartCard.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TourStartCard.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/TourStartCard.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TourStartCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TourStartCard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourStartCard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TourStartCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TourStartCard.vue?vue&type=template&id=28a289bf&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/TourStartCard.vue?vue&type=template&id=28a289bf& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourStartCard_vue_vue_type_template_id_28a289bf___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TourStartCard.vue?vue&type=template&id=28a289bf& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourStartCard.vue?vue&type=template&id=28a289bf&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourStartCard_vue_vue_type_template_id_28a289bf___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourStartCard_vue_vue_type_template_id_28a289bf___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -82340,74 +83281,157 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["directions", "tourActive"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["directions", "tourActive"]), {
     isTour: function isTour(_ref) {
       var $route = _ref.$route;
       return $route.name === "tour" || this.tourActive;
+    },
+    tourStops: function tourStops(_ref2) {
+      var includedPlaces = _ref2.includedPlaces;
+      return includedPlaces.map(function (p) {
+        return {
+          place: p,
+          type: "Feature",
+          properties: {
+            description: p.name
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [p["long"], p.lat]
+          }
+        };
+      });
+    },
+    includedPlaces: function includedPlaces(_ref3) {
+      var tour = _ref3.tour,
+          places = _ref3.places;
+      var includedPlacesIds = tour.stories.map(function (s) {
+        return +s.place.id;
+      });
+      return places.filter(function (p) {
+        return includedPlacesIds.includes(+p.id);
+      });
     }
   }),
   methods: {
-    remove: function remove(prop, id) {
-      var get = "get".concat(_.capitalize(prop));
-      var remove = "remove".concat(_.capitalize(prop));
+    handleTourStopClick: function handleTourStopClick(tourStop, e) {},
+    createRouteMarkers: function createRouteMarkers() {
+      var _this = this;
 
-      if (this.map[get](id) !== undefined) {
-        this.map[remove](id);
-        return;
-      }
+      this.routeMarkers = this.tourStops.map(function (tourStop, i) {
+        var el = document.createElement("div");
+        el.className = "tour-stop";
+        el.innerHTML = "<span>".concat(i + 1, "</span>");
+        var mapboxMarker = new mapboxgl.Marker(el).setLngLat(tourStop.geometry.coordinates).addTo(_this.map);
+        el.addEventListener("click", function (e) {
+          _this.handleTourStopClick(tourStop, e);
+        });
+        return _objectSpread({}, tourStop, {}, mapboxMarker);
+      });
     },
-    removeRouteLayer: function removeRouteLayer() {
-      this.remove("source", "route");
-      this.remove("layer", "route");
+    removeRouteFromMap: function removeRouteFromMap() {
+      var _this2 = this;
+
+      return new Promise(function (resolve, reject) {
+        if (_this2.map.getLayer("routeLayer") !== undefined) {
+          _this2.map.removeLayer("routeLayer");
+        }
+
+        if (_this2.map.getSource("routeSource") !== undefined) {
+          _this2.map.removeSource("routeSource");
+        }
+
+        $(".tour-stop").remove();
+        setTimeout(function () {
+          resolve();
+        }, 400);
+      });
     },
-    addRouteLayer: function addRouteLayer() {
-      this.map.addSource("route", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "LineString",
-            coordinates: this.directions.routes[0].geometry.coordinates
+    addRouteLayer: function () {
+      var _addRouteLayer = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.removeRouteFromMap();
+
+              case 2:
+                this.createRouteMarkers();
+                console.log(this.routeMarkers);
+                this.map.addSource("routeSource", {
+                  type: "geojson",
+                  data: {
+                    type: "Feature",
+                    properties: {},
+                    geometry: {
+                      type: "LineString",
+                      coordinates: this.directions.routes[0].geometry.coordinates
+                    }
+                  }
+                });
+                this.map.addLayer({
+                  id: "routeLayer",
+                  type: "line",
+                  source: "routeSource",
+                  layout: {
+                    "line-join": "round",
+                    "line-cap": "round"
+                  },
+                  paint: {
+                    "line-color": "#fff",
+                    "line-width": 4,
+                    "line-dasharray": [0.1, 2]
+                  }
+                });
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      });
-      this.map.addLayer({
-        id: "route",
-        type: "line",
-        source: "route",
-        layout: {
-          "line-join": "round",
-          "line-cap": "round"
-        },
-        paint: {
-          "line-color": "#fff",
-          "line-width": 4,
-          "line-dasharray": [0.1, 2]
-        }
-      });
-    },
+        }, _callee, this);
+      }));
+
+      function addRouteLayer() {
+        return _addRouteLayer.apply(this, arguments);
+      }
+
+      return addRouteLayer;
+    }(),
     syncMapState: function syncMapState() {
       if (!this.mapLoaded) {
         return;
       }
 
       if (this.isTour) {
-        this.removeRouteLayer();
         this.addRouteLayer();
       } else {
-        this.removeRouteLayer();
+        this.removeRouteFromMap();
       }
     }
   },
   watch: {
+    $route: function $route() {
+      this.syncMapState();
+    },
     directions: function directions() {
       this.syncMapState();
     },

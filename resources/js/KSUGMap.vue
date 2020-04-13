@@ -22,17 +22,6 @@
       />
     </div>
 
-    <a
-      href="/admin"
-      v-if="isAdmin"
-      style="
-                border-bottom-left-radius: 5px;
-                color: rgba(0, 0, 0, 0.8);
-                right: 3.2rem;
-            "
-      class="fixed top-0 right-0 bg-orange text-black font-mono text-sm py-2 px-4 rounded-b-left shadow-lg hidden md:inline-block"
-    >Admin Mode</a>
-
     <explore
       :open="exploreOpen"
       @toggle="handleExploreToggle"

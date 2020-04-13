@@ -7,26 +7,79 @@ export default {
         isTour({ $route }) {
             return $route.name === "tour" || this.tourActive;
         },
+
+        tourStops({ includedPlaces }) {
+            return includedPlaces.map(p => ({
+                place: p,
+                type: "Feature",
+                properties: {
+                    description: p.name
+                },
+                geometry: {
+                    type: "Point",
+                    coordinates: [p.long, p.lat]
+                }
+            }));
+        },
+
+        includedPlaces({ tour, places }) {
+            let includedPlacesIds = tour.stories.map(s => +s.place.id);
+
+            return places.filter(p => includedPlacesIds.includes(+p.id));
+        }
     },
+
     methods: {
-        remove(prop, id) {
-            let get = `get${_.capitalize(prop)}`;
-            let remove = `remove${_.capitalize(prop)}`;
+        handleTourStopClick(tourStop, e) {},
 
-            if (this.map[get](id) !== undefined) {
-                this.map[remove](id);
+        createRouteMarkers() {
+            this.routeMarkers = this.tourStops.map((tourStop, i) => {
+                let el = document.createElement("div");
 
-                return;
-            }
+                el.className = "tour-stop";
+                el.innerHTML = `<span>${i + 1}</span>`;
+
+                let mapboxMarker = new mapboxgl.Marker(el)
+                    .setLngLat(tourStop.geometry.coordinates)
+                    .addTo(this.map);
+
+                el.addEventListener("click", e => {
+                    this.handleTourStopClick(tourStop, e);
+                });
+
+                return {
+                    ...tourStop,
+                    ...mapboxMarker
+                };
+            });
         },
 
-        removeRouteLayer() {
-            this.remove("source", "route");
-            this.remove("layer", "route");
+        removeRouteFromMap() {
+            return new Promise((resolve, reject) => {
+                if (this.map.getLayer("routeLayer") !== undefined) {
+                    this.map.removeLayer("routeLayer");
+                }
+
+                if (this.map.getSource("routeSource") !== undefined) {
+                    this.map.removeSource("routeSource");
+                }
+
+                $(".tour-stop").remove();
+
+                setTimeout(() => {
+                    resolve();
+                }, 400);
+            });
         },
 
-        addRouteLayer() {
-            this.map.addSource("route", {
+        async addRouteLayer() {
+            await this.removeRouteFromMap();
+
+            this.createRouteMarkers();
+
+            console.log(this.routeMarkers);
+
+            this.map.addSource("routeSource", {
                 type: "geojson",
                 data: {
                     type: "Feature",
@@ -34,24 +87,24 @@ export default {
                     geometry: {
                         type: "LineString",
                         coordinates: this.directions.routes[0].geometry
-                            .coordinates,
-                    },
-                },
+                            .coordinates
+                    }
+                }
             });
 
             this.map.addLayer({
-                id: "route",
+                id: "routeLayer",
                 type: "line",
-                source: "route",
+                source: "routeSource",
                 layout: {
                     "line-join": "round",
-                    "line-cap": "round",
+                    "line-cap": "round"
                 },
                 paint: {
                     "line-color": "#fff",
                     "line-width": 4,
-                    "line-dasharray": [0.1, 2],
-                },
+                    "line-dasharray": [0.1, 2]
+                }
             });
         },
         syncMapState() {
@@ -60,21 +113,24 @@ export default {
             }
 
             if (this.isTour) {
-                this.removeRouteLayer();
                 this.addRouteLayer();
             } else {
-                this.removeRouteLayer();
+                this.removeRouteFromMap();
             }
-        },
+        }
     },
 
     watch: {
+        $route() {
+            this.syncMapState();
+        },
+
         directions() {
             this.syncMapState();
         },
 
         mapLoaded() {
             this.syncMapState();
-        },
-    },
+        }
+    }
 };

@@ -1,89 +1,62 @@
 <template>
-  <div class="fixed inset-0">
-    <scroll-container>
-      <vertical-scroll-container class="mr-5">
-        <div class="p-6 bg-black text-white w-60vw mt-55vh min-h-20rem">
-          <h1 class="font-display text-5xl font-bold uppercase leading-none">{{tour.name}}</h1>
-          <h3 class="font-display text-xl font-bold uppercase">{{tour.duration}}</h3>
-
-          <clickable
-            class="h-12 flex items-center justify-center bg-white my-5 w-full"
-            @click="handleStartButtonClick"
-          >
-            <span class="text-black font-bold font-mono uppercase">{{startButtonText}}</span>
-          </clickable>
-
-          <div class="flex my-6">
-            <img src="/images/map.png" alt="A map folded at its creases" class="w-5 h-5 mr-4" />
-
-            <p class="font-mono uppercase">
-              Tour Beings at
-              <br />
-              <a href="#" class="underline">{{firstPlace.name}}</a>
-            </p>
-          </div>
-
-          <div class="leading-normal" v-html="tour.description"></div>
-
-          <img :src="tour.photos[0].url" class="w-full h-48 object-cover mt-8" />
-        </div>
+  <div class="fixed inset-0 lg:left-auto lg:w-full lg:max-w-sm lg:mr-12">
+    <tour-scroll-container
+      ref="scrollContainer"
+      @scroll-element-changed="handleScrollElementChanged"
+    >
+      <vertical-scroll-container class="mr-5 lg:h-auto lg:pb-0 lg:items-stretch lg:mr-0 lg:mt-12">
+        <tour-start-card :tour="tour" />
       </vertical-scroll-container>
 
-      <template v-for="(leg, i) in legs">
+      <template v-for="(leg, legIndex) in legs">
         <vertical-scroll-container
-          v-for="(step, j) in leg.steps"
-          :key="`${i}-steps-${j}`"
-          class="mr-5"
+          v-for="(step, legStepIndex) in getSteps(leg)"
+          :key="getKey(legIndex, legStepIndex)"
+          class="lg:h-auto lg:pb-0 lg:w-full lg:mr-0"
         >
-          <div class="bg-white max-w-sm p-4 w-60vw mt-55vh min-h-20rem" v-if="j === 0">
-            <div
-              class="flex items-center h-8 w-8 justify-center font-mono rounded-full bg-black text-white"
-            >
-              <span class="text-md">{{i + 1}}</span>
-            </div>
+          <place-tour-card
+            v-if="isFirstStep(legStepIndex)"
+            :place="includedPlaces[legIndex]"
+            :step="leg.steps[0]"
+            :stories="getStories(includedPlaces[legIndex])"
+            :order="legIndex + 1"
+          />
 
-            <h1 class="font-display text-3xl uppercase font-bold">{{places[i].name}}</h1>
-
-            <p class="mb-8">Depart from {{places[i].name}} and {{leg.steps[0].maneuver.instruction}}</p>
-
-            <img
-              :src="places[i].photos[0].url"
-              class="h-32 w-full object-cover"
-              v-if="places[i].photos.length"
-            />
-
-            <tour-story-card
-              class="mt-3"
-              v-for="story in getStories(places[i])"
-              :story="story"
-              :key="`${i}-steps-${j}-story-${story.id}`"
-              :style="{ color: story.color }"
-            />
-          </div>
-
-          <div class="bg-black text-white p-4 w-60vw mt-55vh min-h-20rem" v-if="j !== 0">
-            <img src="/images/upArrow.png" class="w-8 h-8" />
-            <h3
-              class="font-display uppercase text-3xl"
-            >{{step.maneuver.type}} {{step.maneuver.modifier}}</h3>
-            <p>
-              {{step.maneuver.instruction}}.
-              <span
-                v-if="step.maneuver.type === 'turn'"
-              >Continue for {{getFeet(step.distance)}} feet.</span>
-            </p>
-          </div>
+          <step-card :step="step" v-if="isNotLastOrFirstStep(legStepIndex)" />
         </vertical-scroll-container>
-
-        <!-- steps go here -->
       </template>
-    </scroll-container>
+
+      <!-- Last Step -->
+
+      <vertical-scroll-container class="lg:h-auto lg:pb-0 lg:w-full mr-5 lg:mb-10 lg:mr-0">
+        <place-tour-card
+          :place="lastPlace"
+          :step="undefined"
+          :stories="getStories(lastPlace)"
+          :order="includedPlaces.length"
+        >
+          <p class="mb-8 mt-4 block">
+            You've reached the end of the
+            <em>{{tour.name}}</em> tour. Thanks for joining us!
+          </p>
+
+          <clickable
+            class="h-12 flex items-center justify-center bg-black my-5 w-full"
+            @click="handleEndClick"
+          >
+            <span class="text-white font-bold font-mono uppercase">Back to Start</span>
+          </clickable>
+        </place-tour-card>
+      </vertical-scroll-container>
+    </tour-scroll-container>
   </div>
 </template>
 <script>
 import mapboxClient from "@mapbox/mapbox-sdk";
+
+import mapboxOptimizations from "@mapbox/mapbox-sdk/services/optimization";
 import mapboxDirections from "@mapbox/mapbox-sdk/services/directions";
-import scrollContainer from "./ScrollContainer";
+import tourScrollContainer from "./TourScrollContainer";
 import verticalScrollContainer from "./VerticalScrollContainer";
 import clickable from "./Clickable";
 import upArrow from "./UpArrow";
@@ -93,21 +66,65 @@ import { getMapboxToken } from "../functions/helpers";
 import { mapState } from "vuex";
 import { getCenter, computeDestinationPoint } from "geolib";
 import { mapStories } from "../functions/ksug";
+import windowDimensions from "../mixins/windowDimensions";
+
+import placeTourCard from "./PlaceTourCard";
+import tourStartCard from "./TourStartCard";
+import stepCard from "./StepCard";
+import _ from "lodash";
+import $ from "jquery";
 
 export default {
-  mixins: [routeHelpers],
+  mixins: [routeHelpers, windowDimensions],
 
   components: {
-    scrollContainer,
+    stepCard,
     upArrow,
     verticalScrollContainer,
     clickable,
-    tourStoryCard
+    tourStoryCard,
+    placeTourCard,
+    tourStartCard,
+    tourScrollContainer
   },
-
+  watch: {
+    tourActive(val) {
+      if (val) {
+        this.$refs.scrollContainer.scrollToFirstStep();
+      }
+    }
+  },
   methods: {
-    handleStartButtonClick() {
-      this.$store.commit("setTourIsActive", this.tourActive ? false : true);
+    handleScrollElementChanged(el) {
+      let latLong = $(el).data("stepGeo");
+
+      if (latLong && this.tourActive) {
+        this.$store.commit("setMapCenter", [+latLong[0], +latLong[1], 18]);
+      }
+    },
+
+    getKey(legIndex, legStepIndex) {
+      `${legIndex}-steps-${legStepIndex}`;
+    },
+
+    getSteps(leg) {
+      /**
+       * We filter out the arrive step for each leg
+       * since we put that info on the start card
+       * of each leg.
+       */
+      return leg.steps.filter(s => s.maneuver.type !== "arrive");
+    },
+
+    isNotLastOrFirstStep(stepIndex) {
+      return stepIndex !== 0;
+    },
+
+    handleEndClick() {
+      this.$store.commit("setTourIsActive", false);
+      this.$refs.scrollContainer.scrollToStart();
+
+      this.setCenter();
     },
 
     getStories(place) {
@@ -118,15 +135,17 @@ export default {
       ];
     },
     async loadDirections() {
-      this.directionsClient = mapboxDirections(
-        mapboxClient({ accessToken: getMapboxToken() })
-      );
+      let client = mapboxClient({ accessToken: getMapboxToken() });
+
+      this.optimizationClient = mapboxOptimizations(client);
+      this.directionsClient = mapboxDirections(client);
 
       let req = this.directionsClient.getDirections({
         profile: "walking",
         waypoints: this.waypoints,
         steps: true,
-        geometries: "geojson"
+        geometries: "geojson",
+        bannerInstructions: true
       });
 
       let { body: directions } = await req.send();
@@ -147,8 +166,11 @@ export default {
         return "rotate(-90deg)";
       }
     },
+    isFirstStep(stepIndex) {
+      return stepIndex === 0;
+    },
     setCenter() {
-      let points = this.places.map(p => ({
+      let points = this.includedPlaces.map(p => ({
         latitude: +p.lat,
         longitude: +p.long
       }));
@@ -158,40 +180,53 @@ export default {
       /**
        * Add half a mile to the center so its above our controls
        */
-      center = computeDestinationPoint(center, 1600, 180);
+      center = computeDestinationPoint(
+        center,
+        this.lg ? 400 : 1600,
+        this.lg ? 90 : 180
+      );
 
       this.$store.commit("setMapCenter", [
         center.latitude,
         center.longitude,
-        14
+        15
       ]);
     }
   },
 
   computed: {
-    ...mapState(["directions", "tourActive"]),
+    ...mapState(["directions", "tourActive", "places"]),
 
     startButtonText({ tourActive }) {
       return tourActive ? "Stop Tour" : "Start Tour";
     },
-    firstPlace({ tour }) {
-      return tour.stories[0].place;
+
+    firstPlace({ includedPlaces }) {
+      return includedPlaces[0];
     },
+
+    lastPlace({ includedPlaces }) {
+      return _.last(includedPlaces);
+    },
+
     legs({ directions }) {
       if (!directions) return undefined;
 
       return directions.routes[0].legs;
     },
+
     loading({ directions }) {
       return directions === undefined;
     },
 
-    places({ tour }) {
-      return [...new Set(tour.stories.map(s => s.place))];
+    includedPlaces({ tour, places }) {
+      let includedPlacesIds = tour.stories.map(s => +s.place.id);
+
+      return places.filter(p => includedPlacesIds.includes(+p.id));
     },
 
-    waypoints({ places }) {
-      return places.map(p => ({
+    waypoints({ includedPlaces }) {
+      return includedPlaces.map(p => ({
         coordinates: [+p.long, +p.lat]
       }));
     }
@@ -200,8 +235,6 @@ export default {
     this.loadDirections();
 
     this.setCenter();
-
-    console.log(this.places);
   }
 };
 </script>

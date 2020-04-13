@@ -1,20 +1,22 @@
 <template>
   <div
     v-click-outside="goBack"
-    class="fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0 md:max-w-base"
+    class="fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0 md:max-w-base max-w-full"
     id="about-container"
   >
     <div class="absolute top-0 left-0 right-0 h-64 md:hidden" @click="goBack"></div>
 
     <page-section class="bg-black text-white" id="about-may-4">
-      <h1 class="font-display text-8xl leading-none uppercase font-medium py-6 mt-6">
+      <h1
+        class="font-display text-5xl md:text-8xl leading-none uppercase font-medium py-6 mt-6 h-48 md:h-auto object-cover"
+      >
         Mapping
         <br />May 4, 1970
       </h1>
       <div class="-mr-12">
         <img
           src="//nhmisc.s3.amazonaws.com/ksug/d4dff96a075d8cd5f98a56aad48e0988.jpg"
-          class="w-full mb-2"
+          class="w-full mb-2 h-48 md:h-auto object-cover"
         />
         <span
           class="text-2xs mt-2 font-mono leading-normal"
