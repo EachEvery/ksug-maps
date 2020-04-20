@@ -56,7 +56,7 @@ export default {
             default: 300
         },
         stepWidth: {
-            default: 220
+            default: 300
         }
     },
     data() {

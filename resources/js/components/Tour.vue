@@ -277,6 +277,10 @@ export default {
     computed: {
         ...mapState(["directions", "tourActive", "places", "stories"]),
 
+        defaultBackRoute() {
+            return "/explore";
+        },
+
         startButtonText({ tourActive }) {
             return tourActive ? "Stop Tour" : "Start Tour";
         },

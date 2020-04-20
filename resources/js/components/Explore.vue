@@ -1,16 +1,16 @@
 <template>
     <div
-        class="fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible"
+        class="fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 pb-48 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible"
         style="min-height: 100vh;  height: 100vh;"
         v-click-outside="handleClickOutside"
         :style="containerStyle"
     >
         <!-- Mobile Explore Heading -->
         <mobile-explore-toggle @click="$emit('toggle')">
-            <h3 class="text-lg uppercase font-light font-mono">
+            <h3 class="text-base uppercase font-light font-mono">
                 Explore Tours &amp; Stories
             </h3>
-            <up-arrow class="w-8 w-8 text-black" :style="arrowStyle" />
+            <up-arrow class="w-6 w-6 text-black" :style="arrowStyle" />
         </mobile-explore-toggle>
 
         <!-- Desktop Explore Heading -->
@@ -20,7 +20,7 @@
 
         <div class="px-8 md:overflow-y-scroll md:h-full">
             <h1
-                class="text-8xl font-display uppercase cursor-pointer"
+                class="text-5xl md:text-8xl font-display uppercase cursor-pointer"
                 @click="$emit('toggle')"
             >
                 Explore
@@ -35,17 +35,13 @@
                     class="-mx-10 md:-mx-8 px-5 md:px-8"
                     buttons-portal="featured-tours-heading"
                 >
-                    <draggable
+                    <tour-card
                         v-for="tour in tours"
                         :key="tour.id"
-                        class="flex"
-                    >
-                        <tour-card
-                            :tour="tour"
-                            style="height: 24rem"
-                            class="mr-4 w-64 flex-retain"
-                        />
-                    </draggable>
+                        :tour="tour"
+                        style="height: 24rem"
+                        class="mr-4 w-64 flex-retain"
+                    />
                 </scroll-container>
 
                 <explore-heading
@@ -58,30 +54,26 @@
                     class="-mx-10 md:-mx-8 px-5 md:px-8"
                     buttons-portal="featured-stories-heading"
                 >
-                    <draggable
-                        v-for="story in shuffle(featuredStories)"
+                    <story-card
+                        v-for="story in randomFeaturedStories"
                         :key="story.id"
-                        class="flex"
-                    >
-                        <story-card
-                            :story="story"
-                            class="mr-4 w-72 h-48vh flex-retain"
-                            :style="{ color: story.color }"
-                            style="max-height: 25rem"
-                        />
-                    </draggable>
+                        :story="story"
+                        class="mr-4 w-72 h-48vh flex-retain"
+                        :style="{ color: story.color }"
+                        style="max-height: 25rem"
+                    />
                 </scroll-container>
 
                 <div v-if="userLocation">
                     <explore-heading
-                        portal-name="recent-comments-heading"
+                        portal-name="nearest-places-heading"
                         class="mt-12"
                         >Nearest Places</explore-heading
                     >
 
                     <scroll-container
                         class="-mx-10 md:-mx-8 px-5 md:px-8"
-                        buttons-portal="recent-comments-heading"
+                        buttons-portal="nearest-places-heading"
                     >
                         <location-card
                             v-for="place in [...closestPlacesFirst].slice(0, 4)"
@@ -163,19 +155,23 @@ export default {
     },
     data() {
         return {
-            canClickOutside: false
+            canClickOutside: false,
+            randomFeaturedStories: _.shuffle(this.featuredStories)
         };
     },
+
     mounted() {
         this.setCanClickOutside();
     },
     methods: {
         shuffle: _.shuffle,
+
         handleClickOutside() {
             if (this.canClickOutside) {
                 this.$emit("toggle");
             }
         },
+
         setCanClickOutside() {
             setTimeout(() => {
                 this.canClickOutside = this.open;
@@ -185,6 +181,7 @@ export default {
 
     computed: {
         ...mapState(["tours", "stories", "places"]),
+
         ...mapGetters(["featuredStories", "comments", "userLocation"]),
 
         closestPlacesFirst({ places }) {
@@ -208,7 +205,7 @@ export default {
             return {
                 transform: md
                     ? `translateX(${open ? "0" : `100%`})`
-                    : `translateY(${open ? "0" : "87%"})`
+                    : `translateY(${open ? "0" : "75vh"})`
             };
         },
         arrowStyle({ open }) {

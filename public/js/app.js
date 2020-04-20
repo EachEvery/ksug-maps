@@ -4346,6 +4346,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4675,6 +4693,21 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5255,14 +5288,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -5302,7 +5327,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      canClickOutside: false
+      canClickOutside: false,
+      randomFeaturedStories: lodash__WEBPACK_IMPORTED_MODULE_11___default.a.shuffle(this.featuredStories)
     };
   },
   mounted: function mounted() {
@@ -5349,7 +5375,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return {
-        transform: md ? "translateX(".concat(open ? "0" : "100%", ")") : "translateY(".concat(open ? "0" : "87%", ")")
+        transform: md ? "translateX(".concat(open ? "0" : "100%", ")") : "translateY(".concat(open ? "0" : "75vh", ")")
       };
     },
     arrowStyle: function arrowStyle(_ref3) {
@@ -6721,7 +6747,7 @@ __webpack_require__.r(__webpack_exports__);
       "default": 300
     },
     stepWidth: {
-      "default": 220
+      "default": 300
     }
   },
   data: function data() {
@@ -7909,6 +7935,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places", "stories"]), {
+    defaultBackRoute: function defaultBackRoute() {
+      return "/explore";
+    },
     startButtonText: function startButtonText(_ref2) {
       var tourActive = _ref2.tourActive;
       return tourActive ? "Stop Tour" : "Start Tour";
@@ -53989,12 +54018,12 @@ var render = function() {
             "h1",
             {
               staticClass:
-                "font-display text-5xl md:text-8xl leading-none uppercase font-medium py-6 mt-6 h-48 md:h-auto object-cover"
+                "font-display text-5xl md:text-8xl leading-none uppercase font-medium py-6 mt-6 md:h-48 md:h-auto object-cover"
             },
             [
-              _vm._v("\n      Mapping\n      "),
+              _vm._v("\n            Mapping\n            "),
               _c("br"),
-              _vm._v("May 4, 1970\n    ")
+              _vm._v("May 4, 1970\n        ")
             ]
           ),
           _vm._v(" "),
@@ -54018,7 +54047,7 @@ var render = function() {
           _vm._v(" "),
           _c("paragraph", { staticClass: "text-white" }, [
             _vm._v(
-              "\n      At Kent State University in Kent, Ohio, on May 4, 1970, 28\n      National Guard troops turned in unison and fired 67 shots at\n      student peace protesters, killing 4 and wounding 9, leaving one\n      paralyzed. On May 1st students began a series of protests in\n      response to Nixon’s expansion of the war from Vietnam to\n      Cambodia. By May 4th they were also protesting the occupationp of\n      campus by nearly a thousand troops, more than 100 trucks, 12\n      armored vehicles, 3 tanks with mortar launchers, and 13\n      helicopters. People across the city and campus were traumatized\n      in various ways. After the shootings some community members said\n      that the students deserved to be shot. Even 50 years later\n      division and resentments continue.\n    "
+              "\n            At Kent State University in Kent, Ohio, on May 4, 1970, 28\n            National Guard troops turned in unison and fired 67 shots at\n            student peace protesters, killing 4 and wounding 9, leaving one\n            paralyzed. On May 1st students began a series of protests in\n            response to Nixon’s expansion of the war from Vietnam to\n            Cambodia. By May 4th they were also protesting the occupationp\n            of campus by nearly a thousand troops, more than 100 trucks, 12\n            armored vehicles, 3 tanks with mortar launchers, and 13\n            helicopters. People across the city and campus were traumatized\n            in various ways. After the shootings some community members said\n            that the students deserved to be shot. Even 50 years later\n            division and resentments continue.\n        "
             )
           ]),
           _vm._v(" "),
@@ -54026,7 +54055,7 @@ var render = function() {
             "clickable",
             {
               staticClass:
-                "bg-white text-black uppercase font-mono h-12 flex justify-center items-center mt-12 cursor-pointed",
+                "bg-white font-display text-black uppercase h-12 flex justify-center items-center mt-12 cursor-pointed",
               on: {
                 click: function($event) {
                   return _vm.$router.push("/explore")
@@ -54034,7 +54063,7 @@ var render = function() {
               }
             },
             [
-              _c("span", { staticClass: "text-center" }, [
+              _c("span", { staticClass: "text-center text-md" }, [
                 _vm._v("Explore May 4, 1970")
               ])
             ]
@@ -54048,14 +54077,14 @@ var render = function() {
         { staticClass: "bg-blue", attrs: { id: "about-the-project" } },
         [
           _c("header-40", [
-            _vm._v("\n      About this\n      "),
+            _vm._v("\n            About this\n            "),
             _c("br"),
-            _vm._v("Project\n    ")
+            _vm._v("Project\n        ")
           ]),
           _vm._v(" "),
           _c("paragraph", [
             _vm._v(
-              "\n      This web app draws from the oral histories in the\n      "
+              "\n            This web app draws from the oral histories in the\n            "
             ),
             _c(
               "a",
@@ -54068,12 +54097,12 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "\n        May 4 Collection, Kent State Special Collections &\n        Archives\n      "
+                  "\n                May 4 Collection, Kent State Special Collections &\n                Archives "
                 )
               ]
             ),
             _vm._v(
-              ". It maps stories from those histories that describe memories\n      of events at a particular place in Kent between May 1st and May\n      5th, 1970 (but does not yet include stories within the National\n      Historic Landmark). This web app is designed to serve as a\n      digital memorial, to remember and honor these events. We have\n      made it both for those who have stories to share, and those who\n      are interested in hearing these stories. This web app does not\n      aim to establish historical facts. Readers will notice that\n      stories associated with some sites are quite contradictory.\n      Instead this web app aims to open a space for dialogue in the\n      hope of building understanding, connection across difference,\n      and ultimately reconciliation. For those seeking a historical\n      account we recommend starting with the short booklet\n      "
+              ". It maps stories from those histories that describe memories\n            of events at a particular place in Kent between May 1st and May\n            5th, 1970 (but does not yet include stories within the National\n            Historic Landmark). This web app is designed to serve as a\n            digital memorial, to remember and honor these events. We have\n            made it both for those who have stories to share, and those who\n            are interested in hearing these stories. This web app does not\n            aim to establish historical facts. Readers will notice that\n            stories associated with some sites are quite contradictory.\n            Instead this web app aims to open a space for dialogue in the\n            hope of building understanding, connection across difference,\n            and ultimately reconciliation. For those seeking a historical\n            account we recommend starting with the short booklet\n            "
             ),
             _c(
               "a",
@@ -54087,14 +54116,14 @@ var render = function() {
               },
               [_vm._v("This We Know")]
             ),
-            _vm._v(".\n    ")
+            _vm._v(".\n        ")
           ]),
           _vm._v(" "),
           _c("header-25", [_vm._v("Next Steps")]),
           _vm._v(" "),
           _c("paragraph", [
             _vm._v(
-              "\n      We are in the process of extending this project to include the\n      stories of what happened right around the site of the shooting\n      (the area which is now a National Historic Landmark) as well as\n      add more oral histories collected by the\n      "
+              "\n            We are in the process of extending this project to include the\n            stories of what happened right around the site of the shooting\n            (the area which is now a National Historic Landmark) as well as\n            add more oral histories collected by the\n            "
             ),
             _c(
               "a",
@@ -54105,7 +54134,7 @@ var render = function() {
               [_vm._v("Kent Historical Society")]
             ),
             _vm._v(
-              ". We are also working to make this web app location aware, add\n      virtual walking tours, and highlight the most compelling\n      stories. We will be installing wall size static versions of this\n      map at the May 4th visitors center and the Kent Historical\n      Society in the spring of 2020. We will also be hosting live\n      walking dialogues based on this map during the commemoration\n      weekend. If you would like to be notified about these, or when\n      this web app is updated, please sign up for our low traffic\n      email list\n      "
+              ". We are also working to make this web app location aware, add\n            virtual walking tours, and highlight the most compelling\n            stories. We will be installing wall size static versions of this\n            map at the May 4th visitors center and the Kent Historical\n            Society in the spring of 2020. We will also be hosting live\n            walking dialogues based on this map during the commemoration\n            weekend. If you would like to be notified about these, or when\n            this web app is updated, please sign up for our low traffic\n            email list\n            "
             ),
             _c(
               "a",
@@ -54115,7 +54144,7 @@ var render = function() {
               },
               [_vm._v("here")]
             ),
-            _vm._v(".\n    ")
+            _vm._v(".\n        ")
           ])
         ],
         1
@@ -54129,7 +54158,7 @@ var render = function() {
           _vm._v(" "),
           _c("paragraph", [
             _vm._v(
-              "\n      We suggest that you start by clicking on a site that means\n      something to you. If you have trouble identifying it on the map,\n      you can search for it by name in the search bar at the top left.\n      It may help you to find your site to toggle between the historic\n      aerial photo and the current day street map. You can do this\n      with the button in the lower left (when you close this splash\n      page). You can also search by name, if you would like to see\n      stories by a particular person, and date (between May 1st and\n      May 4th). You can also search by all of these categories—for now\n      that functions as OR vs AND. Of course you can also search a\n      site at random. You can read the stories but we recommend that\n      you also listen to them—the audio can be powerful.\n    "
+              "\n            We suggest that you start by clicking on a site that means\n            something to you. If you have trouble identifying it on the map,\n            you can search for it by name in the search bar at the top left.\n            It may help you to find your site to toggle between the historic\n            aerial photo and the current day street map. You can do this\n            with the button in the lower left (when you close this splash\n            page). You can also search by name, if you would like to see\n            stories by a particular person, and date (between May 1st and\n            May 4th). You can also search by all of these categories—for now\n            that functions as OR vs AND. Of course you can also search a\n            site at random. You can read the stories but we recommend that\n            you also listen to them—the audio can be powerful.\n        "
             )
           ]),
           _vm._v(" "),
@@ -54137,14 +54166,14 @@ var render = function() {
           _vm._v(" "),
           _c("paragraph", [
             _vm._v(
-              "\n      This web app is a space for dialogue, and we encourage you to\n      add your voice to any of the sites. You can share your own\n      memories of what happened at a location, but also stories you\n      heard from others, or your own impressions of the site or the\n      stories associated with it. For now you can only add to sites\n      that are currently pinned on the map, but we will soon update it\n      to make it possible to comment on any site in Kent, as well as\n      to add audio and video comments, as well as historic photos. As\n      we work to roll out the next phases of the web app we would also\n      appreciate your feedback on this web app and what could be\n      improved. Please feel free to\n      "
+              "\n            This web app is a space for dialogue, and we encourage you to\n            add your voice to any of the sites. You can share your own\n            memories of what happened at a location, but also stories you\n            heard from others, or your own impressions of the site or the\n            stories associated with it. For now you can only add to sites\n            that are currently pinned on the map, but we will soon update it\n            to make it possible to comment on any site in Kent, as well as\n            to add audio and video comments, as well as historic photos. As\n            we work to roll out the next phases of the web app we would also\n            appreciate your feedback on this web app and what could be\n            improved. Please feel free to\n            "
             ),
             _c(
               "a",
               { staticClass: "underline", attrs: { href: "#about-us" } },
               [_vm._v("contact us")]
             ),
-            _vm._v(".\n    ")
+            _vm._v(".\n        ")
           ])
         ],
         1
@@ -54171,7 +54200,7 @@ var render = function() {
                 [_vm._v("Jen Mapes")]
               ),
               _vm._v(
-                "\n        is an Associate Professor in the Department of Geography at\n        Kent State University.\n        "
+                "\n                is an Associate Professor in the Department of Geography at\n                Kent State University.\n                "
               ),
               _c("br"),
               _vm._v(" "),
@@ -54209,7 +54238,7 @@ var render = function() {
                 [_vm._v("Sara Koopman")]
               ),
               _vm._v(
-                "\n        is an Assistant Professor in the School of Peace and\n        Conflict Studies at Kent State University.\n        "
+                "\n                is an Assistant Professor in the School of Peace and\n                Conflict Studies at Kent State University.\n                "
               ),
               _c("br"),
               _vm._v(" "),
@@ -54237,7 +54266,7 @@ var render = function() {
             _c("p", { staticClass: "flex-grow pr-5 mr-16" }, [
               _c("i", [
                 _vm._v(
-                  "\n          Special thanks to the students who worked on this\n          project: Chris Willer, Robin Burkhardt, and Evelyn\n          Wogoman.\n        "
+                  "\n                    Special thanks to the students who worked on this\n                    project: Chris Willer, Robin Burkhardt, and Evelyn\n                    Wogoman.\n                "
                 )
               ])
             ])
@@ -54847,35 +54876,48 @@ var render = function() {
         [
           _c(
             "div",
-            { staticClass: "flex justify-between font-mono font-bold" },
+            { staticClass: "flex font-display font-bold text-base uppercase" },
             [
-              _c("h3", { staticClass: "self-end text-xs xl:text-2xs" }, [
-                _vm._v(_vm._s(_vm.truncate(_vm.place.name, { length: 20 })))
-              ]),
-              _vm._v(" "),
-              _c("h3", { staticClass: "self-end text-xs xl:text-2xs" }, [
-                _vm._v(_vm._s(_vm.comment.frontend_date))
-              ])
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.truncate(_vm.place.name, { length: 35 })) +
+                  "\n        "
+              )
             ]
           ),
           _vm._v(" "),
-          _c("quote-icon", { staticClass: "text-black w-6 pb-1 h-6 mt-6" }),
+          _c(
+            "div",
+            { staticClass: "self-end font-mono text-sm xl:text-2xs mt-3" },
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.comment.frontend_date) +
+                  "\n        "
+              )
+            ]
+          ),
           _vm._v(" "),
           _c(
             "p",
             {
               staticClass:
-                "leading-loose mt-5 text-sm xl:text-base xl:leading-normal"
+                "leading-normal mt-5 text-base xl:text-base xl:leading-normal"
             },
-            [_vm._v(_vm._s(_vm.comment.text))]
+            [
+              _c("quote-icon", {
+                staticClass: "text-black w-4 pb-1 h-4 inline-block mr-2"
+              }),
+              _vm._v("\n            " + _vm._s(_vm.comment.text) + "\n        ")
+            ],
+            1
           ),
           _vm._v(" "),
           _c("div", {
             staticClass:
               "inset-x-0 bottom-0 w-full h-12 absolute gradient font-mono"
           })
-        ],
-        1
+        ]
       ),
       _vm._v(" "),
       _vm.comment.media_is_image
@@ -55146,7 +55188,7 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible",
+        "fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 pb-48 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible",
       staticStyle: { "min-height": "100vh", height: "100vh" },
       style: _vm.containerStyle
     },
@@ -55161,12 +55203,14 @@ var render = function() {
           }
         },
         [
-          _c("h3", { staticClass: "text-lg uppercase font-light font-mono" }, [
-            _vm._v("\n            Explore Tours & Stories\n        ")
-          ]),
+          _c(
+            "h3",
+            { staticClass: "text-base uppercase font-light font-mono" },
+            [_vm._v("\n            Explore Tours & Stories\n        ")]
+          ),
           _vm._v(" "),
           _c("up-arrow", {
-            staticClass: "w-8 w-8 text-black",
+            staticClass: "w-6 w-6 text-black",
             style: _vm.arrowStyle
           })
         ],
@@ -55185,7 +55229,8 @@ var render = function() {
         _c(
           "h1",
           {
-            staticClass: "text-8xl font-display uppercase cursor-pointer",
+            staticClass:
+              "text-5xl md:text-8xl font-display uppercase cursor-pointer",
             on: {
               click: function($event) {
                 return _vm.$emit("toggle")
@@ -55212,18 +55257,12 @@ var render = function() {
                 attrs: { "buttons-portal": "featured-tours-heading" }
               },
               _vm._l(_vm.tours, function(tour) {
-                return _c(
-                  "draggable",
-                  { key: tour.id, staticClass: "flex" },
-                  [
-                    _c("tour-card", {
-                      staticClass: "mr-4 w-64 flex-retain",
-                      staticStyle: { height: "24rem" },
-                      attrs: { tour: tour }
-                    })
-                  ],
-                  1
-                )
+                return _c("tour-card", {
+                  key: tour.id,
+                  staticClass: "mr-4 w-64 flex-retain",
+                  staticStyle: { height: "24rem" },
+                  attrs: { tour: tour }
+                })
               }),
               1
             ),
@@ -55243,20 +55282,14 @@ var render = function() {
                 staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
                 attrs: { "buttons-portal": "featured-stories-heading" }
               },
-              _vm._l(_vm.shuffle(_vm.featuredStories), function(story) {
-                return _c(
-                  "draggable",
-                  { key: story.id, staticClass: "flex" },
-                  [
-                    _c("story-card", {
-                      staticClass: "mr-4 w-72 h-48vh flex-retain",
-                      staticStyle: { "max-height": "25rem" },
-                      style: { color: story.color },
-                      attrs: { story: story }
-                    })
-                  ],
-                  1
-                )
+              _vm._l(_vm.randomFeaturedStories, function(story) {
+                return _c("story-card", {
+                  key: story.id,
+                  staticClass: "mr-4 w-72 h-48vh flex-retain",
+                  staticStyle: { "max-height": "25rem" },
+                  style: { color: story.color },
+                  attrs: { story: story }
+                })
               }),
               1
             ),
@@ -55269,7 +55302,7 @@ var render = function() {
                       "explore-heading",
                       {
                         staticClass: "mt-12",
-                        attrs: { "portal-name": "recent-comments-heading" }
+                        attrs: { "portal-name": "nearest-places-heading" }
                       },
                       [_vm._v("Nearest Places")]
                     ),
@@ -55278,7 +55311,7 @@ var render = function() {
                       "scroll-container",
                       {
                         staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
-                        attrs: { "buttons-portal": "recent-comments-heading" }
+                        attrs: { "buttons-portal": "nearest-places-heading" }
                       },
                       _vm._l(
                         [].concat(_vm.closestPlacesFirst).slice(0, 4),
