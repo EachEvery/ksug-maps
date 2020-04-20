@@ -16,6 +16,8 @@ class Story extends Resource
 {
     use HasSortableRows;
 
+    public static $perPageViaRelationship = 20;
+
     /**
      * Make the sort controls only apply to
      * the relationship view. https://github.com/optimistdigital/nova-sortable/issues/16.
@@ -95,7 +97,7 @@ class Story extends Resource
         $key = sprintf('story:%s:%s:title:', $this->id, $this->updated_at);
 
         return Cache::rememberForever($key, function () {
-            return $this->subject.' - '.$this->day.' - '.str_limit($this->content, 30);
+            return $this->subject . ' - ' . $this->day . ' - ' . str_limit($this->content, 30);
         });
     }
 
