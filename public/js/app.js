@@ -7087,6 +7087,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     step: Object
@@ -7947,7 +7951,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
        */
 
       center = this.getCenterForScreen(center);
-      this.$store.commit("setMapCenter", [center.latitude, center.longitude, 15]);
+      this.$store.commit("setMapCenter", [center.latitude, center.longitude, 14]);
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places", "stories"]), {
@@ -8302,6 +8306,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -55204,7 +55210,7 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 pb-48 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible",
+        "fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 pb-48 md:pb-0 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible",
       staticStyle: { "min-height": "100vh", height: "100vh" },
       style: _vm.containerStyle
     },
@@ -57317,7 +57323,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "bg-white max-w-sm p-4 w-60vw mt-55vh min-h-20rem || lg:mt-0 lg:w-full lg:max-w-none lg:mt-12",
+        "bg-white max-w-sm p-4 w-80vw mt-55vh min-h-20rem || lg:mt-0 lg:w-full lg:max-w-none lg:mt-12",
       attrs: {
         "data-place-id": _vm.place.id,
         "data-step-geo": JSON.stringify([+_vm.place.lat, +_vm.place.long])
@@ -57934,7 +57940,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "bg-black text-white p-4 w-60vw mt-55vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12",
+        "bg-black text-white p-4 w-80vw mt-55vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12",
       attrs: { "data-step-geo": JSON.stringify(_vm.latLong) }
     },
     [
@@ -57955,7 +57961,9 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("p", [
-        _vm._v("\n    " + _vm._s(_vm.step.maneuver.instruction) + ".\n    "),
+        _vm._v(
+          "\n        " + _vm._s(_vm.step.maneuver.instruction) + ".\n        "
+        ),
         _vm.step.maneuver.type === "turn"
           ? _c("span", [
               _vm._v(
@@ -58601,7 +58609,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "p-6 bg-black relative text-white w-60vw mt-55vh min-h-20rem max-w-sm ||| lg:mt-0 lg:w-full"
+        "p-6 bg-black relative text-white w-80vw mt-55vh min-h-20rem max-w-sm ||| lg:mt-0 lg:w-full"
     },
     [
       _c(
@@ -58712,15 +58720,17 @@ var render = function() {
     [
       _c(
         "h3",
-        { staticClass: "uppercase font-display font-bold text-lg text-black" },
-        [_vm._v(_vm._s(_vm.story.subject))]
+        { staticClass: "uppercase font-display font-bold text-md text-black" },
+        [_vm._v("\n        " + _vm._s(_vm.story.subject) + "\n    ")]
       ),
       _vm._v(" "),
       _c("p", { staticClass: "leading-normal mt-1 text-xs text-black" }, [
         _vm._v(
-          _vm._s(_vm.story.day) +
+          "\n        " +
+            _vm._s(_vm.story.day) +
             "—" +
-            _vm._s(_vm.truncate(_vm.story.content, { length: 60 }))
+            _vm._s(_vm.truncate(_vm.story.content, { length: 60 })) +
+            "\n    "
         )
       ])
     ]
@@ -58785,7 +58795,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "h-screen overflow-y-scroll flex-shrink-0 hide-scrollbars pb-12 vertical-scroll-container"
+        "h-screen overflow-y-scroll flex-shrink-0 hide-scrollbars pb-48 vertical-scroll-container"
     },
     [_vm._t("default")],
     2

@@ -1,26 +1,28 @@
 <template>
-  <router-link
-    class="bg-current p-5 relative shrink-when-active h-32 block w-full"
-    :to="`/stories/${story.id}`"
-    :style="{
+    <router-link
+        class="bg-current p-5 relative shrink-when-active h-32 block w-full"
+        :to="`/stories/${story.id}`"
+        :style="{
             '--transparentColor': transparentColor,
             '--currentColor': story.color
         }"
-  >
-    <h3 class="uppercase font-display font-bold text-lg text-black">{{story.subject}}</h3>
-    <p
-      class="leading-normal mt-1 text-xs text-black"
-    >{{story.day}}&mdash;{{ truncate(story.content, {length: 60}) }}</p>
-  </router-link>
+    >
+        <h3 class="uppercase font-display font-bold text-md text-black">
+            {{ story.subject }}
+        </h3>
+        <p class="leading-normal mt-1 text-xs text-black">
+            {{ story.day }}&mdash;{{ truncate(story.content, { length: 60 }) }}
+        </p>
+    </router-link>
 </template>
 
 <style scoped lang="scss">
 .gradient {
-  background: linear-gradient(
-    to bottom,
-    var(--transparentColor),
-    var(--currentColor) 75%
-  );
+    background: linear-gradient(
+        to bottom,
+        var(--transparentColor),
+        var(--currentColor) 75%
+    );
 }
 </style>
 <script>
@@ -30,47 +32,49 @@ import _ from "lodash";
 import { mapGetters, mapState } from "vuex";
 
 export default {
-  mixins: [distance],
+    mixins: [distance],
 
-  methods: {
-    truncate: _.truncate
-  },
-  components: {
-    quoteIcon
-  },
-
-  props: {
-    story: Object
-  },
-
-  computed: {
-    ...mapState(["places"]),
-    place({ story, places }) {
-      return places.find(p => +p.id === +story.place_id);
+    methods: {
+        truncate: _.truncate
+    },
+    components: {
+        quoteIcon
     },
 
-    lat({ place }) {
-      return +place.lat;
+    props: {
+        story: Object
     },
 
-    lng({ place }) {
-      return +place.long;
-    },
+    computed: {
+        ...mapState(["places"]),
+        place({ story, places }) {
+            return places.find(p => +p.id === +story.place_id);
+        },
 
-    transparentColor({ story }) {
-      let hex = story.color;
-      let c = hex.substring(1).split("");
+        lat({ place }) {
+            return +place.lat;
+        },
 
-      if (c.length == 3) {
-        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
-      }
+        lng({ place }) {
+            return +place.long;
+        },
 
-      c = "0x" + c.join("");
+        transparentColor({ story }) {
+            let hex = story.color;
+            let c = hex.substring(1).split("");
 
-      return (
-        "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + ",0)"
-      );
+            if (c.length == 3) {
+                c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+            }
+
+            c = "0x" + c.join("");
+
+            return (
+                "rgba(" +
+                [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") +
+                ",0)"
+            );
+        }
     }
-  }
 };
 </script>

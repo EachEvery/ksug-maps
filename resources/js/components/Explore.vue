@@ -1,6 +1,6 @@
 <template>
     <div
-        class="fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 pb-48 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible"
+        class="fixed inset-x-0 md:inset-x-auto md:max-w-40rem md:right-0 top-0 bg-white pt-4 pb-48 md:pb-0 md:pt-0 transition md:min-w-md overflow-y-scroll md:overflow-y-visible overflow-x-hidden md:overflow-x-visible"
         style="min-height: 100vh;  height: 100vh;"
         v-click-outside="handleClickOutside"
         :style="containerStyle"

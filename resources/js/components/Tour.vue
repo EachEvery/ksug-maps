@@ -269,7 +269,7 @@ export default {
             this.$store.commit("setMapCenter", [
                 center.latitude,
                 center.longitude,
-                15
+                14
             ]);
         }
     },

@@ -33,7 +33,7 @@ module.exports = {
             },
             width: {
                 "25rem": "25rem",
-                "60vw": "60vw"
+                "80vw": "80vw"
             },
             colors: {
                 current: "currentColor",
