@@ -7951,7 +7951,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
        */
 
       center = this.getCenterForScreen(center);
-      this.$store.commit("setMapCenter", [center.latitude, center.longitude, this.lg ? 16 : 14]);
+      this.$store.commit("setMapCenter", [center.latitude, center.longitude, this.lg ? 15 : 14]);
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places", "stories"]), {
