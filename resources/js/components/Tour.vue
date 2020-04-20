@@ -248,7 +248,7 @@ export default {
         getCenterForScreen(center) {
             return computeDestinationPoint(
                 center,
-                this.lg ? 800 : 550,
+                this.lg ? 550 : 550,
                 this.lg ? 90 : -180
             );
         },

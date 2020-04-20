@@ -7936,7 +7936,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return stepIndex === 0;
     },
     getCenterForScreen: function getCenterForScreen(center) {
-      return Object(geolib__WEBPACK_IMPORTED_MODULE_12__["computeDestinationPoint"])(center, this.lg ? 800 : 550, this.lg ? 90 : -180);
+      return Object(geolib__WEBPACK_IMPORTED_MODULE_12__["computeDestinationPoint"])(center, this.lg ? 550 : 550, this.lg ? 90 : -180);
     },
     setCenter: function setCenter() {
       var points = this.includedPlaces.map(function (p) {
