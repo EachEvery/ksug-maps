@@ -6423,6 +6423,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -56832,7 +56848,7 @@ var render = function() {
           },
           [
             _c("h1", { staticClass: "uppercase font-display text-3xl" }, [
-              _vm._v("Toggle Map Layers")
+              _vm._v("\n                Toggle Map Layers\n            ")
             ]),
             _vm._v(" "),
             _vm.isTour
@@ -56927,7 +56943,7 @@ var render = function() {
           "div",
           {
             staticClass:
-              "flex flex-col fixed bottom-0 left-0 mb-48 md:mb-5 ml-5 transition",
+              "flex flex-col fixed bottom-0 left-0 mb-24 md:mb-5 ml-5 transition",
             class: {
               "-translate-x-20": !_vm.showControls,
               "opacity-0": !_vm.showControls
