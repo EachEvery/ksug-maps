@@ -95,6 +95,7 @@ import stepCard from "./StepCard";
 import _ from "lodash";
 import $ from "jquery";
 import handleBack from "../mixins/handleBack";
+import Axios from "axios";
 
 export default {
     mixins: [routeHelpers, windowDimensions, handleBack],
@@ -211,12 +212,14 @@ export default {
         async loadDirections() {
             let client = mapboxClient({ accessToken: getMapboxToken() });
 
-            this.optimizationClient = mapboxOptimizations(client);
+            // this.optimizationClient = mapboxOptimizations(client);
             this.directionsClient = mapboxDirections(client);
+
+            let waypoints = await this.getWaypoints();
 
             let req = this.directionsClient.getDirections({
                 profile: "walking",
-                waypoints: this.waypoints,
+                waypoints: waypoints,
                 steps: true,
                 geometries: "geojson",
                 bannerInstructions: true
@@ -226,6 +229,30 @@ export default {
 
             this.$store.commit("setDirections", directions);
         },
+
+        async getWaypoints() {
+            let tourStories = await this.getTourStories();
+            let placesInOrder = this.includedPlaces.sort((a, b) => {
+                let aFirstStory = tourStories.find(s => s.place_id === a.id);
+                let bFirstStory = tourStories.find(s => s.place_id === b.id);
+
+                let aOrder =
+                    aFirstStory.pivot.sort_order === null
+                        ? 0
+                        : aFirstStory.pivot.sort_order;
+                let bOrder =
+                    bFirstStory.pivot.sort_order === null
+                        ? 0
+                        : bFirstStory.pivot.sort_order;
+
+                return aOrder - bOrder;
+            });
+
+            return placesInOrder.map(p => ({
+                coordinates: [+p.long, +p.lat]
+            }));
+        },
+
         getMiles(meters) {
             return (meters & 0.000621371).toFixed(2);
         },
@@ -271,11 +298,27 @@ export default {
                 center.longitude,
                 this.lg ? 15 : 14
             ]);
+        },
+
+        async getTourStories() {
+            let { data: stories } = await Axios.get(
+                `/tour/${this.tour.id}/stories`
+            );
+
+            this.$store.commit("setTourStories", stories);
+
+            return stories;
         }
     },
 
     computed: {
-        ...mapState(["directions", "tourActive", "places", "stories"]),
+        ...mapState([
+            "directions",
+            "tourActive",
+            "places",
+            "stories",
+            "tourStories"
+        ]),
 
         defaultBackRoute() {
             return "/explore";
@@ -303,17 +346,13 @@ export default {
             return directions === undefined;
         },
 
-        includedPlaces({ tour, places }) {
+        includedPlaces({ directions, places, tour }) {
             let includedPlacesIds = tour.stories.map(s => +s.place.id);
 
             return places.filter(p => includedPlacesIds.includes(+p.id));
         },
 
-        waypoints({ includedPlaces }) {
-            return includedPlaces.map(p => ({
-                coordinates: [+p.long, +p.lat]
-            }));
-        }
+        waypoints({ includedPlaces }) {}
     },
     mounted() {
         this.loadDirections();

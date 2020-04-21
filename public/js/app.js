@@ -7733,6 +7733,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_19__);
 /* harmony import */ var _mixins_handleBack__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../mixins/handleBack */ "./resources/js/mixins/handleBack.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_21__);
 
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
@@ -7825,6 +7827,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+
 
 
 
@@ -7946,7 +7949,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var _loadDirections = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var client, req, _ref, directions;
+        var client, waypoints, req, _ref, directions;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -7954,25 +7957,30 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               case 0:
                 client = _mapbox_mapbox_sdk__WEBPACK_IMPORTED_MODULE_1___default()({
                   accessToken: Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_10__["getMapboxToken"])()
-                });
-                this.optimizationClient = _mapbox_mapbox_sdk_services_optimization__WEBPACK_IMPORTED_MODULE_2___default()(client);
+                }); // this.optimizationClient = mapboxOptimizations(client);
+
                 this.directionsClient = _mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_3___default()(client);
+                _context.next = 4;
+                return this.getWaypoints();
+
+              case 4:
+                waypoints = _context.sent;
                 req = this.directionsClient.getDirections({
                   profile: "walking",
-                  waypoints: this.waypoints,
+                  waypoints: waypoints,
                   steps: true,
                   geometries: "geojson",
                   bannerInstructions: true
                 });
-                _context.next = 6;
+                _context.next = 8;
                 return req.send();
 
-              case 6:
+              case 8:
                 _ref = _context.sent;
                 directions = _ref.body;
                 this.$store.commit("setDirections", directions);
 
-              case 9:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -7985,6 +7993,51 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
 
       return loadDirections;
+    }(),
+    getWaypoints: function () {
+      var _getWaypoints = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var tourStories, placesInOrder;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.getTourStories();
+
+              case 2:
+                tourStories = _context2.sent;
+                placesInOrder = this.includedPlaces.sort(function (a, b) {
+                  var aFirstStory = tourStories.find(function (s) {
+                    return s.place_id === a.id;
+                  });
+                  var bFirstStory = tourStories.find(function (s) {
+                    return s.place_id === b.id;
+                  });
+                  var aOrder = aFirstStory.pivot.sort_order === null ? 0 : aFirstStory.pivot.sort_order;
+                  var bOrder = bFirstStory.pivot.sort_order === null ? 0 : bFirstStory.pivot.sort_order;
+                  return aOrder - bOrder;
+                });
+                return _context2.abrupt("return", placesInOrder.map(function (p) {
+                  return {
+                    coordinates: [+p["long"], +p.lat]
+                  };
+                }));
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getWaypoints() {
+        return _getWaypoints.apply(this, arguments);
+      }
+
+      return getWaypoints;
     }(),
     getMiles: function getMiles(meters) {
       return (meters & 0.000621371).toFixed(2);
@@ -8021,36 +8074,70 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       center = this.getCenterForScreen(center);
       this.$store.commit("setMapCenter", [center.latitude, center.longitude, this.lg ? 15 : 14]);
-    }
+    },
+    getTourStories: function () {
+      var _getTourStories = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var _ref2, stories;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_21___default.a.get("/tour/".concat(this.tour.id, "/stories"));
+
+              case 2:
+                _ref2 = _context3.sent;
+                stories = _ref2.data;
+                this.$store.commit("setTourStories", stories);
+                return _context3.abrupt("return", stories);
+
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function getTourStories() {
+        return _getTourStories.apply(this, arguments);
+      }
+
+      return getTourStories;
+    }()
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places", "stories"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places", "stories", "tourStories"]), {
     defaultBackRoute: function defaultBackRoute() {
       return "/explore";
     },
-    startButtonText: function startButtonText(_ref2) {
-      var tourActive = _ref2.tourActive;
+    startButtonText: function startButtonText(_ref3) {
+      var tourActive = _ref3.tourActive;
       return tourActive ? "Stop Tour" : "Start Tour";
     },
-    firstPlace: function firstPlace(_ref3) {
-      var includedPlaces = _ref3.includedPlaces;
+    firstPlace: function firstPlace(_ref4) {
+      var includedPlaces = _ref4.includedPlaces;
       return includedPlaces[0];
     },
-    lastPlace: function lastPlace(_ref4) {
-      var includedPlaces = _ref4.includedPlaces;
+    lastPlace: function lastPlace(_ref5) {
+      var includedPlaces = _ref5.includedPlaces;
       return lodash__WEBPACK_IMPORTED_MODULE_18___default.a.last(includedPlaces);
     },
-    legs: function legs(_ref5) {
-      var directions = _ref5.directions;
+    legs: function legs(_ref6) {
+      var directions = _ref6.directions;
       if (!directions) return undefined;
       return directions.routes[0].legs;
     },
-    loading: function loading(_ref6) {
-      var directions = _ref6.directions;
+    loading: function loading(_ref7) {
+      var directions = _ref7.directions;
       return directions === undefined;
     },
-    includedPlaces: function includedPlaces(_ref7) {
-      var tour = _ref7.tour,
-          places = _ref7.places;
+    includedPlaces: function includedPlaces(_ref8) {
+      var directions = _ref8.directions,
+          places = _ref8.places,
+          tour = _ref8.tour;
       var includedPlacesIds = tour.stories.map(function (s) {
         return +s.place.id;
       });
@@ -8058,13 +8145,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         return includedPlacesIds.includes(+p.id);
       });
     },
-    waypoints: function waypoints(_ref8) {
-      var includedPlaces = _ref8.includedPlaces;
-      return includedPlaces.map(function (p) {
-        return {
-          coordinates: [+p["long"], +p.lat]
-        };
-      });
+    waypoints: function waypoints(_ref9) {
+      var includedPlaces = _ref9.includedPlaces;
     }
   }),
   mounted: function mounted() {
@@ -83747,7 +83829,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["directions", "tourActive"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["directions", "tourActive", "tourStories"]), {
     isTour: function isTour(_ref) {
       var $route = _ref.$route;
       return $route.name === "tour" || this.tourActive;
@@ -83769,9 +83851,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     includedPlaces: function includedPlaces(_ref3) {
-      var tour = _ref3.tour,
+      var tourStories = _ref3.tourStories,
           places = _ref3.places;
-      var includedPlacesIds = tour.stories.map(function (s) {
+      var includedPlacesIds = tourStories.map(function (s) {
         return +s.place.id;
       });
       return places.filter(function (p) {
@@ -83781,6 +83863,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   methods: {
     handleTourStopClick: function handleTourStopClick(tourStop, e) {},
+    getSortOrder: function getSortOrder(place) {
+      var firstPlaceStory = this.tour.stories.find(function (s) {
+        return place.id === s.place_id;
+      });
+      return firstPlaceStory.pivot.sort_order;
+    },
     createRouteMarkers: function createRouteMarkers() {
       var _this = this;
 
@@ -83832,7 +83920,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
                 this.createRouteMarkers();
-                console.log(this.routeMarkers);
                 this.map.addSource("routeSource", {
                   type: "geojson",
                   data: {
@@ -83859,7 +83946,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   }
                 });
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -84361,7 +84448,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
       role: undefined,
       day: undefined
     }],
-    geolocations: []
+    geolocations: [],
+    tourStories: []
   },
   actions: {
     ensureData: function ensureData(context) {
@@ -84415,6 +84503,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     }
   },
   mutations: {
+    setTourStories: function setTourStories(state, stories) {
+      state.tourStories = stories;
+    },
     setScrollPosition: function setScrollPosition(state, scrollPosition) {
       state.scrollPosition = scrollPosition;
     },
@@ -84476,13 +84567,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
       var stories = _ref9.stories;
       return stories.filter(function (s) {
         return s.featured;
-      }); // .map(s => ({
-      //     ...s,
-      //     featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
-      //         ? s.featured_sort_order
-      //         : 0
-      // }))
-      // .sort((a, b) => a.featured_sort_order - b.featured_sort_order);
+      });
     },
     userLocation: function userLocation(_ref10) {
       var geolocations = _ref10.geolocations;

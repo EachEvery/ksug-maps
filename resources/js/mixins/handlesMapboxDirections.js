@@ -2,7 +2,7 @@ import { mapState } from "vuex";
 
 export default {
     computed: {
-        ...mapState(["directions", "tourActive"]),
+        ...mapState(["directions", "tourActive", "tourStories"]),
 
         isTour({ $route }) {
             return $route.name === "tour" || this.tourActive;
@@ -22,8 +22,8 @@ export default {
             }));
         },
 
-        includedPlaces({ tour, places }) {
-            let includedPlacesIds = tour.stories.map(s => +s.place.id);
+        includedPlaces({ tourStories, places }) {
+            let includedPlacesIds = tourStories.map(s => +s.place.id);
 
             return places.filter(p => includedPlacesIds.includes(+p.id));
         }
@@ -31,6 +31,14 @@ export default {
 
     methods: {
         handleTourStopClick(tourStop, e) {},
+
+        getSortOrder(place) {
+            let firstPlaceStory = this.tour.stories.find(
+                s => place.id === s.place_id
+            );
+
+            return firstPlaceStory.pivot.sort_order;
+        },
 
         createRouteMarkers() {
             this.routeMarkers = this.tourStops.map((tourStop, i) => {
@@ -83,8 +91,6 @@ export default {
             await this.removeRouteFromMap();
 
             this.createRouteMarkers();
-
-            console.log(this.routeMarkers);
 
             this.map.addSource("routeSource", {
                 type: "geojson",

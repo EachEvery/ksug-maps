@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function uploadFiles(User $user = null)
     {
-        dump('here');
+
 
         return true;
     }

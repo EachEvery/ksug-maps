@@ -25,7 +25,8 @@ export default new Vuex.Store({
                 day: undefined
             }
         ],
-        geolocations: []
+        geolocations: [],
+        tourStories: []
     },
     actions: {
         ensureData(context) {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
         }
     },
     mutations: {
+        setTourStories(state, stories) {
+            state.tourStories = stories;
+        },
         setScrollPosition(state, scrollPosition) {
             state.scrollPosition = scrollPosition;
         },
@@ -110,14 +114,6 @@ export default new Vuex.Store({
 
         featuredStories({ stories }) {
             return stories.filter(s => s.featured);
-            // .map(s => ({
-            //     ...s,
-            //     featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
-            //         ? s.featured_sort_order
-            //         : 0
-            // }))
-
-            // .sort((a, b) => a.featured_sort_order - b.featured_sort_order);
         },
         userLocation({ geolocations }) {
             return geolocations.length === 0 ? undefined : _.last(geolocations);

@@ -16,8 +16,8 @@ class Tour extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('tour_cover')
-        ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg'])
-        ->singleFile();
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg'])
+            ->singleFile();
     }
 
     public function photos()
@@ -34,7 +34,7 @@ class Tour extends Model implements HasMedia
 
     public function getPublicUrlAttribute()
     {
-        return url('tours/'.$this->slug);
+        return url('tours/' . $this->slug);
     }
 
     protected static function boot()
