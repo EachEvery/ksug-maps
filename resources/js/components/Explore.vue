@@ -156,12 +156,16 @@ export default {
     data() {
         return {
             canClickOutside: false,
-            randomFeaturedStories: _.shuffle(this.featuredStories)
+            randomFeaturedStories: []
         };
     },
 
     mounted() {
         this.setCanClickOutside();
+
+        this.$nextTick(() => {
+            this.randomFeaturedStories = _.shuffle(this.featuredStories);
+        });
     },
     methods: {
         shuffle: _.shuffle,

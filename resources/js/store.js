@@ -109,15 +109,15 @@ export default new Vuex.Store({
         },
 
         featuredStories({ stories }) {
-            return stories
-                .map(s => ({
-                    ...s,
-                    featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
-                        ? s.featured_sort_order
-                        : 0
-                }))
-                .filter(s => s.featured)
-                .sort((a, b) => a.featured_sort_order - b.featured_sort_order);
+            return stories.filter(s => s.featured);
+            // .map(s => ({
+            //     ...s,
+            //     featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
+            //         ? s.featured_sort_order
+            //         : 0
+            // }))
+
+            // .sort((a, b) => a.featured_sort_order - b.featured_sort_order);
         },
         userLocation({ geolocations }) {
             return geolocations.length === 0 ? undefined : _.last(geolocations);

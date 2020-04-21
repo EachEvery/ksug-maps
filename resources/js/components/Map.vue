@@ -205,10 +205,7 @@ export default {
                 minZoom: this.zoomSteps[0],
                 zoom: this.isLocation ? 16 : this.currentZoom,
 
-                maxBounds: [
-                    [-81.39301041235215, 41.132502224091496],
-                    [-81.32319121255, 41.18378981482479]
-                ]
+                maxBounds: [[-81.404828, 41.1119], [-81.309106, 41.186267]]
             });
 
             this.map.on("load", () => {

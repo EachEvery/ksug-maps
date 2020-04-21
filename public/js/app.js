@@ -5328,11 +5328,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       canClickOutside: false,
-      randomFeaturedStories: lodash__WEBPACK_IMPORTED_MODULE_11___default.a.shuffle(this.featuredStories)
+      randomFeaturedStories: []
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.setCanClickOutside();
+    this.$nextTick(function () {
+      _this.randomFeaturedStories = lodash__WEBPACK_IMPORTED_MODULE_11___default.a.shuffle(_this.featuredStories);
+    });
   },
   methods: {
     shuffle: lodash__WEBPACK_IMPORTED_MODULE_11___default.a.shuffle,
@@ -5342,21 +5347,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     setCanClickOutside: function setCanClickOutside() {
-      var _this = this;
+      var _this2 = this;
 
       setTimeout(function () {
-        _this.canClickOutside = _this.open;
+        _this2.canClickOutside = _this2.open;
       }, 300);
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_12__["mapState"])(["tours", "stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_12__["mapGetters"])(["featuredStories", "comments", "userLocation"]), {
     closestPlacesFirst: function closestPlacesFirst(_ref) {
-      var _this2 = this;
+      var _this3 = this;
 
       var places = _ref.places;
       var withDistance = places.map(function (p) {
         return _objectSpread({}, p, {
-          distance: _this2.getLocationDistance(+p.lat, +p["long"])
+          distance: _this3.getLocationDistance(+p.lat, +p["long"])
         });
       });
       return withDistance.sort(function (a, b) {
@@ -5846,6 +5851,58 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6526,7 +6583,7 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_14__["
         maxZoom: this.zoomSteps[this.zoomSteps.length - 1],
         minZoom: this.zoomSteps[0],
         zoom: this.isLocation ? 16 : this.currentZoom,
-        maxBounds: [[-81.39301041235215, 41.132502224091496], [-81.32319121255, 41.18378981482479]]
+        maxBounds: [[-81.404828, 41.1119], [-81.309106, 41.186267]]
       });
       this.map.on("load", function () {
         _this2.mapLoaded = true;
@@ -56273,7 +56330,13 @@ var render = function() {
         _c(
           "h4",
           { staticClass: "font-mono text-md font-bold uppercase mb-3" },
-          [_vm._v("Location · " + _vm._s(_vm.storyCount))]
+          [
+            _vm._v(
+              "\n            Location · " +
+                _vm._s(_vm.storyCount) +
+                "\n        "
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -56297,7 +56360,13 @@ var render = function() {
                       "text-4xl": _vm.location.name.length < 21
                     }
                   },
-                  [_vm._v(_vm._s(_vm.location.name))]
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.location.name) +
+                        "\n                "
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 _c("chevron-up-icon", {
@@ -56369,7 +56438,11 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("p", { staticClass: "font-mono max-w-xs mt-2 text-xs" }, [
-                    _vm._v(_vm._s(photo.custom_properties.photo_caption))
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(photo.custom_properties.photo_caption) +
+                        "\n            "
+                    )
                   ]),
                   _vm._v(" "),
                   _c("portal", { attrs: { to: "end-of-document" } }, [
@@ -56427,7 +56500,7 @@ var render = function() {
               _c(
                 "h3",
                 { staticClass: "font-display uppercase text-3xl mb-12" },
-                [_vm._v("Stories & Comments")]
+                [_vm._v("\n            Stories & Comments\n        ")]
               ),
               _vm._v(" "),
               _vm._l(_vm.location.approved_comments, function(comment) {
@@ -56445,7 +56518,13 @@ var render = function() {
                         staticClass:
                           "text-xl uppercase font-medium mb-3 font-display"
                       },
-                      [_vm._v(_vm._s(comment.author))]
+                      [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(comment.author) +
+                            "\n            "
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     comment.media_is_image
@@ -56503,9 +56582,9 @@ var render = function() {
                               }
                             }),
                             _vm._v(
-                              "\n        Your browser does not support the video file type " +
+                              "\n                Your browser does not support the video file type\n                " +
                                 _vm._s(comment.comment_media.mime_type) +
-                                ".\n      "
+                                ".\n            "
                             )
                           ]
                         )
@@ -56540,7 +56619,7 @@ var render = function() {
               staticClass: "font-display uppercase text-2xl mb-8",
               staticStyle: { "font-weight": "500" }
             },
-            [_vm._v("Share Your Story or Reflection")]
+            [_vm._v("\n            Share Your Story or Reflection\n        ")]
           ),
           _vm._v(" "),
           _c("comment-form", {
@@ -56559,12 +56638,16 @@ var render = function() {
               _c(
                 "h3",
                 { staticClass: "font-display uppercase text-2xl mb-8" },
-                [_vm._v("Thanks for Your Story")]
+                [
+                  _vm._v(
+                    "\n                Thanks for Your Story\n            "
+                  )
+                ]
               ),
               _vm._v(" "),
               _c("p", { staticClass: "leading-normal gradient" }, [
                 _vm._v(
-                  "\n        Your submission is under review and will show up under the\n        comments for this story once it is approved.\n      "
+                  "\n                Your submission is under review and will show up under the\n                comments for this story once it is approved.\n            "
                 )
               ]),
               _vm._v(" "),
@@ -56589,7 +56672,7 @@ var render = function() {
               _vm._v(" "),
               _c("p", { staticClass: "leading-normal text-sm" }, [
                 _vm._v(
-                  "\n        Tell your story by leaving a voicemail with your name and message at the number below:\n        "
+                  "\n                Tell your story by leaving a voicemail with your name and\n                message at the number below:\n                "
                 ),
                 _c("br"),
                 _vm._v(" "),
@@ -84236,10 +84319,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_6__);
 
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -84379,16 +84458,15 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
     },
     featuredStories: function featuredStories(_ref9) {
       var stories = _ref9.stories;
-      return stories.map(function (s) {
-        return _objectSpread({}, s, {
-          featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
-          ? s.featured_sort_order : 0
-        });
-      }).filter(function (s) {
+      return stories.filter(function (s) {
         return s.featured;
-      }).sort(function (a, b) {
-        return a.featured_sort_order - b.featured_sort_order;
-      });
+      }); // .map(s => ({
+      //     ...s,
+      //     featured_sort_order: s.featured_sort_order // Let's add a default sort orrder of zero
+      //         ? s.featured_sort_order
+      //         : 0
+      // }))
+      // .sort((a, b) => a.featured_sort_order - b.featured_sort_order);
     },
     userLocation: function userLocation(_ref10) {
       var geolocations = _ref10.geolocations;
