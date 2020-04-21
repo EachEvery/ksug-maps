@@ -1,4 +1,5 @@
 import { mapState } from "vuex";
+import { orderPlaces } from "../functions/helpers";
 
 export default {
     computed: {
@@ -8,8 +9,8 @@ export default {
             return $route.name === "tour" || this.tourActive;
         },
 
-        tourStops({ includedPlaces }) {
-            return includedPlaces.map(p => ({
+        tourStops({ includedPlaces, tour }) {
+            return orderPlaces(includedPlaces, tour).map(p => ({
                 place: p,
                 type: "Feature",
                 properties: {
@@ -22,8 +23,8 @@ export default {
             }));
         },
 
-        includedPlaces({ tourStories, places }) {
-            let includedPlacesIds = tourStories.map(s => +s.place.id);
+        includedPlaces({ tour, places }) {
+            let includedPlacesIds = tour.stories.map(s => +s.place.id);
 
             return places.filter(p => includedPlacesIds.includes(+p.id));
         }

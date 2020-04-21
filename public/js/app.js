@@ -7957,8 +7957,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               case 0:
                 client = _mapbox_mapbox_sdk__WEBPACK_IMPORTED_MODULE_1___default()({
                   accessToken: Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_10__["getMapboxToken"])()
-                }); // this.optimizationClient = mapboxOptimizations(client);
-
+                });
                 this.directionsClient = _mapbox_mapbox_sdk_services_directions__WEBPACK_IMPORTED_MODULE_3___default()(client);
                 _context.next = 4;
                 return this.getWaypoints();
@@ -7998,34 +7997,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var _getWaypoints = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var tourStories, placesInOrder;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return this.getTourStories();
-
-              case 2:
-                tourStories = _context2.sent;
-                placesInOrder = this.includedPlaces.sort(function (a, b) {
-                  var aFirstStory = tourStories.find(function (s) {
-                    return s.place_id === a.id;
-                  });
-                  var bFirstStory = tourStories.find(function (s) {
-                    return s.place_id === b.id;
-                  });
-                  var aOrder = aFirstStory.pivot.sort_order === null ? 0 : aFirstStory.pivot.sort_order;
-                  var bOrder = bFirstStory.pivot.sort_order === null ? 0 : bFirstStory.pivot.sort_order;
-                  return aOrder - bOrder;
-                });
-                return _context2.abrupt("return", placesInOrder.map(function (p) {
+                return _context2.abrupt("return", Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_10__["orderPlaces"])(this.includedPlaces, this.tour).map(function (p) {
                   return {
                     coordinates: [+p["long"], +p.lat]
                   };
                 }));
 
-              case 5:
+              case 1:
               case "end":
                 return _context2.stop();
             }
@@ -8110,34 +8092,39 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }()
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapState"])(["directions", "tourActive", "places", "stories", "tourStories"]), {
+    placesInOrder: function placesInOrder(_ref3) {
+      var includedPlaces = _ref3.includedPlaces,
+          tour = _ref3.tour;
+      return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_10__["orderPlaces"])(includedPlaces, tour);
+    },
     defaultBackRoute: function defaultBackRoute() {
       return "/explore";
     },
-    startButtonText: function startButtonText(_ref3) {
-      var tourActive = _ref3.tourActive;
+    startButtonText: function startButtonText(_ref4) {
+      var tourActive = _ref4.tourActive;
       return tourActive ? "Stop Tour" : "Start Tour";
     },
-    firstPlace: function firstPlace(_ref4) {
-      var includedPlaces = _ref4.includedPlaces;
+    firstPlace: function firstPlace(_ref5) {
+      var includedPlaces = _ref5.includedPlaces;
       return includedPlaces[0];
     },
-    lastPlace: function lastPlace(_ref5) {
-      var includedPlaces = _ref5.includedPlaces;
+    lastPlace: function lastPlace(_ref6) {
+      var includedPlaces = _ref6.includedPlaces;
       return lodash__WEBPACK_IMPORTED_MODULE_18___default.a.last(includedPlaces);
     },
-    legs: function legs(_ref6) {
-      var directions = _ref6.directions;
+    legs: function legs(_ref7) {
+      var directions = _ref7.directions;
       if (!directions) return undefined;
       return directions.routes[0].legs;
     },
-    loading: function loading(_ref7) {
-      var directions = _ref7.directions;
+    loading: function loading(_ref8) {
+      var directions = _ref8.directions;
       return directions === undefined;
     },
-    includedPlaces: function includedPlaces(_ref8) {
-      var directions = _ref8.directions,
-          places = _ref8.places,
-          tour = _ref8.tour;
+    includedPlaces: function includedPlaces(_ref9) {
+      var directions = _ref9.directions,
+          places = _ref9.places,
+          tour = _ref9.tour;
       var includedPlacesIds = tour.stories.map(function (s) {
         return +s.place.id;
       });
@@ -8145,8 +8132,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         return includedPlacesIds.includes(+p.id);
       });
     },
-    waypoints: function waypoints(_ref9) {
-      var includedPlaces = _ref9.includedPlaces;
+    waypoints: function waypoints(_ref10) {
+      var includedPlaces = _ref10.includedPlaces;
     }
   }),
   mounted: function mounted() {
@@ -58586,9 +58573,9 @@ var render = function() {
                   _vm.isFirstStep(legStepIndex)
                     ? _c("place-tour-card", {
                         attrs: {
-                          place: _vm.includedPlaces[legIndex],
+                          place: _vm.placesInOrder[legIndex],
                           step: leg.steps[0],
-                          stories: _vm.getStories(_vm.includedPlaces[legIndex]),
+                          stories: _vm.getStories(_vm.placesInOrder[legIndex]),
                           order: legIndex + 1
                         }
                       })
@@ -58616,7 +58603,7 @@ var render = function() {
                     place: _vm.lastPlace,
                     step: undefined,
                     stories: _vm.getStories(_vm.lastPlace),
-                    order: _vm.includedPlaces.length
+                    order: _vm.placesInOrder.length
                   }
                 },
                 [
@@ -83381,7 +83368,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************!*\
   !*** ./resources/js/functions/helpers.js ***!
   \*******************************************/
-/*! exports provided: unique, filled, formPost, getMapboxToken */
+/*! exports provided: unique, filled, formPost, getMapboxToken, orderPlaces */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83390,6 +83377,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filled", function() { return filled; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formPost", function() { return formPost; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMapboxToken", function() { return getMapboxToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "orderPlaces", function() { return orderPlaces; });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
@@ -83421,6 +83409,23 @@ var formPost = function formPost(url, formEl) {
 };
 var getMapboxToken = function getMapboxToken() {
   return "pk.eyJ1IjoibmF0ZWhvYmkiLCJhIjoiY2s3MHg2dTlxMDEzYzNnbnkweWJnbHZzOCJ9.uLkc9fWDpYi6Y_ojutcgWA";
+};
+var orderPlaces = function orderPlaces(places, tour) {
+  return places.sort(function (a, b) {
+    var aFirstStory = tour.stories.filter(function (s) {
+      return s.place_id === a.id;
+    }).sort(function (a, b) {
+      return a.sort_order - b.sort_order;
+    })[0];
+    var bFirstStory = tour.stories.filter(function (s) {
+      return s.place_id === b.id;
+    }).sort(function (a, b) {
+      return a.sort_order - b.sort_order;
+    })[0];
+    var aOrder = aFirstStory.pivot.sort_order === null ? 0 : aFirstStory.pivot.sort_order;
+    var bOrder = bFirstStory.pivot.sort_order === null ? 0 : bFirstStory.pivot.sort_order;
+    return aOrder - bOrder;
+  });
 };
 
 /***/ }),
@@ -83817,6 +83822,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _functions_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/helpers */ "./resources/js/functions/helpers.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -83828,6 +83834,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["directions", "tourActive", "tourStories"]), {
     isTour: function isTour(_ref) {
@@ -83835,8 +83842,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return $route.name === "tour" || this.tourActive;
     },
     tourStops: function tourStops(_ref2) {
-      var includedPlaces = _ref2.includedPlaces;
-      return includedPlaces.map(function (p) {
+      var includedPlaces = _ref2.includedPlaces,
+          tour = _ref2.tour;
+      return Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_2__["orderPlaces"])(includedPlaces, tour).map(function (p) {
         return {
           place: p,
           type: "Feature",
@@ -83851,9 +83859,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     includedPlaces: function includedPlaces(_ref3) {
-      var tourStories = _ref3.tourStories,
+      var tour = _ref3.tour,
           places = _ref3.places;
-      var includedPlacesIds = tourStories.map(function (s) {
+      var includedPlacesIds = tour.stories.map(function (s) {
         return +s.place.id;
       });
       return places.filter(function (p) {

@@ -30,9 +30,9 @@
                 >
                     <place-tour-card
                         v-if="isFirstStep(legStepIndex)"
-                        :place="includedPlaces[legIndex]"
+                        :place="placesInOrder[legIndex]"
                         :step="leg.steps[0]"
-                        :stories="getStories(includedPlaces[legIndex])"
+                        :stories="getStories(placesInOrder[legIndex])"
                         :order="legIndex + 1"
                     />
 
@@ -52,7 +52,7 @@
                     :place="lastPlace"
                     :step="undefined"
                     :stories="getStories(lastPlace)"
-                    :order="includedPlaces.length"
+                    :order="placesInOrder.length"
                 >
                     <p class="mb-8 mt-4 block">
                         You've reached the end of the
@@ -83,7 +83,7 @@ import clickable from "./Clickable";
 import upArrow from "./UpArrow";
 import routeHelpers from "../mixins/routeHelpers";
 import tourStoryCard from "./TourStoryCard";
-import { getMapboxToken } from "../functions/helpers";
+import { getMapboxToken, orderPlaces } from "../functions/helpers";
 import { mapState } from "vuex";
 import { getCenter, computeDestinationPoint } from "geolib";
 import { mapStories } from "../functions/ksug";
@@ -212,7 +212,6 @@ export default {
         async loadDirections() {
             let client = mapboxClient({ accessToken: getMapboxToken() });
 
-            // this.optimizationClient = mapboxOptimizations(client);
             this.directionsClient = mapboxDirections(client);
 
             let waypoints = await this.getWaypoints();
@@ -231,24 +230,7 @@ export default {
         },
 
         async getWaypoints() {
-            let tourStories = await this.getTourStories();
-            let placesInOrder = this.includedPlaces.sort((a, b) => {
-                let aFirstStory = tourStories.find(s => s.place_id === a.id);
-                let bFirstStory = tourStories.find(s => s.place_id === b.id);
-
-                let aOrder =
-                    aFirstStory.pivot.sort_order === null
-                        ? 0
-                        : aFirstStory.pivot.sort_order;
-                let bOrder =
-                    bFirstStory.pivot.sort_order === null
-                        ? 0
-                        : bFirstStory.pivot.sort_order;
-
-                return aOrder - bOrder;
-            });
-
-            return placesInOrder.map(p => ({
+            return orderPlaces(this.includedPlaces, this.tour).map(p => ({
                 coordinates: [+p.long, +p.lat]
             }));
         },
@@ -319,6 +301,10 @@ export default {
             "stories",
             "tourStories"
         ]),
+
+        placesInOrder({ includedPlaces, tour }) {
+            return orderPlaces(includedPlaces, tour);
+        },
 
         defaultBackRoute() {
             return "/explore";
