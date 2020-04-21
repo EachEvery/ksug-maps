@@ -5002,6 +5002,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -5016,7 +5022,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     alignContent: {
       "default": "right",
       type: String
-    }
+    },
+    dropdownClass: String
   },
   data: function data() {
     return {
@@ -7028,6 +7035,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -8261,9 +8273,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
 //
 //
 //
@@ -13080,7 +13089,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".dropdown[data-v-ef782e08] {\n  position: relative;\n}\n.dropdown__content[data-v-ef782e08] {\n  position: fixed;\n  min-width: 100px;\n  background: #fff;\n  overflow-x: hidden;\n  overflox-y: scroll;\n  z-index: 100;\n}", ""]);
+exports.push([module.i, ".dropdown[data-v-ef782e08] {\n  position: relative;\n}\n.dropdown__content[data-v-ef782e08] {\n  position: fixed;\n  min-width: 100px;\n  background: #fff;\n  overflow-x: hidden;\n  overflox-y: scroll;\n  z-index: 100;\n  height: 30vh;\n}", ""]);
 
 // exports
 
@@ -55219,6 +55228,7 @@ var render = function() {
                   {
                     ref: "dropdownContent",
                     staticClass: "dropdown__content",
+                    class: _vm.dropdownClass,
                     style: _vm.dropdownStyle
                   },
                   [_vm._t("content", null, { close: _vm.close })],
@@ -57909,7 +57919,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "dropdown",
-    { attrs: { "align-content": "left" } },
+    {
+      attrs: {
+        "align-content": "left",
+        "dropdown-class": "border-2 border-t-0 border-black"
+      }
+    },
     [
       _c(
         "clickable",
@@ -57931,7 +57946,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "flex flex-col border-2 border-t-0 border-black",
+          staticClass: "flex flex-col",
           attrs: { slot: "content" },
           slot: "content"
         },
@@ -58698,7 +58713,7 @@ var render = function() {
       _c(
         "clickable",
         {
-          staticClass: "absolute top-0 right-0 m-4 lg:m-8",
+          staticClass: "absolute top-0 right-0 m-2",
           on: {
             click: function($event) {
               return _vm.$emit("close")
@@ -83962,12 +83977,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.mapboxMarkers.forEach(function (marker) {
           var markerStoriesMatchingAnyFilterSet = marker.place.stories.filter(function (s) {
             var passingFilters = _this.validFilters.filter(function (f) {
-              if (f.day && s.day) {
+              // debugger;
+              if (f.day && f.role) {
                 return f.day == s.day && f.role === s.role;
               }
 
               if (f.day) {
-                return f.day.trim() === s.day;
+                return f.day.trim() === s.day.trim();
               }
 
               if (f.role) {

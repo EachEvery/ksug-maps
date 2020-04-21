@@ -49,12 +49,14 @@ export default {
                     let markerStoriesMatchingAnyFilterSet = marker.place.stories.filter(
                         s => {
                             let passingFilters = this.validFilters.filter(f => {
-                                if (f.day && s.day) {
+                                // debugger;
+
+                                if (f.day && f.role) {
                                     return f.day == s.day && f.role === s.role;
                                 }
 
                                 if (f.day) {
-                                    return f.day.trim() === s.day;
+                                    return f.day.trim() === s.day.trim();
                                 }
 
                                 if (f.role) {
