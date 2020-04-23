@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex flex-col xl:flex-row font-mono bg-gray-100 py-8 px-6 items-start"
+        class="flex flex-col xl:flex-row font-mono bg-gray-100 border py-8 px-6 items-start"
     >
         <camera-icon class="mt-1 object-contain w-12 h-8 mr-6 mb-5 mb-5 " />
 
@@ -43,7 +43,9 @@
                     >Upload a Photo or Video</clickable
                 >
 
-                <span class="italic text-2xs mt-2" style="max-width: 15rem"
+                <span
+                    class="italic text-2xs mt-2 opacity-75"
+                    style="max-width: 15rem"
                     >Due to browser restrictions, we only accept MP4 video
                     files.</span
                 >

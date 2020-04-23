@@ -4436,6 +4436,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -54759,7 +54761,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "flex flex-col xl:flex-row font-mono bg-gray-100 py-8 px-6 items-start"
+        "flex flex-col xl:flex-row font-mono bg-gray-100 border py-8 px-6 items-start"
     },
     [
       _c("camera-icon", {
@@ -54843,7 +54845,7 @@ var render = function() {
             _c(
               "span",
               {
-                staticClass: "italic text-2xs mt-2",
+                staticClass: "italic text-2xs mt-2 opacity-75",
                 staticStyle: { "max-width": "15rem" }
               },
               [
