@@ -65,12 +65,12 @@
                     :src="photo.url"
                     :alt="photo.custom_properties.alt_text"
                     class="transition w-full"
-                    style="height: 30rem"
+                    style="height: 25rem; object-fit: cover;"
                     :class="getImageClass(photo)"
                     @load="setLoaded(photo)"
                 />
 
-                <p class="font-mono max-w-xs mt-2 text-xs">
+                <p class="font-mono mt-2 text-xs">
                     {{ photo.custom_properties.photo_caption }}
                 </p>
 

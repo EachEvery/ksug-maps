@@ -56770,7 +56770,7 @@ var render = function() {
                   _c("img", {
                     staticClass: "transition w-full",
                     class: _vm.getImageClass(photo),
-                    staticStyle: { height: "30rem" },
+                    staticStyle: { height: "25rem", "object-fit": "cover" },
                     attrs: {
                       src: photo.url,
                       alt: photo.custom_properties.alt_text
@@ -56782,7 +56782,7 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _c("p", { staticClass: "font-mono max-w-xs mt-2 text-xs" }, [
+                  _c("p", { staticClass: "font-mono mt-2 text-xs" }, [
                     _vm._v(
                       "\n                " +
                         _vm._s(photo.custom_properties.photo_caption) +
