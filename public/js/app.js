@@ -54845,7 +54845,7 @@ var render = function() {
             _c(
               "span",
               {
-                staticClass: "italic text-2xs mt-2 opacity-75",
+                staticClass: "italic text-2xs mt-2 opacity-50",
                 staticStyle: { "max-width": "15rem" }
               },
               [
@@ -57109,7 +57109,7 @@ var render = function() {
                 _c(
                   "a",
                   {
-                    staticClass: "text-black underline",
+                    staticClass: "text-black underline text-md",
                     attrs: { href: "tel:" + _vm.phoneNumber }
                   },
                   [_vm._v(_vm._s(_vm.phoneNumber))]

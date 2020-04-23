@@ -250,7 +250,7 @@
                     <br />
                     <a
                         :href="`tel:${phoneNumber}`"
-                        class="text-black underline"
+                        class="text-black underline text-md"
                         >{{ phoneNumber }}</a
                     >
                 </p>

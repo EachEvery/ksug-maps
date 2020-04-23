@@ -44,7 +44,7 @@
                 >
 
                 <span
-                    class="italic text-2xs mt-2 opacity-75"
+                    class="italic text-2xs mt-2 opacity-50"
                     style="max-width: 15rem"
                     >Due to browser restrictions, we only accept MP4 video
                     files.</span
