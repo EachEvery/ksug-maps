@@ -4428,6 +4428,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -54754,7 +54762,9 @@ var render = function() {
         "flex flex-col xl:flex-row font-mono bg-gray-100 py-8 px-6 items-start"
     },
     [
-      _c("camera-icon", { staticClass: "w-10 h-6 mr-4 mb-5 opacity-75" }),
+      _c("camera-icon", {
+        staticClass: "mt-1 object-contain w-12 h-8 mr-6 mb-5 mb-5 "
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "flex flex-col" }, [
         _c(
@@ -54762,7 +54772,7 @@ var render = function() {
           { staticClass: "mb-4", staticStyle: { "max-width": "15rem" } },
           [
             _vm._v(
-              "\n      Add a video or photograph (new or old) of your story at this\n      location.\n    "
+              "\n            Add a video or photograph (new or old) of your story at this\n            location.\n        "
             )
           ]
         ),
@@ -54806,7 +54816,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("×")]
+                      [_vm._v("\n                    ×\n                ")]
                     )
                   ]
                 )
@@ -54838,7 +54848,7 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "Due to browser restrictions, we only accept MP4 video files."
+                  "Due to browser restrictions, we only accept MP4 video\n                files."
                 )
               ]
             )
