@@ -11,14 +11,14 @@
 
         <page-section class="bg-black text-white" id="about-may-4">
             <h1
-                class="font-display text-5xl md:text-8xl leading-none uppercase font-medium py-6 mt-6 md:h-48 md:h-auto object-cover"
+                class="font-display text-5xl lg:text-8xl leading-none uppercase font-medium py-6 mt-6 md:h-48 md:h-auto object-cover"
             >
                 Mapping
                 <br />May 4, 1970
             </h1>
             <div class="-mr-12">
                 <img
-                    src="//nhmisc.s3.amazonaws.com/ksug/d4dff96a075d8cd5f98a56aad48e0988.jpg"
+                    src="/images/about.jpg"
                     class="w-full mb-2 h-48 md:h-auto object-cover"
                 />
                 <span class="text-2xs mt-2 font-mono leading-normal"
@@ -83,30 +83,6 @@
                     target="_blank"
                     class="underline"
                     >This We Know</a
-                >.
-            </paragraph>
-            <header-25>Next Steps</header-25>
-
-            <paragraph>
-                We are in the process of extending this project to include the
-                stories of what happened right around the site of the shooting
-                (the area which is now a National Historic Landmark) as well as
-                add more oral histories collected by the
-                <a href="https://kenthistoricalsociety.org" class="underline"
-                    >Kent Historical Society</a
-                >. We are also working to make this web app location aware, add
-                virtual walking tours, and highlight the most compelling
-                stories. We will be installing wall size static versions of this
-                map at the May 4th visitors center and the Kent Historical
-                Society in the spring of 2020. We will also be hosting live
-                walking dialogues based on this map during the commemoration
-                weekend. If you would like to be notified about these, or when
-                this web app is updated, please sign up for our low traffic
-                email list
-                <a
-                    href="https://mailchi.mp/531c4843f76c/mappingmay4"
-                    class="underline"
-                    >here</a
                 >.
             </paragraph>
         </page-section>

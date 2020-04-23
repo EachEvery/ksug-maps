@@ -20,7 +20,7 @@
         <div class="xl:px-24 px-8 pb-48" :class="{ 'mt-8': tourActive }">
             <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
                 <h3
-                    class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs"
+                    class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs lg:text-base"
                 >
                     {{ story.role }} &middot; {{ story.day }}
                 </h3>

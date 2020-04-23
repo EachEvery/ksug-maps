@@ -32,7 +32,7 @@
             />
 
             <p class="font-mono uppercase">
-                Tour Beings at
+                Tour Begins at
                 <br />
                 <a href="#" class="underline">{{ firstPlace.name }}</a>
             </p>

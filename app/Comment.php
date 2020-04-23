@@ -16,7 +16,12 @@ class Comment extends Model implements HasMedia
     public $appends = ['frontend_date', 'media_is_image', 'media_url', 'has_media', 'comment_media', 'timestamp'];
 
     protected $dates = ['approved_at'];
+
     protected $guarded = [];
+
+    public $attributes = [
+        'author' => 'Anonymous'
+    ];
 
     public function getTimestampAttribute()
     {
@@ -39,7 +44,7 @@ class Comment extends Model implements HasMedia
 
     public function getHasMediaAttribute()
     {
-        return ! empty($this->comment_media);
+        return !empty($this->comment_media);
     }
 
     public function getMediaUrlAttribute()

@@ -6,16 +6,14 @@
                     type="text"
                     name="comment[author]"
                     class="border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full bg-white rounded-none"
-                    :required="true"
-                    placeholder="Your Name"
+                    placeholder="Your Name (Optional)"
                 />
 
                 <input
                     type="email"
                     name="comment[email]"
-                    :required="true"
                     class="border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full bg-white rounded-none"
-                    placeholder="Your Email Address"
+                    placeholder="Your Email Address (optional)"
                 />
 
                 <textarea
@@ -45,7 +43,7 @@
                     style="background: rgba(255, 255, 255, .6);"
                     :style="{ width: uploadProgress + '%' }"
                 ></div>
-                Share Your Story or Reflection</clickable
+                Submit</clickable
             >
         </fieldset>
     </form>

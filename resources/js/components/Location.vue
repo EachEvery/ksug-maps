@@ -54,9 +54,45 @@
             <portal-target name="photo-arrows"></portal-target>
         </div>
 
+        <div v-if="location.photos.length === 1">
+            <clickable
+                @click="handleImageClick(photo.url)"
+                v-for="(photo, i) in location.photos"
+                :key="i"
+                class="w-full"
+            >
+                <img
+                    :src="photo.url"
+                    :alt="photo.custom_properties.alt_text"
+                    class="transition w-full"
+                    style="height: 30rem"
+                    :class="getImageClass(photo)"
+                    @load="setLoaded(photo)"
+                />
+
+                <p class="font-mono max-w-xs mt-2 text-xs">
+                    {{ photo.custom_properties.photo_caption }}
+                </p>
+
+                <portal to="end-of-document">
+                    <a
+                        :href="photo.url"
+                        title
+                        class="lightbox"
+                        v-if="photo.url !== null"
+                    >
+                        <img
+                            :src="photo.url"
+                            :alt="photo.custom_properties.alt_text"
+                        />
+                    </a>
+                </portal>
+            </clickable>
+        </div>
+
         <scroll-container
             buttons-portal="photo-arrows"
-            v-if="location.photos.length"
+            v-if="location.photos.length > 1"
             class="md:px-5 xl:px-8 mb-8 mt-6"
         >
             <clickable
