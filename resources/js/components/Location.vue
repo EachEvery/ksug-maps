@@ -47,13 +47,6 @@
             </div>
         </div>
 
-        <div
-            v-if="location.photos.length > 1"
-            class="md:px-5 xl:px-8 -mb-8 mt-8"
-        >
-            <portal-target name="photo-arrows"></portal-target>
-        </div>
-
         <div v-if="location.photos.length === 1">
             <clickable
                 @click="handleImageClick(photo.url)"
@@ -70,7 +63,7 @@
                     @load="setLoaded(photo)"
                 />
 
-                <p class="font-mono mt-2 text-xs">
+                <p class="font-mono mt-4 text-base max-w-md text-left mx-8">
                     {{ photo.custom_properties.photo_caption }}
                 </p>
 
@@ -88,6 +81,13 @@
                     </a>
                 </portal>
             </clickable>
+        </div>
+
+        <div
+            v-if="location.photos.length > 1"
+            class="md:px-5 xl:px-8 -mb-8 mt-8"
+        >
+            <portal-target name="photo-arrows"></portal-target>
         </div>
 
         <scroll-container

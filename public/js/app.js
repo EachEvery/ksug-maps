@@ -56754,15 +56754,6 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm.location.photos.length > 1
-        ? _c(
-            "div",
-            { staticClass: "md:px-5 xl:px-8 -mb-8 mt-8" },
-            [_c("portal-target", { attrs: { name: "photo-arrows" } })],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
       _vm.location.photos.length === 1
         ? _c(
             "div",
@@ -56794,13 +56785,20 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _c("p", { staticClass: "font-mono mt-2 text-xs" }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(photo.custom_properties.photo_caption) +
-                        "\n            "
-                    )
-                  ]),
+                  _c(
+                    "p",
+                    {
+                      staticClass:
+                        "font-mono mt-4 text-base max-w-md text-left mx-8"
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(photo.custom_properties.photo_caption) +
+                          "\n            "
+                      )
+                    ]
+                  ),
                   _vm._v(" "),
                   _c("portal", { attrs: { to: "end-of-document" } }, [
                     photo.url !== null
@@ -56825,6 +56823,15 @@ var render = function() {
                 1
               )
             }),
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.location.photos.length > 1
+        ? _c(
+            "div",
+            { staticClass: "md:px-5 xl:px-8 -mb-8 mt-8" },
+            [_c("portal-target", { attrs: { name: "photo-arrows" } })],
             1
           )
         : _vm._e(),
