@@ -4955,6 +4955,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DesktopExploreToggle.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DesktopExploreToggle.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UpArrow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpArrow */ "./resources/js/components/UpArrow.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    upArrow: _UpArrow__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: {
+    open: Boolean
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Dropdown.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Dropdown.vue?vue&type=script&lang=js& ***!
@@ -5167,6 +5219,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -55388,7 +55441,7 @@ var render = function() {
     _vm._g(
       {
         staticClass:
-          "bg-white absolute flex justify-center top-0 left-0 border-b shadow py-5 text-gray-600 hover:text-gray-900 transition",
+          "bg-white absolute flex justify-between top-0 left-0 border-b shadow  px-16 py-3  transition items-center cursor-pointer",
         staticStyle: {
           width: "100vh",
           transform: "rotate(90deg)",
@@ -55400,12 +55453,35 @@ var render = function() {
     ),
     [
       _c(
-        "h1",
+        "div",
+        { staticClass: "flex items-center", class: { "opacity-25": _vm.open } },
+        [
+          _c("up-arrow", {
+            staticClass: "w-10 h-10 transition",
+            staticStyle: { transform: "rotate(-90deg)" },
+            style: { transform: "rotate(" + (_vm.open ? "90" : "-90") + "deg)" }
+          }),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "font-display font-black text-5xl ml-4",
+              staticStyle: { transform: "rotate(180deg)" }
+            },
+            [_vm._v("\n            EXPLORE\n        ")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "span",
         {
           staticClass: "text-xs uppercase cursor-pointer font-mono",
+          class: { "opacity-25": _vm.open },
           staticStyle: { transform: "rotate(180deg)" }
         },
-        [_vm._v("explore tours & stories")]
+        [_vm._v("\n        explore tours & stories\n    ")]
       )
     ]
   )
@@ -55542,6 +55618,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("desktop-explore-toggle", {
+        attrs: { open: _vm.open },
         on: {
           click: function($event) {
             return _vm.$emit("toggle")
@@ -59281,16 +59358,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("svg", { attrs: { viewBox: "0 0 32.159 32.714" } }, [
-    _c("path", {
+  return _c(
+    "svg",
+    {
       attrs: {
-        d:
-          "M17.62,2.565V32.714H16.235V2.565L1.818,17.05l-.97-.97L16.927,0l16.08,16.08-.9.97Z",
-        transform: "translate(-0.848)",
-        "fill-rule": "evenodd"
+        xmlns: "http://www.w3.org/2000/svg",
+        viewBox: "0 0 57.728 56.749"
       }
-    })
-  ])
+    },
+    [
+      _c("path", {
+        attrs: {
+          d:
+            "M30.445,4.526v53.2H28V4.526L2.559,30.086.848,28.375,29.222,0,57.6,28.375l-1.59,1.712Z",
+          transform: "translate(0 57.597) rotate(-90)",
+          "fill-rule": "evenodd",
+          fill: "currentColor"
+        }
+      })
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -80907,15 +80994,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DesktopExploreToggle_vue_vue_type_template_id_1e7a6f14___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DesktopExploreToggle.vue?vue&type=template&id=1e7a6f14& */ "./resources/js/components/DesktopExploreToggle.vue?vue&type=template&id=1e7a6f14&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _DesktopExploreToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DesktopExploreToggle.vue?vue&type=script&lang=js& */ "./resources/js/components/DesktopExploreToggle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DesktopExploreToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _DesktopExploreToggle_vue_vue_type_template_id_1e7a6f14___WEBPACK_IMPORTED_MODULE_0__["render"],
   _DesktopExploreToggle_vue_vue_type_template_id_1e7a6f14___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -80929,6 +81018,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/DesktopExploreToggle.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/DesktopExploreToggle.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/DesktopExploreToggle.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DesktopExploreToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./DesktopExploreToggle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DesktopExploreToggle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DesktopExploreToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 

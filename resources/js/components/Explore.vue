@@ -16,6 +16,7 @@
 
         <!-- Desktop Explore Heading -->
         <desktop-explore-toggle
+            :open="open"
             @click="$emit('toggle')"
         ></desktop-explore-toggle>
 
