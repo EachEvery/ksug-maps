@@ -14,6 +14,10 @@ body {
     touch-action: manipulation;
 }
 
+button > * {
+    pointer-events: none;
+}
+
 .mapboxgl-ctrl-top-right {
     display: none;
 }
