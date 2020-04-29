@@ -265,6 +265,30 @@
                 />
             </div>
         </page-section>
+
+        <page-section class="bg-green" id="give-feedback">
+            <header-40>Give Us Your Feedback</header-40>
+
+            <p>
+                We are doing research on this web app and, if you are 18 or
+                older, we would very much appreciate it if you would take a
+                short survey about. If you would rather give your feedback via
+                email you can
+                <a
+                    href="mailto:sara.koopman@gmail.com?subject=MM4+Feedback"
+                    class="underline italic mt-2 text-sm"
+                    >contact us here</a
+                >.
+            </p>
+
+            <a
+                href="https://kent.qualtrics.com/jfe/form/SV_1ZB0NHQef3c7YoZ"
+                target="_blank"
+                class="bg-white font-display text-md text-black uppercase h-12 flex justify-center items-center mt-12 cursor-pointed mb-16"
+            >
+                Take the Survey
+            </a>
+        </page-section>
     </div>
 </template>
 <script>

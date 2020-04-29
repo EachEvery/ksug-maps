@@ -4388,6 +4388,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6610,6 +6634,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     isLocation: Boolean
@@ -7520,6 +7557,12 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -55365,6 +55408,45 @@ var render = function() {
           ])
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "page-section",
+        { staticClass: "bg-green", attrs: { id: "give-feedback" } },
+        [
+          _c("header-40", [_vm._v("Give Us Your Feedback")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "\n            We are doing research on this web app and, if you are 18 or\n            older, we would very much appreciate it if you would take a\n            short survey about. If you would rather give your feedback via\n            email you can\n            "
+            ),
+            _c(
+              "a",
+              {
+                staticClass: "underline italic mt-2 text-sm",
+                attrs: {
+                  href: "mailto:sara.koopman@gmail.com?subject=MM4+Feedback"
+                }
+              },
+              [_vm._v("contact us here")]
+            ),
+            _vm._v(".\n        ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass:
+                "bg-white font-display text-md text-black uppercase h-12 flex justify-center items-center mt-12 cursor-pointed mb-16",
+              attrs: {
+                href: "https://kent.qualtrics.com/jfe/form/SV_1ZB0NHQef3c7YoZ",
+                target: "_blank"
+              }
+            },
+            [_vm._v("\n            Take the Survey\n        ")]
+          )
+        ],
+        1
       )
     ],
     1
@@ -57952,6 +58034,17 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "li",
+        { staticClass: "mb-6 shrink-when-active" },
+        [
+          _c("router-link", { attrs: { to: "/about#give-feedback" } }, [
+            _vm._v("GIVE FEEDBACK")
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c("div", {
         staticClass:
           "border-b border-black block h-1 w-full opacity-25 mb-12 mt-5"
@@ -59366,6 +59459,16 @@ var render = function() {
                 ]
               )
             : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            {
+              staticClass:
+                "font-mono mt-12 block text-center w-full font-bold underline opacity-50 hover:opacity-100",
+              attrs: { to: "/about#give-feedback" }
+            },
+            [_vm._v("Give Your Feedback on this Web App")]
+          ),
           _vm._v(" "),
           !_vm.tourActive
             ? _c(
