@@ -255,6 +255,12 @@
                     >
                 </p>
             </div>
+
+            <router-link
+                class="font-mono mt-12 block text-center w-full font-bold underline opacity-50 hover:opacity-100"
+                to="/about#give-feedback"
+                >Give Your Feedback on this Web App</router-link
+            >
         </div>
     </div>
 </template>

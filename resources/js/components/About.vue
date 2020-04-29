@@ -93,30 +93,33 @@
                 We suggest that you start by clicking on a site that means
                 something to you. If you have trouble identifying it on the map,
                 you can search for it by name in the search bar at the top left.
-                It may help you to find your site to toggle between the historic
+                It may help you find your site to toggle between the historic
                 aerial photo and the current day street map. You can do this
                 with the button in the lower left (when you close this splash
-                page). You can also search by name, if you would like to see
-                stories by a particular person, and date (between May 1st and
-                May 4th). You can also search by all of these categories—for now
-                that functions as OR vs AND. Of course you can also search a
-                site at random. You can read the stories but we recommend that
-                you also listen to them—the audio can be powerful.
+                page). You can also use the search button in the upper left to
+                search by name, place, or date (between May 1st and May 5th).
+                Next to the search button is a filter button that allows you to
+                filter by date and/or role. This will then highlight on the map
+                all of those sites that meet your criteria, such as stories by
+                faculty on May 2nd. When you select a site you will often see
+                several stories. These are color-coded by role. Click on it to
+                get the full story. You can read the stories but we recommend
+                that you also listen to them—the audio can be powerful.
             </paragraph>
             <header-25>Join the conversation</header-25>
             <paragraph>
                 This web app is a space for dialogue, and we encourage you to
                 add your voice to any of the sites. You can share your own
                 memories of what happened at a location, but also stories you
-                heard from others, or your own impressions of the site or the
-                stories associated with it. For now you can only add to sites
-                that are currently pinned on the map, but we will soon update it
-                to make it possible to comment on any site in Kent, as well as
-                to add audio and video comments, as well as historic photos. As
-                we work to roll out the next phases of the web app we would also
-                appreciate your feedback on this web app and what could be
-                improved. Please feel free to
-                <a href="#about-us" class="underline">contact us</a>.
+                heard from others, or your own reflections on the site or the
+                stories associated with it. You can type in a story, upload a
+                video of yourself sharing your thoughts, or call our voicemail
+                to share it by audio. We would also love your photos of the
+                site, either then or now. Maybe a selfie of you at the site
+                today? For now you can only add to sites that are currently
+                pinned on the map, but we will soon update it to make it
+                possible to comment on any site in Kent.
+                <!-- <a href="#about-us" class="underline">contact us</a>. -->
             </paragraph>
         </page-section>
 
@@ -160,7 +163,7 @@
                     Conflict Studies at Kent State University.
                     <br />
                     <a
-                        href="mailto:sara.koopman@gmail.com"
+                        href="mailto:skoopman@kent.edu"
                         class="underline italic mt-2 text-xs block"
                         >Contact Sara</a
                     >
@@ -272,10 +275,10 @@
             <p>
                 We are doing research on this web app and, if you are 18 or
                 older, we would very much appreciate it if you would take a
-                short survey about. If you would rather give your feedback via
-                email you can
+                short survey about it. If you would rather give your feedback
+                via email you can
                 <a
-                    href="mailto:sara.koopman@gmail.com?subject=MM4+Feedback"
+                    href="mailto:skoopman@kent.edu?subject=MM4 Feedback"
                     class="underline italic mt-2 text-sm"
                     >contact us here</a
                 >.
