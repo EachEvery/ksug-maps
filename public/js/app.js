@@ -59278,7 +59278,7 @@ var render = function() {
                 [
                   _vm._v(
                     _vm._s(
-                      _vm.showingFull ? "Show Less" : "Read Full Transcript"
+                      _vm.showingFull ? "Show Less" : "Read Audio Transcript"
                     )
                   )
                 ]

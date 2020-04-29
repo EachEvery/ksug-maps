@@ -63,7 +63,7 @@
                 <span
                     class="uppercase text-left font-mono font-black flex-grow"
                     >{{
-                        showingFull ? "Show Less" : "Read Full Transcript"
+                        showingFull ? "Show Less" : "Read Audio Transcript"
                     }}</span
                 >
 
