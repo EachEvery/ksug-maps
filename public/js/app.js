@@ -8345,7 +8345,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         center = Object(geolib__WEBPACK_IMPORTED_MODULE_12__["computeDestinationPoint"])(points[0], 50, -180);
       }
 
-      this.$store.commit("setMapCenter", [center.latitude, center.longitude, 17.5]);
+      this.$store.commit("setMapCenter", [center.latitude, center.longitude, 17]);
     },
     getTourStories: function getTourStories() {
       var _this5 = this;
