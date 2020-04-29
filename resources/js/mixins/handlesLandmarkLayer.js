@@ -1,7 +1,7 @@
 export default {
     data() {
         return {
-            showLandmarks: true,
+            showLandmarks: true
         };
     },
 
@@ -12,7 +12,7 @@ export default {
 
         showLandmarks() {
             this.setLandmarkOpacity();
-        },
+        }
     },
     methods: {
         setLandmarkOpacity() {
@@ -23,15 +23,17 @@ export default {
                 "historic-landmark",
                 "students-killed",
                 "students-wounded",
+                "national-historic-landmark-site",
+                "landmarks"
             ];
 
-            layerIds.forEach((id) => {
+            layerIds.forEach(id => {
                 this.map.setLayoutProperty(
                     id,
                     "visibility",
                     this.showLandmarks && !this.isTour ? "visible" : "none"
                 );
             });
-        },
-    },
+        }
+    }
 };

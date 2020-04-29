@@ -85475,7 +85475,7 @@ __webpack_require__.r(__webpack_exports__);
     setLandmarkOpacity: function setLandmarkOpacity() {
       var _this = this;
 
-      var layerIds = ["ksu-campus-label", "ksu-campus", "historic-landmark-label", "historic-landmark", "students-killed", "students-wounded"];
+      var layerIds = ["ksu-campus-label", "ksu-campus", "historic-landmark-label", "historic-landmark", "students-killed", "students-wounded", "national-historic-landmark-site", "landmarks"];
       layerIds.forEach(function (id) {
         _this.map.setLayoutProperty(id, "visibility", _this.showLandmarks && !_this.isTour ? "visible" : "none");
       });
