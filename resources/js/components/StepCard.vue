@@ -1,6 +1,6 @@
 <template>
     <div
-        class="bg-black text-white p-4 w-80vw mt-55vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12"
+        class="bg-black text-white p-4 w-80vw mt-75vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12"
         :data-step-geo="JSON.stringify(latLong)"
     >
         <img
@@ -13,7 +13,11 @@
         </h3>
         <p>
             {{ step.maneuver.instruction }}.
-            <span v-if="step.maneuver.type === 'turn'"
+            <span
+                v-if="
+                    step.maneuver.type === 'turn' &&
+                        getFeet(step.distance) >= 15
+                "
                 >Continue for {{ getFeet(step.distance) }} feet.</span
             >
         </p>
@@ -23,6 +27,9 @@
 export default {
     props: {
         step: Object
+    },
+    mounted() {
+        console.log(this.step);
     },
     computed: {
         latLong({ step }) {

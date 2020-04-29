@@ -153,7 +153,7 @@ export default {
                         this.$store.commit("setMapCenter", [
                             +latLong[0],
                             +latLong[1],
-                            20
+                            17.5
                         ]);
                     } else {
                         let centerForScreen = computeDestinationPoint(
@@ -257,7 +257,7 @@ export default {
         getCenterForScreen(center) {
             return computeDestinationPoint(
                 center,
-                this.lg ? 450 : 550,
+                this.lg ? 0 : 100,
                 this.lg ? 90 : -180
             );
         },
@@ -275,10 +275,13 @@ export default {
              */
             center = this.getCenterForScreen(center);
 
+            if (!this.lg) {
+                center = computeDestinationPoint(points[0], 50, -180);
+            }
             this.$store.commit("setMapCenter", [
                 center.latitude,
                 center.longitude,
-                this.lg ? 15 : 14
+                17.5
             ]);
         },
 
