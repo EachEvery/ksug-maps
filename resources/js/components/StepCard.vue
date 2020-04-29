@@ -20,6 +20,10 @@
                 "
                 >Continue for {{ getFeet(step.distance) }} feet.</span
             >
+
+            <span v-if="getFeet(step.distance) >= 15">
+                Continue to the next step.
+            </span>
         </p>
     </div>
 </template>
