@@ -7426,6 +7426,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     step: Object
@@ -59120,17 +59135,24 @@ var render = function() {
       _c("h3", { staticClass: "font-display uppercase text-3xl" }, [
         _c("span", [
           _vm._v(
-            _vm._s(_vm.step.maneuver.type) +
-              " " +
+            _vm._s(
+              _vm.step.maneuver.type.toLowerCase() === "new name"
+                ? "Continue"
+                : _vm.step.maneuver.type
+            ) +
+              "\n            " +
               _vm._s(_vm.step.maneuver.modifier)
           )
         ])
       ]),
       _vm._v(" "),
       _c("p", [
-        _vm._v(
-          "\n        " + _vm._s(_vm.step.maneuver.instruction) + ".\n        "
-        ),
+        (_vm.step.maneuver.type + " " + _vm.step.maneuver.modifier)
+          .trim()
+          .toLowerCase() !== _vm.step.maneuver.instruction.trim().toLowerCase()
+          ? _c("span", [_vm._v(_vm._s(_vm.step.maneuver.instruction) + ".")])
+          : _vm._e(),
+        _vm._v(" "),
         _vm.step.maneuver.type === "turn" &&
         _vm.getFeet(_vm.step.distance) >= 15
           ? _c("span", [
@@ -59143,9 +59165,7 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.getFeet(_vm.step.distance) < 15
-          ? _c("span", [
-              _vm._v("\n            Continue to the next step.\n        ")
-            ])
+          ? _c("span", [_vm._v("\n            Go to the next step.\n        ")])
           : _vm._e()
       ])
     ]

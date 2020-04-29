@@ -9,10 +9,25 @@
             :style="getArrowStyle(step.maneuver.modifier)"
         />
         <h3 class="font-display uppercase text-3xl">
-            <span>{{ step.maneuver.type }} {{ step.maneuver.modifier }}</span>
+            <span
+                >{{
+                    step.maneuver.type.toLowerCase() === "new name"
+                        ? "Continue"
+                        : step.maneuver.type
+                }}
+                {{ step.maneuver.modifier }}</span
+            >
         </h3>
         <p>
-            {{ step.maneuver.instruction }}.
+            <span
+                v-if="
+                    `${step.maneuver.type} ${step.maneuver.modifier}`
+                        .trim()
+                        .toLowerCase() !==
+                        step.maneuver.instruction.trim().toLowerCase()
+                "
+                >{{ step.maneuver.instruction }}.</span
+            >
             <span
                 v-if="
                     step.maneuver.type === 'turn' &&
@@ -22,7 +37,7 @@
             >
 
             <span v-if="getFeet(step.distance) < 15">
-                Continue to the next step.
+                Go to the next step.
             </span>
         </p>
     </div>
