@@ -6841,7 +6841,7 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_14__["
 
       this.map = new mapboxgl.Map({
         container: "map",
-        style: "mapbox://styles/natehobi/ck7p8tsnj044n1iloiqoxe9f9",
+        style: "mapbox://styles/natehobi/ck9ln2zp023yd1iuvuvyomssf",
         center: center,
         maxZoom: this.zoomSteps[this.zoomSteps.length - 1],
         minZoom: this.zoomSteps[0],

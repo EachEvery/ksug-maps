@@ -197,7 +197,7 @@ export default {
 
             this.map = new mapboxgl.Map({
                 container: "map",
-                style: "mapbox://styles/natehobi/ck7p8tsnj044n1iloiqoxe9f9",
+                style: "mapbox://styles/natehobi/ck9ln2zp023yd1iuvuvyomssf",
 
                 center: center,
 
@@ -205,7 +205,10 @@ export default {
                 minZoom: this.zoomSteps[0],
                 zoom: this.isLocation ? 16 : this.currentZoom,
 
-                maxBounds: [[-81.404828, 41.1119], [-81.309106, 41.186267]]
+                maxBounds: [
+                    [-81.404828, 41.1119],
+                    [-81.309106, 41.186267]
+                ]
             });
 
             this.map.on("load", () => {
