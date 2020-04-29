@@ -59142,7 +59142,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.getFeet(_vm.step.distance) >= 15
+        _vm.getFeet(_vm.step.distance) < 15
           ? _c("span", [
               _vm._v("\n            Continue to the next step.\n        ")
             ])
