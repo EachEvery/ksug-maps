@@ -90,7 +90,7 @@
         <page-section class="bg-tan-300" id="how-to-use">
             <header-40>How to Use this Site</header-40>
             <paragraph>
-                We suggest that you start by clicking on a site that means
+                We suggest that you start by clicking on a place that means
                 something to you. If you have trouble identifying it on the map,
                 you can search for it by name in the search bar at the top left.
                 It may help you find your site to toggle between the historic
