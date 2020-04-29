@@ -197,7 +197,7 @@ export default {
 
             this.map = new mapboxgl.Map({
                 container: "map",
-                style: "mapbox://styles/natehobi/ck9ln2zp023yd1iuvuvyomssf",
+                style: "mapbox://styles/natehobi/ck9lo4p0t23p91jwauogg3wgo",
 
                 center: center,
 
