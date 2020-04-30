@@ -98,11 +98,11 @@ export default {
             this.$emit("scroll", e);
         },
         setMaxScrollLength() {
-            this.$nextTick(() => {
+            setTimeout(() => {
                 this.maxScrollPos =
                     this.$refs.container.scrollWidth -
                     this.$refs.container.clientWidth;
-            });
+            }, 500);
         }
     },
     mounted() {

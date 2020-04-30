@@ -1,50 +1,54 @@
 <template>
-  <div v-if="ready" class="relative bg-black">
-    <div
-      class="w-full h-full relative overflow-hidden bg-black transition"
-      :style="{ transform: exploreOpen ? 'scale(1.2)' : 'none' }"
-    >
-      <map-component
-        :block-clicks="isLocation || exploreOpen"
-        :filters="filters"
-        :places="places"
-        :show-overlay-button="
+    <div v-if="ready" class="relative bg-black">
+        <div
+            class="w-full h-full relative overflow-hidden bg-black transition"
+            :style="{ transform: exploreOpen ? 'scale(1.05)' : 'none' }"
+        >
+            <map-component
+                :block-clicks="isLocation || exploreOpen"
+                :filters="filters"
+                :places="places"
+                :show-overlay-button="
                     !isLocation && !isAbout && !menuOpen && !exploreOpen
                 "
-        :is-location="isLocation"
-        @location-clicked="handleLocationClicked"
-        :class="{
+                :is-location="isLocation"
+                @location-clicked="handleLocationClicked"
+                :class="{
                     '-translate-y-5vh': isLocation,
-                    'md:-translate-x-10': isLocation,
+                    'md:-translate-x-10': isLocation
                 }"
-        class="transition"
-        ref="mapComponent"
-      />
+                class="transition"
+                ref="mapComponent"
+            />
+        </div>
+
+        <explore
+            :open="exploreOpen"
+            @toggle="handleExploreToggle"
+            :hide="isLocation || isAbout || isTour"
+        />
+
+        <transition
+            enter-class="opacity-0 translate-y-1 md:translate-x-2"
+            leave-to-class="opacity-0 translate-y-1 md:translate-x-2"
+            enter-active-class="transition"
+            leave-active-class="transition"
+        >
+            <router-view />
+        </transition>
+
+        <global-header
+            :is-location="isLocation"
+            :should-hide-menu="isLocation || exploreOpen || isTour"
+            @state-changed="menuIsOpen => (menuOpen = menuIsOpen)"
+        />
+
+        <portal-target
+            name="end-of-document"
+            multiple
+            class="fixed"
+        ></portal-target>
     </div>
-
-    <explore
-      :open="exploreOpen"
-      @toggle="handleExploreToggle"
-      :hide="isLocation || isAbout || isTour"
-    />
-
-    <transition
-      enter-class="opacity-0 translate-y-1 md:translate-x-2"
-      leave-to-class="opacity-0 translate-y-1 md:translate-x-2"
-      enter-active-class="transition"
-      leave-active-class="transition"
-    >
-      <router-view />
-    </transition>
-
-    <global-header
-      :is-location="isLocation"
-      :should-hide-menu="isLocation || exploreOpen || isTour"
-      @state-changed="(menuIsOpen) => (menuOpen = menuIsOpen)"
-    />
-
-    <portal-target name="end-of-document" multiple class="fixed"></portal-target>
-  </div>
 </template>
 
 <script>
@@ -56,107 +60,109 @@ import routeHelpers from "./mixins/routeHelpers";
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
-  mixins: [routeHelpers],
+    mixins: [routeHelpers],
 
-  metaInfo() {
-    return {
-      title: "Home",
-      titleTemplate: "%s | Mapping May 4"
-    };
-  },
-
-  components: {
-    globalHeader,
-    mapComponent,
-    explore
-  },
-
-  data() {
-    return {
-      state: "default",
-      pullMapLeft: false,
-      menuOpen: false
-    };
-  },
-
-  watch: {
-    $route(route) {
-      this.addRouteToStack(route);
-    }
-  },
-
-  async mounted() {
-    await this.ensureData();
-    this.preloadImages();
-
-    if (this.$route.path === "/") {
-      this.$router.push("/about");
-    }
-  },
-
-  methods: {
-    ...mapActions(["ensureData"]),
-    ...mapMutations(["addRouteToStack"]),
-
-    handleExploreToggle() {
-      let newRoute = this.exploreOpen ? "/" : "/explore";
-
-      this.$router.push(newRoute);
+    metaInfo() {
+        return {
+            title: "Home",
+            titleTemplate: "%s | Mapping May 4"
+        };
     },
 
-    focusMap() {
-      this.menuOpen = false;
+    components: {
+        globalHeader,
+        mapComponent,
+        explore
     },
 
-    preloadImages() {
-      [...this.places].forEach(item => {
-        if (item.photo !== null) {
-          let image = new Image();
+    data() {
+        return {
+            state: "default",
+            pullMapLeft: false,
+            menuOpen: false
+        };
+    },
 
-          image.src = item.photo;
+    watch: {
+        $route(route) {
+            this.addRouteToStack(route);
         }
-      });
     },
 
-    handleImageLoad() {
-      this.state = "imageLoaded";
+    async mounted() {
+        await this.ensureData();
+        this.preloadImages();
+
+        if (this.$route.path === "/") {
+            this.$router.push("/about");
+        }
     },
 
-    handleLocationClicked(location) {
-      this.$router.push(`/places/${location.slug}/preview`);
+    methods: {
+        ...mapActions(["ensureData"]),
+        ...mapMutations(["addRouteToStack"]),
+
+        handleExploreToggle() {
+            let newRoute = this.exploreOpen ? "/" : "/explore";
+
+            this.$router.push(newRoute);
+        },
+
+        focusMap() {
+            this.menuOpen = false;
+        },
+
+        preloadImages() {
+            [...this.places].forEach(item => {
+                if (item.photo !== null) {
+                    let image = new Image();
+
+                    image.src = item.photo;
+                }
+            });
+        },
+
+        handleImageLoad() {
+            this.state = "imageLoaded";
+        },
+
+        handleLocationClicked(location) {
+            this.$router.push(`/places/${location.slug}/preview`);
+        }
+    },
+    computed: {
+        ...mapState(["stories", "filters", "places", "tours"]),
+
+        isTour({ $route }) {
+            return $route.name === "tour";
+        },
+
+        exploreOpen({ $route }) {
+            return $route.name === "explore";
+        },
+
+        isAdmin() {
+            return window.isAdmin;
+        },
+        ready({ stories, places, tours }) {
+            return (
+                stories !== undefined &&
+                places !== undefined &&
+                tours !== undefined
+            );
+        },
+
+        imageLoaded({ state }) {
+            return state === "imageLoaded";
+        },
+
+        mapClass({ imageLoaded, isLocation }) {
+            return {
+                invisible: !imageLoaded,
+                "opacity-0": !imageLoaded,
+                "zoom-map": isLocation
+            };
+        }
     }
-  },
-  computed: {
-    ...mapState(["stories", "filters", "places", "tours"]),
-
-    isTour({ $route }) {
-      return $route.name === "tour";
-    },
-
-    exploreOpen({ $route }) {
-      return $route.name === "explore";
-    },
-
-    isAdmin() {
-      return window.isAdmin;
-    },
-    ready({ stories, places, tours }) {
-      return (
-        stories !== undefined && places !== undefined && tours !== undefined
-      );
-    },
-
-    imageLoaded({ state }) {
-      return state === "imageLoaded";
-    },
-
-    mapClass({ imageLoaded, isLocation }) {
-      return {
-        invisible: !imageLoaded,
-        "opacity-0": !imageLoaded,
-        "zoom-map": isLocation
-      };
-    }
-  }
 };
 </script>

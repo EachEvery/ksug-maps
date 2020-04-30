@@ -8,7 +8,7 @@
             <up-arrow
                 class="w-10 h-10 transition"
                 style="transform: rotate(-90deg)"
-                :style="{ transform: `rotate(${open ? '90' : '-90'}deg)` }"
+                :style="{ transform: `rotate(${open ? '0' : '-180'}deg)` }"
             />
 
             <h1

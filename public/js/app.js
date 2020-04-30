@@ -3988,6 +3988,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -6887,7 +6891,7 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_14__["
 
       this.map = new mapboxgl.Map({
         container: "map",
-        style: "mapbox://styles/natehobi/ck9mx9yt516971jntz3ab6jfi",
+        style: "mapbox://styles/natehobi/ck9myc8jk0jqh1io77cjzbikc",
         center: center,
         maxZoom: this.zoomSteps[this.zoomSteps.length - 1],
         minZoom: this.zoomSteps[0],
@@ -7181,9 +7185,9 @@ __webpack_require__.r(__webpack_exports__);
     setMaxScrollLength: function setMaxScrollLength() {
       var _this = this;
 
-      this.$nextTick(function () {
+      setTimeout(function () {
         _this.maxScrollPos = _this.$refs.container.scrollWidth - _this.$refs.container.clientWidth;
-      });
+      }, 500);
     }
   },
   mounted: function mounted() {
@@ -54948,7 +54952,7 @@ var render = function() {
             {
               staticClass:
                 "w-full h-full relative overflow-hidden bg-black transition",
-              style: { transform: _vm.exploreOpen ? "scale(1.2)" : "none" }
+              style: { transform: _vm.exploreOpen ? "scale(1.05)" : "none" }
             },
             [
               _c("map-component", {
@@ -56136,7 +56140,7 @@ var render = function() {
           _c("up-arrow", {
             staticClass: "w-10 h-10 transition",
             staticStyle: { transform: "rotate(-90deg)" },
-            style: { transform: "rotate(" + (_vm.open ? "90" : "-90") + "deg)" }
+            style: { transform: "rotate(" + (_vm.open ? "0" : "-180") + "deg)" }
           }),
           _vm._v(" "),
           _c(
@@ -58616,7 +58620,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "bg-white max-w-sm p-4 w-80vw mt-75vh min-h-20rem || lg:mt-0 lg:w-full lg:max-w-none lg:mt-12",
+        "bg-white max-w-sm p-4 w-80vw mt-60vh min-h-20rem || lg:mt-0 lg:w-full lg:max-w-none lg:mt-12",
       attrs: {
         "data-place-id": _vm.place.id,
         "data-step-geo": JSON.stringify([+_vm.place.lat, +_vm.place.long])
@@ -59238,7 +59242,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "bg-black text-white p-4 w-80vw mt-75vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12",
+        "bg-black text-white p-4 w-80vw mt-60vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12",
       attrs: { "data-step-geo": JSON.stringify(_vm.latLong) }
     },
     [
@@ -59933,7 +59937,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "p-6 bg-black relative text-white w-80vw mt-75vh min-h-20rem max-w-sm ||| lg:mt-0 lg:w-full"
+        "p-6 bg-black relative text-white w-80vw mt-60vh min-h-20rem max-w-sm ||| lg:mt-0 lg:w-full"
     },
     [
       _c(
@@ -60085,18 +60089,16 @@ var render = function() {
   return _c(
     "svg",
     {
-      attrs: {
-        xmlns: "http://www.w3.org/2000/svg",
-        viewBox: "0 0 57.728 56.749"
-      }
+      staticStyle: { "fill-rule": "evenodd" },
+      attrs: { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 56.75 57.73" }
     },
     [
       _c("path", {
+        staticClass: "cls-1",
         attrs: {
           d:
-            "M30.445,4.526v53.2H28V4.526L2.559,30.086.848,28.375,29.222,0,57.6,28.375l-1.59,1.712Z",
-          transform: "translate(0 57.597) rotate(-90)",
-          "fill-rule": "evenodd",
+            "M30.08,4v53.2H27.64V4L2.2,29.6.49,27.89,28.86-.49,57.24,27.89,55.65,29.6Z",
+          transform: "translate(-0.49 0.49)",
           fill: "currentColor"
         }
       })

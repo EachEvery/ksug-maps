@@ -1,9 +1,13 @@
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.728 56.749">
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 56.75 57.73"
+        style="fill-rule: evenodd;"
+    >
         <path
-            d="M30.445,4.526v53.2H28V4.526L2.559,30.086.848,28.375,29.222,0,57.6,28.375l-1.59,1.712Z"
-            transform="translate(0 57.597) rotate(-90)"
-            fill-rule="evenodd"
+            class="cls-1"
+            d="M30.08,4v53.2H27.64V4L2.2,29.6.49,27.89,28.86-.49,57.24,27.89,55.65,29.6Z"
+            transform="translate(-0.49 0.49)"
             fill="currentColor"
         />
     </svg>

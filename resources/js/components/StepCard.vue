@@ -1,6 +1,6 @@
 <template>
     <div
-        class="bg-black text-white p-4 w-80vw mt-75vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12"
+        class="bg-black text-white p-4 w-80vw mt-60vh min-h-20rem max-w-sm || lg:mt-0 lg:w-full lg:mt-12"
         :data-step-geo="JSON.stringify(latLong)"
     >
         <img

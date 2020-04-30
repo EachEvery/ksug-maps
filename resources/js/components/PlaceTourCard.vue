@@ -2,7 +2,7 @@
     <div
         :data-place-id="place.id"
         :data-step-geo="JSON.stringify([+place.lat, +place.long])"
-        class="bg-white max-w-sm p-4 w-80vw mt-75vh min-h-20rem || lg:mt-0 lg:w-full lg:max-w-none lg:mt-12"
+        class="bg-white max-w-sm p-4 w-80vw mt-60vh min-h-20rem || lg:mt-0 lg:w-full lg:max-w-none lg:mt-12"
     >
         <div
             class="flex items-center h-8 w-8 justify-center font-mono rounded-full bg-black text-white"

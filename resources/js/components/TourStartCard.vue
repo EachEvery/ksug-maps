@@ -1,6 +1,6 @@
 <template>
     <div
-        class="p-6 bg-black relative text-white w-80vw mt-75vh min-h-20rem max-w-sm ||| lg:mt-0 lg:w-full"
+        class="p-6 bg-black relative text-white w-80vw mt-60vh min-h-20rem max-w-sm ||| lg:mt-0 lg:w-full"
     >
         <clickable class="absolute top-0 right-0 m-2" @click="$emit('close')">
             <close-icon class="w-5 h-5 text-white" />
