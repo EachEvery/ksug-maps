@@ -224,8 +224,33 @@ export default {
                     .setLngLat(marker.geometry.coordinates)
                     .addTo(this.map);
 
+                let popup = new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: true
+                });
+
+                let storyCount = marker.place.stories.length;
+
+                popup
+                    .setLngLat(marker.geometry.coordinates)
+                    .setHTML(
+                        `<div class="flex flex-col"><span class="font-display uppercase text-lg leading-normal">${
+                            marker.place.name
+                        }</span><span class="font-mono text-base uppercase">${storyCount} ${
+                            storyCount === 1 ? "Story" : "Stories"
+                        }</span></div>`
+                    );
+
                 el.addEventListener("click", e => {
                     this.handleMarkerClick(marker, e);
+                });
+
+                el.addEventListener("mouseenter", e => {
+                    popup.addTo(this.map);
+                });
+
+                el.addEventListener("mouseleave", e => {
+                    popup.remove();
                 });
 
                 return {
