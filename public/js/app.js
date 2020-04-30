@@ -6887,7 +6887,7 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_14__["
 
       this.map = new mapboxgl.Map({
         container: "map",
-        style: "mapbox://styles/natehobi/ck9lpw80o11451imj76ujmbxy",
+        style: "mapbox://styles/natehobi/ck9mx9yt516971jntz3ab6jfi",
         center: center,
         maxZoom: this.zoomSteps[this.zoomSteps.length - 1],
         minZoom: this.zoomSteps[0],
@@ -85656,7 +85656,7 @@ __webpack_require__.r(__webpack_exports__);
     setLandmarkOpacity: function setLandmarkOpacity() {
       var _this = this;
 
-      var layerIds = ["ksu-campus-label", "ksu-campus", "historic-landmark-label", "historic-landmark", "students-killed", "students-wounded", "national-historic-landmark-site", "landmarks"];
+      var layerIds = ["nhlnameonly", "ksu-campus-label", "ksu-campus", "historic-landmark-label", "historic-landmark", "students-killed", "students-wounded", "national-historic-landmark-site", "landmarks"];
       layerIds.forEach(function (id) {
         _this.map.setLayoutProperty(id, "visibility", _this.showLandmarks && !_this.isTour ? "visible" : "none");
       });

@@ -17,6 +17,7 @@ export default {
     methods: {
         setLandmarkOpacity() {
             let layerIds = [
+                "nhlnameonly",
                 "ksu-campus-label",
                 "ksu-campus",
                 "historic-landmark-label",
