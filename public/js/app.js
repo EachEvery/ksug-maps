@@ -6906,7 +6906,7 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_14__["
           closeOnClick: true
         });
         var storyCount = marker.place.stories.length;
-        popup.setLngLat(marker.geometry.coordinates).setHTML("<div class=\"flex flex-col\"><span class=\"font-display uppercase text-lg leading-normal\">".concat(marker.place.name, "</span><span class=\"font-mono text-base uppercase\">").concat(storyCount, " ").concat(storyCount === 1 ? "Story" : "Stories", "</span></div>"));
+        popup.setLngLat(marker.geometry.coordinates).setHTML("<div class=\"flex flex-col\"><span class=\"font-display uppercase text-lg leading-none\">".concat(marker.place.name, "</span><span class=\"font-mono text-sm uppercase mt-2\">").concat(storyCount, " ").concat(storyCount === 1 ? "Story" : "Stories", "</span></div>"));
         el.addEventListener("click", function (e) {
           _this2.handleMarkerClick(marker, e);
         });

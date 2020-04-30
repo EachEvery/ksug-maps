@@ -234,9 +234,9 @@ export default {
                 popup
                     .setLngLat(marker.geometry.coordinates)
                     .setHTML(
-                        `<div class="flex flex-col"><span class="font-display uppercase text-lg leading-normal">${
+                        `<div class="flex flex-col"><span class="font-display uppercase text-lg leading-none">${
                             marker.place.name
-                        }</span><span class="font-mono text-base uppercase">${storyCount} ${
+                        }</span><span class="font-mono text-sm uppercase mt-2">${storyCount} ${
                             storyCount === 1 ? "Story" : "Stories"
                         }</span></div>`
                     );
