@@ -15,6 +15,8 @@ export default {
         },
 
         updateActiveMarker(latlngArr) {
+            console.log(latlngArr, "lat lng arr");
+
             let matchingMarker = this.mapboxMarkers.find(
                 m =>
                     +m._lngLat.lng === +latlngArr[1] &&
@@ -39,7 +41,11 @@ export default {
             }
 
             $(".marker").css({ opacity: 1 });
-            this.resetActiveMarkers();
+
+            if (!this.isLocation) {
+                this.resetActiveMarkers();
+            }
+
             $("canvas").css({ opacity: "1" });
 
             if (!this.isLocation && this.validFilters.length === 0) {

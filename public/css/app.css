@@ -6129,6 +6129,10 @@ video {
   min-width: 33rem;
 }
 
+.min-w-24rem {
+  min-width: 24rem;
+}
+
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -20199,6 +20203,10 @@ video {
 
   .sm\:min-w-md {
     min-width: 33rem;
+  }
+
+  .sm\:min-w-24rem {
+    min-width: 24rem;
   }
 
   .sm\:object-contain {
@@ -34274,6 +34282,10 @@ video {
     min-width: 33rem;
   }
 
+  .md\:min-w-24rem {
+    min-width: 24rem;
+  }
+
   .md\:object-contain {
     -o-object-fit: contain;
        object-fit: contain;
@@ -48347,6 +48359,10 @@ video {
     min-width: 33rem;
   }
 
+  .lg\:min-w-24rem {
+    min-width: 24rem;
+  }
+
   .lg\:object-contain {
     -o-object-fit: contain;
        object-fit: contain;
@@ -62418,6 +62434,10 @@ video {
 
   .xl\:min-w-md {
     min-width: 33rem;
+  }
+
+  .xl\:min-w-24rem {
+    min-width: 24rem;
   }
 
   .xl\:object-contain {

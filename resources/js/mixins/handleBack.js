@@ -7,6 +7,11 @@ export default {
 
     methods: {
         back() {
+            if (this.$route.name === "preview") {
+                this.$router.push(this.defaultBackRoute);
+                return;
+            }
+
             if (this.routes.length < 2 && !this.tourActive) {
                 this.$router.push(this.defaultBackRoute);
             } else {

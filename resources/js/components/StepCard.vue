@@ -36,9 +36,9 @@
                 >Continue for {{ getFeet(step.distance) }} feet.</span
             >
 
-            <span v-if="getFeet(step.distance) < 15">
+            <!-- <span v-if="getFeet(step.distance) < 15">
                 Go to the next step.
-            </span>
+            </span> -->
         </p>
     </div>
 </template>

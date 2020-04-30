@@ -41,6 +41,10 @@
         <div class="leading-normal" v-html="tour.description"></div>
 
         <img :src="tour.photos[0].url" class="w-full h-48 object-cover mt-8" />
+
+        <span class="text-2xs mt-2 block font-mono leading-normal"
+            >Kent State University Libraries, Special Collections</span
+        >
     </div>
 </template>
 
@@ -56,7 +60,8 @@ export default {
 
     components: {
         clickable,
-        closeIcon
+        closeIcon,
+        clickable
     },
     props: {
         tour: Object
@@ -73,7 +78,7 @@ export default {
         },
 
         startButtonText({ tourActive }) {
-            return tourActive ? "Stop Tour" : "Start Tour";
+            return tourActive ? "Stop Tour" : "Start Walking Tour";
         }
     },
     methods: {

@@ -1,17 +1,23 @@
 <template>
     <router-link
-        class="bg-current p-5 relative shrink-when-active h-32 block w-full"
+        class="bg-current p-5 relative shrink-when-active block w-full "
+        style="height: 10rem"
         :to="`/stories/${story.id}`"
         :style="{
             '--transparentColor': transparentColor,
             '--currentColor': story.color
         }"
     >
-        <h3 class="uppercase font-display font-bold text-md text-black">
+        <h3 class="uppercase font-display font-bold text-md mt-1 text-black">
             {{ story.subject }}
         </h3>
-        <p class="leading-normal mt-1 text-xs text-black">
-            {{ story.day }}&mdash;{{ truncate(story.content, { length: 60 }) }}
+        <h3
+            class="font-mono text-2xs tracking-tight mb-1 font-bold uppercase text-black"
+        >
+            {{ story.role }} &middot; {{ story.day }}
+        </h3>
+        <p class="leading-normal mt-3 text-sm text-black">
+            {{ truncate(story.content, { length: 60 }) }}
         </p>
     </router-link>
 </template>

@@ -2,9 +2,9 @@
     <div
         v-click-outside="goBack"
         :class="containerClass"
-        class="fixed inset-0 md:right-0 md:left-auto bg-tan-100 transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto"
+        class="fixed inset-0 md:right-0 md:left-auto bg-tan-100 transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto md:min-w-24rem"
         ref="container"
-        style="max-width: 45rem; min-width: 24rem;"
+        style="max-width: 45rem; "
     >
         <router-link
             :to="chevronLink"
@@ -63,7 +63,9 @@
                     @load="setLoaded(photo)"
                 />
 
-                <p class="font-mono mt-4 text-base max-w-md text-left mx-8">
+                <p
+                    class="font-mono mt-4 text-xs md:text-base max-w-md text-left mx-8"
+                >
                     {{ photo.custom_properties.photo_caption }}
                 </p>
 
@@ -257,10 +259,17 @@
             </div>
 
             <router-link
-                class="font-mono mt-12 block text-center w-full font-bold underline opacity-50 hover:opacity-100"
+                class="bg-black font-mono text-white uppercase h-12 flex justify-center items-center mt-24 cursor-pointed mb-16"
                 to="/about#give-feedback"
-                >Give Your Feedback on this Web App</router-link
+                >Give Us Your Feedback</router-link
             >
+
+            <clickable
+                @click="back"
+                class="hidden md:block fixed top-0 right-0 rounded-full mr-5 mt-5 z-10"
+            >
+                <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-black" />
+            </clickable>
         </div>
     </div>
 </template>
@@ -272,6 +281,7 @@ import commentForm from "./CommentForm";
 import clickable from "./Clickable";
 import scrollContainer from "./ScrollContainer";
 import handleBack from "../mixins/handleBack";
+import closeIcon from "./CloseIcon";
 
 import { mapState, mapGetters } from "vuex";
 import windowDimensions from "../mixins/windowDimensions";
@@ -291,7 +301,8 @@ export default {
         storyCard,
         commentForm,
         clickable,
-        scrollContainer
+        scrollContainer,
+        closeIcon
     },
 
     data() {
@@ -394,6 +405,7 @@ export default {
         phoneNumber() {
             return window.phoneNumber;
         },
+
         confirmationStyle({ state }) {
             let showIt = state === "showCommentConfirmation";
 

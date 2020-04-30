@@ -8,7 +8,7 @@
     >
         <!-- Mobile Explore Heading -->
         <mobile-explore-toggle @click="$emit('toggle')">
-            <h3 class="text-base uppercase font-light font-mono">
+            <h3 class=" uppercase font-light font-mono text-xs md:text-base">
                 Explore Tours &amp; Stories
             </h3>
             <up-arrow class="w-6 w-6 text-black" :style="arrowStyle" />
@@ -20,13 +20,20 @@
             @click="$emit('toggle')"
         ></desktop-explore-toggle>
 
-        <div class="px-8 md:overflow-y-scroll md:h-full">
+        <div class="px-8 md:overflow-y-scroll md:h-full relative">
             <h1
                 class="text-5xl md:text-8xl font-display uppercase cursor-pointer"
                 @click="$emit('toggle')"
             >
                 Explore
             </h1>
+
+            <clickable
+                @click="handleClickOutside"
+                class="hidden md:block md:fixed top-0 right-0 rounded-full mr-5 mt-5 z-10"
+            >
+                <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-black" />
+            </clickable>
 
             <div class="mt-12">
                 <explore-heading portal-name="featured-tours-heading"
@@ -124,6 +131,7 @@ import storyCard from "./FeaturedStoryCard";
 import commentCard from "./CommentCard";
 import exploreHeading from "./ExploreSubheading";
 import locationCard from "./LocationCard";
+import closeIcon from "./CloseIcon";
 
 import _ from "lodash";
 import { mapState, mapGetters } from "vuex";
@@ -145,7 +153,8 @@ export default {
         draggable,
         tourCard,
         exploreHeading,
-        storyCard
+        storyCard,
+        closeIcon
     },
 
     mixins: [windowDimensions, distance],
@@ -217,7 +226,7 @@ export default {
             return {
                 transform: md
                     ? `translateX(${open ? "0" : `100%`})`
-                    : `translateY(${open ? "0" : "75vh"})`
+                    : `translateY(${open ? "0" : "90%"})`
             };
         },
         arrowStyle({ open }) {

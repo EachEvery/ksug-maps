@@ -17,14 +17,14 @@
         <portal v-if="buttonsPortal" :to="buttonsPortal">
             <div class="flex">
                 <clickable
-                    class="mr-5"
+                    class="mr-3 md:mr-5"
                     @click="scrollLeft"
                     :class="{ 'opacity-25': scrollPos === 0 }"
                 >
                     <img
                         src="/images/left-arrow.png"
                         alt="left-arrow"
-                        class="h-8"
+                        class="h-4 md:h-8"
                     />
                 </clickable>
 
@@ -35,7 +35,7 @@
                     <img
                         src="/images/right-arrow.png"
                         alt="left-arrow"
-                        class="h-8"
+                        class="h-5 md:h-8"
                     />
                 </clickable>
             </div>

@@ -24,7 +24,7 @@ export default {
                 "historic-landmark",
                 "students-killed",
                 "students-wounded",
-                "national-historic-landmark-site",
+                // "national-historic-landmark-site",
                 "landmarks"
             ];
 

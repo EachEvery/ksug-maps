@@ -4123,6 +4123,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
 //
 //
 //
@@ -4419,6 +4420,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -4431,7 +4446,8 @@ __webpack_require__.r(__webpack_exports__);
     pageSection: _PageSection__WEBPACK_IMPORTED_MODULE_0__["default"],
     header40: _Header40__WEBPACK_IMPORTED_MODULE_1__["default"],
     header25: _Header25__WEBPACK_IMPORTED_MODULE_2__["default"],
-    paragraph: _Paragraph__WEBPACK_IMPORTED_MODULE_3__["default"]
+    paragraph: _Paragraph__WEBPACK_IMPORTED_MODULE_3__["default"],
+    closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   methods: {
     goBack: function goBack() {
@@ -4578,6 +4594,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var _PlayIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PlayIcon */ "./resources/js/components/PlayIcon.vue");
 /* harmony import */ var _PauseIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PauseIcon */ "./resources/js/components/PauseIcon.vue");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5282,10 +5306,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CommentCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./CommentCard */ "./resources/js/components/CommentCard.vue");
 /* harmony import */ var _ExploreSubheading__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ExploreSubheading */ "./resources/js/components/ExploreSubheading.vue");
 /* harmony import */ var _LocationCard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./LocationCard */ "./resources/js/components/LocationCard.vue");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _mixins_distance__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../mixins/distance */ "./resources/js/mixins/distance.js");
+/* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_distance__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../mixins/distance */ "./resources/js/mixins/distance.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -5406,6 +5431,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -5435,9 +5468,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_5___default.a,
     tourCard: _TourCard__WEBPACK_IMPORTED_MODULE_6__["default"],
     exploreHeading: _ExploreSubheading__WEBPACK_IMPORTED_MODULE_9__["default"],
-    storyCard: _FeaturedStoryCard__WEBPACK_IMPORTED_MODULE_7__["default"]
+    storyCard: _FeaturedStoryCard__WEBPACK_IMPORTED_MODULE_7__["default"],
+    closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_11__["default"]
   },
-  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_distance__WEBPACK_IMPORTED_MODULE_13__["default"]],
+  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_distance__WEBPACK_IMPORTED_MODULE_14__["default"]],
   watch: {
     open: function open() {
       this.setCanClickOutside();
@@ -5454,11 +5488,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.setCanClickOutside();
     this.$nextTick(function () {
-      _this.randomFeaturedStories = lodash__WEBPACK_IMPORTED_MODULE_11___default.a.shuffle(_this.featuredStories);
+      _this.randomFeaturedStories = lodash__WEBPACK_IMPORTED_MODULE_12___default.a.shuffle(_this.featuredStories);
     });
   },
   methods: {
-    shuffle: lodash__WEBPACK_IMPORTED_MODULE_11___default.a.shuffle,
+    shuffle: lodash__WEBPACK_IMPORTED_MODULE_12___default.a.shuffle,
     handleClickOutside: function handleClickOutside() {
       if (this.canClickOutside) {
         this.$emit("toggle");
@@ -5472,7 +5506,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, 300);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_12__["mapState"])(["tours", "stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_12__["mapGetters"])(["featuredStories", "comments", "userLocation"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_13__["mapState"])(["tours", "stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_13__["mapGetters"])(["featuredStories", "comments", "userLocation"]), {
     containerClass: function containerClass(_ref) {
       var open = _ref.open;
       return {
@@ -5505,7 +5539,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return {
-        transform: md ? "translateX(".concat(open ? "0" : "100%", ")") : "translateY(".concat(open ? "0" : "75vh", ")")
+        transform: md ? "translateX(".concat(open ? "0" : "100%", ")") : "translateY(".concat(open ? "0" : "90%", ")")
       };
     },
     arrowStyle: function arrowStyle(_ref4) {
@@ -5700,6 +5734,22 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5971,6 +6021,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6099,8 +6165,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
 /* harmony import */ var _ScrollContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ScrollContainer */ "./resources/js/components/ScrollContainer.vue");
 /* harmony import */ var _mixins_handleBack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../mixins/handleBack */ "./resources/js/mixins/handleBack.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../mixins/windowDimensions */ "./resources/js/mixins/windowDimensions.js");
+/* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../mixins/windowDimensions */ "./resources/js/mixins/windowDimensions.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -6374,6 +6441,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -6383,7 +6460,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_5__["default"], _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_7__["default"]],
+  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_5__["default"], _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_8__["default"]],
   metaInfo: function metaInfo() {
     return {
       title: this.location.name,
@@ -6395,7 +6472,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     storyCard: _StoryCard__WEBPACK_IMPORTED_MODULE_1__["default"],
     commentForm: _CommentForm__WEBPACK_IMPORTED_MODULE_2__["default"],
     clickable: _Clickable__WEBPACK_IMPORTED_MODULE_3__["default"],
-    scrollContainer: _ScrollContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
+    scrollContainer: _ScrollContainer__WEBPACK_IMPORTED_MODULE_4__["default"],
+    closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   data: function data() {
     return {
@@ -6475,7 +6553,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   beforeDestroy: function beforeDestroy() {
     $(".lightbox").off();
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(["isAdmin"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapState"])(["stories", "places"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])(["isAdmin"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["stories", "places"]), {
     defaultBackRoute: function defaultBackRoute() {
       return "/";
     },
@@ -6620,6 +6698,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -6872,6 +6953,15 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_14__["
     }
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_15__["mapMutations"])(["addGeolocation"]), {
+    addWoundedKilledPopover: function addWoundedKilledPopover(e) {
+      this.removeWoundedKilledPopover();
+      this.studentPopover = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(e.features[0].properties.Name).addTo(this.map);
+    },
+    removeWoundedKilledPopover: function removeWoundedKilledPopover() {
+      if (this.studentPopover) {
+        this.studentPopover.remove();
+      }
+    },
     handleLayersClickOutside: function handleLayersClickOutside() {
       if (this.canClickOutside) {
         this.state = "default";
@@ -6931,25 +7021,27 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_14__["
       navigator.geolocation.watchPosition(function (pos) {
         _this2.addGeolocation(pos);
       });
-      this.map.on("click", "students-killed", function (e) {
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(e.features[0].properties.Name).addTo(_this2.map);
-      });
-      this.map.on("click", "students-wounded", function (e) {
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(e.features[0].properties.Name).addTo(_this2.map);
-      });
+      this.map.on("click", "students-killed", this.addWoundedKilledPopover);
+      this.map.on("mouseover", "students-killed", this.addWoundedKilledPopover);
+      this.map.on("mouseover", "students-wounded", this.addWoundedKilledPopover);
+      this.map.on("click", "students-wounded", this.addWoundedKilledPopover);
       this.map.on("mouseenter", "students-killed", function () {
         _this2.map.getCanvas().style.cursor = "pointer";
       }); // Change it back to a pointer when it leaves.
 
-      this.map.on("mouseleave", "students-killed", function () {
+      this.map.on("mouseleave", "students-killed", function (e) {
         _this2.map.getCanvas().style.cursor = "";
+
+        _this2.removeWoundedKilledPopover();
       });
       this.map.on("mouseenter", "students-wounded", function () {
         _this2.map.getCanvas().style.cursor = "pointer";
       }); // Change it back to a pointer when it leaves.
 
-      this.map.on("mouseleave", "students-wounded", function () {
+      this.map.on("mouseleave", "students-wounded", function (e) {
         _this2.map.getCanvas().style.cursor = "";
+
+        _this2.removeWoundedKilledPopover();
       });
 
       if (this.isLocation) {
@@ -7226,6 +7318,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -7582,6 +7678,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -8546,6 +8646,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -8748,16 +8860,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_3__["default"]],
-  components: {
+  components: _defineProperty({
     clickable: _Clickable__WEBPACK_IMPORTED_MODULE_1__["default"],
     closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_2__["default"]
-  },
+  }, "clickable", _Clickable__WEBPACK_IMPORTED_MODULE_1__["default"]),
   props: {
     tour: Object
   },
@@ -8771,7 +8887,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     startButtonText: function startButtonText(_ref2) {
       var tourActive = _ref2.tourActive;
-      return tourActive ? "Stop Tour" : "Start Tour";
+      return tourActive ? "Stop Tour" : "Start Walking Tour";
     }
   }),
   methods: {
@@ -8803,6 +8919,12 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13606,7 +13728,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".dropdown[data-v-ef782e08] {\n  position: relative;\n}\n.dropdown__content[data-v-ef782e08] {\n  position: fixed;\n  min-width: 100px;\n  background: #fff;\n  overflow-x: hidden;\n  overflox-y: scroll;\n  z-index: 100;\n  height: 30vh;\n}", ""]);
+exports.push([module.i, ".dropdown[data-v-ef782e08] {\n  position: relative;\n}\n.dropdown__content[data-v-ef782e08] {\n  position: fixed;\n  min-width: 100px;\n  background: #fff;\n  overflow-x: hidden;\n  overflox-y: scroll;\n  z-index: 100;\n  height: 30vh;\n}\n@media screen and (min-width: 760px) {\n.dropdown__content[data-v-ef782e08] {\n    height: auto;\n}\n}", ""]);
 
 // exports
 
@@ -55067,6 +55189,17 @@ var render = function() {
       }),
       _vm._v(" "),
       _c(
+        "clickable",
+        {
+          staticClass:
+            "hidden md:block md:fixed top-0 right-0 rounded-full mr-5 mt-5 z-10",
+          on: { click: _vm.goBack }
+        },
+        [_c("close-icon", { staticClass: "w-8 h-8 lg:w-5 lg:h-5 text-white" })],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "page-section",
         { staticClass: "bg-black text-white", attrs: { id: "about-may-4" } },
         [
@@ -55100,7 +55233,7 @@ var render = function() {
           _vm._v(" "),
           _c("paragraph", { staticClass: "text-white" }, [
             _vm._v(
-              "\n            At Kent State University in Kent, Ohio, on May 4, 1970, 28\n            National Guard troops turned in unison and fired 67 shots at\n            student peace protesters, killing 4 and wounding 9, leaving one\n            paralyzed. On May 1st students began a series of protests in\n            response to Nixon’s expansion of the war from Vietnam to\n            Cambodia. By May 4th they were also protesting the occupationp\n            of campus by nearly a thousand troops, more than 100 trucks, 12\n            armored vehicles, 3 tanks with mortar launchers, and 13\n            helicopters. People across the city and campus were traumatized\n            in various ways. After the shootings some community members said\n            that the students deserved to be shot. Even 50 years later\n            division and resentments continue.\n        "
+              "\n            At Kent State University in Kent, Ohio, on May 4, 1970, 28\n            National Guard troops turned in unison and fired 67 shots at\n            student peace protesters, killing 4 and wounding 9, leaving one\n            paralyzed. On May 1st students began a series of protests in\n            response to Nixon’s expansion of the war from Vietnam to\n            Cambodia. By May 4th they were also protesting the occupation of\n            campus by nearly a thousand troops, more than 100 trucks, 12\n            armored vehicles, 3 tanks with mortar launchers, and 13\n            helicopters. People across the city and campus were traumatized\n            in various ways. After the shootings some community members said\n            that the students deserved to be shot. Even 50 years later\n            division and resentments continue.\n        "
             )
           ]),
           _vm._v(" "),
@@ -55183,7 +55316,7 @@ var render = function() {
           _vm._v(" "),
           _c("paragraph", [
             _vm._v(
-              "\n            We suggest that you start by clicking on a place that means\n            something to you. If you have trouble identifying it on the map,\n            you can search for it by name in the search bar at the top left.\n            It may help you find your site to toggle between the historic\n            aerial photo and the current day street map. You can do this\n            with the button in the lower left (when you close this splash\n            page). You can also use the search button in the upper left to\n            search by name, place, or date (between May 1st and May 5th).\n            Next to the search button is a filter button that allows you to\n            filter by date and/or role. This will then highlight on the map\n            all of those sites that meet your criteria, such as stories by\n            faculty on May 2nd. When you select a site you will often see\n            several stories. These are color-coded by role. Click on it to\n            get the full story. You can read the stories but we recommend\n            that you also listen to them—the audio can be powerful.\n        "
+              "\n            We suggest that you start by clicking on a place that means\n            something to you. If you have trouble identifying it on the map,\n            you can search for it by name in the search bar at the top left.\n            It may help you find your place to switch between the historic\n            aerial photo and the current day street map. You can do this\n            with the button in the lower left (when you close this side\n            panel). You can also use the search button in the upper left to\n            search by name, place, or date (between May 1st and May 5th).\n            Next to the search button is a filter button that allows you to\n            filter by date and/or role. This will then highlight on the map\n            all of those places that meet your criteria, such as stories by\n            faculty on May 2nd. When you select a place you will often see\n            several stories. The stories are color-coded by the person’s\n            role, such as student, faculty, local resident, or National\n            Guardsman. Click on it to get the full story. You can read the\n            stories but we recommend that you also listen to them—the audio\n            can be powerful. You can also explore the stories by taking a\n            tour, or going to some of the most powerful stories, which we\n            have featured in the explore tab that appears on the right when\n            you close this side panel. If you are in Kent and turn on\n            location access it will also show you the sites nearest to you.\n        "
             )
           ]),
           _vm._v(" "),
@@ -55621,14 +55754,14 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "w-full overflow-hidden pt-8",
-      staticStyle: { "max-width": "45rem", "min-width": "24rem" }
+      staticClass: "w-full overflow-hidden pt-8 md:min-w-24rem",
+      staticStyle: { "max-width": "45rem" }
     },
     [
       _c(
         "div",
         {
-          staticClass: "px-8 xl:px-24 py-4",
+          staticClass: "px-4 md:px-8 xl:px-24 py-4",
           staticStyle: {
             background: "rgba(255, 255, 255, .98)",
             "box-shadow":
@@ -55642,7 +55775,7 @@ var render = function() {
               staticClass:
                 "text-center font-mono uppercase text-xs lg:-ml-6 xl:mb-3 xl:text-base"
             },
-            [_vm._v(_vm._s(_vm.label))]
+            [_vm._v("\n            " + _vm._s(_vm.label) + "\n        ")]
           ),
           _vm._v(" "),
           _c(
@@ -56036,7 +56169,7 @@ var render = function() {
                 attrs: {
                   type: "text",
                   name: "comment[author]",
-                  placeholder: "Your Name (Optional)"
+                  placeholder: "Your Name (optional)"
                 }
               }),
               _vm._v(" "),
@@ -56286,7 +56419,10 @@ var render = function() {
         [
           _c(
             "h3",
-            { staticClass: "text-base uppercase font-light font-mono" },
+            {
+              staticClass:
+                " uppercase font-light font-mono text-xs md:text-base"
+            },
             [_vm._v("\n            Explore Tours & Stories\n        ")]
           ),
           _vm._v(" "),
@@ -56307,151 +56443,171 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "px-8 md:overflow-y-scroll md:h-full" }, [
-        _c(
-          "h1",
-          {
-            staticClass:
-              "text-5xl md:text-8xl font-display uppercase cursor-pointer",
-            on: {
-              click: function($event) {
-                return _vm.$emit("toggle")
+      _c(
+        "div",
+        { staticClass: "px-8 md:overflow-y-scroll md:h-full relative" },
+        [
+          _c(
+            "h1",
+            {
+              staticClass:
+                "text-5xl md:text-8xl font-display uppercase cursor-pointer",
+              on: {
+                click: function($event) {
+                  return _vm.$emit("toggle")
+                }
               }
-            }
-          },
-          [_vm._v("\n            Explore\n        ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "mt-12" },
-          [
-            _c(
-              "explore-heading",
-              { attrs: { "portal-name": "featured-tours-heading" } },
-              [_vm._v("Featured Tours")]
-            ),
-            _vm._v(" "),
-            _c(
-              "scroll-container",
-              {
-                staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
-                attrs: { "buttons-portal": "featured-tours-heading" }
-              },
-              _vm._l(_vm.tours, function(tour) {
-                return _c("tour-card", {
-                  key: tour.id,
-                  staticClass: "mr-4 w-64 flex-retain",
-                  staticStyle: { height: "24rem" },
-                  attrs: { tour: tour }
-                })
-              }),
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "explore-heading",
-              {
-                staticClass: "mt-12",
-                attrs: { "portal-name": "featured-stories-heading" }
-              },
-              [_vm._v("Featured Stories")]
-            ),
-            _vm._v(" "),
-            _c(
-              "scroll-container",
-              {
-                staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
-                attrs: { "buttons-portal": "featured-stories-heading" }
-              },
-              _vm._l(_vm.randomFeaturedStories, function(story) {
-                return _c("story-card", {
-                  key: story.id,
-                  staticClass: "mr-4 w-72 h-48vh flex-retain",
-                  staticStyle: { "max-height": "25rem" },
-                  style: { color: story.color },
-                  attrs: { story: story }
-                })
-              }),
-              1
-            ),
-            _vm._v(" "),
-            _vm.userLocation
-              ? _c(
-                  "div",
-                  [
-                    _c(
-                      "explore-heading",
-                      {
-                        staticClass: "mt-12",
-                        attrs: { "portal-name": "nearest-places-heading" }
-                      },
-                      [_vm._v("Nearest Places")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "scroll-container",
-                      {
-                        staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
-                        attrs: { "buttons-portal": "nearest-places-heading" }
-                      },
-                      _vm._l(
-                        [].concat(_vm.closestPlacesFirst).slice(0, 4),
-                        function(place) {
-                          return _c("location-card", {
-                            key: place.id,
+            },
+            [_vm._v("\n            Explore\n        ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "clickable",
+            {
+              staticClass:
+                "hidden md:block md:fixed top-0 right-0 rounded-full mr-5 mt-5 z-10",
+              on: { click: _vm.handleClickOutside }
+            },
+            [
+              _c("close-icon", {
+                staticClass: "w-8 h-8 lg:w-5 lg:h-5 text-black"
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "mt-12" },
+            [
+              _c(
+                "explore-heading",
+                { attrs: { "portal-name": "featured-tours-heading" } },
+                [_vm._v("Featured Tours")]
+              ),
+              _vm._v(" "),
+              _c(
+                "scroll-container",
+                {
+                  staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
+                  attrs: { "buttons-portal": "featured-tours-heading" }
+                },
+                _vm._l(_vm.tours, function(tour) {
+                  return _c("tour-card", {
+                    key: tour.id,
+                    staticClass: "mr-4 w-64 flex-retain",
+                    staticStyle: { height: "24rem" },
+                    attrs: { tour: tour }
+                  })
+                }),
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "explore-heading",
+                {
+                  staticClass: "mt-12",
+                  attrs: { "portal-name": "featured-stories-heading" }
+                },
+                [_vm._v("Featured Stories")]
+              ),
+              _vm._v(" "),
+              _c(
+                "scroll-container",
+                {
+                  staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
+                  attrs: { "buttons-portal": "featured-stories-heading" }
+                },
+                _vm._l(_vm.randomFeaturedStories, function(story) {
+                  return _c("story-card", {
+                    key: story.id,
+                    staticClass: "mr-4 w-72 h-48vh flex-retain",
+                    staticStyle: { "max-height": "25rem" },
+                    style: { color: story.color },
+                    attrs: { story: story }
+                  })
+                }),
+                1
+              ),
+              _vm._v(" "),
+              _vm.userLocation
+                ? _c(
+                    "div",
+                    [
+                      _c(
+                        "explore-heading",
+                        {
+                          staticClass: "mt-12",
+                          attrs: { "portal-name": "nearest-places-heading" }
+                        },
+                        [_vm._v("Nearest Places")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "scroll-container",
+                        {
+                          staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
+                          attrs: { "buttons-portal": "nearest-places-heading" }
+                        },
+                        _vm._l(
+                          [].concat(_vm.closestPlacesFirst).slice(0, 4),
+                          function(place) {
+                            return _c("location-card", {
+                              key: place.id,
+                              staticClass: "mr-4 w-72 h-48vh flex-retain",
+                              staticStyle: { "max-height": "25rem" },
+                              attrs: { place: place }
+                            })
+                          }
+                        ),
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.comments.length
+                ? _c(
+                    "div",
+                    [
+                      _c(
+                        "explore-heading",
+                        {
+                          staticClass: "mt-12",
+                          attrs: { "portal-name": "recent-comments-heading" }
+                        },
+                        [_vm._v("Recent Comments")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "scroll-container",
+                        {
+                          staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
+                          attrs: { "buttons-portal": "recent-comments-heading" }
+                        },
+                        _vm._l([].concat(_vm.comments).slice(0, 9), function(
+                          comment
+                        ) {
+                          return _c("comment-card", {
+                            key: comment.id,
                             staticClass: "mr-4 w-72 h-48vh flex-retain",
                             staticStyle: { "max-height": "25rem" },
-                            attrs: { place: place }
+                            attrs: { comment: comment }
                           })
-                        }
-                      ),
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.comments.length
-              ? _c(
-                  "div",
-                  [
-                    _c(
-                      "explore-heading",
-                      {
-                        staticClass: "mt-12",
-                        attrs: { "portal-name": "recent-comments-heading" }
-                      },
-                      [_vm._v("Recent Comments")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "scroll-container",
-                      {
-                        staticClass: "-mx-10 md:-mx-8 px-5 md:px-8",
-                        attrs: { "buttons-portal": "recent-comments-heading" }
-                      },
-                      _vm._l([].concat(_vm.comments).slice(0, 9), function(
-                        comment
-                      ) {
-                        return _c("comment-card", {
-                          key: comment.id,
-                          staticClass: "mr-4 w-72 h-48vh flex-retain",
-                          staticStyle: { "max-height": "25rem" },
-                          attrs: { comment: comment }
-                        })
-                      }),
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e()
-          ],
-          1
-        )
-      ])
+                        }),
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -56484,7 +56640,7 @@ var render = function() {
     [
       _c(
         "h1",
-        { staticClass: "text-3xl font-display uppercase" },
+        { staticClass: "text-2xl md:text-3xl font-display uppercase" },
         [_vm._t("default")],
         2
       ),
@@ -56641,12 +56797,15 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "flex items-center mb-5" },
+        { staticClass: "flex items-center mb-5 mt-5 md:mt-0" },
         [
           _c(
             "h1",
-            { staticClass: "font-display text-3xl font-black uppercase" },
-            [_vm._v("FILTER LOCATIONS")]
+            {
+              staticClass:
+                "font-display text-lg md:text-3xl font-black uppercase"
+            },
+            [_vm._v("\n            FILTER LOCATIONS\n        ")]
           ),
           _vm._v(" "),
           _vm.validFilters.length || _vm.filters.length > 1
@@ -56671,7 +56830,7 @@ var render = function() {
       _vm._l(_vm.filters, function(filter, i) {
         return _c(
           "div",
-          { key: i, staticClass: "flex mb-4" },
+          { key: i, staticClass: "flex mb-4 relative" },
           [
             _c(
               "selectbox",
@@ -56707,7 +56866,11 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "ml-4 w-8 flex items-center" },
+              {
+                staticClass:
+                  "ml-4 w-8 flex items-center absolute right-0 top-0 -mt-5 -mr-4 md:mr-0 md:mt-0 md:static",
+                staticStyle: { transform: "scale(.9)" }
+              },
               [
                 _vm.filters.length !== 1 && i !== _vm.filters.length - 1
                   ? _c(
@@ -56941,7 +57104,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "h-screen w-full absolute transition pt-24 bg-white flex flex-col justify-between pb-10",
+            "h-screen w-full absolute transition pt-16 md:pt-24 bg-white flex flex-col justify-between pb-10",
           class: _vm.innerClass
         },
         [
@@ -56978,12 +57141,12 @@ var render = function() {
             "p",
             {
               staticClass:
-                "font-mono self-center text-center text-sm opacity-50 leading-normal flex-shrink-0",
+                "font-mono self-center text-center text-2xs md:text-sm opacity-50 leading-normal flex-shrink-0",
               staticStyle: { width: "21rem" }
             },
             [
               _vm._v(
-                "All content used with permission of Special Collections at Kent State University."
+                "\n            All content used with permission of Special Collections at Kent\n            State University.\n        "
               )
             ]
           )
@@ -57010,7 +57173,7 @@ var render = function() {
               staticClass:
                 "uppercase font-display text-2xl leading-none self-center select-none"
             },
-            [_vm._v("Mapping May 4")]
+            [_vm._v("\n            Mapping May 4\n        ")]
           ),
           _vm._v(" "),
           _c(
@@ -57436,9 +57599,9 @@ var render = function() {
       ],
       ref: "container",
       staticClass:
-        "fixed inset-0 md:right-0 md:left-auto bg-tan-100 transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto",
+        "fixed inset-0 md:right-0 md:left-auto bg-tan-100 transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto md:min-w-24rem",
       class: _vm.containerClass,
-      staticStyle: { "max-width": "45rem", "min-width": "24rem" }
+      staticStyle: { "max-width": "45rem" }
     },
     [
       _c("router-link", {
@@ -57547,7 +57710,7 @@ var render = function() {
                     "p",
                     {
                       staticClass:
-                        "font-mono mt-4 text-base max-w-md text-left mx-8"
+                        "font-mono mt-4 text-xs md:text-base max-w-md text-left mx-8"
                     },
                     [
                       _vm._v(
@@ -57887,10 +58050,25 @@ var render = function() {
             "router-link",
             {
               staticClass:
-                "font-mono mt-12 block text-center w-full font-bold underline opacity-50 hover:opacity-100",
+                "bg-black font-mono text-white uppercase h-12 flex justify-center items-center mt-24 cursor-pointed mb-16",
               attrs: { to: "/about#give-feedback" }
             },
-            [_vm._v("Give Your Feedback on this Web App")]
+            [_vm._v("Give Us Your Feedback")]
+          ),
+          _vm._v(" "),
+          _c(
+            "clickable",
+            {
+              staticClass:
+                "hidden md:block fixed top-0 right-0 rounded-full mr-5 mt-5 z-10",
+              on: { click: _vm.back }
+            },
+            [
+              _c("close-icon", {
+                staticClass: "w-8 h-8 lg:w-5 lg:h-5 text-black"
+              })
+            ],
+            1
           )
         ],
         1
@@ -58004,13 +58182,13 @@ var render = function() {
     "ul",
     {
       staticClass:
-        "flex flex-col text-center font-display text-2xl md:text-4xl max-w-xs mx-auto leading-tight mt-8 md:mt-24"
+        "flex flex-col text-center font-display text-xl md:text-2xl md:text-4xl max-w-xs mx-auto leading-tight mt-8 md:mt-24"
     },
     [
       _c(
         "li",
         {
-          staticClass: "mb-6 shrink-when-active",
+          staticClass: "mb-3 md:mb-6 shrink-when-active",
           class: { "opacity-25": _vm.isMap }
         },
         [_c("router-link", { attrs: { to: "/" } }, [_vm._v("MAP")])],
@@ -58019,7 +58197,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "li",
-        { staticClass: "mb-6 shrink-when-active" },
+        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
         [
           _c("router-link", { attrs: { to: "/about#about-may-4" } }, [
             _vm._v("ABOUT MAY 4")
@@ -58030,7 +58208,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "li",
-        { staticClass: "mb-6 shrink-when-active" },
+        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
         [
           _c("router-link", { attrs: { to: "/about/#about-the-project" } }, [
             _vm._v("ABOUT THIS PROJECT")
@@ -58041,7 +58219,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "li",
-        { staticClass: "mb-6 shrink-when-active" },
+        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
         [
           _c("router-link", { attrs: { to: "/about#how-to-use" } }, [
             _vm._v("HOW TO USE THIS SITE")
@@ -58052,7 +58230,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "li",
-        { staticClass: "mb-6 shrink-when-active" },
+        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
         [
           _c("router-link", { attrs: { to: "/about#about-us" } }, [
             _vm._v("ABOUT US")
@@ -58063,7 +58241,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "li",
-        { staticClass: "mb-6 shrink-when-active" },
+        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
         [
           _c("router-link", { attrs: { to: "/about#give-feedback" } }, [
             _vm._v("GIVE FEEDBACK")
@@ -58074,7 +58252,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", {
         staticClass:
-          "border-b border-black block h-1 w-full opacity-25 mb-12 mt-5"
+          "border-b border-black block h-1 w-full opacity-25 mb-4 md:mb-12 mt-5"
       }),
       _vm._v(" "),
       _vm._m(0)
@@ -58146,13 +58324,15 @@ var render = function() {
               }
             ],
             staticClass:
-              "absolute bottom-0 left-0 w-full w-screen md:w-25rem p-6 bg-white transition",
+              "absolute bottom-0 left-0 w-full w-screen md:w-25rem pt-3 md:p-6 bg-white transition",
             class: { "translate-y-full": !_vm.showingLayersMenu }
           },
           [
-            _c("h1", { staticClass: "uppercase font-display text-3xl" }, [
-              _vm._v("\n                Toggle Map Layers\n            ")
-            ]),
+            _c(
+              "h1",
+              { staticClass: "uppercase font-display text-xl md:text-3xl" },
+              [_vm._v("\n                Toggle Map Layers\n            ")]
+            ),
             _vm._v(" "),
             _vm.isTour
               ? _c("em", { staticClass: "opacity-75 font-mono text-xs" }, [
@@ -58167,9 +58347,11 @@ var render = function() {
                 class: { "opacity-25": _vm.isTour }
               },
               [
-                _c("span", { staticClass: "font-mono text-md font-bold" }, [
-                  _vm._v("1970 Aerial Photo")
-                ]),
+                _c(
+                  "span",
+                  { staticClass: "font-mono text-sm md:text-md font-bold" },
+                  [_vm._v("1970 Aerial Photo")]
+                ),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -58189,7 +58371,7 @@ var render = function() {
                       "span",
                       {
                         staticClass:
-                          "w-8 font-mono text-md ml-3 font-bold uppercase"
+                          "w-8 font-mono text-sm md:text-md ml-3 font-bold uppercase"
                       },
                       [_vm._v(_vm._s(_vm.showAerialPhoto ? "On" : "Off"))]
                     )
@@ -58206,9 +58388,11 @@ var render = function() {
                 class: { "opacity-25": _vm.isTour }
               },
               [
-                _c("span", { staticClass: "font-mono text-md font-bold" }, [
-                  _vm._v("1970 Landmarks")
-                ]),
+                _c(
+                  "span",
+                  { staticClass: "font-mono text-sm md:text-md font-bold" },
+                  [_vm._v("1970 Landmarks")]
+                ),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -58228,7 +58412,7 @@ var render = function() {
                       "span",
                       {
                         staticClass:
-                          "w-8 font-mono text-md ml-3 font-bold uppercase"
+                          "w-8 font-mono text-sm md:text-md ml-3 font-bold uppercase"
                       },
                       [_vm._v(_vm._s(_vm.showLandmarks ? "On" : "Off"))]
                     )
@@ -58896,13 +59080,13 @@ var render = function() {
                 _c(
                   "clickable",
                   {
-                    staticClass: "mr-5",
+                    staticClass: "mr-3 md:mr-5",
                     class: { "opacity-25": _vm.scrollPos === 0 },
                     on: { click: _vm.scrollLeft }
                   },
                   [
                     _c("img", {
-                      staticClass: "h-8",
+                      staticClass: "h-4 md:h-8",
                       attrs: {
                         src: "/images/left-arrow.png",
                         alt: "left-arrow"
@@ -58919,7 +59103,7 @@ var render = function() {
                   },
                   [
                     _c("img", {
-                      staticClass: "h-8",
+                      staticClass: "h-5 md:h-8",
                       attrs: {
                         src: "/images/right-arrow.png",
                         alt: "left-arrow"
@@ -58966,7 +59150,10 @@ var render = function() {
     [
       _c(
         "h1",
-        { staticClass: "font-display text-3xl font-black uppercase mb-3" },
+        {
+          staticClass:
+            "font-display text-lg mt-4 md:mt-0 md:text-3xl font-black uppercase mb-3"
+        },
         [_vm._v("\n        search directory\n    ")]
       ),
       _vm._v(" "),
@@ -59019,7 +59206,8 @@ var render = function() {
                 "router-link",
                 {
                   key: i,
-                  staticClass: "px-8 py-4 hover:bg-grey-100 block border-white",
+                  staticClass:
+                    "px-4 md:px-8 py-4 hover:bg-grey-100 block border-white",
                   class: { "border-t-2": i > 0 },
                   style: { background: result.color },
                   attrs: { to: "/stories/" + result.id }
@@ -59037,7 +59225,7 @@ var render = function() {
                     "p",
                     {
                       staticClass:
-                        "font-light leading-tight tracking-tight opacity-75"
+                        "font-light text-xs md:text-base leading-tight tracking-tight opacity-75"
                     },
                     [
                       _vm._v(
@@ -59134,7 +59322,7 @@ var render = function() {
         "clickable",
         {
           staticClass:
-            "font-mono border-2 border-black text-black flex justify-between p-4 items-center font-bold w-full",
+            "font-mono border-2 border-black text-sm md:text-base text-black flex justify-between p-2 md:p-4 items-center font-bold w-full",
           attrs: { slot: "trigger" },
           slot: "trigger"
         },
@@ -59158,7 +59346,8 @@ var render = function() {
           _c(
             "clickable",
             {
-              staticClass: "p-4 font-mono text-left font-bold",
+              staticClass:
+                "p-2 md:p-4 font-mono text-left text-xs md:text-base font-bold",
               class: _vm.getButtonClass(undefined),
               on: {
                 click: function($event) {
@@ -59174,7 +59363,8 @@ var render = function() {
               "clickable",
               {
                 key: i,
-                staticClass: "p-4 font-mono text-left font-bold",
+                staticClass:
+                  "p-2 md:p-4 font-mono text-left text-xs md:text-base font-bold",
                 class: _vm.getButtonClass(option),
                 on: {
                   click: function($event) {
@@ -59282,10 +59472,6 @@ var render = function() {
                   " feet."
               )
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.getFeet(_vm.step.distance) < 15
-          ? _c("span", [_vm._v("\n            Go to the next step.\n        ")])
           : _vm._e()
       ])
     ]
@@ -59325,8 +59511,8 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story",
-      staticStyle: { "max-width": "45rem", "min-width": "24rem" },
+        "fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story md:min-w-24rem",
+      staticStyle: { "max-width": "45rem" },
       style: {
         "background-color": _vm.story.color,
         "--currentColor": _vm.story.color,
@@ -59349,28 +59535,11 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "xl:px-24 px-8 pb-48",
+          staticClass: "xl:px-24 px-4 md:px-8 pb-48",
           class: { "mt-8": _vm.tourActive }
         },
         [
           _c("div", { staticClass: "pt-5 mb-12 md:mb-24 lg:pt-12" }, [
-            _c(
-              "h3",
-              {
-                staticClass:
-                  "font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs lg:text-base"
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.story.role) +
-                    " · " +
-                    _vm._s(_vm.story.day) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
             _c(
               "h1",
               {
@@ -59388,11 +59557,28 @@ var render = function() {
             _vm._v(" "),
             _c(
               "h2",
-              { staticClass: "font-sans text-black text-lg md:text-md" },
+              { staticClass: "font-sans text-black text-lg md:text-md mb-2" },
               [
                 _vm._v(
                   "\n                " +
                     _vm._s(_vm.firstLast) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "h3",
+              {
+                staticClass:
+                  "font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs lg:text-base"
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.story.role) +
+                    " · " +
+                    _vm._s(_vm.story.day) +
                     "\n            "
                 )
               ]
@@ -59491,10 +59677,10 @@ var render = function() {
             "router-link",
             {
               staticClass:
-                "font-mono mt-12 block text-center w-full font-bold underline opacity-50 hover:opacity-100",
+                "bg-black font-mono text-white uppercase h-12 flex justify-center items-center mt-24 cursor-pointed mb-16",
               attrs: { to: "/about#give-feedback" }
             },
-            [_vm._v("Give Your Feedback on this Web App")]
+            [_vm._v("Give Us Your Feedback")]
           ),
           _vm._v(" "),
           !_vm.tourActive
@@ -59839,7 +60025,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "p-4 bg-black text-white",
+          staticClass: "p-4 bg-black text-white relative",
           staticStyle: { height: "45%" }
         },
         [
@@ -59849,12 +60035,22 @@ var render = function() {
               staticClass:
                 "uppercase font-display text-xl font-bold leading-none"
             },
-            [_vm._v(_vm._s(_vm.tour.name))]
+            [_vm._v("\n            " + _vm._s(_vm.tour.name) + "\n        ")]
           ),
           _vm._v(" "),
           _c("span", { staticClass: "font-mono mt-2" }, [
             _vm._v(_vm._s(_vm.tour.duration))
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass:
+                "p-4 absolute bottom-0 inset-x-0 text-white text-2xs mt-2 block font-mono leading-normal opacity-75",
+              staticStyle: { "font-size": ".5rem" }
+            },
+            [_vm._v("Kent State University Libraries, Special Collections")]
+          )
         ]
       ),
       _vm._v(" "),
@@ -59871,7 +60067,7 @@ var render = function() {
                 "absolute font-mono text-black opacity-50 left-0 text-xs mt-2 tracking-wide",
               staticStyle: { top: "100%" }
             },
-            [_vm._v(_vm._s(_vm.distance))]
+            [_vm._v("\n        " + _vm._s(_vm.distance) + "\n    ")]
           )
         : _vm._e()
     ]
@@ -60007,7 +60203,13 @@ var render = function() {
       _c("img", {
         staticClass: "w-full h-48 object-cover mt-8",
         attrs: { src: _vm.tour.photos[0].url }
-      })
+      }),
+      _vm._v(" "),
+      _c(
+        "span",
+        { staticClass: "text-2xs mt-2 block font-mono leading-normal" },
+        [_vm._v("Kent State University Libraries, Special Collections")]
+      )
     ],
     1
   )
@@ -60037,8 +60239,8 @@ var render = function() {
   return _c(
     "router-link",
     {
-      staticClass:
-        "bg-current p-5 relative shrink-when-active h-32 block w-full",
+      staticClass: "bg-current p-5 relative shrink-when-active block w-full ",
+      staticStyle: { height: "10rem" },
       style: {
         "--transparentColor": _vm.transparentColor,
         "--currentColor": _vm.story.color
@@ -60048,15 +60250,33 @@ var render = function() {
     [
       _c(
         "h3",
-        { staticClass: "uppercase font-display font-bold text-md text-black" },
+        {
+          staticClass:
+            "uppercase font-display font-bold text-md mt-1 text-black"
+        },
         [_vm._v("\n        " + _vm._s(_vm.story.subject) + "\n    ")]
       ),
       _vm._v(" "),
-      _c("p", { staticClass: "leading-normal mt-1 text-xs text-black" }, [
+      _c(
+        "h3",
+        {
+          staticClass:
+            "font-mono text-2xs tracking-tight mb-1 font-bold uppercase text-black"
+        },
+        [
+          _vm._v(
+            "\n        " +
+              _vm._s(_vm.story.role) +
+              " · " +
+              _vm._s(_vm.story.day) +
+              "\n    "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("p", { staticClass: "leading-normal mt-3 text-sm text-black" }, [
         _vm._v(
           "\n        " +
-            _vm._s(_vm.story.day) +
-            "—" +
             _vm._s(_vm.truncate(_vm.story.content, { length: 60 })) +
             "\n    "
         )
@@ -85576,6 +85796,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["routes", "tourActive"])),
   methods: {
     back: function back() {
+      if (this.$route.name === "preview") {
+        this.$router.push(this.defaultBackRoute);
+        return;
+      }
+
       if (this.routes.length < 2 && !this.tourActive) {
         this.$router.push(this.defaultBackRoute);
       } else {
@@ -85658,7 +85883,8 @@ __webpack_require__.r(__webpack_exports__);
     setLandmarkOpacity: function setLandmarkOpacity() {
       var _this = this;
 
-      var layerIds = ["nhlnameonly", "ksu-campus-label", "ksu-campus", "historic-landmark-label", "historic-landmark", "students-killed", "students-wounded", "national-historic-landmark-site", "landmarks"];
+      var layerIds = ["nhlnameonly", "ksu-campus-label", "ksu-campus", "historic-landmark-label", "historic-landmark", "students-killed", "students-wounded", // "national-historic-landmark-site",
+      "landmarks"];
       layerIds.forEach(function (id) {
         _this.map.setLayoutProperty(id, "visibility", _this.showLandmarks && !_this.isTour ? "visible" : "none");
       });
@@ -85954,6 +86180,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     updateActiveMarker: function updateActiveMarker(latlngArr) {
+      console.log(latlngArr, "lat lng arr");
       var matchingMarker = this.mapboxMarkers.find(function (m) {
         return +m._lngLat.lng === +latlngArr[1] && m._lngLat.lat === +latlngArr[0];
       });
@@ -85980,7 +86207,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       $(".marker").css({
         opacity: 1
       });
-      this.resetActiveMarkers();
+
+      if (!this.isLocation) {
+        this.resetActiveMarkers();
+      }
+
       $("canvas").css({
         opacity: "1"
       });

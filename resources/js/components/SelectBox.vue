@@ -5,7 +5,7 @@
     >
         <clickable
             slot="trigger"
-            class="font-mono border-2 border-black text-black flex justify-between p-4 items-center font-bold w-full"
+            class="font-mono border-2 border-black text-sm md:text-base text-black flex justify-between p-2 md:p-4 items-center font-bold w-full"
         >
             <span v-if="!value">
                 <slot />
@@ -16,13 +16,13 @@
 
         <div slot="content" class="flex flex-col">
             <clickable
-                class="p-4 font-mono text-left font-bold"
+                class="p-2 md:p-4 font-mono text-left text-xs md:text-base font-bold"
                 @click="$emit('input', undefined)"
                 :class="getButtonClass(undefined)"
                 >{{ emptyLabel }}</clickable
             >
             <clickable
-                class="p-4 font-mono text-left font-bold"
+                class="p-2 md:p-4 font-mono text-left text-xs md:text-base font-bold"
                 v-for="(option, i) in options"
                 :key="i"
                 @click="handleClick(option)"

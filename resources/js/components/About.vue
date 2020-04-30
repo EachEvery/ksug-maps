@@ -9,6 +9,13 @@
             @click="goBack"
         ></div>
 
+        <clickable
+            @click="goBack"
+            class="hidden md:block md:fixed top-0 right-0 rounded-full mr-5 mt-5 z-10"
+        >
+            <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-white" />
+        </clickable>
+
         <page-section class="bg-black text-white" id="about-may-4">
             <h1
                 class="font-display text-5xl lg:text-8xl leading-none uppercase font-medium py-6 mt-6 md:h-48 md:h-auto object-cover"
@@ -34,8 +41,8 @@
                 student peace protesters, killing 4 and wounding 9, leaving one
                 paralyzed. On May 1st students began a series of protests in
                 response to Nixon’s expansion of the war from Vietnam to
-                Cambodia. By May 4th they were also protesting the occupationp
-                of campus by nearly a thousand troops, more than 100 trucks, 12
+                Cambodia. By May 4th they were also protesting the occupation of
+                campus by nearly a thousand troops, more than 100 trucks, 12
                 armored vehicles, 3 tanks with mortar launchers, and 13
                 helicopters. People across the city and campus were traumatized
                 in various ways. After the shootings some community members said
@@ -93,18 +100,24 @@
                 We suggest that you start by clicking on a place that means
                 something to you. If you have trouble identifying it on the map,
                 you can search for it by name in the search bar at the top left.
-                It may help you find your site to toggle between the historic
+                It may help you find your place to switch between the historic
                 aerial photo and the current day street map. You can do this
-                with the button in the lower left (when you close this splash
-                page). You can also use the search button in the upper left to
+                with the button in the lower left (when you close this side
+                panel). You can also use the search button in the upper left to
                 search by name, place, or date (between May 1st and May 5th).
                 Next to the search button is a filter button that allows you to
                 filter by date and/or role. This will then highlight on the map
-                all of those sites that meet your criteria, such as stories by
-                faculty on May 2nd. When you select a site you will often see
-                several stories. These are color-coded by role. Click on it to
-                get the full story. You can read the stories but we recommend
-                that you also listen to them—the audio can be powerful.
+                all of those places that meet your criteria, such as stories by
+                faculty on May 2nd. When you select a place you will often see
+                several stories. The stories are color-coded by the person’s
+                role, such as student, faculty, local resident, or National
+                Guardsman. Click on it to get the full story. You can read the
+                stories but we recommend that you also listen to them—the audio
+                can be powerful. You can also explore the stories by taking a
+                tour, or going to some of the most powerful stories, which we
+                have featured in the explore tab that appears on the right when
+                you close this side panel. If you are in Kent and turn on
+                location access it will also show you the sites nearest to you.
             </paragraph>
             <header-25>Join the conversation</header-25>
             <paragraph>
@@ -301,6 +314,7 @@ import header25 from "./Header25";
 import paragraph from "./Paragraph";
 import $ from "jquery";
 import clickable from "./Clickable";
+import closeIcon from "./CloseIcon";
 
 export default {
     components: {
@@ -308,7 +322,8 @@ export default {
         pageSection,
         header40,
         header25,
-        paragraph
+        paragraph,
+        closeIcon
     },
     methods: {
         goBack() {

@@ -1,6 +1,8 @@
 <template>
     <div class="leading-tight text-left px-5 h-full flex flex-col relative">
-        <h1 class="font-display text-3xl font-black uppercase mb-3">
+        <h1
+            class="font-display text-lg mt-4 md:mt-0 md:text-3xl font-black uppercase mb-3"
+        >
             search directory
         </h1>
         <div class="flex border-b-2 border-black">
@@ -23,14 +25,16 @@
                 :to="`/stories/${result.id}`"
                 v-for="(result, i) in results"
                 :key="i"
-                class="px-8 py-4 hover:bg-grey-100 block border-white"
+                class="px-4 md:px-8 py-4 hover:bg-grey-100 block border-white"
                 :class="{ 'border-t-2': i > 0 }"
                 :style="{ background: result.color }"
             >
                 <h1 class="text-grey-800 font-bold mb-2">
                     {{ result.subject }}
                 </h1>
-                <p class="font-light leading-tight tracking-tight opacity-75">
+                <p
+                    class="font-light text-xs md:text-base leading-tight tracking-tight opacity-75"
+                >
                     {{ result.day }} &middot;
                     {{ truncate(result.content, { length: 150 }) }}
                 </p>
@@ -53,12 +57,12 @@ export default {
     components: {
         clickable,
         searchIcon,
-        spinner,
+        spinner
     },
     data() {
         return {
             state: "default",
-            q: "",
+            q: ""
         };
     },
 
@@ -71,22 +75,22 @@ export default {
 
             let fuse = new Fuse(stories, {
                 keys: ["subject", "role", "place.name", "day", "content"],
-                threshold: 0.1,
+                threshold: 0.1
             });
 
-            let matchingIds = fuse.search(q).map((result) => {
+            let matchingIds = fuse.search(q).map(result => {
                 return result.item.id;
             });
 
-            return stories.filter((s) => {
+            return stories.filter(s => {
                 return matchingIds.includes(s.id);
             });
-        },
+        }
     },
     methods: {
         getStoryColor,
-        truncate: _.truncate,
-    },
+        truncate: _.truncate
+    }
 };
 </script>
 

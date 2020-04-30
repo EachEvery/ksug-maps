@@ -6,7 +6,7 @@
                     type="text"
                     name="comment[author]"
                     class="border-b border-black py-2 font-mono text-black mb-10 focus:outline-none transition w-full bg-white rounded-none"
-                    placeholder="Your Name (Optional)"
+                    placeholder="Your Name (optional)"
                 />
 
                 <input

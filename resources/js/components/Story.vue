@@ -1,8 +1,8 @@
 <template>
     <div
         v-click-outside="handleClickOutside"
-        class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story"
-        style="max-width: 45rem; min-width: 24rem;"
+        class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story md:min-w-24rem"
+        style="max-width: 45rem;"
         :style="{
             'background-color': story.color,
             '--currentColor': story.color,
@@ -17,21 +17,25 @@
             &larr; BACK TO TOUR
         </clickable>
 
-        <div class="xl:px-24 px-8 pb-48" :class="{ 'mt-8': tourActive }">
+        <div
+            class="xl:px-24 px-4 md:px-8 pb-48"
+            :class="{ 'mt-8': tourActive }"
+        >
             <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
-                <h3
-                    class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs lg:text-base"
-                >
-                    {{ story.role }} &middot; {{ story.day }}
-                </h3>
                 <h1
                     class="font-display font-black text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
                 >
                     {{ story.place.name }}
                 </h1>
-                <h2 class="font-sans text-black text-lg md:text-md">
+
+                <h2 class="font-sans text-black text-lg md:text-md mb-2">
                     {{ firstLast }}
                 </h2>
+                <h3
+                    class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs lg:text-base"
+                >
+                    {{ story.role }} &middot; {{ story.day }}
+                </h3>
 
                 <div v-if="isAdmin" class="flex mt-3">
                     <a
@@ -88,9 +92,9 @@
             </a>
 
             <router-link
-                class="font-mono mt-12 block text-center w-full font-bold underline opacity-50 hover:opacity-100"
+                class="bg-black font-mono text-white uppercase h-12 flex justify-center items-center mt-24 cursor-pointed mb-16"
                 to="/about#give-feedback"
-                >Give Your Feedback on this Web App</router-link
+                >Give Us Your Feedback</router-link
             >
 
             <clickable

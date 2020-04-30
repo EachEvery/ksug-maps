@@ -190,6 +190,10 @@ export default {
         overflox-y: scroll;
         z-index: 100;
         height: 30vh;
+
+        @media screen and (min-width: 760px) {
+            height: auto;
+        }
     }
 }
 </style>

@@ -7,11 +7,11 @@
 
         <portal to="end-of-document">
             <div
-                class="absolute bottom-0 left-0 w-full w-screen md:w-25rem p-6 bg-white transition"
+                class="absolute bottom-0 left-0 w-full w-screen md:w-25rem pt-3 md:p-6 bg-white transition"
                 :class="{ 'translate-y-full': !showingLayersMenu }"
                 v-click-outside="handleLayersClickOutside"
             >
-                <h1 class="uppercase font-display text-3xl">
+                <h1 class="uppercase font-display text-xl md:text-3xl">
                     Toggle Map Layers
                 </h1>
 
@@ -23,14 +23,14 @@
                     class="flex justify-between mt-5"
                     :class="{ 'opacity-25': isTour }"
                 >
-                    <span class="font-mono text-md font-bold"
+                    <span class="font-mono text-sm md:text-md font-bold"
                         >1970 Aerial Photo</span
                     >
 
                     <div class="flex items-center">
                         <on-off-switch v-model="showAerialPhoto" />
                         <span
-                            class="w-8 font-mono text-md ml-3 font-bold uppercase"
+                            class="w-8 font-mono text-sm md:text-md ml-3 font-bold uppercase"
                             >{{ showAerialPhoto ? "On" : "Off" }}</span
                         >
                     </div>
@@ -40,14 +40,14 @@
                     class="flex justify-between mt-5"
                     :class="{ 'opacity-25': isTour }"
                 >
-                    <span class="font-mono text-md font-bold"
+                    <span class="font-mono text-sm md:text-md font-bold"
                         >1970 Landmarks</span
                     >
 
                     <div class="flex items-center">
                         <on-off-switch v-model="showLandmarks" />
                         <span
-                            class="w-8 font-mono text-md ml-3 font-bold uppercase"
+                            class="w-8 font-mono text-sm md:text-md ml-3 font-bold uppercase"
                             >{{ showLandmarks ? "On" : "Off" }}</span
                         >
                     </div>
@@ -175,6 +175,21 @@ export default {
     methods: {
         ...mapMutations(["addGeolocation"]),
 
+        addWoundedKilledPopover(e) {
+            this.removeWoundedKilledPopover();
+
+            this.studentPopover = new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(e.features[0].properties.Name)
+                .addTo(this.map);
+        },
+
+        removeWoundedKilledPopover() {
+            if (this.studentPopover) {
+                this.studentPopover.remove();
+            }
+        },
+
         handleLayersClickOutside() {
             if (this.canClickOutside) {
                 this.state = "default";
@@ -272,27 +287,37 @@ export default {
                 this.addGeolocation(pos);
             });
 
-            this.map.on("click", "students-killed", e => {
-                new mapboxgl.Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML(e.features[0].properties.Name)
-                    .addTo(this.map);
-            });
+            this.map.on(
+                "click",
+                "students-killed",
+                this.addWoundedKilledPopover
+            );
+            this.map.on(
+                "mouseover",
+                "students-killed",
+                this.addWoundedKilledPopover
+            );
 
-            this.map.on("click", "students-wounded", e => {
-                new mapboxgl.Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML(e.features[0].properties.Name)
-                    .addTo(this.map);
-            });
+            this.map.on(
+                "mouseover",
+                "students-wounded",
+                this.addWoundedKilledPopover
+            );
+
+            this.map.on(
+                "click",
+                "students-wounded",
+                this.addWoundedKilledPopover
+            );
 
             this.map.on("mouseenter", "students-killed", () => {
                 this.map.getCanvas().style.cursor = "pointer";
             });
 
             // Change it back to a pointer when it leaves.
-            this.map.on("mouseleave", "students-killed", () => {
+            this.map.on("mouseleave", "students-killed", e => {
                 this.map.getCanvas().style.cursor = "";
+                this.removeWoundedKilledPopover();
             });
 
             this.map.on("mouseenter", "students-wounded", () => {
@@ -300,8 +325,9 @@ export default {
             });
 
             // Change it back to a pointer when it leaves.
-            this.map.on("mouseleave", "students-wounded", () => {
+            this.map.on("mouseleave", "students-wounded", e => {
                 this.map.getCanvas().style.cursor = "";
+                this.removeWoundedKilledPopover();
             });
 
             if (this.isLocation) {
