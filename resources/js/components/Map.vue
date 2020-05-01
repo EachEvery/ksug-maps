@@ -7,7 +7,7 @@
 
         <portal to="end-of-document">
             <div
-                class="absolute bottom-0 left-0 w-full w-screen md:w-25rem pt-3 md:p-6 bg-white transition"
+                class="absolute bottom-0 left-0 w-full w-screen md:w-25rem p-3 md:p-6 bg-white transition"
                 :class="{ 'translate-y-full': !showingLayersMenu }"
                 v-click-outside="handleLayersClickOutside"
             >
