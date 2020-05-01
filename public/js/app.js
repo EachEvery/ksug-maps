@@ -8322,7 +8322,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
 
 
 
@@ -60003,9 +60002,7 @@ var render = function() {
                 "vertical-scroll-container",
                 {
                   key: _vm.getKey(legIndex, legStepIndex),
-                  staticClass:
-                    "mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0 transition",
-                  class: { "opacity-25": !_vm.tourActive }
+                  staticClass: "mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0"
                 },
                 [
                   _vm.isFirstStep(legStepIndex)

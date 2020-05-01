@@ -29,8 +29,7 @@
                 <vertical-scroll-container
                     v-for="(step, legStepIndex) in getSteps(leg)"
                     :key="getKey(legIndex, legStepIndex)"
-                    class="mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0 transition"
-                    :class="{ 'opacity-25': !tourActive }"
+                    class="mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0"
                 >
                     <place-tour-card
                         v-if="isFirstStep(legStepIndex)"
