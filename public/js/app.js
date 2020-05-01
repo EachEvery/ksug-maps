@@ -8895,6 +8895,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -60262,7 +60263,8 @@ var render = function() {
           _c(
             "span",
             {
-              staticClass: "text-black text-2xs font-bold font-mono uppercase"
+              staticClass:
+                "text-black text-2xs md:text-sm font-bold font-mono uppercase"
             },
             [_vm._v(_vm._s(_vm.startButtonText))]
           )

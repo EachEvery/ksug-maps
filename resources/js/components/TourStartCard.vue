@@ -19,9 +19,10 @@
             class="h-12 flex items-center justify-center bg-white my-5 w-full"
             @click="handleStartButtonClick"
         >
-            <span class="text-black text-2xs font-bold font-mono uppercase">{{
-                startButtonText
-            }}</span>
+            <span
+                class="text-black text-2xs md:text-sm font-bold font-mono uppercase"
+                >{{ startButtonText }}</span
+            >
         </clickable>
 
         <div class="flex my-6">
