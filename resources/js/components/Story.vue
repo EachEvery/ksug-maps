@@ -24,16 +24,18 @@
         >
             <div class="pt-5 mb-12 md:mb-24 lg:pt-12">
                 <h1
-                    class="font-display font-black text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
+                    class="font-display font-black text-3xl md:text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
                 >
                     {{ story.place.name }}
                 </h1>
 
-                <h2 class="font-sans text-black text-lg md:text-md mb-2">
+                <h2
+                    class="font-sans text-black text-base md:text-lg md:text-md mb-2"
+                >
                     {{ firstLast }}
                 </h2>
                 <h3
-                    class="font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs lg:text-base"
+                    class="font-mono  tracking-tight mb-4 font-bold uppercase text-2xs lg:text-base"
                 >
                     {{ story.role }} &middot; {{ story.day }}
                 </h3>

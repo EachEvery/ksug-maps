@@ -7835,6 +7835,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -59625,7 +59627,7 @@ var render = function() {
               "h1",
               {
                 staticClass:
-                  "font-display font-black text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
+                  "font-display font-black text-3xl md:text-5xl lg:text-5xl xl:text-8xl uppercase tracking-loose leading-none flex-grow pr-24 mb-5 md:mb-3"
               },
               [
                 _vm._v(
@@ -59638,7 +59640,10 @@ var render = function() {
             _vm._v(" "),
             _c(
               "h2",
-              { staticClass: "font-sans text-black text-lg md:text-md mb-2" },
+              {
+                staticClass:
+                  "font-sans text-black text-base md:text-lg md:text-md mb-2"
+              },
               [
                 _vm._v(
                   "\n                " +
@@ -59652,7 +59657,7 @@ var render = function() {
               "h3",
               {
                 staticClass:
-                  "font-mono text-base tracking-tight mb-4 font-bold uppercase md:text-2xs lg:text-base"
+                  "font-mono  tracking-tight mb-4 font-bold uppercase text-2xs lg:text-base"
               },
               [
                 _vm._v(
