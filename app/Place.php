@@ -67,37 +67,37 @@ class Place extends Model implements MapsToSearchResult, HasMedia
 
         $hash = sprintf('%s/%s/%s/0/0', 16.88, $this->lat, $this->long);
 
-        ob_start(); ?><iframe src="https://api.mapbox.com/styles/v1/natehobi/ck8lzpm8m10co1jp7622bt57x.html?<?=$q?>#<?=$hash?>"></iframe><?php
+        ob_start(); ?><iframe src="https://api.mapbox.com/styles/v1/natehobi/ck8lzpm8m10co1jp7622bt57x.html?<?= $q ?>#<?= $hash ?>"></iframe><?php
 
-        return ob_get_clean();
-    }
+                                                                                                                                            return ob_get_clean();
+                                                                                                                                        }
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
+                                                                                                                                        public function comments()
+                                                                                                                                        {
+                                                                                                                                            return $this->hasMany(Comment::class);
+                                                                                                                                        }
 
-    public function approved_comments()
-    {
-        return $this->comments()->whereNotNull('approved_at');
-    }
+                                                                                                                                        public function approved_comments()
+                                                                                                                                        {
+                                                                                                                                            return $this->comments()->whereNotNull('approved_at');
+                                                                                                                                        }
 
-    public function stories()
-    {
-        return $this->hasMany(Story::class);
-    }
+                                                                                                                                        public function stories()
+                                                                                                                                        {
+                                                                                                                                            return $this->hasMany(Story::class);
+                                                                                                                                        }
 
-    public function getHasPhotoAttribute()
-    {
-        return filled($this->photo);
-    }
+                                                                                                                                        public function getHasPhotoAttribute()
+                                                                                                                                        {
+                                                                                                                                            return filled($this->photo);
+                                                                                                                                        }
 
-    protected static function boot()
-    {
-        parent::boot();
+                                                                                                                                        protected static function boot()
+                                                                                                                                        {
+                                                                                                                                            parent::boot();
 
-        static::saving(function ($place) {
-            $place->slug = Str::slug($place->name);
-        });
-    }
-}
+                                                                                                                                            static::saving(function ($place) {
+                                                                                                                                                $place->slug = Str::slug($place->name);
+                                                                                                                                            });
+                                                                                                                                        }
+                                                                                                                                    }

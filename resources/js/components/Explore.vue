@@ -132,6 +132,7 @@ import commentCard from "./CommentCard";
 import exploreHeading from "./ExploreSubheading";
 import locationCard from "./LocationCard";
 import closeIcon from "./CloseIcon";
+import clickable from "./Clickable";
 
 import _ from "lodash";
 import { mapState, mapGetters } from "vuex";
@@ -144,6 +145,7 @@ export default {
     },
 
     components: {
+        clickable,
         locationCard,
         commentCard,
         upArrow,

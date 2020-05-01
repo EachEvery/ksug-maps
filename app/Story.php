@@ -33,7 +33,7 @@ class Story extends Model implements MapsToSearchResult, Sortable, HasMedia
     protected $guarded = ['id'];
 
     protected $table = 'stories';
-    protected $with = ['place'];
+    protected $with = ['place', 'audio_media'];
     protected $appends = ['admin_url', 'public_url'];
 
     public function registerMediaCollections(): void
@@ -41,6 +41,11 @@ class Story extends Model implements MapsToSearchResult, Sortable, HasMedia
         $this
             ->addMediaCollection('story_audio')
             ->singleFile();
+    }
+
+    public function audio_media()
+    {
+        return $this->media()->where('collection_name', 'story_audio');
     }
 
     public function getAudioUrlAttribute()

@@ -111,7 +111,7 @@
             class="fixed bottom-0 right-0 md:w-84 xl:w-5/12 transition"
             style="max-width: 45rem"
             :style="audioPlayerStyle"
-            :src="story.audio"
+            :src="story.audio_media[0].url"
             :label="story.subject"
         />
     </div>
@@ -277,6 +277,8 @@ export default {
         }
     },
     mounted() {
+        console.log(this.story);
+
         if (!this.tourActive) {
             this.$store.commit("setMapCenter", [
                 +this.location.lat,

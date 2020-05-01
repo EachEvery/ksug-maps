@@ -5307,10 +5307,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ExploreSubheading__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ExploreSubheading */ "./resources/js/components/ExploreSubheading.vue");
 /* harmony import */ var _LocationCard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./LocationCard */ "./resources/js/components/LocationCard.vue");
 /* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _mixins_distance__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../mixins/distance */ "./resources/js/mixins/distance.js");
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_distance__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../mixins/distance */ "./resources/js/mixins/distance.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -5453,12 +5454,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     open: Boolean,
     hide: Boolean
   },
   components: {
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_12__["default"],
     locationCard: _LocationCard__WEBPACK_IMPORTED_MODULE_10__["default"],
     commentCard: _CommentCard__WEBPACK_IMPORTED_MODULE_8__["default"],
     upArrow: _UpArrow__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -5471,7 +5474,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     storyCard: _FeaturedStoryCard__WEBPACK_IMPORTED_MODULE_7__["default"],
     closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_11__["default"]
   },
-  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_distance__WEBPACK_IMPORTED_MODULE_14__["default"]],
+  mixins: [_mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_distance__WEBPACK_IMPORTED_MODULE_15__["default"]],
   watch: {
     open: function open() {
       this.setCanClickOutside();
@@ -5488,11 +5491,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.setCanClickOutside();
     this.$nextTick(function () {
-      _this.randomFeaturedStories = lodash__WEBPACK_IMPORTED_MODULE_12___default.a.shuffle(_this.featuredStories);
+      _this.randomFeaturedStories = lodash__WEBPACK_IMPORTED_MODULE_13___default.a.shuffle(_this.featuredStories);
     });
   },
   methods: {
-    shuffle: lodash__WEBPACK_IMPORTED_MODULE_12___default.a.shuffle,
+    shuffle: lodash__WEBPACK_IMPORTED_MODULE_13___default.a.shuffle,
     handleClickOutside: function handleClickOutside() {
       if (this.canClickOutside) {
         this.$emit("toggle");
@@ -5506,7 +5509,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, 300);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_13__["mapState"])(["tours", "stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_13__["mapGetters"])(["featuredStories", "comments", "userLocation"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_14__["mapState"])(["tours", "stories", "places"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_14__["mapGetters"])(["featuredStories", "comments", "userLocation"]), {
     containerClass: function containerClass(_ref) {
       var open = _ref.open;
       return {
@@ -7946,6 +7949,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     var _this3 = this;
+
+    console.log(this.story);
 
     if (!this.tourActive) {
       this.$store.commit("setMapCenter", [+this.location.lat, +this.location["long"], 16]);
@@ -59708,7 +59713,7 @@ var render = function() {
         staticClass: "fixed bottom-0 right-0 md:w-84 xl:w-5/12 transition",
         staticStyle: { "max-width": "45rem" },
         style: _vm.audioPlayerStyle,
-        attrs: { src: _vm.story.audio, label: _vm.story.subject }
+        attrs: { src: _vm.story.audio_media[0].url, label: _vm.story.subject }
       })
     ],
     1
