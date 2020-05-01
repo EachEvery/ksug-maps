@@ -6466,8 +6466,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 
@@ -57782,10 +57780,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "p",
-                    {
-                      staticClass:
-                        "font-mono mt-4 text-xs md:text-base max-w-md text-left mx-8"
-                    },
+                    { staticClass: "font-mono mt-4 text-2xs  text-left mx-8" },
                     [
                       _vm._v(
                         "\n                " +

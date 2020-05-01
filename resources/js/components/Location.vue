@@ -64,9 +64,7 @@
                     @load="setLoaded(photo)"
                 />
 
-                <p
-                    class="font-mono mt-4 text-xs md:text-base max-w-md text-left mx-8"
-                >
+                <p class="font-mono mt-4 text-2xs  text-left mx-8">
                     {{ photo.custom_properties.photo_caption }}
                 </p>
 
