@@ -5551,7 +5551,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return {
-        transform: md ? "translateX(".concat(open ? "0" : "100%", ")") : "translateY(".concat(open ? "0" : "90%", ")")
+        transform: md ? "translateX(".concat(open ? "0" : "100%", ")") : "translateY(".concat(open ? "0" : "75%", ")")
       };
     },
     arrowStyle: function arrowStyle(_ref4) {
@@ -60261,7 +60261,9 @@ var render = function() {
         [
           _c(
             "span",
-            { staticClass: "text-black font-bold font-mono uppercase" },
+            {
+              staticClass: "text-black text-2xs font-bold font-mono uppercase"
+            },
             [_vm._v(_vm._s(_vm.startButtonText))]
           )
         ]
@@ -60362,7 +60364,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("p", { staticClass: "leading-normal mt-3 text-sm text-black" }, [
+      _c("p", { staticClass: "leading-normal mt-3 text-xs text-black" }, [
         _vm._v(
           "\n        " +
             _vm._s(_vm.truncate(_vm.story.content, { length: 60 })) +
@@ -60439,7 +60441,8 @@ var render = function() {
     "div",
     {
       staticClass:
-        "h-screen overflow-y-scroll flex-shrink-0 hide-scrollbars pb-48 vertical-scroll-container"
+        "h-screen overflow-y-scroll flex-shrink-0 hide-scrollbars pb-48 vertical-scroll-container overflow-x-hidden",
+      staticStyle: { "padding-right": ".45rem" }
     },
     [_vm._t("default")],
     2

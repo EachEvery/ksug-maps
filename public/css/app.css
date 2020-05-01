@@ -71054,13 +71054,33 @@ button > * {
   text-shadow: 0px 0px 0.5rem #000;
 }
 
-.hide-scrollbars {
+.hide-scrollbars,
+.hide-scrollbars > * {
+  -webkit-overflow-scrolling: touch;
+  -ms-scroll-snap-type: x mandatory;
+      scroll-snap-type: x mandatory;
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
 }
 
-.hide-scrollbars::-webkit-scrollbar {
+.hide-scrollbars::-webkit-scrollbar,
+.hide-scrollbars > *::-webkit-scrollbar {
   width: 0 !important;
+}
+
+.hide-scrollbars::-webkit-scrollbar-track,
+.hide-scrollbars > *::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.hide-scrollbars::-webkit-scrollbar,
+.hide-scrollbars > *::-webkit-scrollbar {
+  background-color: transparent;
+}
+
+.hide-scrollbars::-webkit-scrollbar-thumb,
+.hide-scrollbars > *::-webkit-scrollbar-thumb {
+  background-color: transparent;
 }
 
 a[href^="http://maps.google.com/maps"] {

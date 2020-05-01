@@ -229,7 +229,7 @@ export default {
             return {
                 transform: md
                     ? `translateX(${open ? "0" : `100%`})`
-                    : `translateY(${open ? "0" : "90%"})`
+                    : `translateY(${open ? "0" : "75%"})`
             };
         },
         arrowStyle({ open }) {
