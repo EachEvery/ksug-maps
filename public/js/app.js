@@ -7868,8 +7868,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["stories", "places", "tourActive"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])(["isAdmin"]), {
-    firstLast: function firstLast(_ref) {
+    audioSource: function audioSource(_ref) {
       var story = _ref.story;
+      return story.audio_media.length > 0 ? story.audio_media[0].url : story.audio;
+    },
+    firstLast: function firstLast(_ref2) {
+      var story = _ref2.story;
       var parts = story.subject.split(",");
 
       if (parts.length < 2) {
@@ -7878,8 +7882,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return "".concat(parts[1].trim(), " ").concat(parts[0].trim());
       }
     },
-    transparentColor: function transparentColor(_ref2) {
-      var story = _ref2.story;
+    transparentColor: function transparentColor(_ref3) {
+      var story = _ref3.story;
       var hex = story.color;
       var c = hex.substring(1).split("");
 
@@ -7890,49 +7894,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       c = "0x" + c.join("");
       return "rgba(" + [c >> 16 & 255, c >> 8 & 255, c & 255].join(",") + ",0)";
     },
-    showingFull: function showingFull(_ref3) {
-      var state = _ref3.state;
+    showingFull: function showingFull(_ref4) {
+      var state = _ref4.state;
       return state === "showAll";
     },
-    contentStyle: function contentStyle(_ref4) {
-      var showingFull = _ref4.showingFull;
+    contentStyle: function contentStyle(_ref5) {
+      var showingFull = _ref5.showingFull;
       return {
         "max-height": showingFull ? "none" : "30rem"
       };
     },
-    contentClass: function contentClass(_ref5) {
-      var showingFull = _ref5.showingFull;
+    contentClass: function contentClass(_ref6) {
+      var showingFull = _ref6.showingFull;
       return {
         gradient: !showingFull
       };
     },
-    audioPlayerStyle: function audioPlayerStyle(_ref6) {
-      var story = _ref6.story,
-          state = _ref6.state;
+    audioPlayerStyle: function audioPlayerStyle(_ref7) {
+      var story = _ref7.story,
+          state = _ref7.state;
       var showPlayer = ["showAll", "showPlayer"].includes(state);
       return {
         transform: "translateY(".concat(showPlayer ? "0" : "100%", ")"),
         opacity: showPlayer ? "1" : "0"
       };
     },
-    location: function location(_ref7) {
-      var story = _ref7.story;
+    location: function location(_ref8) {
+      var story = _ref8.story;
       return story.place;
     },
-    defaultBackRoute: function defaultBackRoute(_ref8) {
-      var location = _ref8.location;
+    defaultBackRoute: function defaultBackRoute(_ref9) {
+      var location = _ref9.location;
       return "/places/".concat(location.slug, "/");
     },
-    story: function story(_ref9) {
+    story: function story(_ref10) {
       var _this2 = this;
 
-      var stories = _ref9.stories;
+      var stories = _ref10.stories;
       return stories.find(function (s) {
         return +s.id === +_this2.$route.params.story;
       });
     },
-    locationHtml: function locationHtml(_ref10) {
-      var story = _ref10.story;
+    locationHtml: function locationHtml(_ref11) {
+      var story = _ref11.story;
       var words = story.place.name.split(" ");
 
       if (words.length === 2) {
@@ -59713,7 +59717,7 @@ var render = function() {
         staticClass: "fixed bottom-0 right-0 md:w-84 xl:w-5/12 transition",
         staticStyle: { "max-width": "45rem" },
         style: _vm.audioPlayerStyle,
-        attrs: { src: _vm.story.audio_media[0].url, label: _vm.story.subject }
+        attrs: { src: _vm.audioSource, label: _vm.story.subject }
       })
     ],
     1

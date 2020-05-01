@@ -111,7 +111,7 @@
             class="fixed bottom-0 right-0 md:w-84 xl:w-5/12 transition"
             style="max-width: 45rem"
             :style="audioPlayerStyle"
-            :src="story.audio_media[0].url"
+            :src="audioSource"
             :label="story.subject"
         />
     </div>
@@ -197,6 +197,12 @@ export default {
         ...mapState(["stories", "places", "tourActive"]),
 
         ...mapGetters(["isAdmin"]),
+
+        audioSource({ story }) {
+            return story.audio_media.length > 0
+                ? story.audio_media[0].url
+                : story.audio;
+        },
 
         firstLast({ story }) {
             let parts = story.subject.split(",");
