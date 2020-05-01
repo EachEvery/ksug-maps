@@ -16,8 +16,8 @@
         >
             {{ story.role }} &middot; {{ story.day }}
         </h3>
-        <p class="leading-normal mt-3 text-xs text-black">
-            {{ truncate(story.content, { length: 60 }) }}
+        <p class="leading-normal mt-3 text-2xs text-black">
+            {{ truncate(story.content, { length: 100 }) }}
         </p>
     </router-link>
 </template>

@@ -14,7 +14,7 @@
             >{{ order === 1 ? "Start" : "Arrive" }} At</span
         >
         <h1
-            class="font-display text-3xl uppercase font-bold leading-none mb-3 mt-1"
+            class="font-display text-xl md:text-3xl uppercase font-bold leading-none mb-3 mt-1"
         >
             {{ place.name }}
         </h1>

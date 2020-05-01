@@ -58897,7 +58897,7 @@ var render = function() {
         "h1",
         {
           staticClass:
-            "font-display text-3xl uppercase font-bold leading-none mb-3 mt-1"
+            "font-display text-xl md:text-3xl uppercase font-bold leading-none mb-3 mt-1"
         },
         [_vm._v("\n        " + _vm._s(_vm.place.name) + "\n    ")]
       ),
@@ -60366,10 +60366,10 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("p", { staticClass: "leading-normal mt-3 text-xs text-black" }, [
+      _c("p", { staticClass: "leading-normal mt-3 text-2xs text-black" }, [
         _vm._v(
           "\n        " +
-            _vm._s(_vm.truncate(_vm.story.content, { length: 60 })) +
+            _vm._s(_vm.truncate(_vm.story.content, { length: 100 })) +
             "\n    "
         )
       ])
