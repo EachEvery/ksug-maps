@@ -7,6 +7,8 @@
 require("./bootstrap");
 
 import Vue from "vue";
+import VueEsc from "vue-esc";
+
 import KSUGMap from "./KSUGMap.vue";
 import VueMeta from "vue-meta";
 import ClickOutside from "v-click-outside";
@@ -27,6 +29,7 @@ import store from "./store";
 Vue.use(VueMeta);
 Vue.use(PortalVue);
 Vue.use(ClickOutside);
+Vue.use(VueEsc);
 
 new Vue({
     store,

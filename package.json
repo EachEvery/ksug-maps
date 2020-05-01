@@ -38,6 +38,7 @@
         "tailwindcss": "^1.0.5",
         "tailwindcss-grid": "^1.2.1",
         "v-click-outside": "^2.1.3",
+        "vue-esc": "^3.0.1",
         "vue-meta": "^2.2.2",
         "vue-router": "^3.0.7",
         "vuedraggable": "^2.23.2",

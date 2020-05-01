@@ -4433,6 +4433,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5439,6 +5447,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -6040,6 +6049,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -6069,6 +6079,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: {
+    resetMap: function resetMap() {
+      this.$store.commit("setMapCenter", [41.15002, -81.348852, 13]);
+      this.$router.push("/about");
+    },
     handleClickOutside: function handleClickOutside() {
       if (window.dropdownOpen) return;
       this.setState("default");
@@ -6177,6 +6191,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -7157,6 +7172,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -7816,6 +7836,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -8226,6 +8247,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -8896,7 +8921,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     startButtonText: function startButtonText(_ref2) {
       var tourActive = _ref2.tourActive;
-      return tourActive ? "Stop Tour" : "Start Walking Tour";
+      return tourActive ? "Stop Tour" : "Show Walking Instructions";
     }
   }),
   methods: {
@@ -55058,6 +55083,18 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-esc/dist/vue-esc.min.js":
+/*!**************************************************!*\
+  !*** ./node_modules/vue-esc/dist/vue-esc.min.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(window,function(){return function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=0)}([function(e,t,n){"use strict";function r(e,t){return function(e){if(Array.isArray(e))return e}(e)||function(e,t){var n=[],r=!0,o=!1,u=void 0;try{for(var i,f=e[Symbol.iterator]();!(r=(i=f.next()).done)&&(n.push(i.value),!t||n.length!==t);r=!0);}catch(e){o=!0,u=e}finally{try{r||null==f.return||f.return()}finally{if(o)throw u}}return n}(e,t)||function(){throw new TypeError("Invalid attempt to destructure non-iterable instance")}()}n.r(t);var o={};o.cb=new Map,o.onEvent=function(e){if(27===e.keyCode){var t=!0,n=!1,u=void 0;try{for(var i,f=o.cb.entries()[Symbol.iterator]();!(t=(i=f.next()).done);t=!0){var c=r(i.value,2),l=c[0],a=c[1];a&&a.call(l,e)}}catch(e){n=!0,u=e}finally{try{t||null==f.return||f.return()}finally{if(n)throw u}}}},o.update=function(e,t){if("function"!=typeof t.value)throw new Error("Argument must be a function");o.cb.set(e,t.value)},o.unbind=function(e){o.cb.delete(e)};var u=o,i={install:function(e){e.directive("esc",u),document.addEventListener("keyup",u.onEvent)}};t.default=i}])});
+//# sourceMappingURL=vue-esc.min.js.map
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/KSUGMap.vue?vue&type=template&id=1e22c418&":
 /*!***********************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/KSUGMap.vue?vue&type=template&id=1e22c418& ***!
@@ -55183,6 +55220,12 @@ var render = function() {
         {
           name: "click-outside",
           rawName: "v-click-outside",
+          value: _vm.goBack,
+          expression: "goBack"
+        },
+        {
+          name: "esc",
+          rawName: "v-esc",
           value: _vm.goBack,
           expression: "goBack"
         }
@@ -55325,8 +55368,17 @@ var render = function() {
           _vm._v(" "),
           _c("paragraph", [
             _vm._v(
-              "\n            We suggest that you start by clicking on a place that means\n            something to you. If you have trouble identifying it on the map,\n            you can search for it by name in the search bar at the top left.\n            It may help you find your place to switch between the historic\n            aerial photo and the current day street map. You can do this\n            with the button in the lower left (when you close this side\n            panel). You can also use the search button in the upper left to\n            search by name, place, or date (between May 1st and May 5th).\n            Next to the search button is a filter button that allows you to\n            filter by date and/or role. This will then highlight on the map\n            all of those places that meet your criteria, such as stories by\n            faculty on May 2nd. When you select a place you will often see\n            several stories. The stories are color-coded by the person’s\n            role, such as student, faculty, local resident, or National\n            Guardsman. Click on it to get the full story. You can read the\n            stories but we recommend that you also listen to them—the audio\n            can be powerful. You can also explore the stories by taking a\n            tour, or going to some of the most powerful stories, which we\n            have featured in the explore tab that appears on the right when\n            you close this side panel. If you are in Kent and turn on\n            location access it will also show you the sites nearest to you.\n        "
-            )
+              "\n            We suggest that you start by clicking on a place that means\n            something to you. If you have trouble identifying it on the map,\n            you can search for it by name in the search bar at the top left.\n            It may help you find your place to switch between the historic\n            aerial photo and the current day street map. You can do this\n            with the layers button that will appear in the lower left when\n            you click on the map. You can also use the search button in the\n            upper left to search by name, place, or date (between May 1st\n            and May 5th). Next to the search button is a filter button that\n            allows you to filter by date and/or role. This will then\n            highlight on the map all of those places that meet your\n            criteria, such as stories by faculty on May 2nd. When you select\n            a place you will often see several stories. The stories are\n            color-coded by the person’s role, such as student, faculty,\n            local resident, or National Guardsman. Click on it to get the\n            full story. You can read the stories but we recommend that you\n            also listen to them—the audio can be powerful. You can also\n            explore the stories by taking a tour, or going to some of the\n            most powerful stories, which we have featured in the explore tab\n            that appears on the right when you close this side panel. If you\n            are in Kent and turn on location access it will also show you\n            the places nearest to you. A video overview of how to use the\n            site is available\n            "
+            ),
+            _c(
+              "a",
+              {
+                staticClass: "text-black underline",
+                attrs: { href: "https://www.youtube.com/watch?v=xOIZsl7udg8" }
+              },
+              [_vm._v("here")]
+            ),
+            _vm._v(".\n        ")
           ]),
           _vm._v(" "),
           _c("header-25", [_vm._v("Join the conversation")]),
@@ -56407,6 +56459,12 @@ var render = function() {
           rawName: "v-click-outside",
           value: _vm.handleClickOutside,
           expression: "handleClickOutside"
+        },
+        {
+          name: "esc",
+          rawName: "v-esc",
+          value: _vm.handleClickOutside,
+          expression: "handleClickOutside"
         }
       ],
       staticClass:
@@ -57180,7 +57238,8 @@ var render = function() {
             "h1",
             {
               staticClass:
-                "uppercase font-display text-2xl leading-none self-center select-none"
+                "uppercase font-display text-2xl leading-none self-center select-none cursor-pointer",
+              on: { click: _vm.resetMap }
             },
             [_vm._v("\n            Mapping May 4\n        ")]
           ),
@@ -57602,6 +57661,12 @@ var render = function() {
         {
           name: "click-outside",
           rawName: "v-click-outside",
+          value: _vm.goBack,
+          expression: "goBack"
+        },
+        {
+          name: "esc",
+          rawName: "v-esc",
           value: _vm.goBack,
           expression: "goBack"
         }
@@ -58843,6 +58908,12 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.place.photos.length
+        ? _c("span", { staticClass: "font-mono text-2xs mb-1 mt-4 block" }, [
+            _vm._v(_vm._s(_vm.place.photos[0].custom_properties.photo_caption))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.place.photos.length
         ? _c("img", {
             staticClass: "h-32 w-full object-cover",
             attrs: { src: _vm.place.photos[0].url }
@@ -59182,7 +59253,7 @@ var render = function() {
             staticClass: "flex-grow py-2 focus:outline-none",
             attrs: {
               type: "text",
-              placeholder: "Search by Name, Place, or Day"
+              placeholder: "To search type name, place, or day here."
             },
             domProps: { value: _vm.q },
             on: {
@@ -59512,6 +59583,12 @@ var render = function() {
     "div",
     {
       directives: [
+        {
+          name: "esc",
+          rawName: "v-esc",
+          value: _vm.closeStory,
+          expression: "closeStory"
+        },
         {
           name: "click-outside",
           rawName: "v-click-outside",
@@ -59870,6 +59947,14 @@ var render = function() {
   return _c(
     "div",
     {
+      directives: [
+        {
+          name: "esc",
+          rawName: "v-esc",
+          value: _vm.handleClose,
+          expression: "handleClose"
+        }
+      ],
       staticClass: "fixed inset-0 lg:left-auto lg:w-full lg:max-w-sm lg:mr-12"
     },
     [
@@ -59923,7 +60008,9 @@ var render = function() {
                 "vertical-scroll-container",
                 {
                   key: _vm.getKey(legIndex, legStepIndex),
-                  staticClass: "mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0"
+                  staticClass:
+                    "mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0 transition",
+                  class: { "opacity-25": !_vm.tourActive }
                 },
                 [
                   _vm.isFirstStep(legStepIndex)
@@ -81877,16 +81964,18 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _KSUGMap_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./KSUGMap.vue */ "./resources/js/KSUGMap.vue");
-/* harmony import */ var vue_meta__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-meta */ "./node_modules/vue-meta/dist/vue-meta.esm.js");
-/* harmony import */ var v_click_outside__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! v-click-outside */ "./node_modules/v-click-outside/dist/v-click-outside.min.umd.js");
-/* harmony import */ var v_click_outside__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(v_click_outside__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! portal-vue */ "./node_modules/portal-vue/dist/portal-vue.common.js");
-/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+/* harmony import */ var vue_esc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-esc */ "./node_modules/vue-esc/dist/vue-esc.min.js");
+/* harmony import */ var vue_esc__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_esc__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _KSUGMap_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./KSUGMap.vue */ "./resources/js/KSUGMap.vue");
+/* harmony import */ var vue_meta__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-meta */ "./node_modules/vue-meta/dist/vue-meta.esm.js");
+/* harmony import */ var v_click_outside__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! v-click-outside */ "./node_modules/v-click-outside/dist/v-click-outside.min.umd.js");
+/* harmony import */ var v_click_outside__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(v_click_outside__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! portal-vue */ "./node_modules/portal-vue/dist/portal-vue.common.js");
+/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -81900,8 +81989,9 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+
 Object.defineProperty(vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype, "$_", {
-  value: lodash__WEBPACK_IMPORTED_MODULE_5___default.a
+  value: lodash__WEBPACK_IMPORTED_MODULE_6___default.a
 });
 
 
@@ -81911,15 +82001,16 @@ Object.defineProperty(vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype, "$_"
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_meta__WEBPACK_IMPORTED_MODULE_2__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_4___default.a);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(v_click_outside__WEBPACK_IMPORTED_MODULE_3___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_meta__WEBPACK_IMPORTED_MODULE_3__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(v_click_outside__WEBPACK_IMPORTED_MODULE_4___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_esc__WEBPACK_IMPORTED_MODULE_1___default.a);
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  store: _store__WEBPACK_IMPORTED_MODULE_7__["default"],
-  router: _router__WEBPACK_IMPORTED_MODULE_6__["default"],
+  store: _store__WEBPACK_IMPORTED_MODULE_8__["default"],
+  router: _router__WEBPACK_IMPORTED_MODULE_7__["default"],
   el: "#app",
   render: function render(h) {
-    return h(_KSUGMap_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    return h(_KSUGMap_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
   }
 });
 

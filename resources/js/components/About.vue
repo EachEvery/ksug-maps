@@ -1,6 +1,7 @@
 <template>
     <div
         v-click-outside="goBack"
+        v-esc="goBack"
         class="fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-64 md:pt-0 md:max-w-base max-w-full"
         id="about-container"
     >
@@ -102,22 +103,29 @@
                 you can search for it by name in the search bar at the top left.
                 It may help you find your place to switch between the historic
                 aerial photo and the current day street map. You can do this
-                with the button in the lower left (when you close this side
-                panel). You can also use the search button in the upper left to
-                search by name, place, or date (between May 1st and May 5th).
-                Next to the search button is a filter button that allows you to
-                filter by date and/or role. This will then highlight on the map
-                all of those places that meet your criteria, such as stories by
-                faculty on May 2nd. When you select a place you will often see
-                several stories. The stories are color-coded by the person’s
-                role, such as student, faculty, local resident, or National
-                Guardsman. Click on it to get the full story. You can read the
-                stories but we recommend that you also listen to them—the audio
-                can be powerful. You can also explore the stories by taking a
-                tour, or going to some of the most powerful stories, which we
-                have featured in the explore tab that appears on the right when
-                you close this side panel. If you are in Kent and turn on
-                location access it will also show you the sites nearest to you.
+                with the layers button that will appear in the lower left when
+                you click on the map. You can also use the search button in the
+                upper left to search by name, place, or date (between May 1st
+                and May 5th). Next to the search button is a filter button that
+                allows you to filter by date and/or role. This will then
+                highlight on the map all of those places that meet your
+                criteria, such as stories by faculty on May 2nd. When you select
+                a place you will often see several stories. The stories are
+                color-coded by the person’s role, such as student, faculty,
+                local resident, or National Guardsman. Click on it to get the
+                full story. You can read the stories but we recommend that you
+                also listen to them—the audio can be powerful. You can also
+                explore the stories by taking a tour, or going to some of the
+                most powerful stories, which we have featured in the explore tab
+                that appears on the right when you close this side panel. If you
+                are in Kent and turn on location access it will also show you
+                the places nearest to you. A video overview of how to use the
+                site is available
+                <a
+                    href="https://www.youtube.com/watch?v=xOIZsl7udg8"
+                    class="text-black underline"
+                    >here</a
+                >.
             </paragraph>
             <header-25>Join the conversation</header-25>
             <paragraph>

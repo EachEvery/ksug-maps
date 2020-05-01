@@ -19,6 +19,11 @@
             {{ place.name }}
         </h1>
 
+        <span
+            v-if="place.photos.length"
+            class="font-mono text-2xs mb-1 mt-4 block"
+            >{{ place.photos[0].custom_properties.photo_caption }}</span
+        >
         <img
             :src="place.photos[0].url"
             class="h-32 w-full object-cover"

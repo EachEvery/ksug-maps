@@ -1,5 +1,8 @@
 <template>
-    <div class="fixed inset-0 lg:left-auto lg:w-full lg:max-w-sm lg:mr-12">
+    <div
+        class="fixed inset-0 lg:left-auto lg:w-full lg:max-w-sm lg:mr-12"
+        v-esc="handleClose"
+    >
         <portal to="end-of-document">
             <clickable
                 class="fixed top-0 inset-x-0 py-2  p-4 w-full text-black font-bold font-mono text-center w-full  lg:left-auto lg:right-0 lg:max-w-sm lg:mr-12"
@@ -26,7 +29,8 @@
                 <vertical-scroll-container
                     v-for="(step, legStepIndex) in getSteps(leg)"
                     :key="getKey(legIndex, legStepIndex)"
-                    class="mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0"
+                    class="mr-5 lg:h-auto lg:pb-0 lg:w-full lg:mr-0 transition"
+                    :class="{ 'opacity-25': !tourActive }"
                 >
                     <place-tour-card
                         v-if="isFirstStep(legStepIndex)"

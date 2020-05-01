@@ -49,7 +49,8 @@
             }"
         >
             <h1
-                class="uppercase font-display text-2xl leading-none self-center select-none"
+                class="uppercase font-display text-2xl leading-none self-center select-none cursor-pointer"
+                @click="resetMap"
             >
                 Mapping May 4
             </h1>
@@ -120,6 +121,10 @@ export default {
         };
     },
     methods: {
+        resetMap() {
+            this.$store.commit("setMapCenter", [41.15002, -81.348852, 13]);
+            this.$router.push("/about");
+        },
         handleClickOutside() {
             if (window.dropdownOpen) return;
 

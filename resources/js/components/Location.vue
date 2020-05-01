@@ -1,6 +1,7 @@
 <template>
     <div
         v-click-outside="goBack"
+        v-esc="goBack"
         :class="containerClass"
         class="fixed inset-0 md:right-0 md:left-auto bg-tan-100 transition pt-8 md:pt-0 md:w-84 xl:w-5/12 md:overflow-auto md:min-w-24rem"
         ref="container"

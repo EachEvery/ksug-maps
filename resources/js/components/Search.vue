@@ -8,7 +8,7 @@
         <div class="flex border-b-2 border-black">
             <input
                 type="text"
-                placeholder="Search by Name, Place, or Day"
+                placeholder="To search type name, place, or day here."
                 v-model="q"
                 class="flex-grow py-2 focus:outline-none"
             />

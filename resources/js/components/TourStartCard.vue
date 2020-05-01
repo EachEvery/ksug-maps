@@ -78,7 +78,7 @@ export default {
         },
 
         startButtonText({ tourActive }) {
-            return tourActive ? "Stop Tour" : "Start Walking Tour";
+            return tourActive ? "Stop Tour" : "Show Walking Instructions";
         }
     },
     methods: {
