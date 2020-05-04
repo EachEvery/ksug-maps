@@ -49,7 +49,8 @@ class Comment extends Resource
     {
         return [
             Text::make('Author')->readonly(),
-            Text::make('Email')->readonly(),
+            Text::make('Email')->readonly()->onlyOnDetail(),
+            Text::make('Role')->readonly(),
             Textarea::make('Text')->readonly(),
 
             Boolean::make('Is Approved')->hideWhenCreating()->hideWhenUpdating(),
