@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use KSUGMap\Repositories\Comments;
 use KSUGMap\Repositories\Places;
 
-class PlaceCommentsController
+class CommentController
 {
     public function __construct(FilesystemManager $fs, Comments $comments, Places $places)
     {
@@ -16,30 +16,16 @@ class PlaceCommentsController
         $this->fs = $fs;
     }
 
-    public function index(Request $req)
-    {
-        $place = $this->places->matchingSlug(
-            $req->route('place_slug')
-        );
-
-        return $this->comments->forPlace($place);
-    }
-
     public function store(Request $req)
     {
-        $place = $this->places->matchingSlug(
-            $req->route('place_slug')
-        );
-
         $comment = $this->comments->create(
-            array_merge($req->input('comment'), [
-                'place_id' => $place->id,
-            ])
+            $req->input('comment')
         );
 
         return $req->missing('media_tmp_path')
             ? $comment : $this->handleMedia(
-                $comment, $req->input('media_tmp_path')
+                $comment,
+                $req->input('media_tmp_path')
             );
     }
 

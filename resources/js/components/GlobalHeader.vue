@@ -25,6 +25,7 @@
                 <main-menu
                     v-if="menuOpen"
                     class="flex-grow overflow-hidden"
+                    @close="handleClickOutside"
                     :is-location="isLocation"
                 />
                 <search v-if="searchOpen" class="flex-grow overflow-hidden" />

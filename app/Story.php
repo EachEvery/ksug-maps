@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Tappable;
 use KSUGMap\Contracts\MapsToSearchResult;
+
 use Laravel\Scout\Searchable;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -19,6 +20,7 @@ class Story extends Model implements MapsToSearchResult, Sortable, HasMedia
     use SortableTrait;
     use InteractsWithMedia;
     use Tappable;
+    use Commentable;
 
     public $sortable = [
         'order_column_name' => 'sort_order',
@@ -33,7 +35,7 @@ class Story extends Model implements MapsToSearchResult, Sortable, HasMedia
     protected $guarded = ['id'];
 
     protected $table = 'stories';
-    protected $with = ['place', 'audio_media'];
+    protected $with = ['place', 'audio_media', 'approved_comments'];
     protected $appends = ['admin_url', 'public_url'];
 
     public function registerMediaCollections(): void

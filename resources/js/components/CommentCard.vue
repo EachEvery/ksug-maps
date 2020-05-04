@@ -1,7 +1,7 @@
 <template>
     <router-link
         class="bg-tan-100 relative shrink-when-active mb-8 flex flex-col overflow-hidden"
-        :to="`/places/${place.slug}#comment-${comment.id}`"
+        :to="`${commentableLink}#comment-${comment.id}`"
         :style="{ '--transparentColor': transparentColor }"
     >
         <div
@@ -12,7 +12,7 @@
             }"
         >
             <div class="flex font-display font-bold text-base uppercase">
-                {{ truncate(place.name, { length: 35 }) }}
+                {{ truncate(label, { length: 35 }) }}
             </div>
 
             <div class="self-end font-mono text-sm xl:text-2xs mt-3">
@@ -67,9 +67,35 @@ export default {
         truncate: _.truncate
     },
     computed: {
-        ...mapState(["places"]),
-        place({ comment, places }) {
-            return places.find(p => +p.id === +comment.place_id);
+        ...mapState(["places", "stories"]),
+
+        commentableLink({ comment, commentable }) {
+            if (comment.commentable_type === "place") {
+                return `/places/${commentable.slug}`;
+            }
+
+            return `/stories/${commentable.id}`;
+        },
+        commentable({ comment, places, stories }) {
+            return this[`${comment.commentable_type}s`].find(
+                c => +c.id === +comment.commentable_id
+            );
+        },
+
+        label({ comment, commentable }) {
+            if (comment.commentable_type === "place") {
+                return this.place.name;
+            }
+
+            return commentable.subject;
+        },
+
+        place({ comment, commentable }) {
+            if (comment.commentable_type === "place") {
+                return this.commentable;
+            }
+
+            return this.places.find(p => p.id === commentable.place_id);
         },
 
         lat({ place }) {

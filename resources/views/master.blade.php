@@ -1,4 +1,4 @@
-<title>Mapping May 4 | Kent State University Department of Geography</title>
+<title>Mapping May 4 | Kent State University</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,8 +11,10 @@
 
 <body class="overflow-hidden bg-gray-darker">
 
+    
+
     <!-- resources/js/KSUGMap.vue gets mounted here -->
-    <div id="app"></div>
+    <div id="app" class='relative'></div>
 
     <script>
         window.isAdmin = {{Auth::check() ? 'true' : 'false'}}

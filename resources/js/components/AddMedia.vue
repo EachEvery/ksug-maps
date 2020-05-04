@@ -1,13 +1,14 @@
 <template>
     <div
-        class="flex flex-col xl:flex-row font-mono bg-gray-100 border py-8 px-6 items-start"
+        class="flex flex-col xl:flex-row font-mono bg-gray-100 border-l border-r py-12 px-6 items-start"
     >
-        <camera-icon class="mt-1 object-contain w-12 h-8 mr-6 mb-5 mb-5 " />
+        <camera-icon class="mt-1 object-contain w-16 h-8 mr-6 mb-5 mb-5 " />
 
         <div class="flex flex-col">
-            <p style="max-width: 15rem;" class="mb-4">
+            <p style="max-width: 20rem;" class="mb-4 text-xs font-bold">
                 Add a video or photograph (new or old) of your story at this
-                location.
+                location. Due to browser restrictions, we only accept MP4 video
+                files.
             </p>
 
             <input
@@ -22,12 +23,12 @@
             <div class="h-24 flex flex-col items-stretch justify-center -mb-4">
                 <div class="flex justify-between items-center" v-if="file">
                     <span
-                        class="bg-white p-2 text-2xs shadow-inner border border-gray-600"
+                        class="bg-white p-2 text-2xs shadow-inner border border-dotted border-gray-600 flex-grow mr-5"
                         >{{ fileName }}</span
                     >
 
                     <button
-                        class="text-md"
+                        class="text-md font-bold"
                         aria-label="Remove file"
                         @click.stop="handleClearButtonClick"
                     >
@@ -37,18 +38,16 @@
 
                 <clickable
                     v-if="file === undefined"
-                    class="text-center text-xs py-3 px-4 text-black font-mono uppercase self-start cursor-pointer"
-                    style="background: rgba(0, 0, 0, 0.1)"
+                    class="text-center text-xs py-3 border-black border px-4 text-black font-mono uppercase self-start cursor-pointer"
                     @click.prevent="handleUploadClick"
                     >Upload a Photo or Video</clickable
                 >
 
-                <span
+                <!-- <span
                     class="italic text-2xs mt-2 opacity-50"
                     style="max-width: 15rem"
-                    >Due to browser restrictions, we only accept MP4 video
-                    files.</span
-                >
+                    ></span
+                > -->
             </div>
         </div>
     </div>

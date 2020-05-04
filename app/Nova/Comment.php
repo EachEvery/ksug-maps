@@ -9,6 +9,7 @@ use KSUGMap\Nova\Actions\UnapproveComments;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 
@@ -65,7 +66,7 @@ class Comment extends Resource
             })->asHtml()->onlyOnDetail(),
             Date::make('Created At')->readonly()->hideFromIndex(),
             Boolean::make('Has Media')->onlyOnIndex(),
-            BelongsTo::make('Place'),
+            MorphTo::make('Commentable'),
             Files::make('Media', 'comment_media'),
         ];
     }

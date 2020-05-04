@@ -342,7 +342,7 @@ export default {
         if (window.location.hash.length > 1) {
             $("#about-container").animate(
                 {
-                    scrollTop: $(window.location.hash).offset().top
+                    scrollTop: $(window.location.hash).offset().top - 50
                 },
                 300
             );

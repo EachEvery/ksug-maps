@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -89,6 +90,7 @@ class Story extends Resource
             Textarea::make('Content'),
             BelongsToMany::make('Tours'),
             BelongsTo::make('Place')->hideFromIndex(),
+            MorphMany::make('Comments')->exceptOnForms(),
         ];
     }
 

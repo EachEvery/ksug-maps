@@ -63,9 +63,9 @@ class Comment extends Model implements HasMedia
         return filled($this->approved_at);
     }
 
-    public function place()
+    public function commentable()
     {
-        return $this->belongsTo(Place::class);
+        return $this->morphTo();
     }
 
     public function scopeWhereApproved($q)

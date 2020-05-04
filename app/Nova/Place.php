@@ -6,6 +6,7 @@ use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 
@@ -68,7 +69,7 @@ class Place extends Resource
             Text::make('Long')->hideFromIndex(),
 
             HasMany::make('Stories'),
-            HasMany::make('Comments'),
+            MorphMany::make('Comments')->exceptOnForms(),
         ];
     }
 

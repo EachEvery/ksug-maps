@@ -2,7 +2,10 @@
 
 namespace KSUGMap\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use KSUGMap\Place;
+use KSUGMap\Story;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Relation::morphMap([
+            'place' => Place::class,
+            'story' => Story::class
+        ]);
     }
 }

@@ -1,15 +1,16 @@
 <template>
     <ul
-        class="flex flex-col text-center font-display text-xl md:text-2xl md:text-4xl max-w-xs mx-auto leading-tight mt-8 md:mt-24"
+        class="flex flex-col text-center font-display text-lg md:text-3xl max-w-xs mx-auto leading-tight mt-8 md:mt-12"
     >
-        <li
-            class="mb-3 md:mb-6 shrink-when-active"
-            :class="{ 'opacity-25': isMap }"
-        >
+        <li class="mb-3 md:mb-6 shrink-when-active" @click="$emit('close')">
             <router-link to="/">MAP</router-link>
         </li>
+
         <li class="mb-4 md:mb-6 shrink-when-active">
             <router-link to="/about#about-may-4">ABOUT MAY 4</router-link>
+        </li>
+        <li class="mb-4 md:mb-6 shrink-when-active">
+            <router-link to="/explore">EXPLORE TOURS &amp; STORIES</router-link>
         </li>
         <li class="mb-4 md:mb-6 shrink-when-active">
             <router-link to="/about/#about-the-project"

@@ -94,12 +94,6 @@
                 >
             </a>
 
-            <router-link
-                class="bg-black font-mono text-white uppercase h-12 flex justify-center items-center mt-24 cursor-pointed mb-16"
-                to="/about#give-feedback"
-                >Give Us Your Feedback</router-link
-            >
-
             <clickable
                 @click="closeStory"
                 v-if="!tourActive"
@@ -108,7 +102,11 @@
                 <close-icon class="w-8 h-8 lg:w-5 lg:h-5 text-black" />
             </clickable>
         </div>
-
+        <comments
+            morph="story"
+            :id="story.id"
+            :comments="story.approved_comments"
+        />
         <audio-player
             ref="audioPlayer"
             class="fixed bottom-0 right-0 md:w-84 xl:w-5/12 transition"
@@ -146,6 +144,7 @@ import toggleStoryFeatured from "./ToggleStoryFeatured";
 import handleBack from "../mixins/handleBack";
 
 import { mapState, mapGetters } from "vuex";
+import comments from "./Comments";
 
 import $ from "jquery";
 
@@ -172,7 +171,8 @@ export default {
         clickable,
         quoteIcon,
         chevronUpIcon,
-        toggleStoryFeatured
+        toggleStoryFeatured,
+        comments
     },
 
     methods: {

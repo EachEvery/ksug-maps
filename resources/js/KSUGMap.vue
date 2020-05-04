@@ -1,5 +1,13 @@
 <template>
-    <div v-if="ready" class="relative bg-black">
+    <div
+        class="bg-black h-screen w-full flex items-center text-white font-display justify-center"
+        v-if="!ready"
+    >
+        <h1 class="text-5xl opacity-25 uppercase -mt-24 md:mt-0">
+            Loading map...
+        </h1>
+    </div>
+    <div v-else class="relative bg-black">
         <div
             class="w-full h-full relative overflow-hidden bg-black transition"
             :style="{ transform: exploreOpen ? 'scale(1.05)' : 'none' }"
@@ -56,6 +64,7 @@ import globalHeader from "./components/GlobalHeader";
 import mapComponent from "./components/Map";
 import explore from "./components/Explore";
 import routeHelpers from "./mixins/routeHelpers";
+import spinner from "./components/Spinner";
 
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 
@@ -72,7 +81,8 @@ export default {
     components: {
         globalHeader,
         mapComponent,
-        explore
+        explore,
+        spinner
     },
 
     data() {

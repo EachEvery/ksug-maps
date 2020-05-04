@@ -3,14 +3,13 @@
         align-content="left"
         dropdown-class="border-2 border-t-0 border-black"
     >
-        <clickable
-            slot="trigger"
-            class="font-mono border-2 border-black text-sm md:text-base text-black flex justify-between p-2 md:p-4 items-center font-bold w-full"
-        >
+        <clickable slot="trigger" :class="triggerClasses">
             <span v-if="!value">
                 <slot />
             </span>
-            <span v-else>{{ selectedLabel }}</span>
+            <span v-else>{{
+                truncate(selectedLabel, { length: labelLength })
+            }}</span>
             <span class="inline-block ml-4">▼</span>
         </clickable>
 
@@ -35,6 +34,8 @@
 <script>
 import dropdown from "./Dropdown";
 import clickable from "./Clickable";
+import _ from "lodash";
+
 export default {
     components: {
         dropdown,
@@ -47,6 +48,13 @@ export default {
         },
         options: {
             required: true
+        },
+        labelLength: {
+            default: 15
+        },
+        triggerClasses: {
+            default:
+                "font-mono border-2 border-black text-sm md:text-base text-black flex justify-between p-2 md:p-4 items-center font-bold w-full"
         }
     },
     computed: {
@@ -58,6 +66,7 @@ export default {
         value(val) {}
     },
     methods: {
+        truncate: _.truncate,
         handleClick(option) {
             this.$emit("input", this.getOptionValue(option));
         },

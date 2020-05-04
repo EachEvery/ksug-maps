@@ -24,9 +24,4 @@ class Comments
             );
         });
     }
-
-    public function forPlace($place)
-    {
-        return $place->comments()->whereApproved()->get();
-    }
 }

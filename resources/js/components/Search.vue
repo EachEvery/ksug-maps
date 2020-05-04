@@ -70,7 +70,15 @@ export default {
         ...mapState(["stories"]),
         results({ q, stories }) {
             if (q.trim() === "") {
-                return stories;
+                return stories.sort((a, b) => {
+                    if (a.subject > b.subject) {
+                        return 1;
+                    }
+                    if (b.subject > a.subject) {
+                        return -1;
+                    }
+                    return 0;
+                });
             }
 
             let fuse = new Fuse(stories, {
