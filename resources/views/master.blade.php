@@ -1,5 +1,3 @@
-<title>Mapping May 4 | Kent State University</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="csrf-token" value="{{csrf_token()}}" />
@@ -8,6 +6,23 @@
 <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
 
 
+<title>Mapping May 4 | Kent State University</title>
+<meta name="title" content="Mapping May 4 | Kent State University">
+<meta name="description" content="An interactive map of audio stories surrounding the events of May 4, 1970.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mappingmay4.kent.edu/">
+<meta property="og:title" content="Mapping May 4 | Kent State University">
+<meta property="og:description" content="An interactive map of audio stories surrounding the events of May 4, 1970.">
+<meta property="og:image" content="{{secure_asset('/images/mm4-share.jpg')}}">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://mappingmay4.kent.edu/">
+<meta property="twitter:title" content="Mapping May 4 | Kent State University">
+<meta property="twitter:description" content="An interactive map of audio stories surrounding the events of May 4, 1970.">
+<meta property="twitter:image" content="{{secure_asset('/images/mm4-share.jpg')}}">
 
 <body class="overflow-hidden bg-gray-darker">
 
