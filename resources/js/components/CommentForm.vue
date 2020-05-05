@@ -127,9 +127,11 @@ export default {
             role: undefined,
             roleOptions: [
                 "Resident of Kent",
-                "KSU Student",
+                "K-12 Student",
                 "KSU Faculty",
-                "National Guard"
+                "KSU Student",
+                "KSU Staff",
+                "National Guardsman"
             ]
         };
     },

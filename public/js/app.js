@@ -5081,7 +5081,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       uploadProgress: 0,
       fileKey: undefined,
       role: undefined,
-      roleOptions: ["Resident of Kent", "KSU Student", "KSU Faculty", "National Guard"]
+      roleOptions: ["Resident of Kent", "K-12 Student", "KSU Faculty", "KSU Student", "KSU Staff", "National Guardsman"]
     };
   },
   methods: {
