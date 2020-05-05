@@ -126,12 +126,12 @@ export default {
             fileKey: undefined,
             role: undefined,
             roleOptions: [
-                "Resident of Kent",
                 "K-12 Student",
                 "KSU Faculty",
-                "KSU Student",
                 "KSU Staff",
-                "National Guardsman"
+                "KSU Student",
+                "National Guardsman",
+                "Resident of Kent"
             ]
         };
     },
