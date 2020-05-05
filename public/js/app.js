@@ -4869,37 +4869,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["places", "stories"]), {
     commentableLink: function commentableLink(_ref) {
       var comment = _ref.comment,
-          commentable = _ref.commentable;
+          commentable = _ref.commentable,
+          isPlace = _ref.isPlace;
 
-      if (comment.commentable_type === "place") {
+      if (isPlace) {
         return "/places/".concat(commentable.slug);
       }
 
       return "/stories/".concat(commentable.id);
     },
-    commentable: function commentable(_ref2) {
-      var comment = _ref2.comment,
-          places = _ref2.places,
-          stories = _ref2.stories;
-      return this["".concat(comment.commentable_type, "s")].find(function (c) {
+    isPlace: function isPlace(_ref2) {
+      var comment = _ref2.comment;
+      return comment.commentable_type === "KSUGMap\\Place";
+    },
+    commentable: function commentable(_ref3) {
+      var comment = _ref3.comment,
+          places = _ref3.places,
+          stories = _ref3.stories,
+          isPlace = _ref3.isPlace;
+      return this[isPlace ? "places" : "stories"].find(function (c) {
         return +c.id === +comment.commentable_id;
       });
     },
-    label: function label(_ref3) {
-      var comment = _ref3.comment,
-          commentable = _ref3.commentable;
+    label: function label(_ref4) {
+      var comment = _ref4.comment,
+          commentable = _ref4.commentable,
+          isPlace = _ref4.isPlace;
 
-      if (comment.commentable_type === "place") {
+      if (isPlace) {
         return this.place.name;
       }
 
       return commentable.subject;
     },
-    place: function place(_ref4) {
-      var comment = _ref4.comment,
-          commentable = _ref4.commentable;
+    place: function place(_ref5) {
+      var comment = _ref5.comment,
+          commentable = _ref5.commentable,
+          isPlace = _ref5.isPlace;
 
-      if (comment.commentable_type === "place") {
+      if (isPlace) {
         return this.commentable;
       }
 
@@ -4907,12 +4915,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return p.id === commentable.place_id;
       });
     },
-    lat: function lat(_ref5) {
-      var place = _ref5.place;
+    lat: function lat(_ref6) {
+      var place = _ref6.place;
       return +place.lat;
     },
-    lng: function lng(_ref6) {
-      var place = _ref6.place;
+    lng: function lng(_ref7) {
+      var place = _ref7.place;
       return +place["long"];
     },
     transparentColor: function transparentColor() {
@@ -58436,7 +58444,7 @@ var render = function() {
       _vm._v(" "),
       _c("comments", {
         attrs: {
-          morph: "place",
+          morph: "KSUGMap\\Place",
           id: _vm.location.id,
           comments: _vm.location.approved_comments
         }
@@ -60095,7 +60103,7 @@ var render = function() {
       _vm._v(" "),
       _c("comments", {
         attrs: {
-          morph: "story",
+          morph: "KSUGMap\\Story",
           id: _vm.story.id,
           comments: _vm.story.approved_comments
         }

@@ -147,7 +147,7 @@
         </scroll-container>
 
         <comments
-            morph="place"
+            morph="KSUGMap\Place"
             :id="location.id"
             :comments="location.approved_comments"
         />

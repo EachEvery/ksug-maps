@@ -103,7 +103,7 @@
             </clickable>
         </div>
         <comments
-            morph="story"
+            morph="KSUGMap\Story"
             :id="story.id"
             :comments="story.approved_comments"
         />

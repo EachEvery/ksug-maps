@@ -69,29 +69,32 @@ export default {
     computed: {
         ...mapState(["places", "stories"]),
 
-        commentableLink({ comment, commentable }) {
-            if (comment.commentable_type === "place") {
+        commentableLink({ comment, commentable, isPlace }) {
+            if (isPlace) {
                 return `/places/${commentable.slug}`;
             }
 
             return `/stories/${commentable.id}`;
         },
-        commentable({ comment, places, stories }) {
-            return this[`${comment.commentable_type}s`].find(
+        isPlace({ comment }) {
+            return comment.commentable_type === "KSUGMap\\Place";
+        },
+        commentable({ comment, places, stories, isPlace }) {
+            return this[isPlace ? "places" : "stories"].find(
                 c => +c.id === +comment.commentable_id
             );
         },
 
-        label({ comment, commentable }) {
-            if (comment.commentable_type === "place") {
+        label({ comment, commentable, isPlace }) {
+            if (isPlace) {
                 return this.place.name;
             }
 
             return commentable.subject;
         },
 
-        place({ comment, commentable }) {
-            if (comment.commentable_type === "place") {
+        place({ comment, commentable, isPlace }) {
+            if (isPlace) {
                 return this.commentable;
             }
 
