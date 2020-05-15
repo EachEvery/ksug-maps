@@ -59,42 +59,6 @@
             </clickable>
         </page-section>
 
-        <page-section class="bg-blue" id="about-the-project">
-            <header-40>
-                About this
-                <br />Project
-            </header-40>
-
-            <paragraph>
-                This web app draws from the oral histories in the
-                <a
-                    href="https://www.library.kent.edu/special-collections-and-archives/kent-state-shootings-may-4-collection"
-                    class="underline"
-                >
-                    May 4 Collection, Kent State Special Collections &amp;
-                    Archives </a
-                >. It maps stories from those histories that describe memories
-                of events at a particular place in Kent between May 1st and May
-                5th, 1970 (but does not yet include stories within the National
-                Historic Landmark). This web app is designed to serve as a
-                digital memorial, to remember and honor these events. We have
-                made it both for those who have stories to share, and those who
-                are interested in hearing these stories. This web app does not
-                aim to establish historical facts. Readers will notice that
-                stories associated with some sites are quite contradictory.
-                Instead this web app aims to open a space for dialogue in the
-                hope of building understanding, connection across difference,
-                and ultimately reconciliation. For those seeking a historical
-                account we recommend starting with the short booklet
-                <a
-                    href="http://www.kentstateuniversitypress.com/2012/this-we-know/"
-                    target="_blank"
-                    class="underline"
-                    >This We Know</a
-                >.
-            </paragraph>
-        </page-section>
-
         <page-section class="bg-tan-300" id="how-to-use">
             <header-40>How to Use this Site</header-40>
             <paragraph>
@@ -141,6 +105,42 @@
                 pinned on the map, but we will soon update it to make it
                 possible to comment on any site in Kent.
                 <!-- <a href="#about-us" class="underline">contact us</a>. -->
+            </paragraph>
+        </page-section>
+
+        <page-section class="bg-blue" id="about-the-project">
+            <header-40>
+                About this
+                <br />Project
+            </header-40>
+
+            <paragraph>
+                This web app draws from the oral histories in the
+                <a
+                    href="https://www.library.kent.edu/special-collections-and-archives/kent-state-shootings-may-4-collection"
+                    class="underline"
+                >
+                    May 4 Collection, Kent State Special Collections &amp;
+                    Archives </a
+                >. It maps stories from those histories that describe memories
+                of events at a particular place in Kent between May 1st and May
+                5th, 1970 (but does not yet include stories within the National
+                Historic Landmark). This web app is designed to serve as a
+                digital memorial, to remember and honor these events. We have
+                made it both for those who have stories to share, and those who
+                are interested in hearing these stories. This web app does not
+                aim to establish historical facts. Readers will notice that
+                stories associated with some sites are quite contradictory.
+                Instead this web app aims to open a space for dialogue in the
+                hope of building understanding, connection across difference,
+                and ultimately reconciliation. For those seeking a historical
+                account we recommend starting with the short booklet
+                <a
+                    href="http://www.kentstateuniversitypress.com/2012/this-we-know/"
+                    target="_blank"
+                    class="underline"
+                    >This We Know</a
+                >.
             </paragraph>
         </page-section>
 
