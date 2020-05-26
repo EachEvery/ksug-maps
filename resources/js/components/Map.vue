@@ -212,7 +212,7 @@ export default {
 
             this.map = new mapboxgl.Map({
                 container: "map",
-                style: "mapbox://styles/natehobi/ck9myc8jk0jqh1io77cjzbikc",
+                style: "mapbox://styles/natehobi/ckao49gdm0o9i1ip2f2mxnadm",
 
                 center: center,
 
