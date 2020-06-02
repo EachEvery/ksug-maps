@@ -11,6 +11,14 @@
         </li>
 
         <li class="mb-4 md:mb-6 shrink-when-active">
+            <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdAEF5-6Fx8Khl0o-sDnUtMWtosb4ksefQK4dtmLO0dkEJH2A/viewform"
+                target="_blank"
+                >ADD A NEW PLACE</a
+            >
+        </li>
+
+        <li class="mb-4 md:mb-6 shrink-when-active">
             <router-link to="/about#about-may-4">ABOUT MAY 4</router-link>
         </li>
 

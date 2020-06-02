@@ -4452,6 +4452,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5386,6 +5392,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -5616,6 +5635,29 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6477,6 +6519,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Comments__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Comments */ "./resources/js/components/Comments.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../mixins/windowDimensions */ "./resources/js/mixins/windowDimensions.js");
+/* harmony import */ var _mixins_scrollToHash__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../mixins/scrollToHash */ "./resources/js/mixins/scrollToHash.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -6656,8 +6699,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_5__["default"], _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_9__["default"]],
+  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_5__["default"], _mixins_windowDimensions__WEBPACK_IMPORTED_MODULE_9__["default"], _mixins_scrollToHash__WEBPACK_IMPORTED_MODULE_10__["default"]],
   metaInfo: function metaInfo() {
     return {
       title: this.location.name,
@@ -6715,30 +6759,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   mounted: function mounted() {
-    var _this = this;
-
     this.$store.commit("setMapCenter", [+this.location.lat, +this.location["long"], 16]);
     this.$nextTick(function () {
       $(".lightbox").each(function () {
         $(this).fluidbox();
       });
-      setTimeout(function () {
-        if (!_this.$route.hash) {
-          return;
-        }
-
-        $(_this.$refs.container).animate({
-          scrollTop: $(_this.$route.hash).offset().top - 20
-        }, 400);
-      }, 700);
     });
   },
   watch: {
     $route: function $route() {
-      var _this2 = this;
+      var _this = this;
 
       setTimeout(function () {
-        _this2.scrollOverflow = !_this2.isPreview;
+        _this.scrollOverflow = !_this.isPreview;
       }, 400);
     }
   },
@@ -6760,11 +6793,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       };
     },
     location: function location(_ref3) {
-      var _this3 = this;
+      var _this2 = this;
 
       var places = _ref3.places;
       return places.find(function (item) {
-        return item.slug === _this3.$route.params.location;
+        return item.slug === _this2.$route.params.location;
       });
     },
     isPreview: function isPreview() {
@@ -6879,6 +6912,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7881,6 +7922,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Comments__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Comments */ "./resources/js/components/Comments.vue");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _mixins_scrollToHash__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../mixins/scrollToHash */ "./resources/js/mixins/scrollToHash.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -8023,6 +8065,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+
 
 
 
@@ -8034,7 +8078,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_6__["default"]],
+  mixins: [_mixins_handleBack__WEBPACK_IMPORTED_MODULE_6__["default"], _mixins_scrollToHash__WEBPACK_IMPORTED_MODULE_10__["default"]],
   metaInfo: function metaInfo() {
     return {
       title: this.story.subject,
@@ -8603,9 +8647,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
        * since we put that info on the start card
        * of each leg.
        */
-      return leg.steps.filter(function (s) {
+      var steps = leg.steps.filter(function (s) {
         return s.maneuver.type !== "arrive";
       });
+      return this.tourActive ? steps : [steps[0]];
     },
     isNotLastOrFirstStep: function isNotLastOrFirstStep(stepIndex) {
       return stepIndex !== 0;
@@ -55537,25 +55582,7 @@ var render = function() {
             _vm._v(
               "\n            At Kent State University in Kent, Ohio, on May 4, 1970, 28\n            National Guard troops turned in unison and fired 67 shots at\n            student peace protesters, killing 4 and wounding 9, leaving one\n            paralyzed. On May 1st students began a series of protests in\n            response to Nixon’s expansion of the war from Vietnam to\n            Cambodia. By May 4th they were also protesting the occupation of\n            campus by nearly a thousand troops, more than 100 trucks, 12\n            armored vehicles, 3 tanks with mortar launchers, and 13\n            helicopters. People across the city and campus were traumatized\n            in various ways. After the shootings some community members said\n            that the students deserved to be shot. Even 50 years later\n            division and resentments continue.\n        "
             )
-          ]),
-          _vm._v(" "),
-          _c(
-            "clickable",
-            {
-              staticClass:
-                "bg-white font-display text-black uppercase h-12 flex justify-center items-center mt-12 cursor-pointed",
-              on: {
-                click: function($event) {
-                  return _vm.$router.push("/explore")
-                }
-              }
-            },
-            [
-              _c("span", { staticClass: "text-center text-md" }, [
-                _vm._v("Explore May 4, 1970")
-              ])
-            ]
-          )
+          ])
         ],
         1
       ),
@@ -55585,8 +55612,21 @@ var render = function() {
           _vm._v(" "),
           _c("paragraph", [
             _vm._v(
-              "\n            This web app is a space for dialogue, and we encourage you to\n            add your voice to any of the sites. You can share your own\n            memories of what happened at a location, but also stories you\n            heard from others, or your own reflections on the site or the\n            stories associated with it. You can type in a story, upload a\n            video of yourself sharing your thoughts, or call our voicemail\n            to share it by audio. We would also love your photos of the\n            site, either then or now. Maybe a selfie of you at the site\n            today? For now you can only add to sites that are currently\n            pinned on the map, but we will soon update it to make it\n            possible to comment on any site in Kent.\n            "
-            )
+              "\n            This web app is a space for dialogue, and we encourage you to\n            add your voice to any of the sites. You can share your own\n            memories of what happened at a location, but also stories you\n            heard from others, or your own reflections on the site or the\n            stories associated with it. You can type in a story, upload a\n            video of yourself sharing your thoughts, or call our voicemail\n            to share it by audio. We would also love your photos of the\n            site, either then or now. Maybe a selfie of you at the site\n            today? To add a new place to the map, with either a story,\n            photo, audio or video,\n            "
+            ),
+            _c(
+              "a",
+              {
+                staticClass: "text-black underline",
+                attrs: {
+                  target: "_blank",
+                  href:
+                    "https://docs.google.com/forms/d/e/1FAIpQLSdAEF5-6Fx8Khl0o-sDnUtMWtosb4ksefQK4dtmLO0dkEJH2A/viewform"
+                }
+              },
+              [_vm._v("fill out this form")]
+            ),
+            _vm._v(".\n\n            ")
           ])
         ],
         1
@@ -56855,32 +56895,49 @@ var render = function() {
         "div",
         { staticClass: "flex items-center", class: { "opacity-25": _vm.open } },
         [
-          _c("up-arrow", {
-            staticClass: "w-10 h-10 transition",
-            staticStyle: { transform: "rotate(-90deg)" },
-            style: { transform: "rotate(" + (_vm.open ? "0" : "-180") + "deg)" }
-          }),
+          _c(
+            "div",
+            {
+              staticClass:
+                "inline-flex  justify-center items-center w-10 h-10 rounded-full bg-black relative"
+            },
+            [
+              _c("up-arrow", {
+                staticClass: "w-6 h-6 transition text-white",
+                staticStyle: { transform: "rotate(-90deg)" },
+                style: {
+                  transform: "rotate(" + (_vm.open ? "0" : "-180") + "deg)"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "absolute inset-0 flex items-center justify-center",
+                  staticStyle: {
+                    transform: "rotate(-90deg) translateY(2.5rem)"
+                  }
+                },
+                [
+                  _c("span", { staticClass: "font-mono uppercase" }, [
+                    _vm._v(_vm._s(_vm.open ? "Close" : "Open"))
+                  ])
+                ]
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "h1",
             {
-              staticClass: "font-display font-black text-5xl ml-4",
+              staticClass: "font-display font-black text-5xl ml-16 uppercase",
               staticStyle: { transform: "rotate(180deg)" }
             },
-            [_vm._v("\n            EXPLORE\n        ")]
+            [_vm._v("\n            Explore Tours and Stories\n        ")]
           )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "span",
-        {
-          staticClass: "text-xs uppercase cursor-pointer font-mono",
-          class: { "opacity-25": _vm.open },
-          staticStyle: { transform: "rotate(180deg)" }
-        },
-        [_vm._v("\n        explore tours & stories\n    ")]
+        ]
       )
     ]
   )
@@ -56998,33 +57055,6 @@ var render = function() {
       style: _vm.containerStyle
     },
     [
-      _c(
-        "mobile-explore-toggle",
-        {
-          on: {
-            click: function($event) {
-              return _vm.$emit("toggle")
-            }
-          }
-        },
-        [
-          _c(
-            "h3",
-            {
-              staticClass:
-                " uppercase font-light font-mono text-xs md:text-base"
-            },
-            [_vm._v("\n            Explore Tours & Stories\n        ")]
-          ),
-          _vm._v(" "),
-          _c("up-arrow", {
-            staticClass: "w-6 w-6 text-black",
-            style: _vm.arrowStyle
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
       _c("desktop-explore-toggle", {
         attrs: { open: _vm.open },
         on: {
@@ -57042,14 +57072,49 @@ var render = function() {
             "h1",
             {
               staticClass:
-                "text-5xl md:text-8xl font-display uppercase cursor-pointer",
+                "text-2xl md:text-8xl font-display leading-tight uppercase cursor-pointer flex justify-between items-top",
               on: {
                 click: function($event) {
                   return _vm.$emit("toggle")
                 }
               }
             },
-            [_vm._v("\n            Explore\n        ")]
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "inline-flex  justify-center items-center w-8 h-8 flex-shrink-0 rounded-full bg-black relative ml-8 mt-3 md:hidden"
+                },
+                [
+                  _c("up-arrow", {
+                    staticClass: "w-4 h-4 transition text-white",
+                    style: {
+                      transform: "rotate(" + (_vm.open ? "-180" : "0") + "deg)"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "absolute inset-0 flex items-center justify-center",
+                      staticStyle: { transform: "translateY(-1.6rem)" }
+                    },
+                    [
+                      _c(
+                        "span",
+                        { staticClass: "font-mono text-2xs uppercase" },
+                        [_vm._v(_vm._s(_vm.open ? "Close" : "Open"))]
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ]
           ),
           _vm._v(" "),
           _c(
@@ -57203,7 +57268,17 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _vm._v("Explore\n                "),
+      _c("span", { staticClass: "md:hidden" }, [_vm._v("Tours & Stories")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -58571,6 +58646,8 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
       _c(
         "li",
         { staticClass: "mb-4 md:mb-6 shrink-when-active" },
@@ -58620,11 +58697,29 @@ var render = function() {
           "border-b border-black block h-1 w-full opacity-25 mb-4 md:mb-12 mt-5"
       }),
       _vm._v(" "),
-      _vm._m(0)
+      _vm._m(1)
     ]
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "mb-4 md:mb-6 shrink-when-active" }, [
+      _c(
+        "a",
+        {
+          attrs: {
+            href:
+              "https://docs.google.com/forms/d/e/1FAIpQLSdAEF5-6Fx8Khl0o-sDnUtMWtosb4ksefQK4dtmLO0dkEJH2A/viewform",
+            target: "_blank"
+          }
+        },
+        [_vm._v("ADD A NEW PLACE")]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -59892,6 +59987,7 @@ var render = function() {
           expression: "handleClickOutside"
         }
       ],
+      ref: "container",
       staticClass:
         "fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story md:min-w-24rem",
       staticStyle: { "max-width": "45rem" },
@@ -86941,6 +87037,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./resources/js/mixins/scrollToHash.js":
+/*!*********************************************!*\
+  !*** ./resources/js/mixins/scrollToHash.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    var _this = this;
+
+    setTimeout(function () {
+      if (!_this.$route.hash) {
+        return;
+      }
+
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(_this.$refs.container).animate({
+        scrollTop: jquery__WEBPACK_IMPORTED_MODULE_0___default()(_this.$route.hash).offset().top - 20
+      }, 400);
+    }, 500);
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/mixins/windowDimensions.js":
 /*!*************************************************!*\
   !*** ./resources/js/mixins/windowDimensions.js ***!
@@ -87061,6 +87187,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_6__);
 
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -87186,10 +87324,15 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
   },
   getters: {
     comments: function comments(_ref4) {
-      var places = _ref4.places;
-      return places.flatMap(function (p) {
+      var places = _ref4.places,
+          stories = _ref4.stories;
+      var placeComments = places.flatMap(function (p) {
         return p.approved_comments;
-      }).sort(function (a, b) {
+      });
+      var storyComments = stories.flatMap(function (s) {
+        return s.approved_comments;
+      });
+      return [].concat(_toConsumableArray(placeComments), _toConsumableArray(storyComments)).sort(function (a, b) {
         return b.timestamp - a.timestamp;
       });
     },

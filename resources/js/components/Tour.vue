@@ -188,7 +188,9 @@ export default {
              * since we put that info on the start card
              * of each leg.
              */
-            return leg.steps.filter(s => s.maneuver.type !== "arrive");
+            let steps = leg.steps.filter(s => s.maneuver.type !== "arrive");
+
+            return this.tourActive ? steps : [steps[0]];
         },
 
         isNotLastOrFirstStep(stepIndex) {

@@ -98,12 +98,14 @@ export default new Vuex.Store({
     },
 
     getters: {
-        comments({ places }) {
-            return places
-                .flatMap(p => p.approved_comments)
-                .sort((a, b) => {
-                    return b.timestamp - a.timestamp;
-                });
+        comments({ places, stories }) {
+            let placeComments = places.flatMap(p => p.approved_comments);
+
+            let storyComments = stories.flatMap(s => s.approved_comments);
+
+            return [...placeComments, ...storyComments].sort((a, b) => {
+                return b.timestamp - a.timestamp;
+            });
         },
 
         validFilters({ filters }) {

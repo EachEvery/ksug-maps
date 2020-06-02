@@ -5,26 +5,39 @@
         v-on="$listeners"
     >
         <div class="flex items-center" :class="{ 'opacity-25': open }">
-            <up-arrow
-                class="w-10 h-10 transition"
-                style="transform: rotate(-90deg)"
-                :style="{ transform: `rotate(${open ? '0' : '-180'}deg)` }"
-            />
+            <div
+                class="inline-flex  justify-center items-center w-10 h-10 rounded-full bg-black relative"
+            >
+                <up-arrow
+                    class="w-6 h-6 transition text-white"
+                    style="transform: rotate(-90deg)"
+                    :style="{ transform: `rotate(${open ? '0' : '-180'}deg)` }"
+                />
+
+                <div
+                    class="absolute inset-0 flex items-center justify-center"
+                    style="transform:rotate(-90deg) translateY(2.5rem)"
+                >
+                    <span class="font-mono uppercase">{{
+                        open ? "Close" : "Open"
+                    }}</span>
+                </div>
+            </div>
 
             <h1
-                class="font-display font-black text-5xl ml-4"
+                class="font-display font-black text-5xl ml-16 uppercase"
                 style="transform: rotate(180deg)"
             >
-                EXPLORE
+                Explore Tours and Stories
             </h1>
         </div>
-        <span
+        <!-- <span
             :class="{ 'opacity-25': open }"
             class="text-xs uppercase cursor-pointer font-mono"
             style="transform: rotate(180deg)"
         >
             explore tours &amp; stories
-        </span>
+        </span> -->
     </div>
 </template>
 

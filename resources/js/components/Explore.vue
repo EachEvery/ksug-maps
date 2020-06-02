@@ -8,12 +8,12 @@
         :style="containerStyle"
     >
         <!-- Mobile Explore Heading -->
-        <mobile-explore-toggle @click="$emit('toggle')">
+        <!-- <mobile-explore-toggle @click="$emit('toggle')">
             <h3 class=" uppercase font-light font-mono text-xs md:text-base">
                 Explore Tours &amp; Stories
             </h3>
             <up-arrow class="w-6 w-6 text-black" :style="arrowStyle" />
-        </mobile-explore-toggle>
+        </mobile-explore-toggle> -->
 
         <!-- Desktop Explore Heading -->
         <desktop-explore-toggle
@@ -23,10 +23,33 @@
 
         <div class="px-8 md:overflow-y-scroll md:h-full relative">
             <h1
-                class="text-5xl md:text-8xl font-display uppercase cursor-pointer"
+                class="text-2xl md:text-8xl font-display leading-tight uppercase cursor-pointer flex justify-between items-top"
                 @click="$emit('toggle')"
             >
-                Explore
+                <span
+                    >Explore
+                    <span class="md:hidden">Tours &amp; Stories</span>
+                </span>
+
+                <div
+                    class="inline-flex  justify-center items-center w-8 h-8 flex-shrink-0 rounded-full bg-black relative ml-8 mt-3 md:hidden"
+                >
+                    <up-arrow
+                        class="w-4 h-4 transition text-white"
+                        :style="{
+                            transform: `rotate(${open ? '-180' : '0'}deg)`
+                        }"
+                    />
+
+                    <div
+                        class="absolute inset-0 flex items-center justify-center"
+                        style="transform: translateY(-1.6rem)"
+                    >
+                        <span class="font-mono text-2xs uppercase">{{
+                            open ? "Close" : "Open"
+                        }}</span>
+                    </div>
+                </div>
             </h1>
 
             <clickable

@@ -51,12 +51,12 @@
                 division and resentments continue.
             </paragraph>
 
-            <clickable
+            <!-- <clickable
                 @click="$router.push('/explore')"
                 class="bg-white font-display text-black uppercase h-12 flex justify-center items-center mt-12 cursor-pointed"
             >
                 <span class="text-center text-md">Explore May 4, 1970</span>
-            </clickable>
+            </clickable> -->
         </page-section>
 
         <page-section class="bg-tan-300" id="how-to-use">
@@ -101,9 +101,15 @@
                 video of yourself sharing your thoughts, or call our voicemail
                 to share it by audio. We would also love your photos of the
                 site, either then or now. Maybe a selfie of you at the site
-                today? For now you can only add to sites that are currently
-                pinned on the map, but we will soon update it to make it
-                possible to comment on any site in Kent.
+                today? To add a new place to the map, with either a story,
+                photo, audio or video,
+                <a
+                    class="text-black underline"
+                    target="_blank"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSdAEF5-6Fx8Khl0o-sDnUtMWtosb4ksefQK4dtmLO0dkEJH2A/viewform"
+                    >fill out this form</a
+                >.
+
                 <!-- <a href="#about-us" class="underline">contact us</a>. -->
             </paragraph>
         </page-section>

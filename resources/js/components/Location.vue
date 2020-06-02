@@ -173,9 +173,10 @@ import comments from "./Comments";
 
 import { mapState, mapGetters } from "vuex";
 import windowDimensions from "../mixins/windowDimensions";
+import scrollToHash from "../mixins/scrollToHash";
 
 export default {
-    mixins: [handleBack, windowDimensions],
+    mixins: [handleBack, windowDimensions, scrollToHash],
 
     metaInfo() {
         return {
@@ -253,19 +254,6 @@ export default {
             $(".lightbox").each(function() {
                 $(this).fluidbox();
             });
-
-            setTimeout(() => {
-                if (!this.$route.hash) {
-                    return;
-                }
-
-                $(this.$refs.container).animate(
-                    {
-                        scrollTop: $(this.$route.hash).offset().top - 20
-                    },
-                    400
-                );
-            }, 700);
         });
     },
     watch: {

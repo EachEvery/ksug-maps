@@ -4,6 +4,7 @@
         v-click-outside="handleClickOutside"
         class="fixed inset-0 md:right-0 md:left-auto bg-white transition pt-8 md:pt-0 md:w-84 xl:w-5/12 overflow-auto shadow-lg flex-grow-0 story md:min-w-24rem"
         style="max-width: 45rem;"
+        ref="container"
         :style="{
             'background-color': story.color,
             '--currentColor': story.color,
@@ -147,9 +148,10 @@ import { mapState, mapGetters } from "vuex";
 import comments from "./Comments";
 
 import $ from "jquery";
+import scrollToHash from "../mixins/scrollToHash";
 
 export default {
-    mixins: [handleBack],
+    mixins: [handleBack, scrollToHash],
 
     metaInfo() {
         return {
