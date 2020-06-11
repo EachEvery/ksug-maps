@@ -5,6 +5,7 @@ import Location from "./components/Location.vue";
 import Story from "./components/Story.vue";
 import About from "./components/About.vue";
 import Tour from "./components/Tour.vue";
+import LearningResources from "./components/LearningResources";
 
 Vue.use(VueRouter);
 
@@ -20,11 +21,17 @@ export default new VueRouter({
         {
             path: "/places/:location/preview",
             component: Location,
-            name: "preview",
+            name: "preview"
         },
 
         { path: "/stories/:story", component: Story, name: "story" },
 
         { path: "/tours/:tour", component: Tour, name: "tour" },
-    ],
+
+        {
+            path: "/learning-resources",
+            comopnent: LearningResources,
+            name: "resources"
+        }
+    ]
 });

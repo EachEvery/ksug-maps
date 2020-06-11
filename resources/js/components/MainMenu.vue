@@ -23,6 +23,10 @@
         </li>
 
         <li class="mb-4 md:mb-6 shrink-when-active">
+            <router-link to="/about">RESOURCES</router-link>
+        </li>
+
+        <li class="mb-4 md:mb-6 shrink-when-active">
             <router-link to="/about/#about-the-project"
                 >ABOUT THIS PROJECT</router-link
             >

@@ -28,6 +28,7 @@ Route::get('/tours', function (ToursWithPlaces $q) {
 
 Route::get('/tour/{tour}/stories', 'TourStoriesController@index');
 
+Route::get('/learning-resources', 'LearningResourceController@index');
 
 Route::post('/comments', 'CommentController@store');
 
