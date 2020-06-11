@@ -73,8 +73,7 @@ export default {
 
     metaInfo() {
         return {
-            title: "Home",
-            titleTemplate: "%s | Mapping May 4"
+            titleTemplate: "Mapping May 4"
         };
     },
 
