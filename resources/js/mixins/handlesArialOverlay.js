@@ -2,16 +2,17 @@ import { mapState } from "vuex";
 
 export default {
     props: {
-        showOverlayButton: Boolean,
+        showOverlayButton: Boolean
     },
 
     data() {
         return {
-            showAerialPhoto: true,
+            showAerialPhoto: true
         };
     },
+
     computed: {
-        ...mapState(["tourIsActive"]),
+        ...mapState(["tourIsActive"])
     },
 
     methods: {
@@ -21,8 +22,9 @@ export default {
                 "raster-opacity",
                 this.showAerialPhoto && !this.isTour ? 1 : 0
             );
-        },
+        }
     },
+
     watch: {
         mapLoaded() {
             this.setOverlayOpacity();
@@ -30,6 +32,6 @@ export default {
 
         showAerialPhoto() {
             this.setOverlayOpacity();
-        },
-    },
+        }
+    }
 };

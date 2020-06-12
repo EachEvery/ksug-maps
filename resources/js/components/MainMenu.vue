@@ -1,6 +1,6 @@
 <template>
     <ul
-        class="flex flex-col text-center font-display text-lg md:text-3xl max-w-xs mx-auto leading-tight mt-8 md:mt-12"
+        class="flex flex-col text-center font-display text-lg md:text-xl max-w-xs mx-auto leading-tight mt-8 md:mt-12"
     >
         <!-- <li class="mb-3 md:mb-6 shrink-when-active" @click="$emit('close')">
             <router-link to="/">MAP</router-link>
@@ -22,8 +22,8 @@
             <router-link to="/about#about-may-4">ABOUT MAY 4</router-link>
         </li>
 
-        <li class="mb-4 md:mb-6 shrink-when-active">
-            <router-link to="/about">RESOURCES</router-link>
+        <li class="mb-4 md:mb-6 shrink-when-active" v-if="resources.length">
+            <router-link to="/resources">RESOURCES</router-link>
         </li>
 
         <li class="mb-4 md:mb-6 shrink-when-active">
@@ -57,10 +57,15 @@
     </ul>
 </template>
 <script>
+import resources from "../mixins/learningResources";
+
 export default {
+    mixins: [resources],
+
     props: {
         isLocation: Boolean
     },
+
     computed: {
         isMap({ isLocation, $route }) {
             return isLocation || $route.path === "/";

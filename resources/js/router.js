@@ -12,6 +12,12 @@ Vue.use(VueRouter);
 export default new VueRouter({
     mode: "history",
     routes: [
+        {
+            path: "/resources",
+            component: LearningResources,
+            name: "resources"
+        },
+
         { path: "/about", component: About, name: "about" },
 
         { path: "/explore", name: "explore" },
@@ -26,12 +32,6 @@ export default new VueRouter({
 
         { path: "/stories/:story", component: Story, name: "story" },
 
-        { path: "/tours/:tour", component: Tour, name: "tour" },
-
-        {
-            path: "/learning-resources",
-            comopnent: LearningResources,
-            name: "resources"
-        }
+        { path: "/tours/:tour", component: Tour, name: "tour" }
     ]
 });
