@@ -1,4 +1,9 @@
 {
+<<<<<<< HEAD
     "/js/app.js": "/js/app.js?id=407a16ad85b89a125807",
     "/css/app.css": "/css/app.css?id=48cf0d825f56cf88329a"
+=======
+    "/js/app.js": "/js/app.js?id=28e6bc627967ef40201e",
+    "/css/app.css": "/css/app.css?id=0f8a0236956c9290b395"
+>>>>>>> master
 }
