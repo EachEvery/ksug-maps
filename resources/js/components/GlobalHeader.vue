@@ -73,7 +73,7 @@
                     <filter-icon class="w-full h-full transition" />
 
                     <div
-                        class="w-4 h-4 flex justify-center items-center absolute left-full bottom-full text-white bg-black rounded-full -mb-1 -ml-1"
+                        class="w-4 h-4 flex justify-center items-center absolute left-full bottom-full text-black bg-orange rounded-full -mb-1 -ml-1"
                         v-if="validFilters.length > 0"
                     >
                         <span class="text-2xs">{{ validFilters.length }}</span>

@@ -2,7 +2,7 @@
     <div class="leading-tight text-left px-5 h-full flex flex-col relative">
         <div class="flex items-center mb-5 mt-5 md:mt-0">
             <h1 class="font-display text-lg md:text-3xl font-black uppercase">
-                FILTER LOCATIONS
+                FILTER LOCATION PINS
             </h1>
             <clickable
                 class="uppercase font-mono ml-3"

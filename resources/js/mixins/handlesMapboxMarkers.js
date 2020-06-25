@@ -15,8 +15,6 @@ export default {
         },
 
         updateActiveMarker(latlngArr) {
-            console.log(latlngArr, "lat lng arr");
-
             let matchingMarker = this.mapboxMarkers.find(
                 m =>
                     +m._lngLat.lng === +latlngArr[1] &&
@@ -75,9 +73,12 @@ export default {
                     );
 
                     if (markerStoriesMatchingAnyFilterSet.length === 0) {
-                        $(marker._element).css({ opacity: 0.3 });
+                        $(marker._element).css({ opacity: 0.3, border: "0" });
                     } else {
-                        $(marker._element).css({ opacity: 1 });
+                        $(marker._element).css({
+                            opacity: 1,
+                            border: "3px solid #F0A38C"
+                        });
                     }
                 });
             } else {
@@ -98,7 +99,12 @@ export default {
         },
 
         resetActiveMarkers() {
-            $(".marker").removeClass("active");
+            $(".marker")
+                .removeClass("active")
+                .css({
+                    opacity: 1,
+                    border: 0
+                });
         },
 
         async handleMarkerClick(marker, e) {
