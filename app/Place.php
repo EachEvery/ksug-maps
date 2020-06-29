@@ -64,15 +64,15 @@ class Place extends Model implements MapsToSearchResult, HasMedia
             'access_token' => env('MAPBOX_PK'),
             'fresh' => 'true',
             'title' => 'view',
-
         ]);
 
         $hash = sprintf('%s/%s/%s/0/0', 16.88, $this->lat, $this->long);
+        $iframeSrc = sprintf("https://api.mapbox.com/styles/v1/natehobi/ck8lzpm8m10co1jp7622bt57x.html?%s#%s", $q, $hash);
 
-        ob_start(); ?><iframe src="https://api.mapbox.com/styles/v1/natehobi/ck8lzpm8m10co1jp7622bt57x.html?<?= $q ?>#<?= $hash ?>"></iframe>
-<?php
-
-        return ob_get_clean();
+        return view('placeEmbedCode', [
+            'place' => $this,
+            'iframeSrc' => $iframeSrc
+        ])->render();
     }
 
     public function stories()

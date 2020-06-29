@@ -1,0 +1,2 @@
+<style type="text/css">.e-mm4{position:relative;display:inline-block;clear:both}.e-mm4::before{content:" ";position:absolute;left:0;right:0;top:0;bottom:0}.e-mm4::after{content:" ";position:absolute;width:25px;height:25px;background-color:#fff;border-radius:50%;top:50%;left:50%;margin-top:-12.5px;margin-left:-12.5px}.e-mm4 iframe{width:600px;height:400px;cursor:pointer!important}</style>
+<a class="e-mm4" href="{{$place->public_url}}"><iframe src="{{$iframeSrc}}"></iframe></a>
