@@ -14,6 +14,10 @@ export default {
             return this.isLocationRoute($route);
         },
 
+        isEmbed({ $route }) {
+            return $route.name === "embed";
+        },
+
         isTour({ tour }) {
             return tour !== undefined;
         },

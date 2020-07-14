@@ -41,6 +41,11 @@ class Place extends Model implements MapsToSearchResult, HasMedia
         return url(sprintf('/places/%s/preview', $this->slug));
     }
 
+    public function getEmbedUrlAttribute()
+    {
+        return url(sprintf('/places/%s/embed', $this->slug));
+    }
+
     public function getPhotoAttribute($val)
     {
         return filled($val) ? str_replace(['http:', 'https:'], '', $val) : null;

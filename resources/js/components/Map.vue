@@ -158,8 +158,15 @@ export default {
             return state === "showingLayersMenu";
         },
 
-        showControls({ showingLayersMenu, showOverlayButton, isTour }) {
-            return showOverlayButton && !showingLayersMenu && !isTour;
+        showControls({
+            showingLayersMenu,
+            showOverlayButton,
+            isTour,
+            isEmbed
+        }) {
+            return (
+                showOverlayButton && !showingLayersMenu && !isTour && !isEmbed
+            );
         }
     },
 

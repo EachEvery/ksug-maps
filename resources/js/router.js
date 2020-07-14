@@ -6,6 +6,7 @@ import Story from "./components/Story.vue";
 import About from "./components/About.vue";
 import Tour from "./components/Tour.vue";
 import LearningResources from "./components/LearningResources";
+import LocationEmbed from "./components/LocationEmbed";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,12 @@ export default new VueRouter({
             path: "/places/:location/preview",
             component: Location,
             name: "preview"
+        },
+
+        {
+            path: "/places/:location/embed",
+            name: "embed",
+            component: LocationEmbed
         },
 
         { path: "/stories/:story", component: Story, name: "story" },

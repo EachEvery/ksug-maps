@@ -32,6 +32,17 @@ export default {
         },
 
         updateMarkerElements() {
+            if (this.isEmbed) {
+                let mbm = this.getMapboxMarker(this.currentLocation);
+
+                $(".marker").css({ opacity: 0.2 });
+
+                $(mbm._element).addClass("active");
+                $(mbm._element).css({ opacity: 1 });
+
+                return;
+            }
+
             if (this.isTour) {
                 $(".marker").css({ opacity: 0 });
 

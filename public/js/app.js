@@ -4001,6 +4001,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -6282,6 +6284,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Search__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Search */ "./resources/js/components/Search.vue");
 /* harmony import */ var _FilterIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./FilterIcon */ "./resources/js/components/FilterIcon.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../mixins/routeHelpers */ "./resources/js/mixins/routeHelpers.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -6390,9 +6393,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_routeHelpers__WEBPACK_IMPORTED_MODULE_8__["default"]],
   props: {
-    isLocation: Boolean,
     shouldHideMenu: Boolean
   },
   components: {
@@ -6440,7 +6444,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return true;
     },
     isAdmin: function isAdmin() {
-      return window.isAdmin;
+      return window.isAdmin && !this.isEmbed;
     },
     menuOpen: function menuOpen(_ref) {
       var state = _ref.state;
@@ -7097,6 +7101,62 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LocationEmbed.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/LocationEmbed.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["places"]), {
+    location: function location(_ref) {
+      var _this = this;
+
+      var places = _ref.places;
+      return places.find(function (item) {
+        return item.slug === _this.$route.params.location;
+      });
+    }
+  }),
+  data: function data() {
+    return {
+      state: "default"
+    };
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    this.$store.commit("setMapCenter", [+this.location.lat, +this.location["long"], 16]);
+    setTimeout(function () {
+      _this2.state = "loaded";
+    }, 1000);
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MainMenu.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MainMenu.vue?vue&type=script&lang=js& ***!
@@ -7364,8 +7424,9 @@ mapboxgl.accessToken = Object(_functions_helpers__WEBPACK_IMPORTED_MODULE_14__["
     showControls: function showControls(_ref2) {
       var showingLayersMenu = _ref2.showingLayersMenu,
           showOverlayButton = _ref2.showOverlayButton,
-          isTour = _ref2.isTour;
-      return showOverlayButton && !showingLayersMenu && !isTour;
+          isTour = _ref2.isTour,
+          isEmbed = _ref2.isEmbed;
+      return showOverlayButton && !showingLayersMenu && !isTour && !isEmbed;
     }
   },
   watch: {
@@ -55603,7 +55664,10 @@ var render = function() {
         [
           _c(
             "h1",
-            { staticClass: "text-5xl opacity-25 uppercase -mt-24 md:mt-0" },
+            {
+              staticClass:
+                "text-2xl md:text-5xl opacity-25 uppercase md:-mt-24 md:mt-0"
+            },
             [_vm._v("\n        Loading map...\n    ")]
           )
         ]
@@ -55644,13 +55708,16 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("explore", {
-            attrs: {
-              open: _vm.exploreOpen,
-              hide: _vm.isLocation || _vm.isAbout || _vm.isTour
-            },
-            on: { toggle: _vm.handleExploreToggle }
-          }),
+          !_vm.isEmbed
+            ? _c("explore", {
+                attrs: {
+                  open: _vm.exploreOpen,
+                  hide:
+                    _vm.isLocation || _vm.isAbout || _vm.isTour || _vm.isEmbed
+                },
+                on: { toggle: _vm.handleExploreToggle }
+              })
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "transition",
@@ -55666,18 +55733,23 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("global-header", {
-            attrs: {
-              "is-location": _vm.isLocation,
-              "should-hide-menu":
-                _vm.isLocation || _vm.exploreOpen || _vm.isTour
-            },
-            on: {
-              "state-changed": function(menuIsOpen) {
-                return (_vm.menuOpen = menuIsOpen)
-              }
-            }
-          }),
+          !_vm.isEmbed
+            ? _c("global-header", {
+                attrs: {
+                  "is-location": _vm.isLocation,
+                  "should-hide-menu":
+                    _vm.isLocation ||
+                    _vm.exploreOpen ||
+                    _vm.isTour ||
+                    _vm.isEmbed
+                },
+                on: {
+                  "state-changed": function(menuIsOpen) {
+                    return (_vm.menuOpen = menuIsOpen)
+                  }
+                }
+              })
+            : _vm._e(),
           _vm._v(" "),
           _c("portal-target", {
             staticClass: "fixed",
@@ -59008,6 +59080,45 @@ var render = function() {
             [_vm._v(_vm._s(_vm.distance))]
           )
         : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LocationEmbed.vue?vue&type=template&id=00e1b1c9&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/LocationEmbed.vue?vue&type=template&id=00e1b1c9& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "fixed inset-0 flex justify-center items-center" },
+    [
+      _c(
+        "h1",
+        {
+          staticClass:
+            "text-shadow font-display uppercase text-white text-md transition",
+          class: { "opacity-0": _vm.state !== "loaded" },
+          staticStyle: { transform: "translateY(-100%)" }
+        },
+        [_vm._v("\n        " + _vm._s(_vm.location.name) + "\n    ")]
+      )
     ]
   )
 }
@@ -84643,6 +84754,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/LocationEmbed.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/LocationEmbed.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _LocationEmbed_vue_vue_type_template_id_00e1b1c9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocationEmbed.vue?vue&type=template&id=00e1b1c9& */ "./resources/js/components/LocationEmbed.vue?vue&type=template&id=00e1b1c9&");
+/* harmony import */ var _LocationEmbed_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LocationEmbed.vue?vue&type=script&lang=js& */ "./resources/js/components/LocationEmbed.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _LocationEmbed_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _LocationEmbed_vue_vue_type_template_id_00e1b1c9___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _LocationEmbed_vue_vue_type_template_id_00e1b1c9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/LocationEmbed.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/LocationEmbed.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/LocationEmbed.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationEmbed_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./LocationEmbed.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LocationEmbed.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationEmbed_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/LocationEmbed.vue?vue&type=template&id=00e1b1c9&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/LocationEmbed.vue?vue&type=template&id=00e1b1c9& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationEmbed_vue_vue_type_template_id_00e1b1c9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./LocationEmbed.vue?vue&type=template&id=00e1b1c9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LocationEmbed.vue?vue&type=template&id=00e1b1c9&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationEmbed_vue_vue_type_template_id_00e1b1c9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LocationEmbed_vue_vue_type_template_id_00e1b1c9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/MainMenu.vue":
 /*!**********************************************!*\
   !*** ./resources/js/components/MainMenu.vue ***!
@@ -87265,6 +87445,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     updateMarkerElements: function updateMarkerElements() {
       var _this = this;
 
+      if (this.isEmbed) {
+        var mbm = this.getMapboxMarker(this.currentLocation);
+        $(".marker").css({
+          opacity: 0.2
+        });
+        $(mbm._element).addClass("active");
+        $(mbm._element).css({
+          opacity: 1
+        });
+        return;
+      }
+
       if (this.isTour) {
         $(".marker").css({
           opacity: 0
@@ -87542,30 +87734,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var $route = _ref.$route;
       return this.isLocationRoute($route);
     },
-    isTour: function isTour(_ref2) {
-      var tour = _ref2.tour;
+    isEmbed: function isEmbed(_ref2) {
+      var $route = _ref2.$route;
+      return $route.name === "embed";
+    },
+    isTour: function isTour(_ref3) {
+      var tour = _ref3.tour;
       return tour !== undefined;
     },
-    tour: function tour(_ref3) {
+    tour: function tour(_ref4) {
       var _this = this;
 
-      var tours = _ref3.tours;
+      var tours = _ref4.tours;
       return tours.find(function (t) {
         return t.slug === _this.$route.params.tour;
       });
     },
-    story: function story(_ref4) {
+    story: function story(_ref5) {
       var _this2 = this;
 
-      var stories = _ref4.stories;
+      var stories = _ref5.stories;
       return stories.find(function (s) {
         return +s.id === +_this2.$route.params.story;
       });
     },
-    currentLocation: function currentLocation(_ref5) {
+    currentLocation: function currentLocation(_ref6) {
       var _this3 = this;
 
-      var places = _ref5.places;
+      var places = _ref6.places;
 
       if (this.story) {
         return this.story.place;
@@ -87576,8 +87772,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return item.slug === _this3.$route.params.location;
       });
     },
-    isAbout: function isAbout(_ref6) {
-      var $route = _ref6.$route;
+    isAbout: function isAbout(_ref7) {
+      var $route = _ref7.$route;
       return $route.name === "about";
     }
   })
@@ -87678,6 +87874,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_About_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/About.vue */ "./resources/js/components/About.vue");
 /* harmony import */ var _components_Tour_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Tour.vue */ "./resources/js/components/Tour.vue");
 /* harmony import */ var _components_LearningResources__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/LearningResources */ "./resources/js/components/LearningResources.vue");
+/* harmony import */ var _components_LocationEmbed__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/LocationEmbed */ "./resources/js/components/LocationEmbed.vue");
+
 
 
 
@@ -87707,6 +87905,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: "/places/:location/preview",
     component: _components_Location_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     name: "preview"
+  }, {
+    path: "/places/:location/embed",
+    name: "embed",
+    component: _components_LocationEmbed__WEBPACK_IMPORTED_MODULE_7__["default"]
   }, {
     path: "/stories/:story",
     component: _components_Story_vue__WEBPACK_IMPORTED_MODULE_3__["default"],

@@ -101,9 +101,10 @@ import filters from "./Filter";
 import search from "./Search";
 import filterIcon from "./FilterIcon";
 import { mapState, mapGetters } from "vuex";
+import routeHelpers from "../mixins/routeHelpers";
 export default {
+    mixins: [routeHelpers],
     props: {
-        isLocation: Boolean,
         shouldHideMenu: Boolean
     },
     components: {
@@ -156,7 +157,7 @@ export default {
             return true;
         },
         isAdmin() {
-            return window.isAdmin;
+            return window.isAdmin && !this.isEmbed;
         },
         menuOpen({ state }) {
             return state === "menu";

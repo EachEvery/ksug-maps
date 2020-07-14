@@ -3,7 +3,7 @@
         class="bg-black h-screen w-full flex items-center text-white font-display justify-center"
         v-if="!ready"
     >
-        <h1 class="text-5xl opacity-25 uppercase -mt-24 md:mt-0">
+        <h1 class="text-2xl md:text-5xl opacity-25 uppercase md:-mt-24 md:mt-0">
             Loading map...
         </h1>
     </div>
@@ -31,9 +31,10 @@
         </div>
 
         <explore
+            v-if="!isEmbed"
             :open="exploreOpen"
             @toggle="handleExploreToggle"
-            :hide="isLocation || isAbout || isTour"
+            :hide="isLocation || isAbout || isTour || isEmbed"
         />
 
         <transition
@@ -46,8 +47,9 @@
         </transition>
 
         <global-header
+            v-if="!isEmbed"
             :is-location="isLocation"
-            :should-hide-menu="isLocation || exploreOpen || isTour"
+            :should-hide-menu="isLocation || exploreOpen || isTour || isEmbed"
             @state-changed="menuIsOpen => (menuOpen = menuIsOpen)"
         />
 
