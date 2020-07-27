@@ -8851,16 +8851,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     tourStartCard: _TourStartCard__WEBPACK_IMPORTED_MODULE_16__["default"],
     tourScrollContainer: _TourScrollContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
-  watch: {
-    tourActive: function tourActive(val) {
-      if (val) {
-        this.$refs.scrollContainer.scrollToFirstStep();
-      }
-    }
-  },
   methods: {
     handleClose: function handleClose() {
       this.handleEndClick();
+      this.$store.commit("setTourIsActive", false);
       this.back();
     },
     handleScrollElementChanged: function handleScrollElementChanged(el) {
@@ -8918,9 +8912,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return stepIndex !== 0;
     },
     handleEndClick: function handleEndClick() {
-      this.$store.commit("setTourIsActive", false);
-      this.$refs.scrollContainer.scrollToStart();
-      this.setCenter();
+      this.$refs.scrollContainer.scrollToStart(); // this.setCenter();
     },
     getStories: function getStories(place) {
       var _this2 = this;
@@ -9120,10 +9112,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   }),
   mounted: function mounted() {
     this.loadDirections();
-
-    if (!this.tourActive) {
-      this.setCenter();
-    }
+    this.$store.commit("setTourIsActive", true);
+    this.setCenter();
   }
 });
 
@@ -9342,10 +9332,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -60894,7 +60880,7 @@ var render = function() {
                 transform:
                   "translateY(" + (_vm.tourActive ? "0" : "-100%") + ")"
               },
-              on: { click: _vm.handleEndClick }
+              on: { click: _vm.handleClose }
             },
             [_vm._v("\n            × END TOUR\n        ")]
           )
@@ -60942,10 +60928,6 @@ var render = function() {
                           order: legIndex + 1
                         }
                       })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.isNotLastOrFirstStep(legStepIndex)
-                    ? _c("step-card", { attrs: { step: step } })
                     : _vm._e()
                 ],
                 1
@@ -60992,7 +60974,7 @@ var render = function() {
                           staticClass:
                             "text-white font-bold font-mono uppercase"
                         },
-                        [_vm._v("Back to Start")]
+                        [_vm._v("Back to Top")]
                       )
                     ]
                   )
@@ -61153,20 +61135,6 @@ var render = function() {
     },
     [
       _c(
-        "clickable",
-        {
-          staticClass: "absolute top-0 right-0 m-2",
-          on: {
-            click: function($event) {
-              return _vm.$emit("close")
-            }
-          }
-        },
-        [_c("close-icon", { staticClass: "w-5 h-5 text-white" })],
-        1
-      ),
-      _vm._v(" "),
-      _c(
         "h1",
         {
           staticClass:
@@ -61178,25 +61146,6 @@ var render = function() {
       _c("h3", { staticClass: "font-display text-xl font-bold uppercase" }, [
         _vm._v("\n        " + _vm._s(_vm.tour.duration) + "\n    ")
       ]),
-      _vm._v(" "),
-      _c(
-        "clickable",
-        {
-          staticClass:
-            "h-12 flex items-center justify-center bg-white my-5 w-full",
-          on: { click: _vm.handleStartButtonClick }
-        },
-        [
-          _c(
-            "span",
-            {
-              staticClass:
-                "text-black text-2xs md:text-sm font-bold font-mono uppercase"
-            },
-            [_vm._v(_vm._s(_vm.startButtonText))]
-          )
-        ]
-      ),
       _vm._v(" "),
       _c("div", { staticClass: "flex my-6" }, [
         _c("img", {
@@ -61229,8 +61178,7 @@ var render = function() {
         { staticClass: "text-2xs mt-2 block font-mono leading-normal" },
         [_vm._v("Kent State University Libraries, Special Collections")]
       )
-    ],
-    1
+    ]
   )
 }
 var staticRenderFns = []
@@ -61370,8 +61318,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "h-screen overflow-y-scroll flex-shrink-0 hide-scrollbars pb-48 vertical-scroll-container overflow-x-hidden",
-      staticStyle: { "padding-right": ".45rem" }
+        "h-screen overflow-y-scroll flex-shrink-0 hide-scrollbars pb-48 vertical-scroll-container overflow-x-hidden"
     },
     [_vm._t("default")],
     2

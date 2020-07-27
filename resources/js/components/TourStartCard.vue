@@ -2,10 +2,6 @@
     <div
         class="p-6 bg-black relative text-white w-80vw mt-60vh min-h-20rem max-w-sm ||| lg:mt-0 lg:w-full"
     >
-        <clickable class="absolute top-0 right-0 m-2" @click="$emit('close')">
-            <close-icon class="w-5 h-5 text-white" />
-        </clickable>
-
         <h1
             class="font-display text-3xl lg:text-5xl font-bold uppercase leading-none"
         >
@@ -15,7 +11,7 @@
             {{ tour.duration }}
         </h3>
 
-        <clickable
+        <!-- <clickable
             class="h-12 flex items-center justify-center bg-white my-5 w-full"
             @click="handleStartButtonClick"
         >
@@ -23,7 +19,7 @@
                 class="text-black text-2xs md:text-sm font-bold font-mono uppercase"
                 >{{ startButtonText }}</span
             >
-        </clickable>
+        </clickable> -->
 
         <div class="flex my-6">
             <img

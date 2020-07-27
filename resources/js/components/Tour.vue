@@ -7,7 +7,7 @@
             <clickable
                 class="fixed top-0 inset-x-0 py-2  p-4 w-full text-black font-bold font-mono text-center w-full  lg:left-auto lg:right-0 lg:max-w-sm lg:mr-12"
                 style="background: #F0A38C"
-                @click="handleEndClick"
+                @click="handleClose"
                 :style="{
                     transform: `translateY(${tourActive ? '0' : '-100%'})`
                 }"
@@ -39,10 +39,10 @@
                         :order="legIndex + 1"
                     />
 
-                    <step-card
+                    <!-- <step-card
                         :step="step"
                         v-if="isNotLastOrFirstStep(legStepIndex)"
-                    />
+                    /> -->
                 </vertical-scroll-container>
             </template>
 
@@ -67,7 +67,7 @@
                         @click="handleEndClick"
                     >
                         <span class="text-white font-bold font-mono uppercase"
-                            >Back to Start</span
+                            >Back to Top</span
                         >
                     </clickable>
                 </place-tour-card>
@@ -114,16 +114,11 @@ export default {
         tourScrollContainer
     },
 
-    watch: {
-        tourActive(val) {
-            if (val) {
-                this.$refs.scrollContainer.scrollToFirstStep();
-            }
-        }
-    },
     methods: {
         handleClose() {
             this.handleEndClick();
+
+            this.$store.commit("setTourIsActive", false);
 
             this.back();
         },
@@ -198,10 +193,9 @@ export default {
         },
 
         handleEndClick() {
-            this.$store.commit("setTourIsActive", false);
             this.$refs.scrollContainer.scrollToStart();
 
-            this.setCenter();
+            // this.setCenter();
         },
 
         getStories(place) {
@@ -351,9 +345,9 @@ export default {
     mounted() {
         this.loadDirections();
 
-        if (!this.tourActive) {
-            this.setCenter();
-        }
+        this.$store.commit("setTourIsActive", true);
+
+        this.setCenter();
     }
 };
 </script>
