@@ -28,7 +28,7 @@ class Tour extends Model implements HasMedia
     public function stories()
     {
         return $this->belongsToMany(Story::class)
-            ->withPivot(['id', 'sort_order'])
+            ->withPivot(['id', 'sort_order', 'custom_directions'])
             ->orderBy('story_tour.sort_order');
     }
 
