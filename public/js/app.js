@@ -7598,6 +7598,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TourStoryCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TourStoryCard */ "./resources/js/components/TourStoryCard.vue");
+/* harmony import */ var _TourCardDirections__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TourCardDirections */ "./resources/js/components/TourCardDirections.vue");
+//
+//
+//
 //
 //
 //
@@ -7647,15 +7651,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    tourStoryCard: _TourStoryCard__WEBPACK_IMPORTED_MODULE_0__["default"]
+    tourStoryCard: _TourStoryCard__WEBPACK_IMPORTED_MODULE_0__["default"],
+    tourCardDirections: _TourCardDirections__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
     place: Object,
     step: Object,
     stories: Array,
-    order: Number
+    order: Number,
+    tour: Object
+  },
+  computed: {
+    customDirections: function customDirections(_ref) {
+      var place = _ref.place,
+          tour = _ref.tour;
+      return tour.custom_directions.find(function (d) {
+        return +d.place_id === +place.id;
+      });
+    }
   }
 });
 
@@ -8818,6 +8834,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
 
 
 
@@ -9208,6 +9226,187 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return +place["long"];
     }
   })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourCardDirections.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TourCardDirections.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    tour: Object,
+    place: Object,
+    step: Object,
+    initCustomDirections: Object
+  },
+  data: function data() {
+    return {
+      customDirections: _objectSpread({
+        text: ""
+      }, this.initCustomDirections),
+      state: "default"
+    };
+  },
+  watch: {
+    state: function state(_state) {
+      var _this = this;
+
+      this.checkForEmptyText();
+
+      if (_state === "default") {
+        this.$nextTick(function () {
+          _this.update();
+        });
+      }
+    }
+  },
+  methods: {
+    checkForEmptyText: function checkForEmptyText() {
+      if (this.customDirections.text.length === 0) {
+        this.customDirections.text = this.defaultDirections;
+      }
+    },
+    update: function update() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _yield$Axios$put, customDirections, _yield$Axios$post, _customDirections;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!_this2.exists) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.put("/custom-directions/".concat(_this2.customDirections.id), _this2.fillable);
+
+              case 3:
+                _yield$Axios$put = _context.sent;
+                customDirections = _yield$Axios$put.data;
+                _this2.customDirections = customDirections;
+                _context.next = 13;
+                break;
+
+              case 8:
+                _context.next = 10;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/custom-directions", _this2.fillable);
+
+              case 10:
+                _yield$Axios$post = _context.sent;
+                _customDirections = _yield$Axios$post.data;
+                _this2.customDirections = _customDirections;
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  computed: {
+    fillable: function fillable(_ref) {
+      var customDirections = _ref.customDirections;
+      return {
+        custom_directions: {
+          text: customDirections.text,
+          tour_id: this.tour.id,
+          place_id: this.place.id
+        }
+      };
+    },
+    exists: function exists(_ref2) {
+      var customDirections = _ref2.customDirections;
+      return customDirections.id !== undefined;
+    },
+    showDefaultDirections: function showDefaultDirections(_ref3) {
+      var exists = _ref3.exists;
+      return !exists;
+    },
+    showCustomDirections: function showCustomDirections(_ref4) {
+      var exists = _ref4.exists,
+          state = _ref4.state;
+      return exists && state !== "editing";
+    },
+    isAdmin: function isAdmin() {
+      return window.isAdmin;
+    },
+    defaultDirections: function defaultDirections(_ref5) {
+      var place = _ref5.place,
+          step = _ref5.step;
+      return "When you're ready, depart from ".concat(place.name, " and ").concat(step.maneuver.instruction);
+    }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    this.$nextTick(function () {
+      _this3.checkForEmptyText();
+    });
+  }
 });
 
 /***/ }),
@@ -59831,15 +60030,14 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm.step !== undefined
-        ? _c("p", { staticClass: "mb-8 mt-4 block" }, [
-            _vm._v(
-              "\n        When you're ready, depart from " +
-                _vm._s(_vm.place.name) +
-                " and\n        " +
-                _vm._s(_vm.step.maneuver.instruction) +
-                "\n    "
-            )
-          ])
+        ? _c("tour-card-directions", {
+            attrs: {
+              "init-custom-directions": _vm.customDirections,
+              place: _vm.place,
+              step: _vm.step,
+              tour: _vm.tour
+            }
+          })
         : _vm._e(),
       _vm._v(" "),
       _vm._t("default")
@@ -60925,7 +61123,8 @@ var render = function() {
                           place: _vm.placesInOrder[legIndex],
                           step: leg.steps[0],
                           stories: _vm.getStories(_vm.placesInOrder[legIndex]),
-                          order: legIndex + 1
+                          order: legIndex + 1,
+                          tour: _vm.tour
                         }
                       })
                     : _vm._e()
@@ -60948,7 +61147,8 @@ var render = function() {
                     place: _vm.lastPlace,
                     step: undefined,
                     stories: _vm.getStories(_vm.lastPlace),
-                    order: _vm.placesInOrder.length
+                    order: _vm.placesInOrder.length,
+                    tour: _vm.tour
                   }
                 },
                 [
@@ -61070,6 +61270,109 @@ var render = function() {
         : _vm._e()
     ]
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourCardDirections.vue?vue&type=template&id=224b97b2&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TourCardDirections.vue?vue&type=template&id=224b97b2& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "mb-8" }, [
+    _vm.state === "default"
+      ? _c("p", { staticClass: " block mt-2" }, [
+          _c("span", [_vm._v(_vm._s(_vm.customDirections.text))])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isAdmin
+      ? _c(
+          "div",
+          { staticClass: "mt-2" },
+          [
+            _vm.state === "editing"
+              ? _c(
+                  "div",
+                  [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.customDirections.text,
+                          expression: "customDirections.text"
+                        }
+                      ],
+                      staticClass:
+                        "font-sans text-xs w-full p-2 border rounded",
+                      domProps: { value: _vm.customDirections.text },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.customDirections,
+                            "text",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "clickable",
+                      {
+                        staticClass:
+                          "bg-black text-white font-mono p-2 w-full text-center uppercase font-bold mt-2",
+                        on: {
+                          click: function($event) {
+                            _vm.state = "default"
+                          }
+                        }
+                      },
+                      [_vm._v("Save")]
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.state !== "editing"
+              ? _c(
+                  "clickable",
+                  {
+                    staticClass:
+                      "bg-black text-white font-mono p-2 w-full text-center uppercase font-bold mt-1",
+                    on: {
+                      click: function($event) {
+                        _vm.state = "editing"
+                      }
+                    }
+                  },
+                  [_vm._v("Edit Directions")]
+                )
+              : _vm._e()
+          ],
+          1
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -86351,6 +86654,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCard_vue_vue_type_template_id_5583021a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCard_vue_vue_type_template_id_5583021a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TourCardDirections.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/TourCardDirections.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TourCardDirections_vue_vue_type_template_id_224b97b2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TourCardDirections.vue?vue&type=template&id=224b97b2& */ "./resources/js/components/TourCardDirections.vue?vue&type=template&id=224b97b2&");
+/* harmony import */ var _TourCardDirections_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TourCardDirections.vue?vue&type=script&lang=js& */ "./resources/js/components/TourCardDirections.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TourCardDirections_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TourCardDirections_vue_vue_type_template_id_224b97b2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TourCardDirections_vue_vue_type_template_id_224b97b2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TourCardDirections.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TourCardDirections.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/TourCardDirections.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCardDirections_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TourCardDirections.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourCardDirections.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCardDirections_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TourCardDirections.vue?vue&type=template&id=224b97b2&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/TourCardDirections.vue?vue&type=template&id=224b97b2& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCardDirections_vue_vue_type_template_id_224b97b2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TourCardDirections.vue?vue&type=template&id=224b97b2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TourCardDirections.vue?vue&type=template&id=224b97b2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCardDirections_vue_vue_type_template_id_224b97b2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TourCardDirections_vue_vue_type_template_id_224b97b2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -38,26 +38,37 @@
             :style="{ color: story.color }"
         />
 
-        <p class="mb-8 mt-4 block" v-if="step !== undefined">
-            When you're ready, depart from {{ place.name }} and
-            {{ step.maneuver.instruction }}
-        </p>
+        <tour-card-directions
+            v-if="step !== undefined"
+            :init-custom-directions="customDirections"
+            :place="place"
+            :step="step"
+            :tour="tour"
+        />
 
         <slot />
     </div>
 </template>
 <script>
 import tourStoryCard from "./TourStoryCard";
+import tourCardDirections from "./TourCardDirections";
 
 export default {
     components: {
-        tourStoryCard
+        tourStoryCard,
+        tourCardDirections
     },
     props: {
         place: Object,
         step: Object,
         stories: Array,
-        order: Number
+        order: Number,
+        tour: Object
+    },
+    computed: {
+        customDirections({ place, tour }) {
+            return tour.custom_directions.find(d => +d.place_id === +place.id);
+        }
     }
 };
 </script>

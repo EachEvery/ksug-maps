@@ -10,7 +10,7 @@ class Tour extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    public $with = ['photos', 'stories'];
+    public $with = ['photos', 'stories', 'custom_directions'];
     public $guarded = ['id'];
 
     public function registerMediaCollections(): void
@@ -18,6 +18,11 @@ class Tour extends Model implements HasMedia
         $this->addMediaCollection('tour_cover')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg'])
             ->singleFile();
+    }
+
+    public function custom_directions()
+    {
+        return $this->hasMany(CustomDirections::class);
     }
 
     public function photos()

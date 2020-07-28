@@ -11,14 +11,4 @@ class TourStoriesController
     {
         return $tour->stories;
     }
-
-    public function update(Tour $tour, Story $story)
-    {
-        $tour->stories()->updateExistingPivot(
-            $story->id,
-            request('tour_story')
-        );
-
-        return $tour->stories()->findOrFail($story->id);
-    }
 }

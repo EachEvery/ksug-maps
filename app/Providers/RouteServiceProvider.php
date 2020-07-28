@@ -4,6 +4,7 @@ namespace KSUGMap\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use KSUGMap\CustomDirections;
 use KSUGMap\Story;
 use KSUGMap\Tour;
 
@@ -38,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::model('story', Story::class);
         Route::model('tour', Tour::class);
+        Route::model('custom_direction', CustomDirections::class);
     }
 
     /**

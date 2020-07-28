@@ -37,6 +37,7 @@
                         :step="leg.steps[0]"
                         :stories="getStories(placesInOrder[legIndex])"
                         :order="legIndex + 1"
+                        :tour="tour"
                     />
 
                     <!-- <step-card
@@ -56,6 +57,7 @@
                     :step="undefined"
                     :stories="getStories(lastPlace)"
                     :order="placesInOrder.length"
+                    :tour="tour"
                 >
                     <p class="mb-8 mt-4 block">
                         You've reached the end of the

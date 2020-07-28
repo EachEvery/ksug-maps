@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCustomDirectionsToStoryTourTable extends Migration
+class CreateCustomDirectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddCustomDirectionsToStoryTourTable extends Migration
      */
     public function up()
     {
-        Schema::table('story_tour', function (Blueprint $table) {
-            $table->longText('custom_directions')->nullable();
+        Schema::create('custom_directions', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedInteger('tour_id');
+            $table->unsignedInteger('place_id');
+            $table->longText('text');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddCustomDirectionsToStoryTourTable extends Migration
      */
     public function down()
     {
-        Schema::table('story_tour', function (Blueprint $table) {
-            $table->dropColumn('custom_directions');
-        });
+        Schema::dropIfExists('custom_directions');
     }
 }
