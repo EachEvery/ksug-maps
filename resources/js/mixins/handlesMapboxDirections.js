@@ -53,10 +53,51 @@ export default {
                     .setLngLat(tourStop.geometry.coordinates)
                     .addTo(this.map);
 
-                $(".tour-stop").click(function() {
+                $(el).click(() => {
                     $(".tour-stop").removeClass("active");
 
                     $(this).addClass("active");
+
+                    let $el = $(`[data-place-id="${tourStop.place.id}"]`);
+
+                    if (!this.sm) {
+                        $(".tour-scroll-container").animate({
+                            scrollTop: `+=${$el.offset().top - 50}`
+                        });
+                    } else {
+                        $(".tour-scroll-container").animate({
+                            scrollLeft: `+=${$el.offset().left - 50}`
+                        });
+                    }
+                });
+
+                let popup = new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: true
+                });
+
+                let stories = this.tour.stories.filter(
+                    s => +tourStop.place.id === +s.place_id
+                );
+
+                popup
+                    .setLngLat(tourStop.geometry.coordinates)
+                    .setHTML(
+                        `<div class="flex flex-col"><span class="font-display uppercase text-lg leading-none">${
+                            tourStop.place.name
+                        }</span><span class="font-mono text-sm uppercase mt-2">${
+                            stories.length
+                        } ${
+                            stories.length === 1 ? "Story" : "Stories"
+                        }</span></div>`
+                    );
+
+                el.addEventListener("mouseenter", e => {
+                    popup.addTo(this.map);
+                });
+
+                el.addEventListener("mouseleave", e => {
+                    popup.remove();
                 });
 
                 return {

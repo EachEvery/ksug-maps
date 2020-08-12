@@ -87622,9 +87622,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         el.id = "place-marker-" + tourStop.place.id;
         el.innerHTML = "<span>".concat(i + 1, "</span>");
         var mapboxMarker = new mapboxgl.Marker(el).setLngLat(tourStop.geometry.coordinates).addTo(_this.map);
-        $(".tour-stop").click(function () {
+        $(el).click(function () {
           $(".tour-stop").removeClass("active");
-          $(this).addClass("active");
+          $(_this).addClass("active");
+          var $el = $("[data-place-id=\"".concat(tourStop.place.id, "\"]"));
+
+          if (!_this.sm) {
+            $(".tour-scroll-container").animate({
+              scrollTop: "+=".concat($el.offset().top - 50)
+            });
+          } else {
+            $(".tour-scroll-container").animate({
+              scrollLeft: "+=".concat($el.offset().left - 50)
+            });
+          }
+        });
+        var popup = new mapboxgl.Popup({
+          closeButton: false,
+          closeOnClick: true
+        });
+
+        var stories = _this.tour.stories.filter(function (s) {
+          return +tourStop.place.id === +s.place_id;
+        });
+
+        popup.setLngLat(tourStop.geometry.coordinates).setHTML("<div class=\"flex flex-col\"><span class=\"font-display uppercase text-lg leading-none\">".concat(tourStop.place.name, "</span><span class=\"font-mono text-sm uppercase mt-2\">").concat(stories.length, " ").concat(stories.length === 1 ? "Story" : "Stories", "</span></div>"));
+        el.addEventListener("mouseenter", function (e) {
+          popup.addTo(_this.map);
+        });
+        el.addEventListener("mouseleave", function (e) {
+          popup.remove();
         });
         return _objectSpread({}, tourStop, {}, mapboxMarker);
       });
