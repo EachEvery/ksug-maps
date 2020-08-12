@@ -6385,6 +6385,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -7167,6 +7168,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_learningResources__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/learningResources */ "./resources/js/mixins/learningResources.js");
+//
+//
 //
 //
 //
@@ -57343,7 +57346,8 @@ var render = function() {
           width: "100vh",
           transform: "rotate(90deg)",
           left: "0",
-          "transform-origin": "left top"
+          "transform-origin": "left top",
+          "min-width": "576px"
         }
       },
       _vm.$listeners
@@ -57390,7 +57394,8 @@ var render = function() {
           _c(
             "h1",
             {
-              staticClass: "font-display font-black text-5xl ml-16 uppercase",
+              staticClass:
+                "font-display font-black text-2xl xl:text-5xl ml-16 uppercase",
               staticStyle: { transform: "rotate(180deg)" }
             },
             [_vm._v("\n            Explore Tours and Stories\n        ")]
@@ -58228,7 +58233,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "h-screen w-full absolute transition pt-16 md:pt-24 bg-white flex flex-col justify-between pb-10",
+            "h-screen w-full absolute transition pt-16 bg-white flex flex-col justify-between pb-0",
           class: _vm.innerClass
         },
         [
@@ -58245,7 +58250,7 @@ var render = function() {
             [
               _vm.menuOpen
                 ? _c("main-menu", {
-                    staticClass: "flex-grow overflow-hidden",
+                    staticClass: "flex-grow overflow-scroll",
                     attrs: { "is-location": _vm.isLocation },
                     on: { close: _vm.handleClickOutside }
                   })
@@ -58262,19 +58267,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "p",
-            {
-              staticClass:
-                "font-mono self-center text-center text-2xs md:text-sm opacity-50 leading-normal flex-shrink-0",
-              staticStyle: { width: "21rem" }
-            },
-            [
-              _vm._v(
-                "\n            All content used with permission of Special Collections at Kent\n            State University.\n        "
-              )
-            ]
-          )
+          _vm._m(0)
         ],
         1
       ),
@@ -58377,7 +58370,31 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "p",
+      {
+        staticClass:
+          "font-mono self-center text-center text-2xs  leading-normal py-4 border-t flex-shrink-0"
+      },
+      [
+        _c(
+          "span",
+          { staticClass: "opacity-50 block", staticStyle: { width: "21rem" } },
+          [
+            _vm._v(
+              "\n                All content used with permission of Special Collections at\n                Kent State University.\n            "
+            )
+          ]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -59329,98 +59346,100 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "ul",
-    {
-      staticClass:
-        "flex flex-col text-center font-display text-lg md:text-xl max-w-xs mx-auto leading-tight mt-8 md:mt-12"
-    },
-    [
-      _c(
-        "li",
-        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
-        [
-          _c("router-link", { attrs: { to: "/explore" } }, [
-            _vm._v("EXPLORE TOURS & STORIES")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
-        [
-          _c("router-link", { attrs: { to: "/about#about-may-4" } }, [
-            _vm._v("ABOUT MAY 4")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm.resources.length
-        ? _c(
-            "li",
-            { staticClass: "mb-4 md:mb-6 shrink-when-active" },
-            [
-              _c("router-link", { attrs: { to: "/resources" } }, [
-                _vm._v("RESOURCES")
-              ])
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
-        [
-          _c("router-link", { attrs: { to: "/about/#about-the-project" } }, [
-            _vm._v("ABOUT THIS PROJECT")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
-        [
-          _c("router-link", { attrs: { to: "/about#how-to-use" } }, [
-            _vm._v("HOW TO USE THIS SITE")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "mb-4 md:mb-6 shrink-when-active" },
-        [
-          _c("router-link", { attrs: { to: "/about#give-feedback" } }, [
-            _vm._v("GIVE FEEDBACK")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", {
+  return _c("div", { staticClass: "flex-center border-t" }, [
+    _c(
+      "ul",
+      {
         staticClass:
-          "border-b border-black block h-1 w-full opacity-25 mb-4 md:mb-12 mt-5"
-      }),
-      _vm._v(" "),
-      _vm._m(1)
-    ]
-  )
+          "flex flex-col text-center font-display text-lg md:text-xl max-w-xs mx-auto leading-tight mt-8 md:mt-12"
+      },
+      [
+        _c(
+          "li",
+          { staticClass: "mb-4 xl:mb-6 shrink-when-active" },
+          [
+            _c("router-link", { attrs: { to: "/explore" } }, [
+              _vm._v("EXPLORE TOURS & STORIES")
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "mb-4 xl:mb-6 shrink-when-active" },
+          [
+            _c("router-link", { attrs: { to: "/about#about-may-4" } }, [
+              _vm._v("ABOUT MAY 4")
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _vm.resources.length
+          ? _c(
+              "li",
+              { staticClass: "mb-4 xl:mb-6 shrink-when-active" },
+              [
+                _c("router-link", { attrs: { to: "/resources" } }, [
+                  _vm._v("RESOURCES")
+                ])
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "mb-4 xl:mb-6 shrink-when-active" },
+          [
+            _c("router-link", { attrs: { to: "/about/#about-the-project" } }, [
+              _vm._v("ABOUT THIS PROJECT")
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "mb-4 xl:mb-6 shrink-when-active" },
+          [
+            _c("router-link", { attrs: { to: "/about#how-to-use" } }, [
+              _vm._v("HOW TO USE THIS SITE")
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          { staticClass: "mb-4 xl:mb-6 shrink-when-active" },
+          [
+            _c("router-link", { attrs: { to: "/about#give-feedback" } }, [
+              _vm._v("GIVE FEEDBACK")
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", {
+          staticClass:
+            "border-b border-black block h-1 w-full opacity-25 mb-10 xl:mb-12 mt-5"
+        }),
+        _vm._v(" "),
+        _vm._m(1)
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "mb-4 md:mb-6 shrink-when-active" }, [
+    return _c("li", { staticClass: "mb-4 xl:mb-6 shrink-when-active" }, [
       _c(
         "a",
         {

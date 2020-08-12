@@ -1,6 +1,6 @@
 <template>
     <div
-        style="width: 100vh; transform: rotate(90deg); left: 0; transform-origin: left top;"
+        style="width: 100vh; transform: rotate(90deg); left: 0; transform-origin: left top; min-width: 576px;"
         class="bg-white absolute flex justify-between top-0 left-0 border-b shadow  px-16 py-3  transition items-center cursor-pointer"
         v-on="$listeners"
     >
@@ -25,7 +25,7 @@
             </div>
 
             <h1
-                class="font-display font-black text-5xl ml-16 uppercase"
+                class="font-display font-black text-2xl xl:text-5xl ml-16 uppercase"
                 style="transform: rotate(180deg)"
             >
                 Explore Tours and Stories

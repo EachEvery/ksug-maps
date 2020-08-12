@@ -13,7 +13,7 @@
         >
 
         <div
-            class="h-screen w-full absolute transition pt-16 md:pt-24 bg-white flex flex-col justify-between pb-10"
+            class="h-screen w-full absolute transition pt-16 bg-white flex flex-col justify-between pb-0"
             :class="innerClass"
         >
             <transition
@@ -24,7 +24,7 @@
             >
                 <main-menu
                     v-if="menuOpen"
-                    class="flex-grow overflow-hidden"
+                    class="flex-grow overflow-scroll"
                     @close="handleClickOutside"
                     :is-location="isLocation"
                 />
@@ -33,11 +33,12 @@
             </transition>
 
             <p
-                class="font-mono self-center text-center text-2xs md:text-sm opacity-50 leading-normal flex-shrink-0"
-                style="width: 21rem"
+                class="font-mono self-center text-center text-2xs  leading-normal py-4 border-t flex-shrink-0"
             >
-                All content used with permission of Special Collections at Kent
-                State University.
+                <span class="opacity-50 block" style="width: 21rem">
+                    All content used with permission of Special Collections at
+                    Kent State University.
+                </span>
             </p>
         </div>
         <div
