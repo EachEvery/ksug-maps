@@ -21,24 +21,44 @@
             style="top: 6.26rem; bottom: 1rem;"
             v-if="results.length > 0"
         >
-            <router-link
-                :to="`/stories/${result.id}`"
-                v-for="(result, i) in results"
-                :key="i"
-                class="px-4 md:px-8 py-4 hover:bg-grey-100 block border-white"
-                :class="{ 'border-t-2': i > 0 }"
-                :style="{ background: result.color }"
-            >
-                <h1 class="text-grey-800 font-bold mb-2">
-                    {{ result.subject }}
-                </h1>
-                <p
-                    class="font-light text-xs md:text-base leading-tight tracking-tight opacity-75"
+            <div v-for="(result, i) in results" :key="i">
+                <router-link
+                    v-if="result.type === 'story'"
+                    :to="`/stories/${result.item.id}`"
+                    :key="i"
+                    class="px-4 md:px-8 py-4 hover:bg-grey-100 block border-white"
+                    :class="{ 'border-t-2': i > 0 }"
+                    :style="{ background: result.item.color }"
                 >
-                    {{ result.day }} &middot;
-                    {{ truncate(result.content, { length: 150 }) }}
-                </p>
-            </router-link>
+                    <h1 class="text-grey-800 font-bold mb-2">
+                        {{ result.item.subject }}
+                    </h1>
+                    <p
+                        class="font-light text-xs md:text-base leading-tight tracking-tight opacity-75"
+                    >
+                        {{ result.item.day }} &middot;
+                        {{ truncate(result.item.content, { length: 150 }) }}
+                    </p>
+                </router-link>
+
+                <router-link
+                    v-if="result.type === 'place'"
+                    :to="`/places/${result.item.slug}`"
+                    :key="i"
+                    class="px-4 md:px-8 py-4 hover:bg-grey-100 block border-white text-white pb-24"
+                    :class="{ 'border-t-2': i > 0 }"
+                    :style="{ background: '#000' }"
+                >
+                    <h1 class="text-grey-800 font-bold mb-2">
+                        {{ result.item.name }}
+                    </h1>
+                    <p
+                        class="font-light text-xs md:text-base leading-tight tracking-tight opacity-75"
+                    >
+                        Click to view location
+                    </p>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -67,37 +87,81 @@ export default {
     },
 
     computed: {
-        ...mapState(["stories"]),
-        results({ q, stories }) {
+        ...mapState(["stories", "places"]),
+
+        searchable({ stories, places }) {
+            let serachableStories = stories.map(s => ({
+                item: s,
+                sortOn: s.subject,
+                searchKeys: ["subject", "role", "day", "content"],
+                type: "story"
+            }));
+
+            let searchablePlaces = places.map(p => ({
+                item: p,
+                sortOn: p.name,
+                searchKeys: ["name"],
+                type: "place"
+            }));
+
+            return {
+                stories: serachableStories,
+                places: searchablePlaces
+            };
+        },
+        results({ q, searchable }) {
             if (q.trim() === "") {
-                return stories.sort((a, b) => {
-                    if (a.subject > b.subject) {
-                        return 1;
-                    }
-                    if (b.subject > a.subject) {
-                        return -1;
-                    }
-                    return 0;
-                });
+                return this.sort([...searchable.stories, ...searchable.places]);
             }
 
-            let fuse = new Fuse(stories, {
-                keys: ["subject", "role", "place.name", "day", "content"],
-                threshold: 0.1
-            });
+            let storyResults = this.search(
+                searchable.stories,
+                searchable.stories[0].searchKeys
+            );
 
-            let matchingIds = fuse.search(q).map(result => {
-                return result.item.id;
-            });
+            let placeResults = this.search(
+                searchable.places,
+                searchable.places[0].searchKeys
+            );
 
-            return stories.filter(s => {
-                return matchingIds.includes(s.id);
-            });
+            return this.sort([...storyResults, ...placeResults]);
         }
     },
     methods: {
         getStoryColor,
-        truncate: _.truncate
+        truncate: _.truncate,
+        sort(collection, sortKey = "sortOn") {
+            return collection.sort((a, b) => {
+                if (a[sortKey] > b[sortKey]) {
+                    return 1;
+                }
+                if (b[sortKey] > a[sortKey]) {
+                    return -1;
+                }
+                return 0;
+            });
+        },
+        search(collection, keys, threshold = 0.1, id = "id") {
+            let fuse = new Fuse(
+                collection.map(c => c.item),
+                {
+                    keys: keys,
+                    threshold: threshold
+                }
+            );
+
+            let matchingIds = fuse.search(this.q).map(result => {
+                return result.item.id;
+            });
+
+            // // let matchingIds = fuse.search(this.q);
+
+            // debugger;
+
+            return collection.filter(i => {
+                return matchingIds.includes(i.item.id);
+            });
+        }
     }
 };
 </script>

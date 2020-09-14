@@ -6559,79 +6559,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -7823,12 +7750,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var fuse_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! fuse.js */ "./node_modules/fuse.js/dist/fuse.esm.js");
 /* harmony import */ var _functions_ksug__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../functions/ksug */ "./resources/js/functions/ksug.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7893,40 +7852,79 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       q: ""
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["stories"]), {
-    results: function results(_ref) {
-      var q = _ref.q,
-          stories = _ref.stories;
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapState"])(["stories", "places"]), {
+    searchable: function searchable(_ref) {
+      var stories = _ref.stories,
+          places = _ref.places;
+      var serachableStories = stories.map(function (s) {
+        return {
+          item: s,
+          sortOn: s.subject,
+          searchKeys: ["subject", "role", "day", "content"],
+          type: "story"
+        };
+      });
+      var searchablePlaces = places.map(function (p) {
+        return {
+          item: p,
+          sortOn: p.name,
+          searchKeys: ["name"],
+          type: "place"
+        };
+      });
+      return {
+        stories: serachableStories,
+        places: searchablePlaces
+      };
+    },
+    results: function results(_ref2) {
+      var q = _ref2.q,
+          searchable = _ref2.searchable;
 
       if (q.trim() === "") {
-        return stories.sort(function (a, b) {
-          if (a.subject > b.subject) {
-            return 1;
-          }
-
-          if (b.subject > a.subject) {
-            return -1;
-          }
-
-          return 0;
-        });
+        return this.sort([].concat(_toConsumableArray(searchable.stories), _toConsumableArray(searchable.places)));
       }
 
-      var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_5__["default"](stories, {
-        keys: ["subject", "role", "place.name", "day", "content"],
-        threshold: 0.1
-      });
-      var matchingIds = fuse.search(q).map(function (result) {
-        return result.item.id;
-      });
-      return stories.filter(function (s) {
-        return matchingIds.includes(s.id);
-      });
+      var storyResults = this.search(searchable.stories, searchable.stories[0].searchKeys);
+      var placeResults = this.search(searchable.places, searchable.places[0].searchKeys);
+      return this.sort([].concat(_toConsumableArray(storyResults), _toConsumableArray(placeResults)));
     }
   }),
   methods: {
     getStoryColor: _functions_ksug__WEBPACK_IMPORTED_MODULE_6__["getStoryColor"],
-    truncate: lodash__WEBPACK_IMPORTED_MODULE_4___default.a.truncate
+    truncate: lodash__WEBPACK_IMPORTED_MODULE_4___default.a.truncate,
+    sort: function sort(collection) {
+      var sortKey = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "sortOn";
+      return collection.sort(function (a, b) {
+        if (a[sortKey] > b[sortKey]) {
+          return 1;
+        }
+
+        if (b[sortKey] > a[sortKey]) {
+          return -1;
+        }
+
+        return 0;
+      });
+    },
+    search: function search(collection, keys) {
+      var threshold = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.1;
+      var id = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "id";
+      var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_5__["default"](collection.map(function (c) {
+        return c.item;
+      }), {
+        keys: keys,
+        threshold: threshold
+      });
+      var matchingIds = fuse.search(this.q).map(function (result) {
+        return result.item.id;
+      }); // // let matchingIds = fuse.search(this.q);
+      // debugger;
+
+      return collection.filter(function (i) {
+        return matchingIds.includes(i.item.id);
+      });
+    }
   }
 });
 
@@ -58540,158 +58538,36 @@ var render = function() {
         "fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-32 md:pt-0 md:max-w-base max-w-full bg-green pt-12"
     },
     [
-      _c("page-section", [
-        _c(
-          "h1",
-          { staticClass: "text-4xl lg:text-8xl font-display uppercase" },
-          [_vm._v("\n            Resources\n        ")]
-        ),
-        _vm._v(" "),
-        _vm.resources.length === 0
-          ? _c("p", [
-              _vm._v(
-                "\n            No resources available right now. Check back later!\n        "
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.lessons.length
-          ? _c("div", { staticClass: "mb-12 mt-5" }, [
-              _c(
-                "h1",
-                { staticClass: "text-lg lg:text-3xl font-display uppercase" },
-                [_vm._v("\n                Lesson Plans\n            ")]
-              ),
+      _c(
+        "page-section",
+        [
+          _c(
+            "h1",
+            { staticClass: "text-4xl lg:text-8xl font-display uppercase" },
+            [_vm._v("\n            Resources\n        ")]
+          ),
+          _vm._v(" "),
+          _vm.resources.length === 0
+            ? _c("p", [
+                _vm._v(
+                  "\n            No resources available right now. Check back later!\n        "
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._l(_vm.resources, function(resource, i) {
+            return _c("div", { key: resource.id, staticClass: "mb-16" }, [
+              _c("div", {
+                staticClass: "max-w-sm text-xs mt-2 trix",
+                domProps: { innerHTML: _vm._s(resource.content) }
+              }),
               _vm._v(" "),
-              _c(
-                "div",
-                _vm._l(_vm.lessons, function(lesson) {
-                  return _c("div", { key: lesson.id, staticClass: "mt-8" }, [
-                    _c(
-                      "h3",
-                      {
-                        staticClass:
-                          "uppercase font-display text-base lg:text-lg"
-                      },
-                      [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(lesson.label) +
-                            "\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", {
-                      staticClass: "max-w-sm text-xs mt-2",
-                      domProps: { innerHTML: _vm._s(lesson.content) }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "w-full bg-white flex items-center h-12 justify-center mt-4",
-                        attrs: { href: lesson.url }
-                      },
-                      [
-                        _c("span", { staticClass: "font-mono uppercase" }, [
-                          _vm._v("Download Plan")
-                        ])
-                      ]
-                    )
-                  ])
-                }),
-                0
-              )
+              i !== 0 ? _c("div", { staticClass: "border-t py-10" }) : _vm._e()
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.videos.length
-          ? _c(
-              "div",
-              { staticClass: "mb-12" },
-              [
-                _c(
-                  "h1",
-                  { staticClass: "text-lg lg:text-3xl font-display uppercase" },
-                  [_vm._v("\n                Videos\n            ")]
-                ),
-                _vm._v(" "),
-                _vm._l(_vm.videos, function(video) {
-                  return _c(
-                    "div",
-                    { key: video.id, staticClass: "flex flex-col mb-16" },
-                    [
-                      _c("div", { staticClass: "responsive-iframe mb-3" }, [
-                        _c("iframe", {
-                          attrs: {
-                            src:
-                              "//www.youtube.com/embed/" +
-                              _vm.getYoutubeId(video.url),
-                            frameborder: "0",
-                            allowfullscreen: ""
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "h3",
-                        {
-                          staticClass:
-                            "uppercase font-bold font-display text-base lg:text-lg"
-                        },
-                        [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(video.label) +
-                              "\n                "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "max-w-sm text-xs mt-2",
-                        domProps: { innerHTML: _vm._s(video.content) }
-                      })
-                    ]
-                  )
-                })
-              ],
-              2
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.links.length
-          ? _c("div", { staticClass: "mb-12" }, [
-              _c(
-                "h1",
-                { staticClass: "text-lg lg:text-3xl font-display uppercase" },
-                [_vm._v("\n                Helpful Links\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "flex flex-col links font-mono font-bold text-sm mt-6"
-                },
-                _vm._l(_vm.links, function(link) {
-                  return _c(
-                    "a",
-                    {
-                      key: link.id,
-                      staticClass: "mb-3 hover:opacity-50",
-                      attrs: { href: link.url, target: "_blank" }
-                    },
-                    [_vm._v(_vm._s(link.label) + " →")]
-                  )
-                }),
-                0
-              )
-            ])
-          : _vm._e()
-      ]),
+          })
+        ],
+        2
+      ),
       _vm._v(" "),
       _c(
         "clickable",
@@ -60401,46 +60277,101 @@ var render = function() {
             },
             _vm._l(_vm.results, function(result, i) {
               return _c(
-                "router-link",
-                {
-                  key: i,
-                  staticClass:
-                    "px-4 md:px-8 py-4 hover:bg-grey-100 block border-white",
-                  class: { "border-t-2": i > 0 },
-                  style: { background: result.color },
-                  attrs: { to: "/stories/" + result.id }
-                },
+                "div",
+                { key: i },
                 [
-                  _c("h1", { staticClass: "text-grey-800 font-bold mb-2" }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(result.subject) +
-                        "\n            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    {
-                      staticClass:
-                        "font-light text-xs md:text-base leading-tight tracking-tight opacity-75"
-                    },
-                    [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(result.day) +
-                          " ·\n                " +
-                          _vm._s(
-                            _vm.truncate(result.content, { length: 150 })
-                          ) +
-                          "\n            "
+                  result.type === "story"
+                    ? _c(
+                        "router-link",
+                        {
+                          key: i,
+                          staticClass:
+                            "px-4 md:px-8 py-4 hover:bg-grey-100 block border-white",
+                          class: { "border-t-2": i > 0 },
+                          style: { background: result.item.color },
+                          attrs: { to: "/stories/" + result.item.id }
+                        },
+                        [
+                          _c(
+                            "h1",
+                            { staticClass: "text-grey-800 font-bold mb-2" },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(result.item.subject) +
+                                  "\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            {
+                              staticClass:
+                                "font-light text-xs md:text-base leading-tight tracking-tight opacity-75"
+                            },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(result.item.day) +
+                                  " ·\n                    " +
+                                  _vm._s(
+                                    _vm.truncate(result.item.content, {
+                                      length: 150
+                                    })
+                                  ) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        ]
                       )
-                    ]
-                  )
-                ]
+                    : _vm._e(),
+                  _vm._v(" "),
+                  result.type === "place"
+                    ? _c(
+                        "router-link",
+                        {
+                          key: i,
+                          staticClass:
+                            "px-4 md:px-8 py-4 hover:bg-grey-100 block border-white text-white pb-24",
+                          class: { "border-t-2": i > 0 },
+                          style: { background: "#000" },
+                          attrs: { to: "/places/" + result.item.slug }
+                        },
+                        [
+                          _c(
+                            "h1",
+                            { staticClass: "text-grey-800 font-bold mb-2" },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(result.item.name) +
+                                  "\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            {
+                              staticClass:
+                                "font-light text-xs md:text-base leading-tight tracking-tight opacity-75"
+                            },
+                            [
+                              _vm._v(
+                                "\n                    Click to view location\n                "
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
               )
             }),
-            1
+            0
           )
         : _vm._e()
     ]

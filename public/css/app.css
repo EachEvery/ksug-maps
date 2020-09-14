@@ -71308,3 +71308,29 @@ canvas {
          column-gap: 20px;
   }
 }
+
+.trix h1 {
+  font-size: 2rem;
+  font-family: bureau-grot-compressed, arial black, serif;
+}
+
+.trix blockquote {
+  padding-left: 1rem;
+  border-left: 2rem solid rgba(0, 0, 0, 0.2);
+  font-size: 0.8rem;
+}
+
+.trix figure .attachment__caption {
+  font-family: 0.8rem;
+  font-family: "letter-gothic-std", monospace;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 3px;
+}
+
+.trix figure img {
+  border: 1px solid #000;
+}

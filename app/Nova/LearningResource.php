@@ -46,13 +46,14 @@ class LearningResource extends Resource
     {
         return [
             Text::make('Label'),
-            Trix::make('Content'),
-            Select::make('Type')->options([
-                'Lesson Plan' => 'Lesson Plan',
-                'Video' => 'Video',
-                'Link' => 'Link'
-            ])->hideFromIndex(),
-            Text::make('Url')->help("Youtube video url if it's a video, downloadable file if lesson plan, url for link."),
+            Trix::make('Content')->withFiles('s3'),
+            // Trix::make('Content'),
+            // Select::make('Type')->options([
+            //     'Lesson Plan' => 'Lesson Plan',
+            //     'Video' => 'Video',
+            //     'Link' => 'Link'
+            // ])->hideFromIndex(),
+            // Text::make('Url')->help("Youtube video url if it's a video, downloadable file if lesson plan, url for link."),
             Boolean::make('Published')
         ];
     }

@@ -12,90 +12,17 @@
                 No resources available right now. Check back later!
             </p>
 
-            <div v-if="lessons.length" class="mb-12 mt-5">
-                <h1 class="text-lg lg:text-3xl font-display uppercase">
-                    Lesson Plans
-                </h1>
-
-                <div>
-                    <div
-                        v-for="lesson in lessons"
-                        :key="lesson.id"
-                        class="mt-8"
-                    >
-                        <h3 class="uppercase font-display text-base lg:text-lg">
-                            {{ lesson.label }}
-                        </h3>
-
-                        <div
-                            class="max-w-sm text-xs mt-2"
-                            v-html="lesson.content"
-                        ></div>
-
-                        <a
-                            :href="lesson.url"
-                            class="w-full bg-white flex items-center h-12 justify-center mt-4"
-                        >
-                            <span class="font-mono uppercase"
-                                >Download Plan</span
-                            >
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div v-if="videos.length" class="mb-12">
-                <h1 class="text-lg lg:text-3xl font-display uppercase">
-                    Videos
-                </h1>
-
+            <div
+                v-for="(resource, i) in resources"
+                :key="resource.id"
+                class="mb-16"
+            >
                 <div
-                    v-for="video in videos"
-                    :key="video.id"
-                    class="flex flex-col mb-16"
-                >
-                    <div class="responsive-iframe mb-3">
-                        <iframe
-                            :src="
-                                `//www.youtube.com/embed/${getYoutubeId(
-                                    video.url
-                                )}`
-                            "
-                            frameborder="0"
-                            allowfullscreen
-                        />
-                    </div>
+                    class="max-w-sm text-xs mt-2 trix"
+                    v-html="resource.content"
+                ></div>
 
-                    <h3
-                        class="uppercase font-bold font-display text-base lg:text-lg"
-                    >
-                        {{ video.label }}
-                    </h3>
-
-                    <div
-                        class="max-w-sm text-xs mt-2"
-                        v-html="video.content"
-                    ></div>
-                </div>
-            </div>
-
-            <div v-if="links.length" class="mb-12">
-                <h1 class="text-lg lg:text-3xl font-display uppercase">
-                    Helpful Links
-                </h1>
-
-                <div
-                    class="flex flex-col links font-mono font-bold text-sm mt-6"
-                >
-                    <a
-                        v-for="link in links"
-                        :key="link.id"
-                        :href="link.url"
-                        class="mb-3 hover:opacity-50"
-                        target="_blank"
-                        >{{ link.label }} &rarr;</a
-                    >
-                </div>
+                <div v-if="i !== 0" class="border-t py-10"></div>
             </div>
         </page-section>
 
