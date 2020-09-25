@@ -36,19 +36,55 @@
 
             <header-40>ABOUT MAY 4</header-40>
 
-            <paragraph class="text-white">
-                At Kent State University in Kent, Ohio, on May 4, 1970, 28
-                National Guard troops turned in unison and fired 67 shots at
-                student peace protesters, killing 4 and wounding 9, leaving one
-                paralyzed. On May 1st students began a series of protests in
-                response to Nixon’s expansion of the war from Vietnam to
-                Cambodia. By May 4th they were also protesting the occupation of
-                campus by nearly a thousand troops, more than 100 trucks, 12
-                armored vehicles, 3 tanks with mortar launchers, and 13
-                helicopters. People across the city and campus were traumatized
-                in various ways. After the shootings some community members said
-                that the students deserved to be shot. Even 50 years later
-                division and resentments continue.
+            <paragraph class="text-white trix">
+                <blockquote style="border-color: rgba(255, 255, 255, .5)">
+                    "Congress shall make no law respecting an establishment of
+                    religion, or prohibiting the free exercise thereof; or
+                    abridging the freedom of speech, or of the press;
+                    <strong
+                        >or the right of the people peaceably to assemble, and
+                        to petition the government for a redress of
+                        grievances</strong
+                    >" - First Amendment to the United States Constitution
+                </blockquote>
+                <br /><br />
+
+                <em>Kent State</em> is a symbol of the constitutional right to
+                protest, embodying what can happen when it is lost. On May 1st,
+                1970, then U.S. President Nixon expanded the war from Vietnam to
+                Cambodia. Protests erupted that day across the US, including at
+                Kent State where students expressed their outrage by burying the
+                US constitution. Later that night, students broke windows in
+                town in protest. On Saturday, May 2nd, just as some students
+                were attempting to light the ROTC building on fire in protest
+                (as had been done at many other campuses), nearly 1,000 National
+                Guard troops rolled onto campus with tanks. They occupied campus
+                and the city of Kent with more than 100 trucks, along with
+                armored vehicles, tanks with mortar launchers, and helicopters.
+                They put the campus effectively on lockdown, with soldiers in
+                front of every dormitory. The ROTC building did burn later that
+                night, when students say they were no longer there. Students
+                continued to protest, and on Sunday evening, May 3rd, several
+                were bayoneted by the Guard as they dispersed from a sit-in held
+                at the edge of campus.<br /><br />
+                On May 4th, students gathered to protest both the war and the
+                campus occupation. One student asked if students were willing to
+                strike, and others agreed, when the Guard moved in. When
+                students refused to disperse, the Guard used heavy tear gas and
+                pushed students away. Half an hour later, as students were
+                dispersing across a parking lot and the guard was moving away,
+                one unit of 12 guardsmen turned back and aimed in unison towards
+                the students. They fired 67 shots over 13 seconds, killing four
+                students and wounding nine, leaving one paralyzed. The Vietnam
+                War had come home. Students across the US responded with the
+                largest student strike in US history, with over 4 million
+                students shutting down 2,551 colleges and universities - more
+                than half of the campuses in the US. Outrage in response to the
+                shooting helped to end the war.<br /><br />
+                Locally the community was left traumatized and deeply divided.
+                Afterwards some said the students deserved to be shot. Even 50
+                years later division and resentments continue, and we hope that
+                sharing stories here can help us better live together.
             </paragraph>
 
             <!-- <clickable
@@ -62,29 +98,33 @@
         <page-section class="bg-tan-300" id="how-to-use">
             <header-40>How to Use this Site</header-40>
             <paragraph>
-                We suggest that you start by clicking on a place that means
-                something to you. If you have trouble identifying it on the map,
-                you can search for it by name in the search bar at the top left.
-                It may help you find your place to switch between the historic
-                aerial photo and the current day street map. You can do this
-                with the layers button that will appear in the lower left when
-                you click on the map. You can also use the search button in the
-                upper left to search by name, place, or date (between May 1st
-                and May 5th). Next to the search button is a filter button that
-                allows you to filter by date and/or role. This will then
-                highlight on the map all of those places that meet your
+                If you aren’t familiar with Kent, you might want to start by
+                taking one of the
+                <router-link class="underline" to="/explore"
+                    >virtual tours.</router-link
+                >
+                (or if you are in the area taking them as live walking tours) or
+                by listening to the
+                <router-link class="underline" to="/explore"
+                    >featured stories</router-link
+                >. If you know the area, we suggest that you start by clicking
+                on a place that means something to you. It may help you find
+                your place to switch between the historic aerial photo and the
+                current day street map. You can do this with the layers button
+                that will appear in the lower left when you click on the map. If
+                you have trouble identifying a familiar place on the map, you
+                can search for it by name in the search bar at the top left. You
+                can also search by name, place, or date. Next to the search
+                button is a filter button that allows you to filter by date
+                and/or role. This highlights places on the map that meet your
                 criteria, such as stories by faculty on May 2nd. When you select
                 a place you will often see several stories. The stories are
                 color-coded by the person’s role, such as student, faculty,
                 local resident, or National Guardsman. Click on it to get the
                 full story. You can read the stories but we recommend that you
-                also listen to them—the audio can be powerful. You can also
-                explore the stories by taking a tour, or going to some of the
-                most powerful stories, which we have featured in the explore tab
-                that appears on the right when you close this side panel. If you
-                are in Kent and turn on location access it will also show you
-                the places nearest to you. A video overview of how to use the
-                site is available
+                also listen to them—the audio can be powerful. If you are in
+                Kent and turn on location access, you can see the places nearest
+                to you. A video overview of how to use the site is available
                 <a
                     href="https://www.youtube.com/watch?v=xOIZsl7udg8"
                     class="text-black underline"
@@ -130,23 +170,23 @@
                     Archives </a
                 >. It maps stories from those histories that describe memories
                 of events at a particular place in Kent between May 1st and May
-                5th, 1970 (but does not yet include stories within the National
-                Historic Landmark). This web app is designed to serve as a
-                digital memorial, to remember and honor these events. We have
-                made it both for those who have stories to share, and those who
-                are interested in hearing these stories. This web app does not
-                aim to establish historical facts. Readers will notice that
-                stories associated with some sites are quite contradictory.
-                Instead this web app aims to open a space for dialogue in the
-                hope of building understanding, connection across difference,
-                and ultimately reconciliation. For those seeking a historical
-                account we recommend starting with the short booklet
+                5th, 1970. It is designed to serve as a digital memorial, to
+                remember and honor these events. We have made it both for those
+                who have stories to share, and those who are interested in
+                hearing these stories. This web app does not aim to establish
+                historical facts. Readers will notice that stories associated
+                with some sites are quite contradictory. Instead this web app
+                aims to open a space for dialogue in the hope of building
+                understanding, connection across difference, and ultimately
+                reconciliation. For those seeking a historical account we
+                recommend starting with the short booklet
                 <a
                     href="http://www.kentstateuniversitypress.com/2012/this-we-know/"
                     target="_blank"
                     class="underline"
                     >This We Know</a
-                >.
+                >. See our resources page for more, including lesson plans
+                coming soon.
             </paragraph>
         </page-section>
 

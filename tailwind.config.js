@@ -1,5 +1,12 @@
 module.exports = {
     theme: {
+        aspectRatio: {
+            none: 0,
+            square: [1, 1],
+            "16/9": [16, 9],
+            "4/3": [4, 3],
+            "21/9": [21, 9]
+        },
         fontFamily: {
             display: ["bureau-grot-compressed", "arial black", "serif"],
             sans: ["signo", "sans-serif"],
@@ -61,8 +68,13 @@ module.exports = {
             }
         }
     },
-    variants: {},
+    variants: {
+        aspectRatio: ["responsive"]
+    },
     plugins: [
+        require("tailwindcss-responsive-embed"),
+        require("tailwindcss-aspect-ratio"),
+
         require("tailwindcss-grid")({
             grids: [2, 3, 5, 6, 8, 10, 12],
             gaps: {

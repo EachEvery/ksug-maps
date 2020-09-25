@@ -12,17 +12,11 @@
                 No resources available right now. Check back later!
             </p>
 
-            <div
-                v-for="(resource, i) in resources"
-                :key="resource.id"
-                class="mb-16"
-            >
+            <div v-for="resource in resources" :key="resource.id" class="mb-16">
                 <div
                     class="max-w-sm text-xs mt-2 trix"
                     v-html="resource.content"
                 ></div>
-
-                <div v-if="i !== 0" class="border-t py-10"></div>
             </div>
         </page-section>
 
@@ -38,6 +32,8 @@
 <style></style>
 
 <script>
+import $ from "jquery";
+
 import pageSection from "./PageSection";
 import learningResources from "../mixins/learningResources";
 import header40 from "./Header40";
@@ -64,6 +60,36 @@ export default {
     },
 
     methods: {
+        getYoutubeId(url) {
+            var video_id = url.split("v=")[1];
+            var ampersandPosition = video_id.indexOf("&");
+
+            if (ampersandPosition != -1) {
+                video_id = video_id.substring(0, ampersandPosition);
+            }
+
+            return match && match[2].length === 11 ? match[2] : null;
+        },
+
+        initYoutubeLinks() {
+            let context = this;
+
+            $(".trix")
+                .find("a")
+                .each(function() {
+                    let youtubeId = context.getYoutubeId($(this).attr("href"));
+
+                    if (youtubeId) {
+                        const iframeMarkup =
+                            '<div class="embed-responsive aspect-ratio-4/3"><iframe width="560" height="315" src="//www.youtube.com/embed/' +
+                            youtubeId +
+                            '" frameborder="0" allowfullscreen></iframe></div>';
+
+                        $(this).replaceWith($(iframeMarkup));
+                    }
+                });
+        },
+
         goBack() {
             if (this.canClickOutside) {
             }
@@ -96,6 +122,10 @@ export default {
 
     mounted() {
         this.setCanClickOutside();
+
+        setTimeout(() => {
+            this.initYoutubeLinks();
+        }, 200);
     }
 };
 </script>

@@ -4459,6 +4459,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6513,13 +6553,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _PageSection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PageSection */ "./resources/js/components/PageSection.vue");
-/* harmony import */ var _mixins_learningResources__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/learningResources */ "./resources/js/mixins/learningResources.js");
-/* harmony import */ var _Header40__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Header40 */ "./resources/js/components/Header40.vue");
-/* harmony import */ var _Header25__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Header25 */ "./resources/js/components/Header25.vue");
-/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
-/* harmony import */ var _mixins_handleBack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../mixins/handleBack */ "./resources/js/mixins/handleBack.js");
-/* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _PageSection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PageSection */ "./resources/js/components/PageSection.vue");
+/* harmony import */ var _mixins_learningResources__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/learningResources */ "./resources/js/mixins/learningResources.js");
+/* harmony import */ var _Header40__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Header40 */ "./resources/js/components/Header40.vue");
+/* harmony import */ var _Header25__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Header25 */ "./resources/js/components/Header25.vue");
+/* harmony import */ var _Clickable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Clickable */ "./resources/js/components/Clickable.vue");
+/* harmony import */ var _mixins_handleBack__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../mixins/handleBack */ "./resources/js/mixins/handleBack.js");
+/* harmony import */ var _CloseIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./CloseIcon */ "./resources/js/components/CloseIcon.vue");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -6553,12 +6597,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -6567,20 +6606,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_learningResources__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_learningResources__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
-    pageSection: _PageSection__WEBPACK_IMPORTED_MODULE_0__["default"],
-    header40: _Header40__WEBPACK_IMPORTED_MODULE_2__["default"],
-    header25: _Header25__WEBPACK_IMPORTED_MODULE_3__["default"],
-    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_4__["default"],
-    closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_6__["default"]
+    pageSection: _PageSection__WEBPACK_IMPORTED_MODULE_1__["default"],
+    header40: _Header40__WEBPACK_IMPORTED_MODULE_3__["default"],
+    header25: _Header25__WEBPACK_IMPORTED_MODULE_4__["default"],
+    clickable: _Clickable__WEBPACK_IMPORTED_MODULE_5__["default"],
+    closeIcon: _CloseIcon__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
   data: function data() {
     return {
       canClickOutside: false
     };
   },
-  methods: {
+  methods: _defineProperty({
+    getYoutubeId: function getYoutubeId(url) {
+      var video_id = url.split("v=")[1];
+      var ampersandPosition = video_id.indexOf("&");
+
+      if (ampersandPosition != -1) {
+        video_id = video_id.substring(0, ampersandPosition);
+      }
+
+      return match && match[2].length === 11 ? match[2] : null;
+    },
+    initYoutubeLinks: function initYoutubeLinks() {
+      var context = this;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(".trix").find("a").each(function () {
+        var youtubeId = context.getYoutubeId(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr("href"));
+
+        if (youtubeId) {
+          var iframeMarkup = '<div class="embed-responsive aspect-ratio-4/3"><iframe width="560" height="315" src="//www.youtube.com/embed/' + youtubeId + '" frameborder="0" allowfullscreen></iframe></div>';
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).replaceWith(jquery__WEBPACK_IMPORTED_MODULE_0___default()(iframeMarkup));
+        }
+      });
+    },
     goBack: function goBack() {
       if (this.canClickOutside) {}
 
@@ -6592,13 +6652,12 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         _this.canClickOutside = true;
       }, 300);
-    },
-    getYoutubeId: function getYoutubeId(url) {
-      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-      var match = url.match(regExp);
-      return match && match[2].length === 11 ? match[2] : null;
     }
-  },
+  }, "getYoutubeId", function getYoutubeId(url) {
+    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    var match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  }),
   computed: {
     videos: function videos(_ref) {
       var resources = _ref.resources;
@@ -6620,7 +6679,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this2 = this;
+
     this.setCanClickOutside();
+    setTimeout(function () {
+      _this2.initYoutubeLinks();
+    }, 200);
   }
 });
 
@@ -7768,7 +7832,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
 //
 //
 //
@@ -56037,9 +56100,41 @@ var render = function() {
           _vm._v(" "),
           _c("header-40", [_vm._v("ABOUT MAY 4")]),
           _vm._v(" "),
-          _c("paragraph", { staticClass: "text-white" }, [
+          _c("paragraph", { staticClass: "text-white trix" }, [
+            _c(
+              "blockquote",
+              { staticStyle: { "border-color": "rgba(255, 255, 255, .5)" } },
+              [
+                _vm._v(
+                  '\n                "Congress shall make no law respecting an establishment of\n                religion, or prohibiting the free exercise thereof; or\n                abridging the freedom of speech, or of the press;\n                '
+                ),
+                _c("strong", [
+                  _vm._v(
+                    "or the right of the people peaceably to assemble, and\n                    to petition the government for a redress of\n                    grievances"
+                  )
+                ]),
+                _vm._v(
+                  '" - First Amendment to the United States Constitution\n            '
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _c("br"),
+            _vm._v(" "),
+            _c("em", [_vm._v("Kent State")]),
             _vm._v(
-              "\n            At Kent State University in Kent, Ohio, on May 4, 1970, 28\n            National Guard troops turned in unison and fired 67 shots at\n            student peace protesters, killing 4 and wounding 9, leaving one\n            paralyzed. On May 1st students began a series of protests in\n            response to Nixon’s expansion of the war from Vietnam to\n            Cambodia. By May 4th they were also protesting the occupation of\n            campus by nearly a thousand troops, more than 100 trucks, 12\n            armored vehicles, 3 tanks with mortar launchers, and 13\n            helicopters. People across the city and campus were traumatized\n            in various ways. After the shootings some community members said\n            that the students deserved to be shot. Even 50 years later\n            division and resentments continue.\n        "
+              " is a symbol of the constitutional right to\n            protest, embodying what can happen when it is lost. On May 1st,\n            1970, then U.S. President Nixon expanded the war from Vietnam to\n            Cambodia. Protests erupted that day across the US, including at\n            Kent State where students expressed their outrage by burying the\n            US constitution. Later that night, students broke windows in\n            town in protest. On Saturday, May 2nd, just as some students\n            were attempting to light the ROTC building on fire in protest\n            (as had been done at many other campuses), nearly 1,000 National\n            Guard troops rolled onto campus with tanks. They occupied campus\n            and the city of Kent with more than 100 trucks, along with\n            armored vehicles, tanks with mortar launchers, and helicopters.\n            They put the campus effectively on lockdown, with soldiers in\n            front of every dormitory. The ROTC building did burn later that\n            night, when students say they were no longer there. Students\n            continued to protest, and on Sunday evening, May 3rd, several\n            were bayoneted by the Guard as they dispersed from a sit-in held\n            at the edge of campus."
+            ),
+            _c("br"),
+            _c("br"),
+            _vm._v(
+              "\n            On May 4th, students gathered to protest both the war and the\n            campus occupation. One student asked if students were willing to\n            strike, and others agreed, when the Guard moved in. When\n            students refused to disperse, the Guard used heavy tear gas and\n            pushed students away. Half an hour later, as students were\n            dispersing across a parking lot and the guard was moving away,\n            one unit of 12 guardsmen turned back and aimed in unison towards\n            the students. They fired 67 shots over 13 seconds, killing four\n            students and wounding nine, leaving one paralyzed. The Vietnam\n            War had come home. Students across the US responded with the\n            largest student strike in US history, with over 4 million\n            students shutting down 2,551 colleges and universities - more\n            than half of the campuses in the US. Outrage in response to the\n            shooting helped to end the war."
+            ),
+            _c("br"),
+            _c("br"),
+            _vm._v(
+              "\n            Locally the community was left traumatized and deeply divided.\n            Afterwards some said the students deserved to be shot. Even 50\n            years later division and resentments continue, and we hope that\n            sharing stories here can help us better live together.\n        "
             )
           ])
         ],
@@ -56052,20 +56147,40 @@ var render = function() {
         [
           _c("header-40", [_vm._v("How to Use this Site")]),
           _vm._v(" "),
-          _c("paragraph", [
-            _vm._v(
-              "\n            We suggest that you start by clicking on a place that means\n            something to you. If you have trouble identifying it on the map,\n            you can search for it by name in the search bar at the top left.\n            It may help you find your place to switch between the historic\n            aerial photo and the current day street map. You can do this\n            with the layers button that will appear in the lower left when\n            you click on the map. You can also use the search button in the\n            upper left to search by name, place, or date (between May 1st\n            and May 5th). Next to the search button is a filter button that\n            allows you to filter by date and/or role. This will then\n            highlight on the map all of those places that meet your\n            criteria, such as stories by faculty on May 2nd. When you select\n            a place you will often see several stories. The stories are\n            color-coded by the person’s role, such as student, faculty,\n            local resident, or National Guardsman. Click on it to get the\n            full story. You can read the stories but we recommend that you\n            also listen to them—the audio can be powerful. You can also\n            explore the stories by taking a tour, or going to some of the\n            most powerful stories, which we have featured in the explore tab\n            that appears on the right when you close this side panel. If you\n            are in Kent and turn on location access it will also show you\n            the places nearest to you. A video overview of how to use the\n            site is available\n            "
-            ),
-            _c(
-              "a",
-              {
-                staticClass: "text-black underline",
-                attrs: { href: "https://www.youtube.com/watch?v=xOIZsl7udg8" }
-              },
-              [_vm._v("here")]
-            ),
-            _vm._v(".\n        ")
-          ]),
+          _c(
+            "paragraph",
+            [
+              _vm._v(
+                "\n            If you aren’t familiar with Kent, you might want to start by\n            taking one of the\n            "
+              ),
+              _c(
+                "router-link",
+                { staticClass: "underline", attrs: { to: "/explore" } },
+                [_vm._v("virtual tours.")]
+              ),
+              _vm._v(
+                "\n            (or if you are in the area taking them as live walking tours) or\n            by listening to the\n            "
+              ),
+              _c(
+                "router-link",
+                { staticClass: "underline", attrs: { to: "/explore" } },
+                [_vm._v("featured stories")]
+              ),
+              _vm._v(
+                ". If you know the area, we suggest that you start by clicking\n            on a place that means something to you. It may help you find\n            your place to switch between the historic aerial photo and the\n            current day street map. You can do this with the layers button\n            that will appear in the lower left when you click on the map. If\n            you have trouble identifying a familiar place on the map, you\n            can search for it by name in the search bar at the top left. You\n            can also search by name, place, or date. Next to the search\n            button is a filter button that allows you to filter by date\n            and/or role. This highlights places on the map that meet your\n            criteria, such as stories by faculty on May 2nd. When you select\n            a place you will often see several stories. The stories are\n            color-coded by the person’s role, such as student, faculty,\n            local resident, or National Guardsman. Click on it to get the\n            full story. You can read the stories but we recommend that you\n            also listen to them—the audio can be powerful. If you are in\n            Kent and turn on location access, you can see the places nearest\n            to you. A video overview of how to use the site is available\n            "
+              ),
+              _c(
+                "a",
+                {
+                  staticClass: "text-black underline",
+                  attrs: { href: "https://www.youtube.com/watch?v=xOIZsl7udg8" }
+                },
+                [_vm._v("here")]
+              ),
+              _vm._v(".\n        ")
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("header-25", [_vm._v("Join the conversation")]),
           _vm._v(" "),
@@ -56121,7 +56236,7 @@ var render = function() {
               ]
             ),
             _vm._v(
-              ". It maps stories from those histories that describe memories\n            of events at a particular place in Kent between May 1st and May\n            5th, 1970 (but does not yet include stories within the National\n            Historic Landmark). This web app is designed to serve as a\n            digital memorial, to remember and honor these events. We have\n            made it both for those who have stories to share, and those who\n            are interested in hearing these stories. This web app does not\n            aim to establish historical facts. Readers will notice that\n            stories associated with some sites are quite contradictory.\n            Instead this web app aims to open a space for dialogue in the\n            hope of building understanding, connection across difference,\n            and ultimately reconciliation. For those seeking a historical\n            account we recommend starting with the short booklet\n            "
+              ". It maps stories from those histories that describe memories\n            of events at a particular place in Kent between May 1st and May\n            5th, 1970. It is designed to serve as a digital memorial, to\n            remember and honor these events. We have made it both for those\n            who have stories to share, and those who are interested in\n            hearing these stories. This web app does not aim to establish\n            historical facts. Readers will notice that stories associated\n            with some sites are quite contradictory. Instead this web app\n            aims to open a space for dialogue in the hope of building\n            understanding, connection across difference, and ultimately\n            reconciliation. For those seeking a historical account we\n            recommend starting with the short booklet\n            "
             ),
             _c(
               "a",
@@ -56135,7 +56250,9 @@ var render = function() {
               },
               [_vm._v("This We Know")]
             ),
-            _vm._v(".\n        ")
+            _vm._v(
+              ". See our resources page for more, including lesson plans\n            coming soon.\n        "
+            )
           ])
         ],
         1
@@ -58555,14 +58672,12 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm._l(_vm.resources, function(resource, i) {
+          _vm._l(_vm.resources, function(resource) {
             return _c("div", { key: resource.id, staticClass: "mb-16" }, [
               _c("div", {
                 staticClass: "max-w-sm text-xs mt-2 trix",
                 domProps: { innerHTML: _vm._s(resource.content) }
-              }),
-              _vm._v(" "),
-              i !== 0 ? _c("div", { staticClass: "border-t py-10" }) : _vm._e()
+              })
             ])
           })
         ],
@@ -60334,9 +60449,8 @@ var render = function() {
                         {
                           key: i,
                           staticClass:
-                            "px-4 md:px-8 py-4 hover:bg-grey-100 block border-white text-white pb-24",
+                            "px-4 md:px-8 py-4 hover:bg-grey-100 bg-grey-500 block border-white text-white pb-24",
                           class: { "border-t-2": i > 0 },
-                          style: { background: "#000" },
                           attrs: { to: "/places/" + result.item.slug }
                         },
                         [

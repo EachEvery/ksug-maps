@@ -45,9 +45,8 @@
                     v-if="result.type === 'place'"
                     :to="`/places/${result.item.slug}`"
                     :key="i"
-                    class="px-4 md:px-8 py-4 hover:bg-grey-100 block border-white text-white pb-24"
+                    class="px-4 md:px-8 py-4 hover:bg-grey-100 bg-grey-500 block border-white text-white pb-24"
                     :class="{ 'border-t-2': i > 0 }"
-                    :style="{ background: '#000' }"
                 >
                     <h1 class="text-grey-800 font-bold mb-2">
                         {{ result.item.name }}
