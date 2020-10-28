@@ -49,12 +49,7 @@
                 </blockquote>
                 <br /><br />
 
-                <em>Kent State</em> is a symbol of the constitutional right to
-                protest, embodying what can happen when it is lost. On May 1st,
-                1970, then U.S. President Nixon expanded the war from Vietnam to
-                Cambodia. Protests erupted that day across the US, including at
-                Kent State where students expressed their outrage by burying the
-                US constitution. Later that night, students broke windows in
+                <em>Kent State</em> is a symbol of the constitutional right to protest, embodying what can happen when it is lost. On April 30, 1970, then U.S. President Nixon announced the expansion of the war from Vietnam to Cambodia. Protests erupted the next day across the U.S., including at Kent State where students expressed their outrage by burying the U.S. constitution. Later that night, students broke windows in
                 town in protest. On Saturday, May 2nd, just as some students
                 were attempting to light the ROTC building on fire in protest
                 (as had been done at many other campuses), nearly 1,000 National

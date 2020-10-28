@@ -71427,6 +71427,10 @@ canvas {
   }
 }
 
+.trix a {
+  text-decoration: underline;
+}
+
 .trix h1 {
   font-size: 2rem;
   font-family: bureau-grot-compressed, arial black, serif;

@@ -4494,11 +4494,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -56124,7 +56119,7 @@ var render = function() {
             _vm._v(" "),
             _c("em", [_vm._v("Kent State")]),
             _vm._v(
-              " is a symbol of the constitutional right to\n            protest, embodying what can happen when it is lost. On May 1st,\n            1970, then U.S. President Nixon expanded the war from Vietnam to\n            Cambodia. Protests erupted that day across the US, including at\n            Kent State where students expressed their outrage by burying the\n            US constitution. Later that night, students broke windows in\n            town in protest. On Saturday, May 2nd, just as some students\n            were attempting to light the ROTC building on fire in protest\n            (as had been done at many other campuses), nearly 1,000 National\n            Guard troops rolled onto campus with tanks. They occupied campus\n            and the city of Kent with more than 100 trucks, along with\n            armored vehicles, tanks with mortar launchers, and helicopters.\n            They put the campus effectively on lockdown, with soldiers in\n            front of every dormitory. The ROTC building did burn later that\n            night, when students say they were no longer there. Students\n            continued to protest, and on Sunday evening, May 3rd, several\n            were bayoneted by the Guard as they dispersed from a sit-in held\n            at the edge of campus."
+              " is a symbol of the constitutional right to protest, embodying what can happen when it is lost. On April 30, 1970, then U.S. President Nixon announced the expansion of the war from Vietnam to Cambodia. Protests erupted the next day across the U.S., including at Kent State where students expressed their outrage by burying the U.S. constitution. Later that night, students broke windows in\n            town in protest. On Saturday, May 2nd, just as some students\n            were attempting to light the ROTC building on fire in protest\n            (as had been done at many other campuses), nearly 1,000 National\n            Guard troops rolled onto campus with tanks. They occupied campus\n            and the city of Kent with more than 100 trucks, along with\n            armored vehicles, tanks with mortar launchers, and helicopters.\n            They put the campus effectively on lockdown, with soldiers in\n            front of every dormitory. The ROTC building did burn later that\n            night, when students say they were no longer there. Students\n            continued to protest, and on Sunday evening, May 3rd, several\n            were bayoneted by the Guard as they dispersed from a sit-in held\n            at the edge of campus."
             ),
             _c("br"),
             _c("br"),
