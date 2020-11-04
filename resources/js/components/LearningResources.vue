@@ -73,6 +73,8 @@ export default {
 
         initYoutubeLinks() {
             let context = this;
+            
+            
 
             $(".trix")
                 .find("a")
@@ -80,6 +82,8 @@ export default {
                     let youtubeId = context.getYoutubeId($(this).attr("href"));
 
                     if (youtubeId) {
+                        console.log('youtube id', youtubeId);
+
                         const iframeMarkup =
                             '<div class="embed-responsive aspect-ratio-4/3"><iframe width="560" height="315" src="//www.youtube.com/embed/' +
                             youtubeId +
@@ -125,7 +129,7 @@ export default {
 
         setTimeout(() => {
             this.initYoutubeLinks();
-        }, 200);
+        }, 500);
     }
 };
 </script>

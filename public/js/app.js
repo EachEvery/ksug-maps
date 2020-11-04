@@ -6631,6 +6631,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var youtubeId = context.getYoutubeId(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr("href"));
 
         if (youtubeId) {
+          console.log('youtube id', youtubeId);
           var iframeMarkup = '<div class="embed-responsive aspect-ratio-4/3"><iframe width="560" height="315" src="//www.youtube.com/embed/' + youtubeId + '" frameborder="0" allowfullscreen></iframe></div>';
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).replaceWith(jquery__WEBPACK_IMPORTED_MODULE_0___default()(iframeMarkup));
         }
@@ -6679,7 +6680,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.setCanClickOutside();
     setTimeout(function () {
       _this2.initYoutubeLinks();
-    }, 200);
+    }, 500);
   }
 });
 
