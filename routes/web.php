@@ -34,8 +34,12 @@ Route::get('/learning-resources', 'LearningResourceController@index');
 
 Route::post('/comments', 'CommentController@store');
 
+
+Route::redirect('admin', '/admin/dashboards/main');
+
 Route::get('/{vue?}', function () {
     return view('master');
-})->where([
-    'vue' => '^((?!admin|nova-api|media).)*$',
+})
+->where([  
+    'vue' => '^(?!admin\/|nova-api|media).*$',
 ]);

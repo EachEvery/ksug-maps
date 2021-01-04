@@ -38,30 +38,37 @@
 
             <paragraph class="text-white trix">
                 <blockquote style="border-color: rgba(255, 255, 255, .5)">
-                    "Congress shall make no law respecting an establishment of
+                    Congress shall make no law respecting an establishment of
                     religion, or prohibiting the free exercise thereof; or
                     abridging the freedom of speech, or of the press;
-                    <strong
+                    <em
                         >or the right of the people peaceably to assemble, and
                         to petition the government for a redress of
-                        grievances</strong
-                    >" - First Amendment to the United States Constitution
+                        grievances</em
+                    >
+                    - First Amendment to the United States Constitution
                 </blockquote>
                 <br /><br />
 
-                <em>Kent State</em> is a symbol of the constitutional right to protest, embodying what can happen when it is lost. On April 30, 1970, then U.S. President Nixon announced the expansion of the war from Vietnam to Cambodia. Protests erupted the next day across the U.S., including at Kent State where students expressed their outrage by burying the U.S. constitution. Later that night, students broke windows in
-                town in protest. On Saturday, May 2nd, just as some students
-                were attempting to light the ROTC building on fire in protest
-                (as had been done at many other campuses), nearly 1,000 National
-                Guard troops rolled onto campus with tanks. They occupied campus
-                and the city of Kent with more than 100 trucks, along with
-                armored vehicles, tanks with mortar launchers, and helicopters.
-                They put the campus effectively on lockdown, with soldiers in
-                front of every dormitory. The ROTC building did burn later that
-                night, when students say they were no longer there. Students
-                continued to protest, and on Sunday evening, May 3rd, several
-                were bayoneted by the Guard as they dispersed from a sit-in held
-                at the edge of campus.<br /><br />
+                <em>Kent State</em> is a symbol of the constitutional right to
+                protest, embodying what can happen when it is lost. On April 30,
+                1970, then U.S. President Nixon announced the expansion of the
+                war from Vietnam to Cambodia. Protests erupted the next day
+                across the U.S., including at Kent State where students
+                expressed their outrage by burying the U.S. constitution. Later
+                that night, students broke windows in town in protest. On
+                Saturday, May 2nd, just as some students were attempting to
+                light the ROTC building on fire in protest (as had been done at
+                many other campuses), nearly 1,000 National Guard troops rolled
+                onto campus with tanks. They occupied campus and the city of
+                Kent with more than 100 trucks, along with armored vehicles,
+                tanks with mortar launchers, and helicopters. They put the
+                campus effectively on lockdown, with soldiers in front of every
+                dormitory. The ROTC building did burn later that night, when
+                students say they were no longer there. Students continued to
+                protest, and on Sunday evening, May 3rd, several were bayoneted
+                by the Guard as they dispersed from a sit-in held at the edge of
+                campus.<br /><br />
                 On May 4th, students gathered to protest both the war and the
                 campus occupation. One student asked if students were willing to
                 strike, and others agreed, when the Guard moved in. When

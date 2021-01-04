@@ -25,7 +25,7 @@
             </div>
 
             <h1
-                class="font-display font-black text-2xl xl:text-5xl ml-16 uppercase"
+                class="uppercase font-display text-2xl leading-none self-center select-none ml-16 "
                 style="transform: rotate(180deg)"
             >
                 Explore Tours and Stories

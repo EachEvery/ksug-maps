@@ -4494,6 +4494,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -56102,15 +56109,15 @@ var render = function() {
               { staticStyle: { "border-color": "rgba(255, 255, 255, .5)" } },
               [
                 _vm._v(
-                  '\n                "Congress shall make no law respecting an establishment of\n                religion, or prohibiting the free exercise thereof; or\n                abridging the freedom of speech, or of the press;\n                '
+                  "\n                Congress shall make no law respecting an establishment of\n                religion, or prohibiting the free exercise thereof; or\n                abridging the freedom of speech, or of the press;\n                "
                 ),
-                _c("strong", [
+                _c("em", [
                   _vm._v(
                     "or the right of the people peaceably to assemble, and\n                    to petition the government for a redress of\n                    grievances"
                   )
                 ]),
                 _vm._v(
-                  '" - First Amendment to the United States Constitution\n            '
+                  "\n                - First Amendment to the United States Constitution\n            "
                 )
               ]
             ),
@@ -56120,7 +56127,7 @@ var render = function() {
             _vm._v(" "),
             _c("em", [_vm._v("Kent State")]),
             _vm._v(
-              " is a symbol of the constitutional right to protest, embodying what can happen when it is lost. On April 30, 1970, then U.S. President Nixon announced the expansion of the war from Vietnam to Cambodia. Protests erupted the next day across the U.S., including at Kent State where students expressed their outrage by burying the U.S. constitution. Later that night, students broke windows in\n            town in protest. On Saturday, May 2nd, just as some students\n            were attempting to light the ROTC building on fire in protest\n            (as had been done at many other campuses), nearly 1,000 National\n            Guard troops rolled onto campus with tanks. They occupied campus\n            and the city of Kent with more than 100 trucks, along with\n            armored vehicles, tanks with mortar launchers, and helicopters.\n            They put the campus effectively on lockdown, with soldiers in\n            front of every dormitory. The ROTC building did burn later that\n            night, when students say they were no longer there. Students\n            continued to protest, and on Sunday evening, May 3rd, several\n            were bayoneted by the Guard as they dispersed from a sit-in held\n            at the edge of campus."
+              " is a symbol of the constitutional right to\n            protest, embodying what can happen when it is lost. On April 30,\n            1970, then U.S. President Nixon announced the expansion of the\n            war from Vietnam to Cambodia. Protests erupted the next day\n            across the U.S., including at Kent State where students\n            expressed their outrage by burying the U.S. constitution. Later\n            that night, students broke windows in town in protest. On\n            Saturday, May 2nd, just as some students were attempting to\n            light the ROTC building on fire in protest (as had been done at\n            many other campuses), nearly 1,000 National Guard troops rolled\n            onto campus with tanks. They occupied campus and the city of\n            Kent with more than 100 trucks, along with armored vehicles,\n            tanks with mortar launchers, and helicopters. They put the\n            campus effectively on lockdown, with soldiers in front of every\n            dormitory. The ROTC building did burn later that night, when\n            students say they were no longer there. Students continued to\n            protest, and on Sunday evening, May 3rd, several were bayoneted\n            by the Guard as they dispersed from a sit-in held at the edge of\n            campus."
             ),
             _c("br"),
             _c("br"),
@@ -57506,7 +57513,7 @@ var render = function() {
             "h1",
             {
               staticClass:
-                "font-display font-black text-2xl xl:text-5xl ml-16 uppercase",
+                "uppercase font-display text-2xl leading-none self-center select-none ml-16 ",
               staticStyle: { transform: "rotate(180deg)" }
             },
             [_vm._v("\n            Explore Tours and Stories\n        ")]
@@ -60445,14 +60452,14 @@ var render = function() {
                         {
                           key: i,
                           staticClass:
-                            "px-4 md:px-8 py-4 hover:bg-grey-100 bg-grey-500 block border-white text-white pb-24",
+                            "px-4 md:px-8 py-4 hover:bg-gray-100 bg-gray-200 block border-white pb-24",
                           class: { "border-t-2": i > 0 },
                           attrs: { to: "/places/" + result.item.slug }
                         },
                         [
                           _c(
                             "h1",
-                            { staticClass: "text-grey-800 font-bold mb-2" },
+                            { staticClass: "text-gray-800 font-bold mb-2" },
                             [
                               _vm._v(
                                 "\n                    " +
@@ -88555,8 +88562,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/vulcan/Source 🔋/mm4/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/vulcan/Source 🔋/mm4/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/vulcan/Source/mm4/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/vulcan/Source/mm4/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
