@@ -6599,6 +6599,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -6622,6 +6623,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _defineProperty({
+    initNewWindowLinks: function initNewWindowLinks() {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#learning-resources").find("a").attr("target", "_blank");
+    },
     getYoutubeId: function getYoutubeId(url) {
       var video_id = url.split("v=")[1];
       var ampersandPosition = video_id.indexOf("&");
@@ -6638,7 +6642,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var youtubeId = context.getYoutubeId(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr("href"));
 
         if (youtubeId) {
-          console.log('youtube id', youtubeId);
+          console.log("youtube id", youtubeId);
           var iframeMarkup = '<div class="embed-responsive aspect-ratio-4/3"><iframe width="560" height="315" src="//www.youtube.com/embed/' + youtubeId + '" frameborder="0" allowfullscreen></iframe></div>';
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).replaceWith(jquery__WEBPACK_IMPORTED_MODULE_0___default()(iframeMarkup));
         }
@@ -6687,6 +6691,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.setCanClickOutside();
     setTimeout(function () {
       _this2.initYoutubeLinks();
+
+      _this2.initNewWindowLinks();
     }, 500);
   }
 });
@@ -58655,7 +58661,8 @@ var render = function() {
         }
       ],
       staticClass:
-        "fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-32 md:pt-0 md:max-w-base max-w-full bg-green pt-12"
+        "fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-32 md:pt-0 md:max-w-base max-w-full bg-green pt-12",
+      attrs: { id: "learning-resources" }
     },
     [
       _c(

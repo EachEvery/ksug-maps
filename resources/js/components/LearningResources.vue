@@ -1,6 +1,7 @@
 <template>
     <div
         class="fixed inset-0 md:right-0 md:left-auto transition md:w-4/12 md:min-w-84 xl:w-5/12 overflow-auto pt-32 md:pt-0 md:max-w-base max-w-full bg-green pt-12"
+        id="learning-resources"
         v-click-outside="goBack"
     >
         <page-section>
@@ -60,6 +61,12 @@ export default {
     },
 
     methods: {
+        initNewWindowLinks() {
+            $("#learning-resources")
+                .find("a")
+                .attr("target", "_blank");
+        },
+
         getYoutubeId(url) {
             var video_id = url.split("v=")[1];
             var ampersandPosition = video_id.indexOf("&");
@@ -73,8 +80,6 @@ export default {
 
         initYoutubeLinks() {
             let context = this;
-            
-            
 
             $(".trix")
                 .find("a")
@@ -82,7 +87,7 @@ export default {
                     let youtubeId = context.getYoutubeId($(this).attr("href"));
 
                     if (youtubeId) {
-                        console.log('youtube id', youtubeId);
+                        console.log("youtube id", youtubeId);
 
                         const iframeMarkup =
                             '<div class="embed-responsive aspect-ratio-4/3"><iframe width="560" height="315" src="//www.youtube.com/embed/' +
@@ -129,6 +134,7 @@ export default {
 
         setTimeout(() => {
             this.initYoutubeLinks();
+            this.initNewWindowLinks();
         }, 500);
     }
 };
