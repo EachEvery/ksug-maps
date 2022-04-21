@@ -281,17 +281,21 @@ export default {
                 };
             });
 
-            this.map.addControl(
-                new mapboxgl.GeolocateControl({
-                    positionOptions: {
-                        enableHighAccuracy: true
-                    },
-                    trackUserLocation: true
-                })
+            this.geolocate = new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            });
+
+            this.map.addControl(this.geolocate);
+
+            navigator.geolocation.watchPosition(pos =>
+                this.addGeolocation(pos)
             );
 
-            navigator.geolocation.watchPosition(pos => {
-                this.addGeolocation(pos);
+            this.map.on("load", () => {
+                this.geolocate.trigger();
             });
 
             this.map.on(
@@ -341,7 +345,7 @@ export default {
                 this.setInitialActiveMarker();
             }
 
-            $(".mapboxgl-ctrl-geolocate").click();
+            // $(".mapboxgl-ctrl-geolocate").click();
         }
     }
 };

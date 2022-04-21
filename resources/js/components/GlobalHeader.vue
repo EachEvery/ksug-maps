@@ -103,6 +103,8 @@ import search from "./Search";
 import filterIcon from "./FilterIcon";
 import { mapState, mapGetters } from "vuex";
 import routeHelpers from "../mixins/routeHelpers";
+// import userLocationNotification from "./UserLocationNotification";
+
 export default {
     mixins: [routeHelpers],
     props: {
@@ -116,6 +118,7 @@ export default {
         mainMenu,
         search,
         filters
+        // userLocationNotification
     },
     data() {
         return {
