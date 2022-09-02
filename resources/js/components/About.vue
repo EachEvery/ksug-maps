@@ -248,8 +248,8 @@
                 <p class="flex-grow pr-5 mr-16">
                     <i>
                         Special thanks to the students who worked on this
-                        project: Chris Willer, Robin Burkhardt, and Evelyn
-                        Wogoman.
+                        project: Chris Willer, Robin Burkhardt, Evelyn Wogoman,
+                        and Naidi Valverde.
                     </i>
                 </p>
             </div>
