@@ -60,9 +60,9 @@
                 Saturday, May 2nd, just as some students were attempting to
                 light the ROTC building on fire in protest (as had been done at
                 many other campuses), nearly 1,000 National Guard troops rolled
-                onto campus with tanks. They occupied campus and the city of
-                Kent with more than 100 trucks, along with armored vehicles,
-                tanks with mortar launchers, and helicopters. They put the
+                onto campus. They occupied campus and the city of
+                Kent with more than 100 trucks, along with armored personnel
+                vehicles and helicopters. They put the
                 campus effectively on lockdown, with soldiers in front of every
                 dormitory. The ROTC building did burn later that night, when
                 students say they were no longer there. Students continued to
@@ -249,7 +249,7 @@
                     <i>
                         Special thanks to the students who worked on this
                         project: Chris Willer, Robin Burkhardt, Evelyn Wogoman,
-                        and Naidi Valverde.
+                        Naidi Valverde, Christian Heller, and Grace Powers.
                     </i>
                 </p>
             </div>
